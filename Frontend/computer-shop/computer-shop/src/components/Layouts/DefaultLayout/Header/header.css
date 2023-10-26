@@ -1,0 +1,14 @@
+.wrapper {
+    height: 60px;
+    width: 80%;
+    justify-content: space-between;
+    flex-direction: row;
+    display: flex;
+
+
+    .inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center
+    }
+}
