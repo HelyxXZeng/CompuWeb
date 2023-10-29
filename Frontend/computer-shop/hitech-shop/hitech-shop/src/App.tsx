@@ -7,6 +7,7 @@ import Single from './pages/single/Single'
 import New from './pages/new/New'
 
 
+
 function App() {
 
   return (
