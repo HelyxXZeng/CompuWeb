@@ -19,6 +19,8 @@
             border: 0.5px solid lightgray;
             padding: 3px;
 
+
+
             input {
                 border: none;
                 outline: none;
@@ -40,8 +42,14 @@
                 margin-right: 20px;
                 position: relative;
 
+                :hover {
+                    cursor: pointer;
+                }
+
                 .icon {
                     font-size: 20px;
+
+
                 }
 
                 .avatar {

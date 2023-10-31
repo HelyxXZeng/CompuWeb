@@ -1,5 +1,6 @@
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import './datatable.scss'
+import { Link } from 'react-router-dom';
 
 const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -51,7 +52,16 @@ const rows = [
 function DataTable() {
     return (
         <div className='datatable'>
+
+            <div className="datatableTitle">
+                Add New User
+                <Link to="/users/new" className='link'>
+                    Add New
+                </Link>
+            </div>
+
             <DataGrid
+                className='datagrid'
                 rows={rows}
                 columns={columns}
                 initialState={{
@@ -62,12 +72,6 @@ function DataTable() {
                 pageSizeOptions={[5, 10]}
                 checkboxSelection
             />
-            {/* <DataGrid rows={rows} columns={columns}
-                initialState={{
-                    pagination: {
-                        paginationModel: { page: 0, pageSize: 5 },
-                    },
-                }} /> */}
 
         </div>
     )
