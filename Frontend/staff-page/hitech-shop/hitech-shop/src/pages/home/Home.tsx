@@ -1,7 +1,7 @@
 
 import Navbar from "../../components/navbar/Navbar"
 import Sidebar from "../../components/sidebar/Sidebar"
-import Table from "../../components/table/Table"
+import CategoryTable from "../../components/categoryTable/CategoryTable"
 import "./home.scss"
 
 const Home = () => {
@@ -16,7 +16,7 @@ const Home = () => {
                     <div className="listTitle">
                         Latest Transactions
                     </div>
-                    <Table />
+                    <CategoryTable />
                 </div>
             </div>
         </div>
