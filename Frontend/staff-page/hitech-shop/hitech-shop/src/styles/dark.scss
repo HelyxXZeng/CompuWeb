@@ -2,6 +2,7 @@
     background-color: #111;
     color: rgb(156, 156, 156);
 
+
     .table {
         background-color: #111;
 
@@ -46,6 +47,8 @@
         }
     }
 
+
+
     .datatable {
         .datagrid {
             color: gray;
@@ -56,6 +59,23 @@
             .cellWithStatus {
                 color: gray;
                 border: none;
+            }
+
+        }
+
+        .categoryList {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+
+            .categoryButton {
+                background: black;
+                border: solid white;
+                border-radius: 15px;
+                padding: 15px;
+                font-size: large;
+                cursor: pointer;
+                color: white;
             }
         }
     }

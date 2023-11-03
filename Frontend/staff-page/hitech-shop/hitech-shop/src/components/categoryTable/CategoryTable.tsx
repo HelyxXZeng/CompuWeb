@@ -2,40 +2,59 @@ import './categoryTable.scss'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
+import { useEffect, useState } from 'react';
+
+
+const rows = [
+    {
+        id: 1,
+        Id: 1,
+        Name: 'Laptop'
+    },
+    {
+        id: 2,
+        Id: 2,
+        Name: 'Smartphone'
+    },
+    {
+        id: 3,
+        Id: 3,
+        Name: 'Screen'
+    },
+    {
+        id: 4,
+        Id: 4,
+        Name: 'Tablet'
+    }
+]
+
+const columns: GridColDef[] = [
+    {
+        field: 'Id', headerName: 'ID'
+    },
+    {
+        field: 'Name', headerName: 'Name', width: 400
+    }
+]
 
 const CategoryTable = () => {
 
-    const rows = [
-        {
-            id: 1,
-            Id: 1,
-            Name: 'Laptop'
-        },
-        {
-            id: 2,
-            Id: 2,
-            Name: 'Smartphone'
-        },
-        {
-            id: 3,
-            Id: 3,
-            Name: 'Screen'
-        },
-        {
-            id: 4,
-            Id: 4,
-            Name: 'Tablet'
-        }
-    ]
+    const [query, setQuery] = useState("");
+    const [displayedRows, setDisplayedRows] = useState(rows);
 
-    const columns: GridColDef[] = [
-        {
-            field: 'Id', headerName: 'ID'
-        },
-        {
-            field: 'Name', headerName: 'Name', width: 400
-        }
-    ]
+    const handleInput = (event: any) => {
+        setQuery(event.target.value);
+    }
+
+    useEffect(() => {
+        // Use the filter method to create a new array with rows that match the query in either Name or Id
+        const filteredRows = rows.filter(row =>
+            row.Name.toLowerCase().includes(query.toLowerCase()) || // Check Name
+            row.Id.toString().includes(query) // Check Id (assuming Id is a number)
+        );
+        setDisplayedRows(filteredRows);
+    }, [query]);
+
 
     return (
         // <TableContainer component={Paper} className="table">
@@ -77,7 +96,7 @@ const CategoryTable = () => {
             <div className="datatableTitle">
                 Product Categories
                 <div className="search">
-                    <input type='text' placeholder='Search...' />
+                    <input type='text' placeholder='Search...' onChange={(e) => handleInput(e)} />
                     <SearchIcon />
                 </div>
                 <Link to="/categories/new" className='link'>
@@ -87,7 +106,7 @@ const CategoryTable = () => {
 
             <DataGrid
                 className='datagrid'
-                rows={rows}
+                rows={displayedRows}
                 columns={columns}
                 initialState={{
                     pagination: {
