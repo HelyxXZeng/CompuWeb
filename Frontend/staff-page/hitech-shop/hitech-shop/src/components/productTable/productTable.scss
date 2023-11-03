@@ -52,5 +52,27 @@
             text-align: right;
             display: flex;
         }
+
+        .quantityCell {
+            justify-content: right;
+            text-align: right;
+            display: flex;
+        }
+    }
+
+    .categoryList {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+
+        .categoryButton {
+            background: #b5ccf2;
+            border: solid white;
+            border-radius: 15px;
+            padding: 15px;
+            font-size: large;
+            cursor: pointer;
+
+        }
     }
 }
