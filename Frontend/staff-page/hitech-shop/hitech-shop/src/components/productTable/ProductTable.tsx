@@ -4,32 +4,7 @@ import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { useState, useEffect } from 'react';
 
-const rows = [
-    {
-        id: 1,
-        Id: 1,
-        Name: 'Redmi Note 12 4GB 128GB',
-        Category: 'Smartphone',
-        Quantity: 26,
-        Price: 4990000,
-    },
-    {
-        id: 2,
-        Id: 2,
-        Name: 'Xiaomi 14 12GB 512GB',
-        Category: 'Smartphone',
-        Quantity: 6,
-        Price: 14900000,
-    },
-    {
-        id: 3,
-        Id: 3,
-        Name: 'Xiaomi Pad 6 6GB 128GB',
-        Category: 'Tablet',
-        Quantity: 20,
-        Price: 9990000,
-    }
-]
+const ALL = "All"
 
 const columns: GridColDef[] = [
     {
@@ -63,17 +38,22 @@ const columns: GridColDef[] = [
     }
 ]
 
-const ProductTable = () => {
+interface ProductTableProps {
+    rows: any[]; // Define the type of your rows here
+}
 
+const ProductTable: React.FC<ProductTableProps> = ({ rows }) => {
+
+    console.log('This is rows: ' + rows)
     // Use a Set to collect unique category values
     const categorySet = new Set(rows.map(row => row.Category));
 
-    // Convert the Set back to an array
-    const categories = Array.from(categorySet);
+    // Convert the Set back to an array and add "All" at the beginning
+    const [categories, setCategories] = useState([ALL, ...Array.from(categorySet)]);
 
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
-    const [selectedCategory, setSelectedCategory] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState(ALL);
 
     const handleInput = (event: any) => {
         setQuery(event.target.value);
@@ -82,17 +62,25 @@ const ProductTable = () => {
     const filterRowsByCategory = (category: string) => {
         // Clear the search input
         setQuery("");
+        console.log('Selected category: ' + category)
+
         setSelectedCategory(category);
+        let filteredRows = rows;
         // Filter rows by the selected category
-        const filteredRows = rows.filter(row => row.Category === category);
+        if (category !== ALL) {
+            filteredRows = rows.filter(row => row.Category === category);
+        }
+        console.log('Filter Rows: ' + filteredRows)
+
         setDisplayedRows(filteredRows);
     };
 
 
     useEffect(() => {
+        setCategories([ALL, ...Array.from(categorySet)])
         // Use the filter method to create a new array with rows that match the category filter
         let filteredRows = rows;
-        if (selectedCategory !== "") {
+        if (selectedCategory !== ALL) {
             filteredRows = filteredRows.filter(row => row.Category === selectedCategory);
         }
 
@@ -103,7 +91,7 @@ const ProductTable = () => {
         );
 
         setDisplayedRows(filteredRows);
-    }, [query, selectedCategory]);
+    }, [query, selectedCategory, rows]);
 
     return (
         <div className='datatable'>

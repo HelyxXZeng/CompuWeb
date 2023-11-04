@@ -24,5 +24,27 @@
             "Quantity": 20,
             "Price": 9990000
         }
+    ],
+    "categories": [
+        {
+            "id": 1,
+            "Id": 1,
+            "Name": "Laptop"
+        },
+        {
+            "id": 2,
+            "Id": 2,
+            "Name": "Smartphone"
+        },
+        {
+            "id": 3,
+            "Id": 3,
+            "Name": "Screen"
+        },
+        {
+            "id": 4,
+            "Id": 4,
+            "Name": "Tablet"
+        }
     ]
 }

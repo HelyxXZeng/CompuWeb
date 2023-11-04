@@ -4,29 +4,9 @@ import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
 
-
-const rows = [
-    {
-        id: 1,
-        Id: 1,
-        Name: 'Laptop'
-    },
-    {
-        id: 2,
-        Id: 2,
-        Name: 'Smartphone'
-    },
-    {
-        id: 3,
-        Id: 3,
-        Name: 'Screen'
-    },
-    {
-        id: 4,
-        Id: 4,
-        Name: 'Tablet'
-    }
-]
+interface CategoryTableProps {
+    rows: any[]; // Define the type of your rows here
+}
 
 const columns: GridColDef[] = [
     {
@@ -37,8 +17,9 @@ const columns: GridColDef[] = [
     }
 ]
 
-const CategoryTable = () => {
+const CategoryTable: React.FC<CategoryTableProps> = ({ rows }) => {
 
+    console.log('Category rows: ', rows)
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
 
@@ -53,7 +34,7 @@ const CategoryTable = () => {
             row.Id.toString().includes(query) // Check Id (assuming Id is a number)
         );
         setDisplayedRows(filteredRows);
-    }, [query]);
+    }, [query, rows]);
 
 
     return (

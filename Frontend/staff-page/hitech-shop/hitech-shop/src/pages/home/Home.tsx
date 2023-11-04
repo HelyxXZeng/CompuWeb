@@ -16,7 +16,7 @@ const Home = () => {
                     <div className="listTitle">
                         Latest Transactions
                     </div>
-                    <CategoryTable />
+                    {/* <CategoryTable /> */}
                 </div>
             </div>
         </div>
