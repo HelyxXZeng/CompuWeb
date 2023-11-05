@@ -66,14 +66,6 @@ const ProductTable: React.FC<ProductTableProps> = ({ rows }) => {
         // console.log('Selected category: ' + category)
 
         setSelectedCategory(category);
-        let filteredRows = rows;
-        // Filter rows by the selected category
-        if (category !== ALL) {
-            filteredRows = rows.filter(row => row.Category === category);
-        }
-        // console.log('Filter Rows: ' + filteredRows)
-
-        setDisplayedRows(filteredRows);
     };
 
 
