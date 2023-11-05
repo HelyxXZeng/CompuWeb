@@ -6,58 +6,57 @@ import "./list.scss"
 import { useEffect, useState } from "react"
 import productApi from "../../api/productApi"
 import categoryApi from "../../api/categoryApi"
+import CustomerTable from "../../components/customerTable/CustomerTable"
+import customerApi from "../../api/customerApi"
+import orderApi from "../../api/orderApi"
+import OrderTable from "../../components/orderTable/OrderTable"
 
 
 const List = ({ type }: { type: string }) => {
     const [rows, setRows] = useState<any[]>([]);
+    console.log('This is the very beginning', rows)
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                let data: any[] = [];
+                switch (type) {
+                    case 'customer':
+                        data = (await customerApi.getAll({ _page: 1, _limit: 100 })).data;
+                        break;
+                    case 'category':
+                        data = (await categoryApi.getAll({ _page: 1, _limit: 100 })).data;
+                        break;
+                    case 'product':
+                        data = (await productApi.getAll({ _page: 1, _limit: 100 })).data;
+                        break;
+                    case 'order':
+                        data = (await orderApi.getAll({ _page: 1, _limit: 100 })).data;
+                        break;
+                    default:
+                        break;
+                }
+
+                setRows(data);
+                // console.log(`This is ${type}:`, data);
+            } catch (error) {
+                // console.log(`Failed to fetch ${type} list:`, error);
+            }
+        };
+
+        fetchData();
+    }, [type]);
 
     const getElement = () => {
         switch (type) {
             case 'category':
-                useEffect(() => {
-                    const fetchList = async () => {
-                        try {
-                            const params = {
-                                _page: 1,
-                                _limit: 100,
-                            };
-                            const data: any[] = (await categoryApi.getAll(params)).data;
-
-                            setRows(data); // Update rows with the data
-                            // console.log('This is data: ', data);
-                        } catch (error) {
-                            console.log('Failed to fetch category list: ', error);
-                        }
-                    };
-
-                    fetchList();
-                }, []);
-
                 return <CategoryTable rows={rows} />;
             case 'product':
-                useEffect(() => {
-                    const fetchList = async () => {
-                        try {
-                            const params = {
-                                _page: 1,
-                                _limit: 10,
-                            };
-                            const data: any[] = (await productApi.getAll(params)).data;
-
-                            setRows(data); // Update rows with the data
-                            // console.log('This is data: ', data);
-                        } catch (error) {
-                            console.log('Failed to fetch product list: ', error);
-                        }
-                    };
-
-                    fetchList();
-                }, []);
-
                 return <ProductTable rows={rows} />;
-            case 'user':
-                return null
-            // return <ProductTable rows={rows} columns={columns} />;
+            case 'customer':
+                return <CustomerTable rows={rows} />;
+            case 'order':
+                return <OrderTable rows={rows} />;
             default:
                 return null;
         }

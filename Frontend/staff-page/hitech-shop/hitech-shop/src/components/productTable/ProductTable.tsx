@@ -62,7 +62,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ rows }) => {
     const filterRowsByCategory = (category: string) => {
         // Clear the search input
         setQuery("");
-        console.log('Selected category: ' + category)
+        // console.log('Selected category: ' + category)
 
         setSelectedCategory(category);
         let filteredRows = rows;
@@ -70,7 +70,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ rows }) => {
         if (category !== ALL) {
             filteredRows = rows.filter(row => row.Category === category);
         }
-        console.log('Filter Rows: ' + filteredRows)
+        // console.log('Filter Rows: ' + filteredRows)
 
         setDisplayedRows(filteredRows);
     };

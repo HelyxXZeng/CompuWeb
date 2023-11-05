@@ -46,5 +46,73 @@
             "Id": 4,
             "Name": "Tablet"
         }
+    ],
+    "customers": [
+        {
+            "id": 1,
+            "Id": 1,
+            "Name": "Vương Thiên Long",
+            "Phone": "0123456789"
+        },
+        {
+            "id": 2,
+            "Id": 2,
+            "Name": "Vũ Văn Thành Đô",
+            "Phone": "0112233445"
+        },
+        {
+            "id": 3,
+            "Id": 3,
+            "Name": "Lâm Đại Ngọc",
+            "Phone": "0335226783"
+        },
+        {
+            "id": 4,
+            "Id": 4,
+            "Name": "Giả Bảo Ngọc",
+            "Phone": "0972225436"
+        }
+    ],
+    "orders": [
+        {
+            "id": 1,
+            "Id": 1,
+            "Name": "Trịnh Quốc",
+            "Phone": "0122433789",
+            "Total": 12000000,
+            "Status": "PENDING"
+        },
+        {
+            "id": 2,
+            "Id": 2,
+            "Name": "Vương Chiêu Quân",
+            "Phone": "0223356253",
+            "Total": 23000000,
+            "Status": "COMPLETED"
+        },
+        {
+            "id": 3,
+            "Id": 3,
+            "Name": "Địch Lệ Nhiệt Ba",
+            "Phone": "0321056253",
+            "Total": 17250000,
+            "Status": "SHIPPING"
+        },
+        {
+            "id": 4,
+            "Id": 4,
+            "Name": "Tư Mã Sư",
+            "Phone": "0932583572",
+            "Total": 30100000,
+            "Status": "PENDING"
+        },
+        {
+            "id": 5,
+            "Id": 5,
+            "Name": "Cơ Phát",
+            "Phone": "0977203572",
+            "Total": 9120000,
+            "Status": "RECEIVED"
+        }
     ]
 }

@@ -40,43 +40,37 @@
                 }
             }
         }
-
-
     }
 
-    .MuiDataGrid-cell--withRenderer {
-        flex-flow: row-reverse;
 
-        .priceCell {
-            justify-content: right;
-            text-align: right;
-            display: flex;
+    .statusCell {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 10px;
+        border-radius: 15px;
+
+        &.PENDING {
+            background-color: rgba(0, 128, 0, 0.15);
+            color: green;
         }
 
-        .quantityCell {
-            justify-content: right;
-            text-align: right;
-            display: flex;
+        &.SHIPPING {
+            background-color: rgba(255, 0, 0, 0.15);
+            color: crimson;
         }
 
+        &.RECEIVED {
+            background-color: rgba(135, 206, 250, 0.15);
+            color: lightskyblue;
 
-    }
+        }
 
-    .categoryList {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 15px;
-
-        .categoryButton {
-            background: #b5ccf2;
-            border: solid white;
-            border-radius: 15px;
-            padding: 15px;
-            font-size: large;
-            cursor: pointer;
+        &.COMPLETED {
+            background-color: rgba(255, 217, 0, 0.15);
+            color: goldenrod;
 
         }
     }
-
 
 }

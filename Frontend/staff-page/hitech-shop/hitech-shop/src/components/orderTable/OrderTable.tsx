@@ -1,10 +1,10 @@
-import './categoryTable.scss'
+import './orderTable.scss'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
 
-interface CategoryTableProps {
+interface OrderTableProps {
     rows: any[]; // Define the type of your rows here
 }
 
@@ -13,13 +13,36 @@ const columns: GridColDef[] = [
         field: 'Id', headerName: 'ID'
     },
     {
-        field: 'Name', headerName: 'Name', width: 400
+        field: 'Name', headerName: 'Name', width: 300
+    },
+    {
+        field: 'Phone', headerName: 'Phone', width: 130
+    },
+    {
+        field: 'Total', headerName: 'Total', width: 110,
+        renderCell: (params) => {
+            return (
+                <div className={"priceCell" + " " + params.row.Total}>
+                    {params.row.Total}
+                </div>
+            );
+        },
+    },
+    {
+        field: 'Status', headerName: 'Status', width: 150,
+        renderCell: (params) => {
+            return (
+                <div className={"statusCell" + " " + params.row.Status}>
+                    {params.row.Status}
+                </div>
+            );
+        },
     }
 ]
 
-const CategoryTable: React.FC<CategoryTableProps> = ({ rows }) => {
+const OrderTable: React.FC<OrderTableProps> = ({ rows }) => {
 
-    // console.log('Category rows: ', rows)
+    // console.log('Order rows: ', rows)
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
 
@@ -40,12 +63,12 @@ const CategoryTable: React.FC<CategoryTableProps> = ({ rows }) => {
     return (
         <div className='datatable'>
             <div className="datatableTitle">
-                Product Categories
+                Orders
                 <div className="search">
                     <input type='text' placeholder='Search...' onChange={(e) => handleInput(e)} />
                     <SearchIcon />
                 </div>
-                <Link to="/categories/new" className='link'>
+                <Link to="/orders/new" className='link'>
                     Add New
                 </Link>
             </div>
@@ -67,4 +90,4 @@ const CategoryTable: React.FC<CategoryTableProps> = ({ rows }) => {
     )
 }
 
-export default CategoryTable
+export default OrderTable
