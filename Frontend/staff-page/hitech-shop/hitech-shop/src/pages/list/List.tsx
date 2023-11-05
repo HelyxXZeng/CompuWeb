@@ -18,7 +18,7 @@ import promotionApi from "../../api/promotionApi"
 
 const List = ({ type }: { type: string }) => {
     const [rows, setRows] = useState<any[]>([]);
-    console.log('This is the very beginning', rows)
+    // console.log('This is the very beginning', rows)
 
     useEffect(() => {
         const fetchData = async () => {

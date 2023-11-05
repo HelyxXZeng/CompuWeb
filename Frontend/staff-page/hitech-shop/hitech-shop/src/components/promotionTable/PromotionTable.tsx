@@ -56,12 +56,26 @@ const PromotionTable: React.FC<PromotionTableProps> = ({ rows }) => {
 
     useEffect(() => {
         // Use the filter method to create a new array with rows that match the query in either Name or Id
-        const filteredRows = rows.filter(row =>
-            row.Name.toLowerCase().includes(query.toLowerCase()) || // Check Name
-            row.Id.toString().includes(query) || // Check Id (assuming Id is a number)
-            row.PurchaseProduct.toLowerCase().includes(query.toLowerCase()) ||
-            row.PromotionProduct.toLowerCase().includes(query.toLowerCase())
-        );
+        const filteredRows = rows.filter(row => {
+            // Console log every row
+            console.log('Row:', row);
+
+            // Check if 'Name' exists and matches the query
+            const nameMatch = row.Name && row.Name.toLowerCase().includes(query.toLowerCase());
+
+            // Check if 'Id' exists and matches the query
+            const idMatch = row.Id && row.Id.toString().includes(query);
+
+            // Check if 'ProductVariantPurchase' exists and matches the query
+            const purchaseProductMatch = row.ProductVariantPurchase && row.ProductVariantPurchase.toLowerCase().includes(query.toLowerCase());
+
+            // Check if 'ProductVariantPromotion' exists and matches the query
+            const promotionProductMatch = row.ProductVariantPromotion && row.ProductVariantPromotion.toLowerCase().includes(query.toLowerCase());
+
+            // Return true if any of the matches are true
+            return nameMatch || idMatch || purchaseProductMatch || promotionProductMatch;
+        });
+
         setDisplayedRows(filteredRows);
     }, [query, rows]);
 
