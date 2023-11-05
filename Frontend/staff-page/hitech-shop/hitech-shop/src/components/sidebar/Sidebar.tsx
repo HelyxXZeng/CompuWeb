@@ -7,6 +7,7 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import LoyaltyIcon from '@mui/icons-material/Loyalty';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import BusinessIcon from '@mui/icons-material/Business';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { DarkModeContext } from '../../context/darkModeContext';
@@ -53,16 +54,24 @@ const Sidebar = () => {
                             <span>Categories</span>
                         </li>
                     </Link>
+                    <Link to='/brands' style={{ textDecoration: 'none' }}>
+                        <li>
+                            <BusinessIcon className='icon' />
+                            <span>Brands</span>
+                        </li>
+                    </Link>
                     <Link to='/orders' style={{ textDecoration: 'none' }}>
                         <li>
                             <PaymentIcon className='icon' />
                             <span>Orders</span>
                         </li>
                     </Link>
-                    <li>
-                        <LoyaltyIcon className='icon' />
-                        <span>Promotions</span>
-                    </li>
+                    <Link to='/promotions' style={{ textDecoration: 'none' }}>
+                        <li>
+                            <LoyaltyIcon className='icon' />
+                            <span>Promotions</span>
+                        </li>
+                    </Link>
                     <p className="title">User</p>
                     <li>
                         <PersonOutlineIcon className='icon' />

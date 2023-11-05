@@ -114,5 +114,87 @@
             "Total": 9120000,
             "Status": "RECEIVED"
         }
+    ],
+    "brands": [
+        {
+            "id": 1,
+            "Id": 1,
+            "Name": "Acer",
+            "Description": "Acer Inc (Acer) is an information and communication technology company that develops, designs, markets, and exports IT products. The company's product portfolio comprises personal computers, projectors, tablet PCs, smartphones, wearables, smart devices, LCD monitors, servers, and ICT devices."
+        },
+        {
+            "id": 2,
+            "Id": 2,
+            "Name": "Xiaomi",
+            "Description": "Xiaomi is a consumer electronics and smart manufacturing company with smartphones and smart hardware connected by an IoT platform at its core."
+        },
+        {
+            "id": 3,
+            "Id": 3,
+            "Name": "Apple",
+            "Description": "Apple Inc. (Apple) designs, manufactures and markets smartphones, personal computers, tablets, wearables and accessories and sells a range of related services. The Company's products include iPhone, Mac, iPad, AirPods, Apple TV, Apple Watch, Beats products, HomePod, iPod touch and accessories."
+        },
+        {
+            "id": 4,
+            "Id": 4,
+            "Name": "Samsung",
+            "Description": "Samsung, South Korean company that is one of the world's largest producers of electronic devices. Samsung specializes in the production of a wide variety of consumer and industry electronics, including appliances, digital media devices, semiconductors, memory chips, and integrated systems."
+        },
+        {
+            "id": 5,
+            "Id": 5,
+            "Name": "Oppo",
+            "Description": "Oppo is a Chinese consumer electronics manufacturer headquartered in Dongguan, Guangdong. Its major product lines include smartphones, smart devices, audio devices, power banks, and other electronic products. Guangdong Oppo Mobile Telecommunications Corp., Ltd."
+        },
+        {
+            "id": 6,
+            "Id": 6,
+            "Name": "Lenovo",
+            "Description": "Lenovo Group Limited, often shortened to Lenovo, is a Chinese multinational technology company specializing in designing, manufacturing, and marketing consumer electronics, personal computers, software, business solutions, and related services."
+        },
+        {
+            "id": 7,
+            "Id": 7,
+            "Name": "HP",
+            "Description": "HP (Hewlett-Packard) is a multinational information technology (IT) company that sells hardware, software and related business services."
+        }
+    ],
+    "promotions": [
+        {
+            "id": 1,
+            "Id": 1,
+            "Name": "Back To School",
+            "ProductVariantPromotion": "Xiaomi Pad 6 6GB 128GB",
+            "ProductVariantPurchase": "MacBook Air 15 16GB 512GB",
+            "Value": -1000000,
+            "Status": "ACTIVE"
+        },
+        {
+            "id": 2,
+            "Id": 2,
+            "Name": "Summer Break",
+            "ProductVariantPromotion": "Xiaomi 14 Pro 16GB 256GB",
+            "ProductVariantPurchase": "Redmi Note 12 6GB 128GB",
+            "Value": -200000,
+            "Status": "ACTIVE"
+        },
+        {
+            "id": 3,
+            "Id": 3,
+            "Name": "New Year New Things",
+            "ProductVariantPromotion": "iPhone 14 Pro 128GB",
+            "ProductVariantPurchase": "Samsung Galaxy S23 Plus 8GB 128GB",
+            "Value": 0.3,
+            "Status": "CANCELED"
+        },
+        {
+            "id": 4,
+            "Id": 4,
+            "Name": "The New Meta",
+            "ProductVariantPromotion": "HP Pavilion 15 i5 - 1135G7 8GB 512GB",
+            "ProductVariantPurchase": "Xiaomi 13 8GB 128GB",
+            "Value": 0.1,
+            "Status": "ACTIVE"
+        }
     ]
 }

@@ -41,6 +41,16 @@ function App() {
                 <Route path=":orderId" element={<Single />} />
                 <Route path="new" element={<New />} />
               </Route>
+              <Route path="brands">
+                <Route index element={<List type='brand' />} />
+                <Route path=":brandId" element={<Single />} />
+                <Route path="new" element={<New />} />
+              </Route>
+              <Route path="promotions">
+                <Route index element={<List type='promotion' />} />
+                <Route path=":promotionId" element={<Single />} />
+                <Route path="new" element={<New />} />
+              </Route>
             </Route>
           </Routes>
         </BrowserRouter>

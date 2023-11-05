@@ -10,6 +10,10 @@ import CustomerTable from "../../components/customerTable/CustomerTable"
 import customerApi from "../../api/customerApi"
 import orderApi from "../../api/orderApi"
 import OrderTable from "../../components/orderTable/OrderTable"
+import brandApi from "../../api/brandApi"
+import BrandTable from "../../components/brandTable/BrandTable"
+import PromotionTable from "../../components/promotionTable/PromotionTable"
+import promotionApi from "../../api/promotionApi"
 
 
 const List = ({ type }: { type: string }) => {
@@ -22,16 +26,22 @@ const List = ({ type }: { type: string }) => {
                 let data: any[] = [];
                 switch (type) {
                     case 'customer':
-                        data = (await customerApi.getAll({ _page: 1, _limit: 100 })).data;
+                        data = (await customerApi.getAll({ _page: 1, _limit: 100000 })).data;
                         break;
                     case 'category':
-                        data = (await categoryApi.getAll({ _page: 1, _limit: 100 })).data;
+                        data = (await categoryApi.getAll({ _page: 1, _limit: 100000 })).data;
                         break;
                     case 'product':
-                        data = (await productApi.getAll({ _page: 1, _limit: 100 })).data;
+                        data = (await productApi.getAll({ _page: 1, _limit: 100000 })).data;
                         break;
                     case 'order':
-                        data = (await orderApi.getAll({ _page: 1, _limit: 100 })).data;
+                        data = (await orderApi.getAll({ _page: 1, _limit: 100000 })).data;
+                        break;
+                    case 'brand':
+                        data = (await brandApi.getAll({ _page: 1, _limit: 100000 })).data;
+                        break;
+                    case 'promotion':
+                        data = (await promotionApi.getAll({ _page: 1, _limit: 100000 })).data;
                         break;
                     default:
                         break;
@@ -57,6 +67,10 @@ const List = ({ type }: { type: string }) => {
                 return <CustomerTable rows={rows} />;
             case 'order':
                 return <OrderTable rows={rows} />;
+            case 'brand':
+                return <BrandTable rows={rows} />;
+            case 'promotion':
+                return <PromotionTable rows={rows} />;
             default:
                 return null;
         }
