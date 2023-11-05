@@ -3,6 +3,7 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
+import actionColumn from '../datatable/DataTable';
 
 interface PromotionTableProps {
     rows: any[]; // Define the type of your rows here
@@ -81,7 +82,7 @@ const PromotionTable: React.FC<PromotionTableProps> = ({ rows }) => {
             <DataGrid
                 className='datagrid'
                 rows={displayedRows}
-                columns={columns}
+                columns={columns.concat(actionColumn())}
                 initialState={{
                     pagination: {
                         paginationModel: { page: 0, pageSize: 5 },

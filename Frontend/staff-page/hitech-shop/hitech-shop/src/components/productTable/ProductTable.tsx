@@ -3,6 +3,7 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { useState, useEffect } from 'react';
+import actionColumn from '../datatable/DataTable';
 
 const ALL = "All"
 
@@ -118,7 +119,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ rows }) => {
             <DataGrid
                 className='datagrid'
                 rows={displayedRows}
-                columns={columns}
+                columns={columns.concat(actionColumn())}
                 initialState={{
                     pagination: {
                         paginationModel: { page: 0, pageSize: 5 },
