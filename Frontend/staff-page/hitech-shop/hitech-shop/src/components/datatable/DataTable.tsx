@@ -1,7 +1,5 @@
 import './datatable.scss';
 
-import './datatable.scss';
-
 // Define an interface for the props of CellAction
 interface CellActionProps {
     handleDelete: (rowId: number) => void;
@@ -38,6 +36,10 @@ const actionColumn = (handleDelete: (rowId: number) => void, handleView: (rowId:
         },
     ];
 };
+
+
+
+
 
 
 

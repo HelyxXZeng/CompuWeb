@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { useState, useEffect } from 'react';
 import actionColumn from '../datatable/DataTable';
+// import { handleDelete, handleView, actionColumn } from '../datatable/DataTable';
 
 const ALL = "All"
 

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
 import actionColumn from '../datatable/DataTable';
-
+// import { handleDelete, handleView, actionColumn } from '../datatable/DataTable';
 interface OrderTableProps {
     rows: any[]; // Define the type of your rows here
 }

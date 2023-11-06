@@ -46,6 +46,7 @@
 
     .MuiDataGrid-cell--withRenderer {
         flex-flow: row-reverse;
+        position: relative;
 
         .priceCell {
             justify-content: right;
@@ -77,6 +78,4 @@
 
         }
     }
-
-
 }

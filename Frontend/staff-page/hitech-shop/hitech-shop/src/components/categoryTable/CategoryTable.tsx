@@ -1,9 +1,10 @@
-import './categoryTable.scss'
+import '../datatable/datatable.scss'
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
 import actionColumn from '../datatable/DataTable';
+// import { handleDelete, handleView, actionColumn } from '../datatable/DataTable';
 interface CategoryTableProps {
     rows: any[]; // Define the type of your rows here
 }

@@ -1,4 +1,4 @@
-import './customerTable.scss'
+import '../datatable/datatable.scss'
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
