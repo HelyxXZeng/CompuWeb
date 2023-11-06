@@ -1,5 +1,5 @@
 import './customerTable.scss'
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
@@ -26,6 +26,18 @@ const CustomerTable: React.FC<CustomerTableProps> = ({ rows }) => {
     // console.log('Customer rows: ', rows)
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
+
+    const handleDelete = (rowId: number) => {
+        const isConfirmed = window.confirm('Are you sure you want to delete this row?');
+        if (isConfirmed) {
+            // Perform the deletion action here
+            console.log('Deleting row with ID:', rowId);
+        }
+    };
+
+    const handleView = (rowId: number) => {
+        console.log('Viewing row with ID:', rowId);
+    };
 
     const handleInput = (event: any) => {
         setQuery(event.target.value);
@@ -58,14 +70,16 @@ const CustomerTable: React.FC<CustomerTableProps> = ({ rows }) => {
             <DataGrid
                 className='datagrid'
                 rows={displayedRows}
-                columns={columns.concat(actionColumn())}
+                columns={columns.concat(actionColumn(handleDelete, handleView))}
                 initialState={{
                     pagination: {
                         paginationModel: { page: 0, pageSize: 5 },
                     },
                 }}
+                slots={{
+                    toolbar: GridToolbar,
+                }}
                 pageSizeOptions={[5, 10]}
-                checkboxSelection
             />
 
         </div>
