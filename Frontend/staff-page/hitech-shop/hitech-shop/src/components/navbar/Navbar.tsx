@@ -6,8 +6,9 @@ import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import MessageIcon from '@mui/icons-material/Message';
 import ListIcon from '@mui/icons-material/List';
+
 import { DarkModeContext } from '../../context/darkModeContext';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 
 const Navbar = () => {
@@ -17,6 +18,7 @@ const Navbar = () => {
     return (
         <div className='navbar'>
             <div className="wrapper">
+
                 <div className="search">
                     <input type='text' placeholder='Search...' />
                     <SearchIcon />

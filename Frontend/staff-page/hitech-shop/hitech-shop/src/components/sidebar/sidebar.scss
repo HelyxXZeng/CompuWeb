@@ -1,6 +1,6 @@
 .sidebar {
     // background-color: lightcoral;
-    flex: 1;
+    width: auto;
     border-right: 0.5px solid rgb(230, 227, 227);
     min-height: 100vh;
     background-color: white;
@@ -15,6 +15,7 @@
             font-size: 20px;
             font-weight: bold;
             color: #6439ff;
+            padding: 10px;
         }
     }
 
@@ -87,4 +88,13 @@
             }
         }
     }
+}
+
+.toggle-button {
+    font-size: 30px;
+    color: #7451f8;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-left: 15px;
+    margin-right: 0;
 }
