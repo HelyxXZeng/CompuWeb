@@ -7,7 +7,7 @@
         background-color: #111;
 
         .tableCell {
-            color: gray;
+            color: white;
         }
     }
 
@@ -16,7 +16,7 @@
         border-color: #333;
 
         .search {
-            border-color: gray;
+            border-color: white;
         }
     }
 
@@ -47,18 +47,31 @@
         }
     }
 
+    .toggle-button {
+        font-size: 30px;
+        color: grey;
+        cursor: pointer;
+        margin-top: 15px;
+        margin-left: 15px;
+        margin-right: 0;
+    }
+
 
 
     .datatable {
         .datagrid {
-            color: gray;
+            color: white;
             border: none;
 
             .viewButton,
             .deleteButton,
             .cellWithStatus {
-                color: gray;
+                color: white;
                 border: none;
+            }
+
+            p {
+                color: white;
             }
 
         }

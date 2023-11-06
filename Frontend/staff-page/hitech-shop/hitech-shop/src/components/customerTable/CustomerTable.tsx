@@ -1,10 +1,11 @@
-import './categoryTable.scss'
+import './customerTable.scss'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
 import actionColumn from '../datatable/DataTable';
-interface CategoryTableProps {
+
+interface CustomerTableProps {
     rows: any[]; // Define the type of your rows here
 }
 
@@ -14,12 +15,15 @@ const columns: GridColDef[] = [
     },
     {
         field: 'Name', headerName: 'Name', width: 400
+    },
+    {
+        field: 'Phone', headerName: 'Phone', width: 150
     }
 ]
 
-const CategoryTable: React.FC<CategoryTableProps> = ({ rows }) => {
+const CustomerTable: React.FC<CustomerTableProps> = ({ rows }) => {
 
-    // console.log('Category rows: ', rows)
+    // console.log('Customer rows: ', rows)
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
 
@@ -28,10 +32,11 @@ const CategoryTable: React.FC<CategoryTableProps> = ({ rows }) => {
     }
 
     useEffect(() => {
-        // Use the filter method to create a new array with rows that match the query in either Name or Id
+        // Use the filter method to create a new array with rows that match the query in either Name or Id or Phone
         const filteredRows = rows.filter(row =>
             row.Name.toLowerCase().includes(query.toLowerCase()) || // Check Name
-            row.Id.toString().includes(query) // Check Id (assuming Id is a number)
+            row.Id.toString().includes(query) || // Check Id (assuming Id is a number)
+            row.Phone.toString().includes(query) // Check Phone (assuming Phone is a number)
         );
         setDisplayedRows(filteredRows);
     }, [query, rows]);
@@ -40,12 +45,12 @@ const CategoryTable: React.FC<CategoryTableProps> = ({ rows }) => {
     return (
         <div className='datatable'>
             <div className="datatableTitle">
-                Product Categories
+                Customers
                 <div className="search">
                     <input type='text' placeholder='Search...' onChange={(e) => handleInput(e)} />
                     <SearchIcon />
                 </div>
-                <Link to="/categories/new" className='link'>
+                <Link to="/customers/new" className='link'>
                     Add New
                 </Link>
             </div>
@@ -67,4 +72,4 @@ const CategoryTable: React.FC<CategoryTableProps> = ({ rows }) => {
     )
 }
 
-export default CategoryTable
+export default CustomerTable

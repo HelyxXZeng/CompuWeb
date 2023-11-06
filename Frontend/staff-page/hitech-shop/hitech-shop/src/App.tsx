@@ -21,9 +21,9 @@ function App() {
             <Route path='/'>
               <Route index element={<Home />} />
               <Route path="login" element={<Login />} />
-              <Route path="users">
-                <Route index element={<List type='user' />} />
-                <Route path=":userId" element={<Single />} />
+              <Route path="customers">
+                <Route index element={<List type='customer' />} />
+                <Route path=":customerId" element={<Single />} />
                 <Route path="new" element={<New />} />
               </Route>
               <Route path="products">
@@ -34,6 +34,21 @@ function App() {
               <Route path="categories">
                 <Route index element={<List type='category' />} />
                 <Route path=":categoryId" element={<Single />} />
+                <Route path="new" element={<New />} />
+              </Route>
+              <Route path="orders">
+                <Route index element={<List type='order' />} />
+                <Route path=":orderId" element={<Single />} />
+                <Route path="new" element={<New />} />
+              </Route>
+              <Route path="brands">
+                <Route index element={<List type='brand' />} />
+                <Route path=":brandId" element={<Single />} />
+                <Route path="new" element={<New />} />
+              </Route>
+              <Route path="promotions">
+                <Route index element={<List type='promotion' />} />
+                <Route path=":promotionId" element={<Single />} />
                 <Route path="new" element={<New />} />
               </Route>
             </Route>
