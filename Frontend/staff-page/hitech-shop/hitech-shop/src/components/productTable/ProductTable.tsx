@@ -1,9 +1,10 @@
 import './productTable.scss'
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { useState, useEffect } from 'react';
 import actionColumn from '../datatable/DataTable';
+// import { handleDelete, handleView, actionColumn } from '../datatable/DataTable';
 
 const ALL = "All"
 
@@ -45,7 +46,7 @@ interface ProductTableProps {
 
 const ProductTable: React.FC<ProductTableProps> = ({ rows }) => {
 
-    console.log('This is rows: ' + rows)
+    // console.log('This is rows: ' + rows)
     // Use a Set to collect unique category values
     const categorySet = new Set(rows.map(row => row.Category));
 
@@ -55,6 +56,18 @@ const ProductTable: React.FC<ProductTableProps> = ({ rows }) => {
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
     const [selectedCategory, setSelectedCategory] = useState(ALL);
+
+    const handleDelete = (rowId: number) => {
+        const isConfirmed = window.confirm('Are you sure you want to delete this row?');
+        if (isConfirmed) {
+            // Perform the deletion action here
+            console.log('Deleting row with ID:', rowId);
+        }
+    };
+
+    const handleView = (rowId: number) => {
+        console.log('Viewing row with ID:', rowId);
+    };
 
     const handleInput = (event: any) => {
         setQuery(event.target.value);
@@ -111,14 +124,16 @@ const ProductTable: React.FC<ProductTableProps> = ({ rows }) => {
             <DataGrid
                 className='datagrid'
                 rows={displayedRows}
-                columns={columns.concat(actionColumn())}
+                columns={columns.concat(actionColumn(handleDelete, handleView))}
                 initialState={{
                     pagination: {
                         paginationModel: { page: 0, pageSize: 5 },
                     },
                 }}
+                slots={{
+                    toolbar: GridToolbar,
+                }}
                 pageSizeOptions={[5, 10]}
-                checkboxSelection
             />
 
         </div>

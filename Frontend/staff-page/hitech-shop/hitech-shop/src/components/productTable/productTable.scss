@@ -1,5 +1,5 @@
 .datatable {
-    height: 400px;
+    height: auto;
     padding: 20px;
 
     .datatableTitle {
@@ -46,6 +46,7 @@
 
     .MuiDataGrid-cell--withRenderer {
         flex-flow: row-reverse;
+        position: relative;
 
         .priceCell {
             justify-content: right;
@@ -77,6 +78,4 @@
 
         }
     }
-
-
 }

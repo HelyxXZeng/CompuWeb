@@ -4,6 +4,8 @@
     border-right: 0.5px solid rgb(230, 227, 227);
     min-height: 100vh;
     background-color: white;
+    padding: 5px;
+    padding-right: 15px;
 
     .top {
         height: 50px;
@@ -34,7 +36,7 @@
         }
 
         .title {
-            font-size: 10px;
+            font-size: 15px;
             font-weight: bold;
             color: #999;
             margin-top: 15px;
@@ -53,13 +55,13 @@
             }
 
             .icon {
-                font-size: 18px;
+                font-size: 25px;
                 color: #7451f8;
             }
 
             span {
                 font-weight: 600;
-                font-size: 13px;
+                font-size: 17px;
                 color: #888;
                 margin-left: 10px;
             }

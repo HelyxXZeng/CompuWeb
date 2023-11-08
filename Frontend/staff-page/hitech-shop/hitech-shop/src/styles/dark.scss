@@ -76,6 +76,28 @@
 
         }
 
+        .cellAction {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+
+            .viewButton {
+                padding: 2px 5px;
+                border-radius: 5px;
+                color: greenyellow;
+                border: 1px solid rgba(0, 139, 76, 0.655);
+                cursor: pointer;
+            }
+
+            .deleteButton {
+                padding: 2px 5px;
+                border-radius: 5px;
+                color: crimson;
+                border: 1px solid rgba(220, 20, 60, 0.6);
+                cursor: pointer;
+            }
+        }
+
         .categoryList {
             display: flex;
             justify-content: space-between;
