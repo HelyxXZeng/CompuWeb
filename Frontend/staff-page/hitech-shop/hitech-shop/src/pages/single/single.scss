@@ -1,3 +1,9 @@
 .single {
-    background-color: rebeccapurple;
+    width: 100%;
+    display: flex;
+
+    .singleContainer {
+        flex: 6;
+
+    }
 }
