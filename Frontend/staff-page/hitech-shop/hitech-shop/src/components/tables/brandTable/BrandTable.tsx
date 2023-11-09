@@ -98,6 +98,7 @@ const BrandTable: React.FC<BrandTableProps> = ({ rows }) => {
     }
 
     useEffect(() => {
+        console.log('This is rows in brand table:', rows)
         // Use the filter method to create a new array with rows that match the query in either Name or Id
         const filteredRows = rows.filter(row =>
             row.Name.toLowerCase().includes(query.toLowerCase()) || // Check Name
