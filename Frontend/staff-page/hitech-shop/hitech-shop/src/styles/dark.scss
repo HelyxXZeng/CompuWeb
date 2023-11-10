@@ -119,4 +119,35 @@
         background-color: transparent;
         color: white;
     }
+
+
+    .custom-file-input {
+
+        /* Style the label to create a custom button appearance */
+        display: inline-block;
+        background-color: black; // Change background color to black
+        color: white; // Change text color to white
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-bottom: 15px;
+
+        input {
+            width: 90%;
+        }
+    }
+
+    // input[type="file"] {
+    //     display: none;
+    // }
+
+    .textArea {
+        background-color: black;
+        color: white;
+    }
+
+    .button {
+        background-color: grey;
+        color: white;
+    }
 }

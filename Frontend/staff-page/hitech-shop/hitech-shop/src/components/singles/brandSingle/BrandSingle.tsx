@@ -13,10 +13,10 @@ const AddBrandPage: React.FC = () => {
 
 
     const [imageFile, setImageFile] = useState<File | null>(null);
-    useEffect(() => {
-        console.log('This is brand', brand)
-        console.log('This is image file', imageFile)
-    }, [brand, imageFile])
+    // useEffect(() => {
+    //     console.log('This is brand', brand)
+    //     console.log('This is image file', imageFile)
+    // }, [brand, imageFile])
 
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -54,10 +54,7 @@ const AddBrandPage: React.FC = () => {
                 };
 
                 LogoBase64 = await readAsDataURL();
-            }
-
-            // Check if imageFile is not null before calling uploadImage
-            if (imageFile) {
+                // Check if imageFile is not null before calling uploadImage
                 // Add the brand data (including logoBase64) to the JSON server
                 await brandApi.uploadImage({
                     Id: 0,
@@ -65,6 +62,7 @@ const AddBrandPage: React.FC = () => {
                     Description: brand.Description,
                     LogoBase64,
                 }, imageFile);
+                alert("Successfully Uploaded!")
             }
 
             // Reset the form
@@ -75,8 +73,10 @@ const AddBrandPage: React.FC = () => {
                 LogoBase64: '',
             });
             setImageFile(null); // Reset the imageFile state
+
         } catch (error) {
             console.error('Error adding brand:', error);
+            alert("Error!" + error)
         }
     };
 
@@ -101,17 +101,20 @@ const AddBrandPage: React.FC = () => {
                     value={brand.Description}
                     onChange={handleInputChange}
                     required
+                    className='textArea'
                 ></textarea>
 
-                <label htmlFor="image">Image:</label>
-                <input
-                    type="file"
-                    id="image"
-                    name="image"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                />
-
+                <label htmlFor="image" className='custom-file-input'>Image:
+                    <input
+                        type="file"
+                        id="image"
+                        name="image"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className='custom-file-input'
+                        required
+                    />
+                </label>
                 {/* Display the placeholder image */}
                 {imageFile && (
                     <img
@@ -121,7 +124,7 @@ const AddBrandPage: React.FC = () => {
                     />
                 )}
 
-                <button type="submit">Add Brand</button>
+                <button type="submit" className='button'>Add Brand</button>
             </form>
         </div>
     );
