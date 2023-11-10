@@ -1,0 +1,55 @@
+@import 'normalize.css';
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Ubuntu:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+:root {
+    --primary: #12419b;
+    --black: #000;
+    --white: #fff;
+    --text-color: #333;
+    --default-layout-width: 1220px;
+    --default-layout-header-height: 90px;
+    --default-layout-footer-height: 434px;
+    --default-layout-horizontal-spacer: 15px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.6rem;
+    text-rendering: optimizeSpeed;
+    // line-height: 1.5;
+    color: var(--text-color);
+}
+
+button,
+input,
+[tabindex] {
+    outline: none;
+    border: none;
+}
+
+a[href] {
+    // color: var(--text-color);
+    text-decoration: none;
+}
+
+//Fonts emmbeded
+@font-face {
+    font-family: medium;
+    src: url('/assets/fonts/Roboto-Medium.ttf');
+}
+
+@font-face {
+    font-family: bold;
+    src: url('/assets/fonts/Roboto-Bold.ttf');
+}

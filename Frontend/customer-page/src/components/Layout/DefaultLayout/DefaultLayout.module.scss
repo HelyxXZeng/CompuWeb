@@ -1,0 +1,25 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100%;
+    position: relative;
+}
+
+.container {
+    width: var(--default-layout-width);
+    max-width: 100%;
+    padding: 0 var(--default-layout-horizontal-spacer);
+    margin-top: var(--default-layout-header-height);
+    margin-bottom: var(--default-layout-footer-height);
+    height: 100%;
+
+    // display: flex;
+    // flex-direction: column;
+    // align-items: center;
+}
+
+.content {
+    flex: 1;
+    background: red;
+}
