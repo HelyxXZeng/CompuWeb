@@ -1,27 +1,48 @@
-import React from 'react';
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
-interface ConfirmationDialogProps {
-    message: string;
-    onConfirm: (button: string) => void;
-    onCancel: (button: string) => void;
-}
+export default function AlertDialog() {
+    const [open, setOpen] = React.useState(false);
 
-const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({ message, onConfirm, onCancel }) => {
-    const handleConfirm = () => {
-        onConfirm('confirm');
+    const handleClickOpen = () => {
+        setOpen(true);
     };
 
-    const handleCancel = () => {
-        onCancel('cancel');
+    const handleClose = () => {
+        setOpen(false);
     };
 
     return (
-        <div className="confirmation-dialog">
-            <p>{message}</p>
-            <button onClick={handleConfirm}>Confirm</button>
-            <button onClick={handleCancel}>Cancel</button>
-        </div>
+        <React.Fragment>
+            <Button variant="outlined" onClick={handleClickOpen}>
+                Open alert dialog
+            </Button>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Do you want to delete this?"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        This action cannot be undone. Are you sure you want to proceed?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Disagree</Button>
+                    <Button onClick={handleClose} autoFocus>
+                        Agree
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </React.Fragment>
     );
-};
-
-export default ConfirmationDialog;
+}

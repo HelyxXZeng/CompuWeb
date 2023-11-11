@@ -62,6 +62,7 @@ const BrandTable: React.FC<BrandTableProps> = ({ rows }) => {
             console.log('Deleting row with ID:', rowId);
         }
 
+
     };
 
     // const handleDelete = (rowId: number) => {
