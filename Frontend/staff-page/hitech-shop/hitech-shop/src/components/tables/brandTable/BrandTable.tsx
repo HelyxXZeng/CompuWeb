@@ -5,6 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
 // import actionColumn from '../datatable/DataTable';
 import actionColumn from '../datatable/DataTable';
+import brandApi from '../../../api/brandApi';
 // import ConfirmationDialog from '../confirmationDialog/ConfirmationDialog';
 interface BrandTableProps {
     rows: any[]; // Define the type of your rows here
@@ -28,66 +29,19 @@ const BrandTable: React.FC<BrandTableProps> = ({ rows }) => {
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
 
-    const [showDialog, setShowDialog] = useState(false);
-
-    // const handleConfirm = () => {
-    //     // Your confirmation logic for "Yes" button
-    //     setShowDialog(false);
-    //     return true;
-    // };
-
-    // const handleCancel = () => {
-    //     // Your cancel logic for "No" button
-    //     setShowDialog(false);
-    //     return false;
-    // };
-
-    // const displayConfirmationDialog = (callback: (button: string) => void) => {
-    //     if (showDialog) {
-    //         return (
-    //             <ConfirmationDialog
-    //                 message="Are you sure you want to continue?"
-    //                 onConfirm={() => callback('confirm')}
-    //                 onCancel={() => callback('cancel')}
-    //             />
-    //         );
-    //     }
-    // };
-
-
     const handleDelete = (rowId: number) => {
         const isConfirmed = window.confirm('Are you sure you want to delete this row?');
         if (isConfirmed) {
             // Perform the deletion action here
+            brandApi.remove(rowId);
             console.log('Deleting row with ID:', rowId);
+
+            // Update displayedRows after the item has been deleted
+            const updatedRows = displayedRows.filter(row => row.id !== rowId); // It should be row.Id later
+            setDisplayedRows(updatedRows);
+            rows.filter(row => row.id !== rowId); // It should be row.Id later
         }
-
-
     };
-
-    // const handleDelete = (rowId: number) => {
-    //     // Display the confirmation dialog
-    //     setShowDialog(true);
-
-    //     console.log('Come here')
-
-    //     const handleConfirmation = (button: string) => {
-    //         console.log('Confirmation button clicked: ' + button);
-    //         setShowDialog(false);
-
-    //         if (button === 'confirm') {
-    //             // User clicked the Confirm button
-    //             // Perform the deletion action here
-    //             console.log('Deleting row with ID:', rowId);
-    //         } else if (button === 'cancel') {
-    //             // User clicked the Cancel button
-    //             console.log('Deletion canceled by the user');
-    //         }
-    //     };
-
-    //     displayConfirmationDialog(handleConfirmation);
-    // };
-
 
     const navigate = useNavigate();
 
@@ -95,8 +49,6 @@ const BrandTable: React.FC<BrandTableProps> = ({ rows }) => {
         console.log('Viewing row with ID:', rowId);
         navigate(`/brands/${rowId}`);
     };
-
-
 
     const handleInput = (event: any) => {
         setQuery(event.target.value);
