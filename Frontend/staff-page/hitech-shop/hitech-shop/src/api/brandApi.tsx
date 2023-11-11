@@ -1,54 +1,3 @@
-// import axiosClient from "./axiosClient";
-// interface Brand {
-//     id: number;
-//     name: string;
-//     description: string;
-//     logoUrl: string;
-// }
-
-// const brandApi = {
-//     getAll: (params: any) => {
-//         const url = '/brands';
-//         return axiosClient.get(url, { params });
-//     },
-
-//     get: (id: any) => {
-//         const url = `/brands/${id}`;
-//         return axiosClient.get(url);
-//     },
-
-//     // New function for uploading a brand with an image
-//     add: async (brand: Omit<Brand, 'id'>) => {
-//         try {
-//             const response = await axiosClient.post('/brands', brand);
-//             return response.data;
-//         } catch (error) {
-//             throw error;
-//         }
-//     },
-
-//     // Function to upload an image for a brand
-//     uploadImage: async (brandId: number, imageFile: File) => {
-//         try {
-//             const formData = new FormData();
-//             formData.append('image', imageFile);
-
-//             const response = await axiosClient.post(`/brands/${brandId}/upload-image`, formData, {
-//                 headers: {
-//                     'Content-Type': 'multipart/form-data',
-//                 },
-//             });
-
-//             return response.data;
-//         } catch (error) {
-//             throw error;
-//         }
-//     },
-// };
-
-// export default brandApi;
-
-
 // brandApi.tsx
 import axiosClient from "./axiosClient";
 
@@ -56,7 +5,7 @@ interface Brand {
     Id: number;
     Name: string;
     Description: string;
-    LogoBase64: string; // Rename 'imageUrl' to 'logoBase64'
+    LogoBase64: string;
 }
 
 const brandApi = {
@@ -112,6 +61,25 @@ const brandApi = {
             throw error;
         }
     },
+
+    update: async (id: number, updatedBrand: Brand) => {
+        try {
+            const response = await axiosClient.put(`/brands/${id}`, updatedBrand);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    remove: async (id: number) => {
+        try {
+            const response = await axiosClient.delete(`/brands/${id}`);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
 };
 
 export default brandApi;

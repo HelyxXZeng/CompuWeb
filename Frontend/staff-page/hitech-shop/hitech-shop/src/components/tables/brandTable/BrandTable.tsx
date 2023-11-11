@@ -1,6 +1,6 @@
 import '../datatable/datatable.scss'
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
 // import actionColumn from '../datatable/DataTable';
@@ -89,9 +89,13 @@ const BrandTable: React.FC<BrandTableProps> = ({ rows }) => {
     // };
 
 
+    const navigate = useNavigate();
+
     const handleView = (rowId: number) => {
         console.log('Viewing row with ID:', rowId);
+        navigate(`/brands/${rowId}`);
     };
+
 
 
     const handleInput = (event: any) => {
@@ -99,7 +103,7 @@ const BrandTable: React.FC<BrandTableProps> = ({ rows }) => {
     }
 
     useEffect(() => {
-        console.log('This is rows in brand table:', rows)
+        // console.log('This is rows in brand table:', rows)
         // Use the filter method to create a new array with rows that match the query in either Name or Id
         const filteredRows = rows.filter(row =>
             row.Name.toLowerCase().includes(query.toLowerCase()) || // Check Name
