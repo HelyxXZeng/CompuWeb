@@ -1,0 +1,129 @@
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--primary);
+    padding: 0;
+    height: var(--default-layout-footer-height);
+    width: 100%;
+    color: #fff;
+    font-size: 14px;
+    line-height: 150%;
+    font-family: medium;
+
+    h3 {
+        margin-bottom: 20px;
+        font-size: 16px;
+        font-family: bold;
+    }
+}
+
+.footer-content {
+    padding: 40px 100px;
+    text-align: left;
+
+    &::after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+}
+
+.footer-col {
+    float: left;
+    padding: 10px;
+
+    &.left {
+        width: 20%;
+        .logo-link {
+            margin-top: -12px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            .img1 {
+                height: 5.5rem;
+            }
+
+            .img2 {
+                margin-left: 7px;
+                height: 5.7rem;
+                width: 9.5rem;
+            }
+        }
+    }
+
+    &.middle {
+        width: 20%;
+    }
+
+    &.right {
+        width: 25%;
+    }
+
+    &.categories {
+        width: 35%;
+    }
+
+    .inner-categories {
+        display: flex;
+        .inner-col-categories {
+            flex: 50%;
+        }
+    }
+
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    a {
+        text-decoration: none;
+        color: #fff;
+        line-height: 40px;
+    }
+}
+
+.socials {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    float: left;
+    li {
+        margin: 0 10px;
+    }
+    li:first-child {
+        margin-left: 0px;
+    }
+    a {
+        text-decoration: none;
+        background-color: #fff;
+        border: 1.1px solid white;
+        padding: 5px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .icon {
+        font-size: 11px;
+        width: 17px;
+        height: 17px;
+        color: var(--primary);
+    }
+}
+
+.footer-bottom {
+    width: 100%;
+    box-shadow: 0 8px 15px 8px #3333335c;
+    padding: 42px 0 37px;
+    background-color: var(--primary);
+    p {
+        margin-bottom: 0;
+        text-align: center;
+        margin-bottom: 5px;
+    }
+}
