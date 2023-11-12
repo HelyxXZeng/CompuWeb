@@ -12,6 +12,7 @@ import categoryApi from "../../api/categoryApi";
 import orderApi from "../../api/orderApi";
 import promotionApi from "../../api/promotionApi";
 import CategorySingle from "../../components/singles/categorySingle/CategorySingle";
+import PromotionSingle from "../../components/singles/promotionSingle/PromotionSingle";
 
 interface Props {
     type: string,
@@ -50,6 +51,7 @@ const Single = ({ type, isNew }: Props) => {
                     data = (await promotionApi.get(parseInt(id!))).data;
                     break;
                 default:
+                    break;
                 // Handle the default case
             }
 
@@ -78,7 +80,7 @@ const Single = ({ type, isNew }: Props) => {
             case 'brand':
                 return <BrandSingle brand={editRow!} />
             case 'promotion':
-            // return <PromotionTable rows={rows} />;
+                return <PromotionSingle promotion={editRow!} />
             default:
                 return null;
         }

@@ -88,7 +88,7 @@ const BrandSingle: React.FC<Props> = (para: Props) => {
                     // Check if imageFile is not null before calling uploadImage
                     // Add the brand data (including logoBase64) to the JSON server
                     await brandApi.uploadImage({
-                        Id: 0,
+                        Id: brand.Id,
                         Name: brand.Name,
                         Description: brand.Description,
                         LogoBase64,

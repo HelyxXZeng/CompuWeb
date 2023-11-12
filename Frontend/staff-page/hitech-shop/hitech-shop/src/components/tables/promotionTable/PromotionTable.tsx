@@ -1,9 +1,10 @@
 import './promotionTable.scss'
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
 import actionColumn from '../datatable/DataTable';
+import promotionApi from '../../../api/promotionApi';
 // import { handleDelete, handleView, actionColumn } from '../datatable/DataTable';
 interface PromotionTableProps {
     rows: any[]; // Define the type of your rows here
@@ -54,12 +55,21 @@ const PromotionTable: React.FC<PromotionTableProps> = ({ rows }) => {
         const isConfirmed = window.confirm('Are you sure you want to delete this row?');
         if (isConfirmed) {
             // Perform the deletion action here
+            promotionApi.remove(rowId);
             console.log('Deleting row with ID:', rowId);
+
+            // Update displayedRows after the item has been deleted
+            const updatedRows = displayedRows.filter(row => row.id !== rowId); // It should be row.Id later
+            setDisplayedRows(updatedRows);
+            rows.filter(row => row.id !== rowId); // It should be row.Id later
         }
     };
 
+    const navigate = useNavigate();
+
     const handleView = (rowId: number) => {
         console.log('Viewing row with ID:', rowId);
+        navigate(`/promotions/${rowId}`);
     };
 
     const handleInput = (event: any) => {

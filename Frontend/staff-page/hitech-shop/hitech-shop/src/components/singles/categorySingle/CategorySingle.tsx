@@ -45,7 +45,7 @@ const CategorySingle: React.FC<Props> = (para: Props) => {
         if (para.category === null) {
             try {
                 await categoryApi.add({
-                    Id: 0,
+                    Id: category.Id,
                     Name: category.Name
                 });
                 alert("Successfully Uploaded!")
