@@ -1,4 +1,4 @@
-
+//BrandSingle.tsx
 import React, { useEffect, useState } from 'react';
 import brandApi from '../../../api/brandApi';
 import './brandSingle.scss'
@@ -14,7 +14,7 @@ interface Props {
     brand: Brand
 }
 
-const BrandPage: React.FC<Props> = (para: Props) => {
+const BrandSingle: React.FC<Props> = (para: Props) => {
 
     // console.log('This is para: ', para)
     const [brand, setBrand] = useState({
@@ -27,7 +27,8 @@ const BrandPage: React.FC<Props> = (para: Props) => {
     const [imageFile, setImageFile] = useState<File | null>(null);
 
     useEffect(() => {
-        if (para.brand.Id !== 0) {
+        console.log("This is para in Brand: ", para)
+        if (para.brand !== null) {
             setBrand(para.brand);
 
             // Convert base64 string to a Blob
@@ -64,7 +65,7 @@ const BrandPage: React.FC<Props> = (para: Props) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (para === null) {
+        if (para.brand === null) {
             try {
                 let LogoBase64 = brand.LogoBase64; // Use the current logoBase64 as a fallback
 
@@ -105,7 +106,7 @@ const BrandPage: React.FC<Props> = (para: Props) => {
                 setImageFile(null); // Reset the imageFile state
 
             } catch (error) {
-                console.error('Error adding brand:', error);
+                console.error('Error in adding brand:', error);
                 alert("Error!" + error)
             }
         } else {
@@ -149,7 +150,7 @@ const BrandPage: React.FC<Props> = (para: Props) => {
                 setImageFile(null); // Reset the imageFile state
 
             } catch (error) {
-                console.error('Error updating brand:', error);
+                console.error('Error in updating brand:', error);
                 alert("Error!" + error)
             }
         }
@@ -206,4 +207,4 @@ const BrandPage: React.FC<Props> = (para: Props) => {
     );
 };
 
-export default BrandPage;
+export default BrandSingle;

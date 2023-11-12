@@ -11,6 +11,7 @@ import productApi from "../../api/productApi";
 import categoryApi from "../../api/categoryApi";
 import orderApi from "../../api/orderApi";
 import promotionApi from "../../api/promotionApi";
+import CategorySingle from "../../components/singles/categorySingle/CategorySingle";
 
 interface Props {
     type: string,
@@ -19,33 +20,39 @@ interface Props {
 
 const Single = ({ type, isNew }: Props) => {
     const params = useParams();
+    console.log("This is params from url: ", params)
     const id = params[type + 'Id']; // Get the id from the URL
+    console.log("This is id from url:", id)
 
-    const [editRow, setEditRow] = useState({
-        Id: 0,
-        Name: '',
-        Description: '',
-        LogoBase64: ''
-    });
+    const [editRow, setEditRow] = useState(null);
     const [isDoneFetch, setIsDoneFetch] = useState(false)
     useEffect(() => {
         setIsDoneFetch(false)
         const fetchData = async () => {
             let data: any;
-            if (type === 'brand') {
-                data = (await brandApi.get(parseInt(id!))).data;
+            switch (type) {
+                case 'brand':
+                    data = (await brandApi.get(parseInt(id!))).data;
+                    break;
+                case 'customer':
+                    data = (await customerApi.get(parseInt(id!))).data;
+                    break;
+                case 'product':
+                    data = (await productApi.get(parseInt(id!))).data;
+                    break;
+                case 'category':
+                    data = (await categoryApi.get(parseInt(id!))).data;
+                    break;
+                case 'order':
+                    data = (await orderApi.get(parseInt(id!))).data;
+                    break;
+                case 'promotion':
+                    data = (await promotionApi.get(parseInt(id!))).data;
+                    break;
+                default:
+                // Handle the default case
             }
-            else if (type === 'customer') {
-                data = (await customerApi.get(parseInt(id!))).data;
-            } else if (type === 'product') {
-                data = (await productApi.get(parseInt(id!))).data;
-            } else if (type === 'category') {
-                data = (await categoryApi.get(parseInt(id!))).data;
-            } else if (type === 'order') {
-                data = (await orderApi.get(parseInt(id!))).data;
-            } else if (type === 'promotion') {
-                data = (await promotionApi.get(parseInt(id!))).data;
-            }
+
 
             setEditRow(data)
             // console.log("This is data: ", data)
@@ -61,7 +68,7 @@ const Single = ({ type, isNew }: Props) => {
     const getElement = () => {
         switch (type) {
             case 'category':
-            // return <CategoryTable rows={rows} />;
+                return <CategorySingle category={editRow!} />;
             case 'product':
             // return <ProductTable rows={rows} />;
             case 'customer':
@@ -69,7 +76,7 @@ const Single = ({ type, isNew }: Props) => {
             case 'order':
             // return <OrderTable rows={rows} />;
             case 'brand':
-                return <BrandSingle brand={editRow} />
+                return <BrandSingle brand={editRow!} />
             case 'promotion':
             // return <PromotionTable rows={rows} />;
             default:

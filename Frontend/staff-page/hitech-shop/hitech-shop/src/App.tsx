@@ -23,7 +23,7 @@ function App() {
               <Route path="customers">
                 <Route index element={<List type='customer' />} />
                 <Route path=":customerId" element={<Single type='customer' isNew='update' />} />
-                <Route path="new" element={<Single type='customer' isNew='update' />} />
+                <Route path="new" element={<Single type='customer' isNew='new' />} />
               </Route>
               <Route path="products">
                 <Route index element={<List type='product' />} />
