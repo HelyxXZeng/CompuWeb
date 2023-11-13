@@ -64,7 +64,6 @@ const BrandTable: React.FC<BrandTableProps> = ({ rows }) => {
         setDisplayedRows(filteredRows);
     }, [query, rows]);
 
-
     return (
         <div className='datatable'>
             <div className="datatableTitle">

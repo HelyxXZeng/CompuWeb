@@ -13,6 +13,7 @@ import orderApi from "../../api/orderApi";
 import promotionApi from "../../api/promotionApi";
 import CategorySingle from "../../components/singles/categorySingle/CategorySingle";
 import PromotionSingle from "../../components/singles/promotionSingle/PromotionSingle";
+import CustomerSingle from "../../components/singles/customerSingle/CustomerSingle";
 
 interface Props {
     type: string,
@@ -74,7 +75,7 @@ const Single = ({ type, isNew }: Props) => {
             case 'product':
             // return <ProductTable rows={rows} />;
             case 'customer':
-            // return <CustomerTable rows={rows} />;
+                return <CustomerSingle customer={editRow!} />
             case 'order':
             // return <OrderTable rows={rows} />;
             case 'brand':
