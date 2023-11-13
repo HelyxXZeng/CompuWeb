@@ -1,9 +1,22 @@
-// AddBrandPage.tsx
+//BrandSingle.tsx
 import React, { useEffect, useState } from 'react';
 import brandApi from '../../../api/brandApi';
 import './brandSingle.scss'
 
-const AddBrandPage: React.FC = () => {
+interface Brand {
+    Id: number;
+    Name: string;
+    Description: string;
+    LogoBase64: string;
+}
+
+interface Props {
+    brand: Brand
+}
+
+const BrandSingle: React.FC<Props> = (para: Props) => {
+
+    // console.log('This is para: ', para)
     const [brand, setBrand] = useState({
         Id: 0,
         Name: '',
@@ -11,8 +24,26 @@ const AddBrandPage: React.FC = () => {
         LogoBase64: '',
     });
 
-
     const [imageFile, setImageFile] = useState<File | null>(null);
+
+    useEffect(() => {
+        console.log("This is para in Brand: ", para)
+        if (para.brand !== null) {
+            setBrand(para.brand);
+
+            // Convert base64 string to a Blob
+            if (para.brand.LogoBase64) {
+                const byteCharacters = atob(para.brand.LogoBase64.split(',')[1]);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                const file = new File([byteArray], 'filename.jpg', { type: 'image/jpeg' });
+                setImageFile(file);
+            }
+        }
+    }, [para]);
     // useEffect(() => {
     //     console.log('This is brand', brand)
     //     console.log('This is image file', imageFile)
@@ -34,55 +65,101 @@ const AddBrandPage: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (para.brand === null) {
+            try {
+                let LogoBase64 = brand.LogoBase64; // Use the current logoBase64 as a fallback
 
-        try {
-            let LogoBase64 = brand.LogoBase64; // Use the current logoBase64 as a fallback
+                if (imageFile) {
+                    // Upload the image as base64 and get the string
+                    const reader = new FileReader();
 
-            if (imageFile) {
-                // Upload the image as base64 and get the string
-                const reader = new FileReader();
+                    // Use a Promise to read the file as base64
+                    const readAsDataURL = (): Promise<string> => {
+                        return new Promise((resolve, reject) => {
+                            reader.onloadend = () => {
+                                resolve(reader.result as string);
+                            };
+                            reader.onerror = reject;
+                            reader.readAsDataURL(imageFile);
+                        });
+                    };
 
-                // Use a Promise to read the file as base64
-                const readAsDataURL = (): Promise<string> => {
-                    return new Promise((resolve, reject) => {
-                        reader.onloadend = () => {
-                            resolve(reader.result as string);
-                        };
-                        reader.onerror = reject;
-                        reader.readAsDataURL(imageFile);
-                    });
-                };
+                    LogoBase64 = await readAsDataURL();
+                    // Check if imageFile is not null before calling uploadImage
+                    // Add the brand data (including logoBase64) to the JSON server
+                    await brandApi.uploadImage({
+                        Id: brand.Id,
+                        Name: brand.Name,
+                        Description: brand.Description,
+                        LogoBase64,
+                    }, imageFile);
+                    alert("Successfully Uploaded!")
+                }
 
-                LogoBase64 = await readAsDataURL();
-                // Check if imageFile is not null before calling uploadImage
-                // Add the brand data (including logoBase64) to the JSON server
-                await brandApi.uploadImage({
+                // Reset the form
+                setBrand({
                     Id: 0,
-                    Name: brand.Name,
-                    Description: brand.Description,
-                    LogoBase64,
-                }, imageFile);
-                alert("Successfully Uploaded!")
+                    Name: '',
+                    Description: '',
+                    LogoBase64: '',
+                });
+                setImageFile(null); // Reset the imageFile state
+
+            } catch (error) {
+                console.error('Error in adding brand:', error);
+                alert("Error!" + error)
             }
+        } else {
+            try {
+                let LogoBase64 = brand.LogoBase64; // Use the current logoBase64 as a fallback
 
-            // Reset the form
-            setBrand({
-                Id: 0,
-                Name: '',
-                Description: '',
-                LogoBase64: '',
-            });
-            setImageFile(null); // Reset the imageFile state
+                if (imageFile) {
+                    // Upload the image as base64 and get the string
+                    const reader = new FileReader();
 
-        } catch (error) {
-            console.error('Error adding brand:', error);
-            alert("Error!" + error)
+                    // Use a Promise to read the file as base64
+                    const readAsDataURL = (): Promise<string> => {
+                        return new Promise((resolve, reject) => {
+                            reader.onloadend = () => {
+                                resolve(reader.result as string);
+                            };
+                            reader.onerror = reject;
+                            reader.readAsDataURL(imageFile);
+                        });
+                    };
+
+                    LogoBase64 = await readAsDataURL();
+                    // Check if imageFile is not null before calling uploadImage
+                    // Add the brand data (including logoBase64) to the JSON server
+                    await brandApi.update(brand.Id, {
+                        Id: brand.Id,
+                        Name: brand.Name,
+                        Description: brand.Description,
+                        LogoBase64,
+                    });
+                    alert("Successfully Uploaded!")
+                }
+
+                // Reset the form
+                setBrand({
+                    Id: 0,
+                    Name: '',
+                    Description: '',
+                    LogoBase64: '',
+                });
+                setImageFile(null); // Reset the imageFile state
+
+            } catch (error) {
+                console.error('Error in updating brand:', error);
+                alert("Error!" + error)
+            }
         }
+
     };
 
     return (
-        <div className="add-brand-page">
-            <h2>Add New Brand</h2>
+        <div className="brand-page">
+            <h2>Brands</h2>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="name">Name:</label>
                 <input
@@ -124,10 +201,10 @@ const AddBrandPage: React.FC = () => {
                     />
                 )}
 
-                <button type="submit" className='button'>Add Brand</button>
+                <button type="submit" className='button'>Submit</button>
             </form>
         </div>
     );
 };
 
-export default AddBrandPage;
+export default BrandSingle;
