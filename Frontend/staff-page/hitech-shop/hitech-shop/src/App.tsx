@@ -1,15 +1,57 @@
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/auth'
+import { useContext, useEffect, useState } from 'react'
+import { BrowserRouter, Route, Routes, } from "react-router-dom"
 import './App.css'
+import { DarkModeContext } from './context/darkModeContext'
 import Home from './pages/home/Home'
-import { BrowserRouter, Routes, Route, } from "react-router-dom"
-import Login from './pages/login/Login'
 import List from './pages/list/List'
+import Login from './pages/login/Login'
 import Single from './pages/single/Single'
 import './styles/dark.scss'
-import { useContext } from 'react'
-import { DarkModeContext } from './context/darkModeContext'
 
+
+
+// if (!isSignedIn) {
+//   return (
+//     <div>
+//       <h1>My App</h1>
+//       <p>Please sign-in:</p>
+//       <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+//     </div>
+//   );
+// }
 
 function App() {
+
+  // Configure Firebase.
+  const config = {
+    apiKey: 'AIzaSyCsSCvp3dU9D3dZzY38nOC_uET4rOfIwvE',
+    authDomain: 'hitechshop-adc0d.firebaseapp.com',
+    // ...
+  };
+  firebase.initializeApp(config);
+
+  // Listen to the Firebase Auth state and set the local state.
+  const [isSignedIn, setIsSignedIn] = useState(false); // Local signed-in state.
+
+  // Listen to the Firebase Auth state and set the local state.
+  useEffect(() => {
+    const unregisterAuthObserver = firebase.auth().onAuthStateChanged(async (user) => {
+      // setIsSignedIn(!!user);
+
+      if (!user) {
+        // user log out, handle here
+        console.log('User does not log in')
+        return
+      }
+      console.log('Logged in, user:', user.displayName);
+      const token = await user.getIdToken();
+      console.log('Logged in, token:', token)
+    });
+    return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
+  }, []);
+
   const { darkMode } = useContext(DarkModeContext)
 
   return (
