@@ -48,9 +48,10 @@ const List = ({ type }: { type: string }) => {
                 }
 
                 setRows(data);
-                // console.log(`This is ${type}:`, data);
+
+                console.log(`This is ${type}:`, data);
             } catch (error) {
-                // console.log(`Failed to fetch ${type} list:`, error);
+                console.log(`Failed to fetch ${type} list:`, error);
             }
         };
 

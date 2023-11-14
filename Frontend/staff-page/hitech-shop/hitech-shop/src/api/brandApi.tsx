@@ -2,28 +2,31 @@
 import axiosClient from "./axiosClient";
 
 interface Brand {
-    Id: number;
-    Name: string;
-    Description: string;
-    LogoBase64: string;
+    id: number;
+    name: string;
+    description: string;
+    logo: string;
 }
 
 const brandApi = {
     getAll: (params: any) => {
-        const url = '/brands';
+        const url = '/brands/GetBrands';
         return axiosClient.get(url, { params });
     },
 
     get: (id: any) => {
-        const url = `/brands/${id}`;
+        const url = `/brands/GetCategoryById?id=${id}`;
         return axiosClient.get(url);
     },
 
     add: async (brand: Brand) => {
         try {
-            const response = await axiosClient.post('/brands', brand);
-            return response.data;
+            const response = await axiosClient.post('/brands/Insert', brand);
+            console.log("Here brand", brand)
+            console.log("Here finished", response)
+            return response;
         } catch (error) {
+            console.log("Here error", error)
             throw error;
         }
     },
@@ -48,15 +51,15 @@ const brandApi = {
                 });
             };
 
-            const LogoBase64 = await readAsDataURL();
+            const logo = await readAsDataURL();
 
             // Add the brand data (including logoBase64) to the JSON server
             await brandApi.add({
                 ...brand,
-                LogoBase64,
+                logo,
             });
 
-            return LogoBase64; // If needed, you can return the base64-encoded string
+            return logo; // If needed, you can return the base64-encoded string
         } catch (error) {
             throw error;
         }
@@ -64,7 +67,7 @@ const brandApi = {
 
     update: async (id: number, updatedBrand: Brand) => {
         try {
-            const response = await axiosClient.put(`/brands/${id}`, updatedBrand);
+            const response = await axiosClient.put(`/brands/Update?id=${id}`, updatedBrand);
             return response.data;
         } catch (error) {
             throw error;
@@ -73,7 +76,7 @@ const brandApi = {
 
     remove: async (id: number) => {
         try {
-            const response = await axiosClient.delete(`/brands/${id}`);
+            const response = await axiosClient.delete(`/brands/Delete?id=${id}`);
             return response.data;
         } catch (error) {
             throw error;
@@ -83,17 +86,3 @@ const brandApi = {
 };
 
 export default brandApi;
-
-// const brandApi = {
-//     getAll: (params: any) => {
-//         const url = '/brands';
-//         return axiosClient.get(url, { params });
-//     },
-//     get: (id: any) => {
-//         const url = '/brands/' + id;
-//         return axiosClient.get(url);
-//     },
-// }
-
-// export default brandApi;
-
