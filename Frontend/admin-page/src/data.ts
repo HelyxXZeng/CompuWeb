@@ -125,7 +125,7 @@ export const topDealUsers = [
   },
   {
     id: 2,
-    img: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    img: "https://cdn.donmai.us/original/9c/bb/__zero_two_darling_in_the_franxx_drawn_by_otomi_yuki__9cbb16b6cc2ab218a1e02d8da3d45299.jpg",
     username: "Linnie Nelson",
     email: "linnie@gmail.com",
     amount: "3.256",
