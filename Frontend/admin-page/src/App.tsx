@@ -14,14 +14,14 @@ function App() {
     return (
       <div className="main">
         <NavBar />
-      <div className="container">
-        <div className="menuContainer">
-          <Menu />
+        <div className="container">
+          <div className="menuContainer">
+            <Menu />
+          </div>
+          <div className="contentContainer">
+            <Outlet />
+          </div>
         </div>
-        <div className="contentContainer">
-          <Outlet />
-        </div>
-      </div>
         <Footer />
       </div>
     );
