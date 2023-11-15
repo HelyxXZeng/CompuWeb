@@ -66,12 +66,15 @@ namespace TestForASPWebAPI.Controllers
         }
 
         [HttpPost("Insert")]
-        public void Insert(string value)
+        public IActionResult Insert(Category value)
         {
-            string command = $"INSERT INTO Category (Name) VALUES ('{value}')";
+            if (value == null) { return BadRequest("Invalid Data!"); }
+
+            string command = $"INSERT INTO Category (Name) VALUES ('{value.Name}')";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
-            return;
+
+            return NoContent();
         }
 
         // PUT api/<ValuesController>/5

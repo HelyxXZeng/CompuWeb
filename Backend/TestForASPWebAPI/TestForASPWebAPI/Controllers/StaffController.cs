@@ -6,7 +6,7 @@ using System.Data;
 
 namespace TestForASPWebAPI.Controllers
 {
-    [Route("api/staff")]
+    [Route("api/staffs")]
     [ApiController]
     public class StaffController : ControllerBase
     {
@@ -83,8 +83,10 @@ namespace TestForASPWebAPI.Controllers
         }
 
         [HttpPost("Insert")]
-        public void Insert([FromBody] Staff value)
+        public IActionResult Insert([FromBody] Staff value)
         {
+            if (value == null) { return BadRequest("Invalid Data!"); }
+
             string command = $"INSERT INTO Staff (Name, Birthdate, Gender, IdcardNumber, Address, JoinDate, PhoneNumber, Position, Salary, Other) " +
                 $"VALUES ('{value.Name}', " +
                 $"'{value.Birthdate.ToString("yyyy-MM-dd")}', " +
@@ -98,13 +100,16 @@ namespace TestForASPWebAPI.Controllers
                 $"'{value.Other}')";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
-            return;
+
+            return NoContent();
         }
 
         // PUT api/<ValuesController>/5
         [HttpPut("Update")]
-        public void Put(int id, [FromBody] Staff value)
+        public async Task<IActionResult> Put(int id, [FromBody] Staff value)
         {
+            if (!await StaffExists(id)) { return NotFound("Staff not found!"); }
+
             string command = $"UPDATE Staff SET " +
                 $"Name = '{value.Name}', " +
                 $"Birthdate = '{value.Birthdate.ToString("yyyy-MM-dd")}', " +
@@ -119,17 +124,21 @@ namespace TestForASPWebAPI.Controllers
                 $"WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
-            return;
+
+            return NoContent();
         }
 
         // DELETE api/<ValuesController>/5
         [HttpDelete("Delete")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            if (!await StaffExists(id)) { return NotFound("Staff not found!"); }
+
             string command = $"DELETE FROM Staff WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.DeleteData(command);
-            return;
+
+            return NoContent();
         }
         [HttpGet("Exists")]
         public async Task<bool> StaffExists(int id)

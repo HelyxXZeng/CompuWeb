@@ -69,32 +69,41 @@ namespace TestForASPWebAPI.Controllers
         }
 
         [HttpPost("Insert")]
-        public void Insert([FromBody] CartItem value)
+        public IActionResult Insert([FromBody] CartItem value)
         {
+            if (value == null) { return BadRequest("Invalid Data!"); }
+
             string command = $"INSERT INTO CartItem (ProductVariantId, CustomerId, Quantity) VALUES ({value.ProductVariantId}, {value.CustomerId}, {value.Quantity})";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
-            return;
+
+            return NoContent();
         }
 
         // PUT api/<ValuesController>/5
         [HttpPut("Update")]
-        public void Put(int id, [FromBody] CartItem value)
+        public async Task<IActionResult> Put(int id, [FromBody] CartItem value)
         {
+            if (!await CartItemExists(id)) { return NotFound("CartItem not found!"); }
+
             string command = $"UPDATE CartItem SET ProductVariantId = {value.ProductVariantId}, CustomerId = {value.CustomerId}, Quantity = {value.Quantity} WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
-            return;
+
+            return NoContent();
         }
 
         // DELETE api/<ValuesController>/5
         [HttpDelete("Delete")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            if (!await CartItemExists(id)) { return NotFound("CartItem not found!"); }
+
             string command = $"DELETE FROM CartItem WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.DeleteData(command);
-            return;
+
+            return NoContent();
         }
         [HttpGet("Exists")]
         public async Task<bool> CartItemExists(int id)
