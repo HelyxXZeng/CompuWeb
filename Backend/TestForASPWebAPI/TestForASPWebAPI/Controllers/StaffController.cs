@@ -6,7 +6,7 @@ using System.Data;
 
 namespace TestForASPWebAPI.Controllers
 {
-    [Route("api/staff")]
+    [Route("api/staffs")]
     [ApiController]
     public class StaffController : ControllerBase
     {
