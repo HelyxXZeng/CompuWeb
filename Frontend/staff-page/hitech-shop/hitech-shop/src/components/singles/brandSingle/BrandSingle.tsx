@@ -4,10 +4,10 @@ import brandApi from '../../../api/brandApi';
 import './brandSingle.scss'
 
 interface Brand {
-    Id: number;
-    Name: string;
-    Description: string;
-    LogoBase64: string;
+    id: number;
+    name: string;
+    description: string;
+    logo: string;
 }
 
 interface Props {
@@ -18,10 +18,10 @@ const BrandSingle: React.FC<Props> = (para: Props) => {
 
     // console.log('This is para: ', para)
     const [brand, setBrand] = useState({
-        Id: 0,
-        Name: '',
-        Description: '',
-        LogoBase64: '',
+        id: 0,
+        name: '',
+        description: '',
+        logo: '',
     });
 
     const [imageFile, setImageFile] = useState<File | null>(null);
@@ -32,8 +32,8 @@ const BrandSingle: React.FC<Props> = (para: Props) => {
             setBrand(para.brand);
 
             // Convert base64 string to a Blob
-            if (para.brand.LogoBase64) {
-                const byteCharacters = atob(para.brand.LogoBase64.split(',')[1]);
+            if (para.brand.logo) {
+                const byteCharacters = atob(para.brand.logo.split(',')[1]);
                 const byteNumbers = new Array(byteCharacters.length);
                 for (let i = 0; i < byteCharacters.length; i++) {
                     byteNumbers[i] = byteCharacters.charCodeAt(i);
@@ -67,7 +67,7 @@ const BrandSingle: React.FC<Props> = (para: Props) => {
         e.preventDefault();
         if (para.brand === null) {
             try {
-                let LogoBase64 = brand.LogoBase64; // Use the current logoBase64 as a fallback
+                let logo = brand.logo; // Use the current logoBase64 as a fallback
 
                 if (imageFile) {
                     // Upload the image as base64 and get the string
@@ -84,24 +84,24 @@ const BrandSingle: React.FC<Props> = (para: Props) => {
                         });
                     };
 
-                    LogoBase64 = await readAsDataURL();
+                    logo = await readAsDataURL();
                     // Check if imageFile is not null before calling uploadImage
                     // Add the brand data (including logoBase64) to the JSON server
-                    await brandApi.uploadImage({
-                        Id: brand.Id,
-                        Name: brand.Name,
-                        Description: brand.Description,
-                        LogoBase64,
-                    }, imageFile);
+                    await brandApi.add({
+                        id: brand.id,
+                        name: brand.name,
+                        description: brand.description,
+                        logo,
+                    });
                     alert("Successfully Uploaded!")
                 }
 
                 // Reset the form
                 setBrand({
-                    Id: 0,
-                    Name: '',
-                    Description: '',
-                    LogoBase64: '',
+                    id: 0,
+                    name: '',
+                    description: '',
+                    logo: '',
                 });
                 setImageFile(null); // Reset the imageFile state
 
@@ -111,7 +111,7 @@ const BrandSingle: React.FC<Props> = (para: Props) => {
             }
         } else {
             try {
-                let LogoBase64 = brand.LogoBase64; // Use the current logoBase64 as a fallback
+                let logo = brand.logo; // Use the current logoBase64 as a fallback
 
                 if (imageFile) {
                     // Upload the image as base64 and get the string
@@ -128,24 +128,24 @@ const BrandSingle: React.FC<Props> = (para: Props) => {
                         });
                     };
 
-                    LogoBase64 = await readAsDataURL();
+                    logo = await readAsDataURL();
                     // Check if imageFile is not null before calling uploadImage
                     // Add the brand data (including logoBase64) to the JSON server
-                    await brandApi.update(brand.Id, {
-                        Id: brand.Id,
-                        Name: brand.Name,
-                        Description: brand.Description,
-                        LogoBase64,
+                    await brandApi.update(brand.id, {
+                        id: brand.id,
+                        name: brand.name,
+                        description: brand.description,
+                        logo,
                     });
                     alert("Successfully Uploaded!")
                 }
 
                 // Reset the form
                 setBrand({
-                    Id: 0,
-                    Name: '',
-                    Description: '',
-                    LogoBase64: '',
+                    id: 0,
+                    name: '',
+                    description: '',
+                    logo: '',
                 });
                 setImageFile(null); // Reset the imageFile state
 
@@ -161,21 +161,21 @@ const BrandSingle: React.FC<Props> = (para: Props) => {
         <div className="brand-page">
             <h2>Brands</h2>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="name">Name:</label>
+                <label htmlFor="name">name:</label>
                 <input
                     type="text"
-                    id="Name"
-                    name="Name"
-                    value={brand.Name}
+                    id="name"
+                    name="name"
+                    value={brand.name}
                     onChange={handleInputChange}
                     required
                 />
 
-                <label htmlFor="description">Description:</label>
+                <label htmlFor="description">description:</label>
                 <textarea
-                    id="Description"
-                    name="Description"
-                    value={brand.Description}
+                    id="description"
+                    name="description"
+                    value={brand.description}
                     onChange={handleInputChange}
                     required
                     className='textArea'

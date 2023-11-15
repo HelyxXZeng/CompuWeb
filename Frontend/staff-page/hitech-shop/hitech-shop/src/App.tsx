@@ -1,26 +1,16 @@
-import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
-import { useContext, useEffect, useState } from 'react'
-import { BrowserRouter, Route, Routes, } from "react-router-dom"
+import { useContext, useEffect } from 'react'
+import { BrowserRouter, Route, Routes } from "react-router-dom"
 import './App.css'
 import { DarkModeContext } from './context/darkModeContext'
 import Home from './pages/home/Home'
 import List from './pages/list/List'
-import Login from './pages/login/Login'
 import Single from './pages/single/Single'
 import './styles/dark.scss'
+import firebase from 'firebase/compat/app'
+import { AppRouter, Status } from './routes/AppRouter'
+import staffApi from './api/staffApi'
 
-
-
-// if (!isSignedIn) {
-//   return (
-//     <div>
-//       <h1>My App</h1>
-//       <p>Please sign-in:</p>
-//       <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
-//     </div>
-//   );
-// }
 
 function App() {
 
@@ -33,21 +23,19 @@ function App() {
   firebase.initializeApp(config);
 
   // Listen to the Firebase Auth state and set the local state.
-  const [isSignedIn, setIsSignedIn] = useState(false); // Local signed-in state.
+  // const [isSignedIn, setIsSignedIn] = useState(false); // Local signed-in state.
 
   // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
     const unregisterAuthObserver = firebase.auth().onAuthStateChanged(async (user) => {
-      // setIsSignedIn(!!user);
-
       if (!user) {
         // user log out, handle here
-        console.log('User does not log in')
-        return
+        console.log('User does not log in');
+        return;
       }
-      console.log('Logged in, user:', user.displayName);
+      console.log('Logged in, user:', user.phoneNumber);
       const token = await user.getIdToken();
-      console.log('Logged in, token:', token)
+      console.log('Logged in, token:', token);
     });
     return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
   }, []);
@@ -57,7 +45,7 @@ function App() {
   return (
     <>
       <div className={darkMode ? "app dark" : "app"}>
-        <BrowserRouter>
+        {/* <BrowserRouter>
           <Routes>
             <Route path='/'>
               <Route index element={<Home />} />
@@ -94,7 +82,8 @@ function App() {
               </Route>
             </Route>
           </Routes>
-        </BrowserRouter>
+        </BrowserRouter> */}
+        <AppRouter />
       </div>
     </>
   )
