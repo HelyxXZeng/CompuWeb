@@ -66,16 +66,15 @@ namespace TestForASPWebAPI.Controllers
                     Status = (string)dataRow["Status"],
                     Address = (string)dataRow["Address"],
                 };
-                Orders.Add(Order);
+                return Ok(Order);
             }
-
-            return Ok(Orders);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]
         public void Insert([FromBody] Orders value)
         {
-            string command = $"INSERT INTO Orders (CustomerId, Date, Note, Status, Address) VALUES ({value.CustomerId}, '{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}', '{value.Note}', '{value.Status}', '{value.Address}')";
+            string command = $"INSERT INTO Orders (CustomerId, Date, Note, Status, Address) VALUES ({value.CustomerId}, '{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}', N'{value.Note}', '{value.Status}', N'{value.Address}')";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
@@ -85,7 +84,7 @@ namespace TestForASPWebAPI.Controllers
         [HttpPut("Update")]
         public void Put(int id, [FromBody] Orders value)
         {
-            string command = $"UPDATE Orders SET CustomerId = {value.CustomerId}, Date = '{value.Date.ToString("yyyy-MM-dd HH:mm:ss")}', Note = '{value.Note}', Status = '{value.Status}', Address = '{value.Address}' WHERE Id = {id}";
+            string command = $"UPDATE Orders SET CustomerId = {value.CustomerId}, Date = '{value.Date.ToString("yyyy-MM-dd HH:mm:ss")}', Note = N'{value.Note}', Status = '{value.Status}', Address = N'{value.Address}' WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;

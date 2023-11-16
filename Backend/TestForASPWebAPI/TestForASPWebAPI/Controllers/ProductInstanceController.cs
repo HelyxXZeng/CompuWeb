@@ -64,10 +64,9 @@ namespace TestForASPWebAPI.Controllers
                     Status = (string)dataRow["Status"],
                     Available = (bool)dataRow["Available"],
                 };
-                ProductInstances.Add(ProductInstance);
+                return Ok(ProductInstance);
             }
-
-            return Ok(ProductInstances);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]

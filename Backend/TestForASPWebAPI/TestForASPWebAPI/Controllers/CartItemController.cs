@@ -62,10 +62,9 @@ namespace TestForASPWebAPI.Controllers
                     CustomerId = (int)dataRow["CustomerId"],
                     Quantity = (int)dataRow["Quantity"],
                 };
-                CartItems.Add(CartItem);
+                return Ok(CartItem);
             }
-
-            return Ok(CartItems);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]

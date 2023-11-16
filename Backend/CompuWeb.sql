@@ -5,33 +5,33 @@ use CompuWeb
 -- Create the Sản phẩm table
 CREATE TABLE Category (
    Id INT IDENTITY(1,1) PRIMARY KEY,
-   Name VARCHAR(50)
+   Name NVARCHAR(50) COLLATE Vietnamese_CI_AS
 );
 
 CREATE TABLE Brand (
    Id INT IDENTITY(1,1) PRIMARY KEY,
-   Name VARCHAR(50),
-   Description VARCHAR(255),
-   Url VARCHAR(255),
+   Name NVARCHAR(50) COLLATE Vietnamese_CI_AS,
+   Description NVARCHAR(255) COLLATE Vietnamese_CI_AS,
+   Url NVARCHAR(255),
 );
 
 -- Create the Người dùng table
 CREATE TABLE Customer (
    Id INT IDENTITY(1,1) PRIMARY KEY,
-   Name VARCHAR(50),
+   Name NVARCHAR(50) COLLATE Vietnamese_CI_AS,
    Birthdate DATE,
    JoinDate DATE,
-   PhoneNumber VARCHAR(20)
+   PhoneNumber NVARCHAR(20)
 );
 
 CREATE TABLE ProductLine (
    Id INT IDENTITY(1,1) PRIMARY KEY,
    CategoryId INT,
    BrandId INT,
-   Name VARCHAR(50),
+   Name NVARCHAR(50) COLLATE Vietnamese_CI_AS,
    ReleaseDate DATE,
    Warranty INT,
-   Description VARCHAR(255),
+   Description NVARCHAR(255) COLLATE Vietnamese_CI_AS,
    FOREIGN KEY (CategoryId) REFERENCES Category(Id) ON DELETE CASCADE,
    FOREIGN KEY (BrandId) REFERENCES Brand(Id) ON DELETE CASCADE
 );
@@ -39,36 +39,36 @@ CREATE TABLE ProductLine (
 CREATE TABLE ProductVariant (
    Id INT IDENTITY(1,1) PRIMARY KEY,
    ProductLineId INT,
-   Name VARCHAR(50),
+   Name NVARCHAR(50) COLLATE Vietnamese_CI_AS,
    FOREIGN KEY (ProductLineId) REFERENCES ProductLine(Id) ON DELETE CASCADE
 );
 
 CREATE TABLE ProductImage (
    Id INT IDENTITY(1,1) PRIMARY KEY,
    ProductVariantId INT,
-   Name VARCHAR(50),
-   Url VARCHAR(255),
+   Name NVARCHAR(50) COLLATE Vietnamese_CI_AS,
+   Url NVARCHAR(255),
    FOREIGN KEY (ProductVariantId) REFERENCES ProductVariant(Id) ON DELETE CASCADE
 );
 
 CREATE TABLE ProductInstance (
    Id INT IDENTITY(1,1) PRIMARY KEY,
    ProductVariantId INT,
-   SerialNumber VARCHAR(50),
-   Status VARCHAR(50),
+   SerialNumber NVARCHAR(50) COLLATE Vietnamese_CI_AS,
+   Status NVARCHAR(50),
    Available BIT,
    FOREIGN KEY (ProductVariantId) REFERENCES ProductVariant(Id) ON DELETE CASCADE
 );
 
 CREATE TABLE SpecificationType (
    Id INT IDENTITY(1,1) PRIMARY KEY,
-   Name VARCHAR(50)
+   Name NVARCHAR(50) COLLATE Vietnamese_CI_AS
 );
 
 CREATE TABLE Specification (
    Id INT IDENTITY(1,1) PRIMARY KEY,
    SpecificationTypeId INT,
-   Value VARCHAR(50),
+   Value NVARCHAR(50) COLLATE Vietnamese_CI_AS,
    FOREIGN KEY (SpecificationTypeId) REFERENCES SpecificationType(Id) ON DELETE CASCADE
 );
 
@@ -92,21 +92,21 @@ CREATE TABLE Price (
    StartDate DATE,
    EndDate DATE,
    Value DECIMAL(18, 2),
-   Status VARCHAR(50),
+   Status NVARCHAR(50),
    FOREIGN KEY (ProductVariantId) REFERENCES ProductVariant(Id) ON DELETE CASCADE,
 );
 
 -- Create the Khuyến mãi table
 CREATE TABLE Promotion (
    Id INT IDENTITY(1,1) PRIMARY KEY,
-   Name VARCHAR(50),
+   Name NVARCHAR(50) COLLATE Vietnamese_CI_AS,
    StartDate DATE,
    EndDate DATE,
    ProductVariantIdPurchase INT,
    ProductVariantIdPromotion INT,
-   Content VARCHAR(255),
+   Content NVARCHAR(255) COLLATE Vietnamese_CI_AS,
    Value DECIMAL(18, 2),
-   Status VARCHAR(50),
+   Status NVARCHAR(50),
    FOREIGN KEY (ProductVariantIdPurchase) REFERENCES ProductVariant(Id) ON DELETE NO ACTION,
    FOREIGN KEY (ProductVariantIdPromotion) REFERENCES ProductVariant(Id) ON DELETE CASCADE
 );
@@ -116,9 +116,9 @@ CREATE TABLE Orders (
    Id INT IDENTITY(1,1) PRIMARY KEY,
    CustomerId INT,
    Date DATETIME,
-   Note VARCHAR(255),
-   Status VARCHAR(50),
-   Address VARCHAR(255),
+   Note NVARCHAR(255) COLLATE Vietnamese_CI_AS,
+   Status NVARCHAR(50),
+   Address NVARCHAR(255) COLLATE Vietnamese_CI_AS,
    FOREIGN KEY (CustomerId) REFERENCES Customer(Id)
 );
 
@@ -146,7 +146,7 @@ CREATE TABLE Rating (
    OrderItemId INT,
    Date DATE,
    Rating INT,
-   Comment VARCHAR(255),
+   Comment NVARCHAR(255) COLLATE Vietnamese_CI_AS,
    FOREIGN KEY (OrderItemId) REFERENCES OrderItem(Id) ON DELETE CASCADE
 );
 
@@ -156,8 +156,8 @@ CREATE TABLE ReturnOrderItem (
    OrderItemId INT,
    Price DECIMAL(18, 2),
    Date DATE,
-   Issues VARCHAR(255),
-   Status VARCHAR(50),
+   Issues NVARCHAR(255) COLLATE Vietnamese_CI_AS,
+   Status NVARCHAR(50),
    FOREIGN KEY (OrderItemId) REFERENCES OrderItem(Id) ON DELETE CASCADE
 );
 
@@ -174,29 +174,35 @@ CREATE TABLE CartItem (
 -- Create the Staff table
 CREATE TABLE Staff (
    Id INT IDENTITY(1,1) PRIMARY KEY,
-   Name VARCHAR(50),
+   Name NVARCHAR(50) COLLATE Vietnamese_CI_AS,
    Birthdate DATE,
-   Gender VARCHAR(10),
-   IdCardNumber VARCHAR(20),
-   Address VARCHAR(255),
+   Gender NVARCHAR(10),
+   IdCardNumber NVARCHAR(20),
+   Address NVARCHAR(255) COLLATE Vietnamese_CI_AS,
    JoinDate DATE,
-   PhoneNumber VARCHAR(20),
-   Position VARCHAR(50),
+   PhoneNumber NVARCHAR(20),
+   Position NVARCHAR(50) COLLATE Vietnamese_CI_AS,
    Salary DECIMAL(18, 2),
-   Other VARCHAR(255)
+   Other NVARCHAR(255) COLLATE Vietnamese_CI_AS
 );
 
 -- Create the Manager table
 CREATE TABLE Manager (
    Id INT IDENTITY(1,1) PRIMARY KEY,
-   Name VARCHAR(50),
+   Name NVARCHAR(50) COLLATE Vietnamese_CI_AS,
    Birthdate DATE,
-   Gender VARCHAR(10),
-   IdCardNumber VARCHAR(20),
-   Address VARCHAR(255),
+   Gender NVARCHAR(10),
+   IdCardNumber NVARCHAR(20),
+   Address NVARCHAR(255) COLLATE Vietnamese_CI_AS,
    JoinDate DATE,
-   PhoneNumber VARCHAR(20),
-   Position VARCHAR(50),
+   PhoneNumber NVARCHAR(20),
+   Position NVARCHAR(50) COLLATE Vietnamese_CI_AS,
    Salary DECIMAL(18, 2),
-   Department VARCHAR(50)
+   Department NVARCHAR(50) COLLATE Vietnamese_CI_AS
 );
+ALTER DATABASE CompuWeb COLLATE SQL_Latin1_General_CP1_CI_AS;
+
+---
+ALTER TABLE Customer ALTER COLUMN Name NVARCHAR(50) COLLATE Vietnamese_CI_AS COLLATE Vietnamese_CI_AS;
+select * from Customer
+insert into Customer (Name, PhoneNumber, Birthdate, JoinDate) VALUES (N'Nguyễn Văn A', '0123456789', '2000-11-26', '2023-11-16')

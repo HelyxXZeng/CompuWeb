@@ -66,10 +66,9 @@ namespace TestForASPWebAPI.Controllers
                     Status = (string)dataRow["Status"],
                     Value = (decimal)dataRow["Value"],
                 };
-                Prices.Add(Price);
+                return Ok(Price);
             }
-
-            return Ok(Prices);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]

@@ -60,16 +60,15 @@ namespace TestForASPWebAPI.Controllers
                     ProductLineId = (int)dataRow["ProductLineId"],
                     Name = (string)dataRow["Name"],
                 };
-                ProductVariants.Add(ProductVariant);
+                return Ok(ProductVariant);
             }
-
-            return Ok(ProductVariants);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]
         public void Insert([FromBody] ProductVariant value)
         {
-            string command = $"INSERT INTO ProductVariant (ProductLineId, Name, Url) VALUES ({value.ProductLineId}, '{value.Name}')";
+            string command = $"INSERT INTO ProductVariant (ProductLineId, Name, Url) VALUES ({value.ProductLineId}, N'{value.Name}')";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
@@ -79,7 +78,7 @@ namespace TestForASPWebAPI.Controllers
         [HttpPut("Update")]
         public void Put(int id, [FromBody] ProductVariant value)
         {
-            string command = $"UPDATE ProductVariant SET ProductLineId = {value.ProductLineId}, Name = '{value.Name}' WHERE Id = {id}";
+            string command = $"UPDATE ProductVariant SET ProductLineId = {value.ProductLineId}, Name = N'{value.Name}' WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;

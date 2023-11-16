@@ -60,10 +60,9 @@ namespace TestForASPWebAPI.Controllers
                     PromotionId = (int)dataRow["PromotionId"],
                     OrderId = (int)dataRow["OrderId"],
                 };
-                PromotionUsages.Add(PromotionUsage);
+                return Ok(PromotionUsage);
             }
-
-            return Ok(PromotionUsages);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]

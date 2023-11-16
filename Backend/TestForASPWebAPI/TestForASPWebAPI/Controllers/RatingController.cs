@@ -64,16 +64,15 @@ namespace TestForASPWebAPI.Controllers
                     Rate = (int)dataRow["Rate"],
                     Comment = (string)dataRow["Comment"],
                 };
-                Ratings.Add(Rating);
+                return Ok(Rating);
             }
-
-            return Ok(Ratings);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]
         public void Insert([FromBody] Rating value)
         {
-            string command = $"INSERT INTO Rating (OrderItemId, Date, Rate, Comment) VALUES ({value.OrderItemId}, '{value.Date.ToString("yyyy-MM-dd")}', {value.Rate}, '{value.Comment}')";
+            string command = $"INSERT INTO Rating (OrderItemId, Date, Rate, Comment) VALUES ({value.OrderItemId}, '{value.Date.ToString("yyyy-MM-dd")}', {value.Rate}, N'{value.Comment}')";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
@@ -83,7 +82,7 @@ namespace TestForASPWebAPI.Controllers
         [HttpPut("Update")]
         public void Put(int id, [FromBody] Rating value)
         {
-            string command = $"UPDATE Rating SET OrderItemId = {value.OrderItemId}, Date = '{value.Date.ToString("yyyy-MM-dd")}', Rate = {value.Rate}, Comment = '{value.Comment}' WHERE Id = {id}";
+            string command = $"UPDATE Rating SET OrderItemId = {value.OrderItemId}, Date = '{value.Date.ToString("yyyy-MM-dd")}', Rate = {value.Rate}, Comment = N'{value.Comment}' WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;

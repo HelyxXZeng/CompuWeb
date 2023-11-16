@@ -68,16 +68,15 @@ namespace TestForASPWebAPI.Controllers
                     Warranty = (int)dataRow["Warranty"],
                     Description = (string)dataRow["Description"],
                 };
-                ProductLines.Add(ProductLine);
+                return Ok(ProductLine);
             }
-
-            return Ok(ProductLines);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]
         public void Insert([FromBody] ProductLine value)
         {
-            string command = $"INSERT INTO ProductLine (CategoryId, BrandId, Name, ReleaseDate, Warranty, Description) VALUES ({value.CategoryId}, {value.BrandId}, '{value.Name}', '{value.ReleaseDate.ToString("yyyy-MM-dd")}', {value.Warranty}, '{value.Description}')";
+            string command = $"INSERT INTO ProductLine (CategoryId, BrandId, Name, ReleaseDate, Warranty, Description) VALUES ({value.CategoryId}, {value.BrandId}, N'{value.Name}', '{value.ReleaseDate.ToString("yyyy-MM-dd")}', {value.Warranty}, N'{value.Description}')";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
@@ -87,7 +86,7 @@ namespace TestForASPWebAPI.Controllers
         [HttpPut("Update")]
         public void Put(int id, [FromBody] ProductLine value)
         {
-            string command = $"UPDATE ProductLine SET CategoryId = {value.CategoryId}, BrandId = {value.BrandId}, Name = '{value.Name}', ReleaseDate = '{value.ReleaseDate.ToString("yyyy-MM-dd")}', Warranty = {value.Warranty}, Description = '{value.Description}' WHERE Id = {id}";
+            string command = $"UPDATE ProductLine SET CategoryId = {value.CategoryId}, BrandId = {value.BrandId}, Name = N'{value.Name}', ReleaseDate = '{value.ReleaseDate.ToString("yyyy-MM-dd")}', Warranty = {value.Warranty}, Description = N'{value.Description}' WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;

@@ -62,10 +62,9 @@ namespace TestForASPWebAPI.Controllers
                     Description = (string)dataRow["Description"],
                     Logo = (string)dataRow["Url"],
                 };
-                Brands.Add(Brand);
+                return Ok(Brand);
             }
-
-            return Ok(Brands);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]
@@ -73,7 +72,7 @@ namespace TestForASPWebAPI.Controllers
         {
             if (value == null) { return BadRequest("Invalid Data!"); }
 
-            string command = $"INSERT INTO Brand (Name, Description, Url) VALUES ('{value.Name}', '{value.Description}', '{value.Logo}')";
+            string command = $"INSERT INTO Brand (Name, Description, Url) VALUES (N'{value.Name}', N'{value.Description}', '{value.Logo}')";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
 
@@ -86,7 +85,7 @@ namespace TestForASPWebAPI.Controllers
         {
             if (!await BrandExists(id)) { return NotFound("Brand not found!"); }
 
-            string command = $"UPDATE Brand SET Name = '{value.Name}', Description = '{value.Description}', Url = '{value.Logo}' WHERE Id = {id}";
+            string command = $"UPDATE Brand SET Name = N'{value.Name}', Description = N'{value.Description}', Url = '{value.Logo}' WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
 

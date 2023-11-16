@@ -60,10 +60,9 @@ namespace TestForASPWebAPI.Controllers
                     SpecificationTypeId = (int)dataRow["SpecificationTypeId"],
                     Value = (string)dataRow["Value"],
                 };
-                Specifications.Add(Specification);
+                return Ok(Specification);
             }
-
-            return Ok(Specifications);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]

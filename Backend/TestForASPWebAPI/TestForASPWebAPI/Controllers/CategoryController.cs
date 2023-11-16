@@ -70,7 +70,7 @@ namespace TestForASPWebAPI.Controllers
         {
             if (value == null) { return BadRequest("Invalid Data!"); }
 
-            string command = $"INSERT INTO Category (Name) VALUES ('{value.Name}')";
+            string command = $"INSERT INTO Category (Name) VALUES (N'{value.Name}')";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
 
@@ -83,7 +83,7 @@ namespace TestForASPWebAPI.Controllers
         {
             if(!await CategoryExists(id)) { return NotFound("Category not found!"); }
 
-            string command = $"UPDATE Category SET Name = '{value.Name}' WHERE Id = {id}";
+            string command = $"UPDATE Category SET Name = N'{value.Name}' WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
 

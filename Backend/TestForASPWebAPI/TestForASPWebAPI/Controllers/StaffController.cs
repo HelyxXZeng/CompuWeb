@@ -76,10 +76,9 @@ namespace TestForASPWebAPI.Controllers
                     Salary = (decimal)dataRow["PhoneNumber"],
                     Other = (string)dataRow["PhoneNumber"],
                 };
-                Staffs.Add(Staff);
+                return Ok(Staff);
             }
-
-            return Ok(Staffs);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]
@@ -88,16 +87,16 @@ namespace TestForASPWebAPI.Controllers
             if (value == null) { return BadRequest("Invalid Data!"); }
 
             string command = $"INSERT INTO Staff (Name, Birthdate, Gender, IdcardNumber, Address, JoinDate, PhoneNumber, Position, Salary, Other) " +
-                $"VALUES ('{value.Name}', " +
+                $"VALUES (N'{value.Name}', " +
                 $"'{value.Birthdate.ToString("yyyy-MM-dd")}', " +
                 $"'{value.Gender}', " +
                 $"'{value.IdcardNumber}', " +
-                $"'{value.Address}', " +
+                $"N'{value.Address}', " +
                 $"'{value.JoinDate.ToString("yyyy-MM-dd")}', " +
                 $"'{value.PhoneNumber}', " +
-                $"'{value.Position}', " +
+                $"N'{value.Position}', " +
                 $"{value.Salary.ToString("0.00")}, " +
-                $"'{value.Other}')";
+                $"N'{value.Other}')";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
 
@@ -111,16 +110,16 @@ namespace TestForASPWebAPI.Controllers
             if (!await StaffExists(id)) { return NotFound("Staff not found!"); }
 
             string command = $"UPDATE Staff SET " +
-                $"Name = '{value.Name}', " +
+                $"Name = N'{value.Name}', " +
                 $"Birthdate = '{value.Birthdate.ToString("yyyy-MM-dd")}', " +
                 $"Gender = '{value.Gender}', " +
                 $"IdcardNumber = '{value.IdcardNumber}', " +
-                $"Address = '{value.Address}', " +
+                $"Address = N'{value.Address}', " +
                 $"JoinDate = '{value.JoinDate.ToString("yyyy-MM-dd")}', " +
                 $"PhoneNumber = '{value.PhoneNumber}', " +
-                $"Position = '{value.Position}', " +
+                $"Position = N'{value.Position}', " +
                 $"Salary = {value.Salary.ToString("0.00")}, " +
-                $"Other = '{value.Other}' " +
+                $"Other = N'{value.Other}' " +
                 $"WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);

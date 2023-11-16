@@ -58,16 +58,15 @@ namespace TestForASPWebAPI.Controllers
                     Id = (int)dataRow["Id"],
                     Name = (string)dataRow["Name"],
                 };
-                SpecificationTypes.Add(SpecificationType);
+                return Ok(SpecificationType);
             }
-
-            return Ok(SpecificationTypes);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]
         public void Insert([FromBody] SpecificationType value)
         {
-            string command = $"INSERT INTO SpecificationType (Name) VALUES ('{value.Name}')";
+            string command = $"INSERT INTO SpecificationType (Name) VALUES (N'{value.Name}')";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
@@ -77,7 +76,7 @@ namespace TestForASPWebAPI.Controllers
         [HttpPut("Update")]
         public void Put(int id, [FromBody] SpecificationType value)
         {
-            string command = $"UPDATE SpecificationType SET Name = '{value.Name}' WHERE Id = {id}";
+            string command = $"UPDATE SpecificationType SET Name = N'{value.Name}' WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
