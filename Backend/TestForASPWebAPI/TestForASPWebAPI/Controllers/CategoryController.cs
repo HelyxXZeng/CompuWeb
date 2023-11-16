@@ -59,10 +59,9 @@ namespace TestForASPWebAPI.Controllers
                     Id = (int)dataRow["Id"],
                     Name = (string)dataRow["Name"]
                 };
-                categories.Add(category);
+                return Ok(category);
             }
-
-            return Ok(categories);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]

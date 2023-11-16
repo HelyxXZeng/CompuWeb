@@ -140,6 +140,14 @@ CREATE TABLE PromotionUsage (
    FOREIGN KEY (OrderId) REFERENCES Orders(Id) ON DELETE CASCADE
 );
 
+CREATE TABLE PriceUsage (
+   Id INT IDENTITY(1,1) PRIMARY KEY,
+   PriceId INT,
+   OrderItemId INT,
+   FOREIGN KEY (PriceId) REFERENCES Price(Id) ON DELETE CASCADE,
+   FOREIGN KEY (OrderItemId) REFERENCES OrderItem(Id) ON DELETE CASCADE
+);
+
 -- Create the Đánh giá table
 CREATE TABLE Rating (
    Id INT IDENTITY(1,1) PRIMARY KEY,
