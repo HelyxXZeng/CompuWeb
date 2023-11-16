@@ -17,7 +17,7 @@ namespace TestForASPWebAPI.Controllers
         }
         // GET: api/<ValuesController>
         [HttpGet("GetReturnOrderItem")]
-        public async Task<IActionResult> GetReturnOrderItem()
+        public async Task<IActionResult> GetReturnOrderItems()
         {
             DBController dbController = DBController.GetInstance();
             //var dataTable = new DataTable();

@@ -17,7 +17,7 @@ namespace TestForASPWebAPI.Controllers
         }
         // GET: api/<ValuesController>
         [HttpGet("GetPromotionUsage")]
-        public async Task<IActionResult> GetPromotionUsage()
+        public async Task<IActionResult> GetPromotionUsages()
         {
             DBController dbController = DBController.GetInstance();
             //var dataTable = new DataTable();

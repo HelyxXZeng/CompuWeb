@@ -17,7 +17,7 @@ namespace TestForASPWebAPI.Controllers
         }
         // GET: api/<ValuesController>
         [HttpGet("GetStaff")]
-        public async Task<IActionResult> GetStaff()
+        public async Task<IActionResult> GetStaffs()
         {
             DBController dbController = DBController.GetInstance();
             //var dataTable = new DataTable();
@@ -66,15 +66,15 @@ namespace TestForASPWebAPI.Controllers
                 {
                     Id = (int)dataRow["Id"],
                     Name = (string)dataRow["Name"],
-                    Birthdate = (DateTime)dataRow["Date"],
+                    Birthdate = (DateTime)dataRow["Birthdate"],
                     Gender = (string)dataRow["Gender"],
                     IdcardNumber = (string)dataRow["IdcardNumber"],
                     Address = (string)dataRow["Address"],
                     JoinDate = (DateTime)dataRow["JoinDate"],
                     PhoneNumber = (string)dataRow["PhoneNumber"],
                     Position = (string)dataRow["Position"],
-                    Salary = (decimal)dataRow["PhoneNumber"],
-                    Other = (string)dataRow["PhoneNumber"],
+                    Salary = (decimal)dataRow["Salary"],
+                    Other = (string)dataRow["Other"],
                 };
                 return Ok(Staff);
             }

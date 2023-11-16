@@ -17,7 +17,7 @@ namespace TestForASPWebAPI.Controllers
         }
         // GET: api/<ValuesController>
         [HttpGet("GetProductImage")]
-        public async Task<IActionResult> GetProductImage()
+        public async Task<IActionResult> GetProductImages()
         {
             DBController dbController = DBController.GetInstance();
             //var dataTable = new DataTable();

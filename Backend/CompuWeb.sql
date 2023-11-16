@@ -210,7 +210,14 @@ CREATE TABLE Manager (
 );
 ALTER DATABASE CompuWeb COLLATE SQL_Latin1_General_CP1_CI_AS;
 
+alter table Brand
+alter column Url NVARCHAR(MAX)
+
+alter table ProductImage
+alter column Url NVARCHAR(MAX)
 ---
-ALTER TABLE Customer ALTER COLUMN Name NVARCHAR(50) COLLATE Vietnamese_CI_AS COLLATE Vietnamese_CI_AS;
+
+
+ALTER TABLE Customer ALTER COLUMN Name NVARCHAR(50) COLLATE Vietnamese_CI_AS;
 select * from Customer
 insert into Customer (Name, PhoneNumber, Birthdate, JoinDate) VALUES (N'Nguyễn Văn A', '0123456789', '2000-11-26', '2023-11-16')
