@@ -12,33 +12,33 @@ interface PromotionTableProps {
 
 const columns: GridColDef[] = [
     {
-        field: 'Id', headerName: 'ID', width: 60
+        field: 'id', headerName: 'ID', width: 60
     },
     {
-        field: 'Name', headerName: 'Name', width: 150
+        field: 'name', headerName: 'Name', width: 150
     },
     {
-        field: 'ProductVariantPurchase', headerName: 'Purchase Product', width: 300
+        field: 'productVariantPurchase', headerName: 'Purchase Product', width: 300
     },
     {
-        field: 'ProductVariantPromotion', headerName: 'Promotion Product', width: 300
+        field: 'productVariantPromotion', headerName: 'Promotion Product', width: 300
     },
     {
-        field: 'Value', headerName: 'Value', width: 110,
+        field: 'value', headerName: 'Value', width: 110,
         renderCell: (params) => {
             return (
-                <div className={"priceCell" + " " + params.row.Value}>
-                    {params.row.Value}
+                <div className={"priceCell" + " " + params.row.value}>
+                    {params.row.value}
                 </div>
             );
         },
     },
     {
-        field: 'Status', headerName: 'Status', width: 150,
+        field: 'status', headerName: 'Status', width: 150,
         renderCell: (params) => {
             return (
-                <div className={"statusCell" + " " + params.row.Status}>
-                    {params.row.Status}
+                <div className={"statusCell" + " " + params.row.status}>
+                    {params.row.status}
                 </div>
             );
         },
@@ -69,7 +69,7 @@ const PromotionTable: React.FC<PromotionTableProps> = ({ rows }) => {
 
     const handleView = (rowId: number) => {
         console.log('Viewing row with ID:', rowId);
-        navigate(`/promotions/${rowId}`);
+        navigate(`/promotions/GetPromotionById?id=${rowId}`);
     };
 
     const handleInput = (event: any) => {
@@ -83,16 +83,16 @@ const PromotionTable: React.FC<PromotionTableProps> = ({ rows }) => {
             console.log('Row:', row);
 
             // Check if 'Name' exists and matches the query
-            const nameMatch = row.Name && row.Name.toLowerCase().includes(query.toLowerCase());
+            const nameMatch = row.name && row.name.toLowerCase().includes(query.toLowerCase());
 
             // Check if 'Id' exists and matches the query
-            const idMatch = row.Id && row.Id.toString().includes(query);
+            const idMatch = row.id && row.id.toString().includes(query);
 
             // Check if 'ProductVariantPurchase' exists and matches the query
-            const purchaseProductMatch = row.ProductVariantPurchase && row.ProductVariantPurchase.toLowerCase().includes(query.toLowerCase());
+            const purchaseProductMatch = row.productVariantPurchase && row.productVariantPurchase.toLowerCase().includes(query.toLowerCase());
 
             // Check if 'ProductVariantPromotion' exists and matches the query
-            const promotionProductMatch = row.ProductVariantPromotion && row.ProductVariantPromotion.toLowerCase().includes(query.toLowerCase());
+            const promotionProductMatch = row.productVariantPromotion && row.productVariantPromotion.toLowerCase().includes(query.toLowerCase());
 
             // Return true if any of the matches are true
             return nameMatch || idMatch || purchaseProductMatch || promotionProductMatch;

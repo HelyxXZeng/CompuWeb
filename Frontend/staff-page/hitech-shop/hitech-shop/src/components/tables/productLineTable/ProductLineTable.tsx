@@ -5,9 +5,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
 // import actionColumn from '../datatable/DataTable';
 import actionColumn from '../datatable/DataTable';
-import brandApi from '../../../api/brandApi';
+import productLineApi from '../../../api/productLineApi';
 // import ConfirmationDialog from '../confirmationDialog/ConfirmationDialog';
-interface BrandTableProps {
+interface ProductLineTableProps {
     rows: any[]; // Define the type of your rows here
 }
 
@@ -19,13 +19,13 @@ const columns: GridColDef[] = [
         field: 'name', headerName: 'Name', width: 200
     },
     {
-        field: 'description', headerName: 'Description', width: 700
+        field: 'releaseDate', headerName: 'Release Date', width: 130
     }
 ]
 
-const BrandTable: React.FC<BrandTableProps> = ({ rows }) => {
+const ProductLineTable: React.FC<ProductLineTableProps> = ({ rows }) => {
 
-    // console.log('Brand rows: ', rows)
+    // console.log('ProductLine rows: ', rows)
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
 
@@ -33,7 +33,7 @@ const BrandTable: React.FC<BrandTableProps> = ({ rows }) => {
         const isConfirmed = window.confirm('Are you sure you want to delete this row?');
         if (isConfirmed) {
             // Perform the deletion action here
-            brandApi.remove(rowId);
+            productLineApi.remove(rowId);
             console.log('Deleting row with ID:', rowId);
 
             // Update displayedRows after the item has been deleted
@@ -47,7 +47,7 @@ const BrandTable: React.FC<BrandTableProps> = ({ rows }) => {
 
     const handleView = (rowId: number) => {
         console.log('Viewing row with ID:', rowId);
-        navigate(`/brands/GetBrandById?id=${rowId}`);
+        navigate(`/productLines/GetProductLineById?id=${rowId}`);
     };
 
     const handleInput = (event: any) => {
@@ -55,7 +55,7 @@ const BrandTable: React.FC<BrandTableProps> = ({ rows }) => {
     }
 
     useEffect(() => {
-        // console.log('This is rows in brand table:', rows)
+        // console.log('This is rows in productLine table:', rows)
         // Use the filter method to create a new array with rows that match the query in either Name or Id
         const filteredRows = rows.filter(row =>
             row.name.toLowerCase().includes(query.toLowerCase()) || // Check Name
@@ -67,12 +67,12 @@ const BrandTable: React.FC<BrandTableProps> = ({ rows }) => {
     return (
         <div className='datatable'>
             <div className="datatableTitle">
-                Product Brands
+                Product ProductLines
                 <div className="search">
                     <input type='text' placeholder='Search...' onChange={(e) => handleInput(e)} />
                     <SearchIcon />
                 </div>
-                <Link to="/brands/new" className='link'>
+                <Link to="/productLines/new" className='link'>
                     Add New
                 </Link>
             </div>
@@ -96,4 +96,4 @@ const BrandTable: React.FC<BrandTableProps> = ({ rows }) => {
     )
 }
 
-export default BrandTable
+export default ProductLineTable

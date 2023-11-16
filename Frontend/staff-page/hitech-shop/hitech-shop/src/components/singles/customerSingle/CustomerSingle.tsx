@@ -1,107 +1,83 @@
-//CustomerSingle.tsx
 import React, { useEffect, useState } from 'react';
 import customerApi from '../../../api/customerApi';
 import './customerSingle.scss'
 
 interface Customer {
-    Id: number,
-    Name: string,
-    Birthdate: string,
-    JoinDate: string,
-    PhoneNumber: string
+    id: number;
+    name: string;
+    birthdate: string;
+    joinDate: string;
+    phoneNumber: string;
 }
 
-
 interface Props {
-    customer: Customer
+    customer: Customer | null;
 }
 
 const CustomerSingle: React.FC<Props> = (para: Props) => {
-
-    // console.log('This is para: ', para)
-    const [customer, setCustomer] = useState({
-        Id: 0,
-        Name: '',
-        Birthdate: '2000-01-01',
-        JoinDate: new Date().toISOString().split('T')[0],
-        PhoneNumber: '0'
+    const [customer, setCustomer] = useState<Customer>({
+        id: 0,
+        name: '',
+        birthdate: '2000-01-01',
+        joinDate: new Date().toISOString().split('T')[0],
+        phoneNumber: '+84'
     });
-
 
     useEffect(() => {
         if (para.customer !== null) {
-            setCustomer(para.customer);
+
+            const updatedCustomer: Customer = {
+                ...para.customer,
+                birthdate: para.customer.birthdate.split('T')[0],
+                joinDate: para.customer.joinDate.split('T')[0]
+            };
+
+            setCustomer(updatedCustomer);
         }
-    }, [para]);
+    }, [para.customer]);
 
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
         const { name, value } = e.target;
-        if (name === 'Birthdate' || name === 'JoinDate') {
-            // console.log("This is value:", value)
-            setCustomer((prevCustomer) => ({
-                ...prevCustomer,
-                [name]: value // Parse the input value to a Date object
-            }));
-        } else {
-            setCustomer((prevCustomer) => ({ ...prevCustomer, [name]: value }));
-        }
+        // if (name === 'birthdate' || name === 'joinDate') {
+        //     console.log('This is value from date in customer:', value)
+        //     setCustomer((prevCustomer) => ({
+        //         ...prevCustomer,
+        //         [name]: value
+        //     }));
+        // } else {
+        //     setCustomer((prevCustomer) => ({ ...prevCustomer, [name]: value }));
+        // }
+        setCustomer((prevCustomer) => ({ ...prevCustomer, [name]: value }));
     };
-
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (para.customer === null) {
-            try {
-                await customerApi.add({
-                    Id: customer.Id,
-                    Name: customer.Name,
-                    Birthdate: customer.Birthdate,
-                    JoinDate: customer.JoinDate,
-                    PhoneNumber: customer.PhoneNumber
-                });
-                alert("Successfully Uploaded!")
 
-                // Reset the form
-                setCustomer({
-                    Id: 0,
-                    Name: '',
-                    Birthdate: '2000-01-01',
-                    JoinDate: new Date().toISOString().split('T')[0],
-                    PhoneNumber: '0'
-                });
-
-            } catch (error) {
-                console.error('Error in adding customer:', error);
-                alert("Error!" + error)
+        try {
+            if (para.customer === null) {
+                console.log('this is customer', customer)
+                await customerApi.add(customer);
+            } else {
+                console.log('this is customer', customer)
+                await customerApi.update(customer.id, customer);
             }
-        } else {
-            try {
-                await customerApi.update(customer.Id, {
-                    Id: customer.Id,
-                    Name: customer.Name,
-                    Birthdate: customer.Birthdate,
-                    JoinDate: customer.JoinDate,
-                    PhoneNumber: customer.PhoneNumber
-                });
-                alert("Successfully Uploaded!")
 
-                // Reset the form
-                setCustomer({
-                    Id: 0,
-                    Name: '',
-                    Birthdate: '2000-01-01',
-                    JoinDate: new Date().toISOString().split('T')[0],
-                    PhoneNumber: '0'
-                });
+            alert('Successfully Uploaded!');
 
-            } catch (error) {
-                console.error('Error in updating customer:', error);
-                alert("Error!" + error)
-            }
+            // Reset the form
+            setCustomer({
+                id: 0,
+                name: '',
+                birthdate: '2000-01-01',
+                joinDate: new Date().toISOString().split('T')[0],
+                phoneNumber: '+84'
+            });
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error! ' + error);
         }
-
     };
 
     return (
@@ -111,44 +87,45 @@ const CustomerSingle: React.FC<Props> = (para: Props) => {
                 <label htmlFor="name">Name:</label>
                 <input
                     type="text"
-                    id="Name"
-                    name="Name"
-                    value={customer.Name}
+                    id="name"
+                    name="name"
+                    value={customer.name}
                     onChange={handleInputChange}
                     required
                 />
 
-                <label htmlFor="Birthdate">Birthdate:</label>
+                <label htmlFor="birthdate">Birthdate:</label>
                 <input
                     type="date"
-                    id="Birthdate"
-                    name="Birthdate"
-                    value={customer.Birthdate}
+                    id="birthdate"
+                    name="birthdate"
+                    value={customer.birthdate}
                     onChange={handleInputChange}
                     required
                 />
 
-                <label htmlFor="JoinDate">Join Date:</label>
+                <label htmlFor="joinDate">Join Date:</label>
                 <input
                     type="date"
-                    id="JoinDate"
-                    name="JoinDate"
-                    value={customer.JoinDate}
+                    id="joinDate"
+                    name="joinDate"
+                    value={customer.joinDate}
                     onChange={handleInputChange}
                     required
                 />
 
-                <label htmlFor="PhoneNumber">Phone Number:</label>
+                <label htmlFor="phoneNumber">Phone Number:</label>
                 <input
                     type="tel"
-                    id="PhoneNumber"
-                    name="PhoneNumber"
-                    value={customer.PhoneNumber}
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    value={customer.phoneNumber}
                     onChange={handleInputChange}
                     required
                 />
-
-                <button type="submit" className='button'>Submit</button>
+                <button type="submit" className="button">
+                    Submit
+                </button>
             </form>
         </div>
     );

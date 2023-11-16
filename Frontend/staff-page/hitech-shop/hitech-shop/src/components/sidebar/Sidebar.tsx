@@ -12,7 +12,7 @@ import ReorderIcon from '@mui/icons-material/Reorder';
 import { Link } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { DarkModeContext } from '../../context/darkModeContext';
-
+import LaptopMacIcon from '@mui/icons-material/LaptopMac';
 
 const Sidebar = () => {
 
@@ -58,6 +58,12 @@ const Sidebar = () => {
                                             <li>
                                                 <LaptopIcon className='icon' />
                                                 <span>Products</span>
+                                            </li>
+                                        </Link>
+                                        <Link to='/productLines' style={{ textDecoration: 'none' }}>
+                                            <li>
+                                                <LaptopMacIcon className='icon' />
+                                                <span>Product Lines</span>
                                             </li>
                                         </Link>
                                         <Link to='/categories' style={{ textDecoration: 'none' }}>
