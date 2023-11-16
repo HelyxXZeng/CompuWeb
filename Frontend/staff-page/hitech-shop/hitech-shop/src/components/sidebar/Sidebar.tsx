@@ -9,10 +9,11 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import BusinessIcon from '@mui/icons-material/Business';
 import ReorderIcon from '@mui/icons-material/Reorder';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { DarkModeContext } from '../../context/darkModeContext';
 import LaptopMacIcon from '@mui/icons-material/LaptopMac';
+import firebase from 'firebase/compat/app';
 
 const Sidebar = () => {
 
@@ -23,6 +24,17 @@ const Sidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        try {
+            await firebase.auth().signOut();
+            // Perform any additional logout actions here if needed
+            navigate('/login'); // Redirect to the login page after logout
+        } catch (error) {
+            console.error('Error during logout:', error);
+        }
+    };
 
     return (
         <>
@@ -95,7 +107,7 @@ const Sidebar = () => {
                                             <PersonOutlineIcon className='icon' />
                                             <span>Profile</span>
                                         </li>
-                                        <li>
+                                        <li onClick={handleLogout}>
                                             <LogoutIcon className='icon' />
                                             <span>Log out</span>
                                         </li>

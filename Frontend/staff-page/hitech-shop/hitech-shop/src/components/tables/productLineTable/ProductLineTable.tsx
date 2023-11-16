@@ -19,7 +19,15 @@ const columns: GridColDef[] = [
         field: 'name', headerName: 'Name', width: 200
     },
     {
-        field: 'releaseDate', headerName: 'Release Date', width: 130
+        field: 'releaseDate', headerName: 'Release Date', width: 130,
+        valueFormatter: (params) => {
+            // Format the date before displaying it
+            if (typeof (params.value) === 'string') {
+                const formattedDate = params.value.split('T')[0];
+                return formattedDate;
+            }
+            return params.value
+        }
     }
 ]
 
