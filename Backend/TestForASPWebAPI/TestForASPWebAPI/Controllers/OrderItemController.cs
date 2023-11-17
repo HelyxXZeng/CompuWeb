@@ -60,10 +60,9 @@ namespace TestForASPWebAPI.Controllers
                     ProductInstanceId = (int)dataRow["Name"],
                     OrderId = (int)dataRow["Description"],
                 };
-                OrderItems.Add(OrderItem);
+                return Ok(OrderItem);
             }
-
-            return Ok(OrderItems);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]

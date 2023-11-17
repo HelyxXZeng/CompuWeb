@@ -59,19 +59,21 @@ namespace TestForASPWebAPI.Controllers
                     Id = (int)dataRow["Id"],
                     Name = (string)dataRow["Name"]
                 };
-                categories.Add(category);
+                return Ok(category);
             }
-
-            return Ok(categories);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]
-        public void Insert(string value)
+        public IActionResult Insert(Category value)
         {
-            string command = $"INSERT INTO Category (Name) VALUES ('{value}')";
+            if (value == null) { return BadRequest("Invalid Data!"); }
+
+            string command = $"INSERT INTO Category (Name) VALUES (N'{value.Name}')";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
-            return;
+
+            return NoContent();
         }
 
         // PUT api/<ValuesController>/5
@@ -80,7 +82,7 @@ namespace TestForASPWebAPI.Controllers
         {
             if(!await CategoryExists(id)) { return NotFound("Category not found!"); }
 
-            string command = $"UPDATE Category SET Name = '{value.Name}' WHERE Id = {id}";
+            string command = $"UPDATE Category SET Name = N'{value.Name}' WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
 

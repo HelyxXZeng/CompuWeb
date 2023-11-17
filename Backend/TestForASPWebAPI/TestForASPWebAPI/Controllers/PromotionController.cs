@@ -17,7 +17,7 @@ namespace TestForASPWebAPI.Controllers
         }
         // GET: api/<ValuesController>
         [HttpGet("GetPromotion")]
-        public async Task<IActionResult> GetPromotion()
+        public async Task<IActionResult> GetPromotions()
         {
             DBController dbController = DBController.GetInstance();
             //var dataTable = new DataTable();
@@ -72,16 +72,15 @@ namespace TestForASPWebAPI.Controllers
                     Value = (decimal)dataRow["Value"],
                     Status = (string)dataRow["Status"],
                 };
-                Promotions.Add(Promotion);
+                return Ok(Promotion);
             }
-
-            return Ok(Promotions);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]
         public void Insert([FromBody] Promotion value)
         {
-            string command = $"INSERT INTO Promotion (Name, ProductVariantIdPurchase, ProductVariantIdPromotion, StartDate, EndDate, Content, Value, Status) VALUES ('{value.Name}', {value.ProductVariantIdPurchase}, {value.ProductVariantIdPromotion}, '{value.StartDate.ToString("yyyy-MM-dd")}', '{value.EndDate.ToString("yyyy-MM-dd")}', '{value.Content}', {value.Value.ToString("0.00")}, '{value.Status}')";
+            string command = $"INSERT INTO Promotion (Name, ProductVariantIdPurchase, ProductVariantIdPromotion, StartDate, EndDate, Content, Value, Status) VALUES (N'{value.Name}', {value.ProductVariantIdPurchase}, {value.ProductVariantIdPromotion}, '{value.StartDate.ToString("yyyy-MM-dd")}', '{value.EndDate.ToString("yyyy-MM-dd")}', N'{value.Content}', {value.Value.ToString("0.00")}, '{value.Status}')";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
@@ -91,7 +90,7 @@ namespace TestForASPWebAPI.Controllers
         [HttpPut("Update")]
         public void Put(int id, [FromBody] Promotion value)
         {
-            string command = $"UPDATE Promotion SET ProductVariantIdPurchase = {value.ProductVariantIdPurchase}, ProductVariantIdPromotion = {value.ProductVariantIdPromotion}, Name = '{value.Name}', StartDate = '{value.StartDate.ToString("yyyy-MM-dd")}', EndDate = '{value.EndDate.ToString("yyyy-MM-dd")}', Content = '{value.Content}', Value = {value.Value.ToString("0.00")}, Status = '{value.Status}' WHERE Id = {id}";
+            string command = $"UPDATE Promotion SET ProductVariantIdPurchase = {value.ProductVariantIdPurchase}, ProductVariantIdPromotion = {value.ProductVariantIdPromotion}, Name = N'{value.Name}', StartDate = '{value.StartDate.ToString("yyyy-MM-dd")}', EndDate = '{value.EndDate.ToString("yyyy-MM-dd")}', Content = N'{value.Content}', Value = {value.Value.ToString("0.00")}, Status = '{value.Status}' WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;

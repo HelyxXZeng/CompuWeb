@@ -17,7 +17,7 @@ namespace TestForASPWebAPI.Controllers
         }
         // GET: api/<ValuesController>
         [HttpGet("GetPromotionUsage")]
-        public async Task<IActionResult> GetPromotionUsage()
+        public async Task<IActionResult> GetPromotionUsages()
         {
             DBController dbController = DBController.GetInstance();
             //var dataTable = new DataTable();
@@ -60,10 +60,9 @@ namespace TestForASPWebAPI.Controllers
                     PromotionId = (int)dataRow["PromotionId"],
                     OrderId = (int)dataRow["OrderId"],
                 };
-                PromotionUsages.Add(PromotionUsage);
+                return Ok(PromotionUsage);
             }
-
-            return Ok(PromotionUsages);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]

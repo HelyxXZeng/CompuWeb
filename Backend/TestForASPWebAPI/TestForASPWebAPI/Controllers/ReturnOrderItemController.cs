@@ -17,7 +17,7 @@ namespace TestForASPWebAPI.Controllers
         }
         // GET: api/<ValuesController>
         [HttpGet("GetReturnOrderItem")]
-        public async Task<IActionResult> GetReturnOrderItem()
+        public async Task<IActionResult> GetReturnOrderItems()
         {
             DBController dbController = DBController.GetInstance();
             //var dataTable = new DataTable();
@@ -66,16 +66,15 @@ namespace TestForASPWebAPI.Controllers
                     Issues = (string)dataRow["Issues"],
                     Status = (string)dataRow["Status"],
                 };
-                ReturnOrderItems.Add(ReturnOrderItem);
+                return Ok(ReturnOrderItem);
             }
-
-            return Ok(ReturnOrderItems);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]
         public void Insert([FromBody] ReturnOrderItem value)
         {
-            string command = $"INSERT INTO ReturnOrderItem (OrderItemId, Date, Issues, Status, Price) VALUES ({value.OrderItemId}, '{value.Date.ToString("yyyy-MM-dd")}', '{value.Issues}', '{value.Status}', {value.Price.ToString("0.00")})";
+            string command = $"INSERT INTO ReturnOrderItem (OrderItemId, Date, Issues, Status, Price) VALUES ({value.OrderItemId}, '{value.Date.ToString("yyyy-MM-dd")}', N'{value.Issues}', '{value.Status}', {value.Price.ToString("0.00")})";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
@@ -85,7 +84,7 @@ namespace TestForASPWebAPI.Controllers
         [HttpPut("Update")]
         public void Put(int id, [FromBody] ReturnOrderItem value)
         {
-            string command = $"UPDATE ReturnOrderItem SET OrderItemId = {value.OrderItemId}, DateDate = '{value.Date.ToString("yyyy-MM-dd")}', Issues = '{value.Issues}', Status = '{value.Status}', Price = {value.Price.ToString("0.00")} WHERE Id = {id}";
+            string command = $"UPDATE ReturnOrderItem SET OrderItemId = {value.OrderItemId}, DateDate = '{value.Date.ToString("yyyy-MM-dd")}', Issues = N'{value.Issues}', Status = '{value.Status}', Price = {value.Price.ToString("0.00")} WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;

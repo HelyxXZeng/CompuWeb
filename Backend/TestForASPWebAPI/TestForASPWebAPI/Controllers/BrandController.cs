@@ -62,28 +62,30 @@ namespace TestForASPWebAPI.Controllers
                     Description = (string)dataRow["Description"],
                     Logo = (string)dataRow["Url"],
                 };
-                Brands.Add(Brand);
+                return Ok(Brand);
             }
-
-            return Ok(Brands);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]
-        public void Insert(Brand value)
+        public IActionResult Insert(Brand value)
         {
-            string command = $"INSERT INTO Brand (Name, Description, Url) VALUES ('{value.Name}', '{value.Description}', '{value.Logo}')";
+            if (value == null) { return BadRequest("Invalid Data!"); }
+
+            string command = $"INSERT INTO Brand (Name, Description, Url) VALUES (N'{value.Name}', N'{value.Description}', '{value.Logo}')";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
-            return;
+
+            return NoContent();
         }
 
         // PUT api/<ValuesController>/5
         [HttpPut("Update")]
         public async Task<IActionResult> Put(int id, [FromBody] Brand value)
         {
-            if (!await BrandExists(id)) { return NotFound(); }
+            if (!await BrandExists(id)) { return NotFound("Brand not found!"); }
 
-            string command = $"UPDATE Brand SET Name = '{value.Name}', Description = '{value.Description}', Url = '{value.Logo}' WHERE Id = {id}";
+            string command = $"UPDATE Brand SET Name = N'{value.Name}', Description = N'{value.Description}', Url = '{value.Logo}' WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
 
@@ -94,7 +96,7 @@ namespace TestForASPWebAPI.Controllers
         [HttpDelete("Delete")]
         public async Task<IActionResult> Delete(int id)
         {
-            if (!await BrandExists(id)) { return NotFound(); }
+            if (!await BrandExists(id)) { return NotFound("Brand not found!"); }
 
             string command = $"DELETE FROM Brand WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();

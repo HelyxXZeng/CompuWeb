@@ -17,7 +17,7 @@ namespace TestForASPWebAPI.Controllers
         }
         // GET: api/<ValuesController>
         [HttpGet("GetProductInstance")]
-        public async Task<IActionResult> GetProductInstance()
+        public async Task<IActionResult> GetProductInstances()
         {
             DBController dbController = DBController.GetInstance();
             //var dataTable = new DataTable();
@@ -64,10 +64,9 @@ namespace TestForASPWebAPI.Controllers
                     Status = (string)dataRow["Status"],
                     Available = (bool)dataRow["Available"],
                 };
-                ProductInstances.Add(ProductInstance);
+                return Ok(ProductInstance);
             }
-
-            return Ok(ProductInstances);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]

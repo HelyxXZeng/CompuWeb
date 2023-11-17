@@ -17,7 +17,7 @@ namespace TestForASPWebAPI.Controllers
         }
         // GET: api/<ValuesController>
         [HttpGet("GetProductImage")]
-        public async Task<IActionResult> GetProductImage()
+        public async Task<IActionResult> GetProductImages()
         {
             DBController dbController = DBController.GetInstance();
             //var dataTable = new DataTable();
@@ -62,16 +62,15 @@ namespace TestForASPWebAPI.Controllers
                     Name = (string)dataRow["Name"],
                     Image = (string)dataRow["Url"],
                 };
-                ProductImages.Add(ProductImage);
+                return Ok(ProductImage);
             }
-
-            return Ok(ProductImages);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]
         public void Insert([FromBody] ProductImage value)
         {
-            string command = $"INSERT INTO ProductImage (ProductVariantId, Name, Url) VALUES ({value.ProductVariantId}, '{value.Name}', '{value.Image}')";
+            string command = $"INSERT INTO ProductImage (ProductVariantId, Name, Url) VALUES ({value.ProductVariantId}, N'{value.Name}', '{value.Image}')";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
@@ -81,7 +80,7 @@ namespace TestForASPWebAPI.Controllers
         [HttpPut("Update")]
         public void Put(int id, [FromBody] ProductImage value)
         {
-            string command = $"UPDATE ProductImage SET ProductVariantId = {value.ProductVariantId}, Name = '{value.Name}', Url = '{value.Image}' WHERE Id = {id}";
+            string command = $"UPDATE ProductImage SET ProductVariantId = {value.ProductVariantId}, Name = N'{value.Name}', Url = '{value.Image}' WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;

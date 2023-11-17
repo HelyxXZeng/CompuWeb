@@ -17,7 +17,7 @@ namespace TestForASPWebAPI.Controllers
         }
         // GET: api/<ValuesController>
         [HttpGet("GetStaff")]
-        public async Task<IActionResult> GetStaff()
+        public async Task<IActionResult> GetStaffs()
         {
             DBController dbController = DBController.GetInstance();
             //var dataTable = new DataTable();
@@ -66,70 +66,78 @@ namespace TestForASPWebAPI.Controllers
                 {
                     Id = (int)dataRow["Id"],
                     Name = (string)dataRow["Name"],
-                    Birthdate = (DateTime)dataRow["Date"],
+                    Birthdate = (DateTime)dataRow["Birthdate"],
                     Gender = (string)dataRow["Gender"],
                     IdcardNumber = (string)dataRow["IdcardNumber"],
                     Address = (string)dataRow["Address"],
                     JoinDate = (DateTime)dataRow["JoinDate"],
                     PhoneNumber = (string)dataRow["PhoneNumber"],
                     Position = (string)dataRow["Position"],
-                    Salary = (decimal)dataRow["PhoneNumber"],
-                    Other = (string)dataRow["PhoneNumber"],
+                    Salary = (decimal)dataRow["Salary"],
+                    Other = (string)dataRow["Other"],
                 };
-                Staffs.Add(Staff);
+                return Ok(Staff);
             }
-
-            return Ok(Staffs);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]
-        public void Insert([FromBody] Staff value)
+        public IActionResult Insert([FromBody] Staff value)
         {
+            if (value == null) { return BadRequest("Invalid Data!"); }
+
             string command = $"INSERT INTO Staff (Name, Birthdate, Gender, IdcardNumber, Address, JoinDate, PhoneNumber, Position, Salary, Other) " +
-                $"VALUES ('{value.Name}', " +
+                $"VALUES (N'{value.Name}', " +
                 $"'{value.Birthdate.ToString("yyyy-MM-dd")}', " +
                 $"'{value.Gender}', " +
                 $"'{value.IdcardNumber}', " +
-                $"'{value.Address}', " +
+                $"N'{value.Address}', " +
                 $"'{value.JoinDate.ToString("yyyy-MM-dd")}', " +
                 $"'{value.PhoneNumber}', " +
-                $"'{value.Position}', " +
+                $"N'{value.Position}', " +
                 $"{value.Salary.ToString("0.00")}, " +
-                $"'{value.Other}')";
+                $"N'{value.Other}')";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
-            return;
+
+            return NoContent();
         }
 
         // PUT api/<ValuesController>/5
         [HttpPut("Update")]
-        public void Put(int id, [FromBody] Staff value)
+        public async Task<IActionResult> Put(int id, [FromBody] Staff value)
         {
+            if (!await StaffExists(id)) { return NotFound("Staff not found!"); }
+
             string command = $"UPDATE Staff SET " +
-                $"Name = '{value.Name}', " +
+                $"Name = N'{value.Name}', " +
                 $"Birthdate = '{value.Birthdate.ToString("yyyy-MM-dd")}', " +
                 $"Gender = '{value.Gender}', " +
                 $"IdcardNumber = '{value.IdcardNumber}', " +
-                $"Address = '{value.Address}', " +
+                $"Address = N'{value.Address}', " +
                 $"JoinDate = '{value.JoinDate.ToString("yyyy-MM-dd")}', " +
                 $"PhoneNumber = '{value.PhoneNumber}', " +
-                $"Position = '{value.Position}', " +
+                $"Position = N'{value.Position}', " +
                 $"Salary = {value.Salary.ToString("0.00")}, " +
-                $"Other = '{value.Other}' " +
+                $"Other = N'{value.Other}' " +
                 $"WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
-            return;
+
+            return NoContent();
         }
 
         // DELETE api/<ValuesController>/5
         [HttpDelete("Delete")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            if (!await StaffExists(id)) { return NotFound("Staff not found!"); }
+
             string command = $"DELETE FROM Staff WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.DeleteData(command);
-            return;
+
+            return NoContent();
         }
         [HttpGet("Exists")]
         public async Task<bool> StaffExists(int id)

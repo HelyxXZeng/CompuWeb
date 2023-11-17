@@ -17,7 +17,7 @@ namespace TestForASPWebAPI.Controllers
         }
         // GET: api/<ValuesController>
         [HttpGet("GetSpecification")]
-        public async Task<IActionResult> GetSpecification()
+        public async Task<IActionResult> GetSpecifications()
         {
             DBController dbController = DBController.GetInstance();
             //var dataTable = new DataTable();
@@ -60,10 +60,9 @@ namespace TestForASPWebAPI.Controllers
                     SpecificationTypeId = (int)dataRow["SpecificationTypeId"],
                     Value = (string)dataRow["Value"],
                 };
-                Specifications.Add(Specification);
+                return Ok(Specification);
             }
-
-            return Ok(Specifications);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]

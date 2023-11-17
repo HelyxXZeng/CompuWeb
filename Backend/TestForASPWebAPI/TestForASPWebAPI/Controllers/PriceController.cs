@@ -17,7 +17,7 @@ namespace TestForASPWebAPI.Controllers
         }
         // GET: api/<ValuesController>
         [HttpGet("GetPrice")]
-        public async Task<IActionResult> GetPrice()
+        public async Task<IActionResult> GetPrices()
         {
             DBController dbController = DBController.GetInstance();
             //var dataTable = new DataTable();
@@ -66,10 +66,9 @@ namespace TestForASPWebAPI.Controllers
                     Status = (string)dataRow["Status"],
                     Value = (decimal)dataRow["Value"],
                 };
-                Prices.Add(Price);
+                return Ok(Price);
             }
-
-            return Ok(Prices);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]

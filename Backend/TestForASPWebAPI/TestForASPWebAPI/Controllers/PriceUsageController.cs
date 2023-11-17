@@ -6,69 +6,69 @@ using System.Data;
 
 namespace TestForASPWebAPI.Controllers
 {
-    [Route("api/productspecifications")]
+    [Route("api/priceusages")]
     [ApiController]
-    public class ProductSpecificationController : ControllerBase
+    public class PriceUsageController : ControllerBase
     {
-        private readonly ILogger<ProductSpecificationController> _logger;
-        public ProductSpecificationController(ILogger<ProductSpecificationController> logger)
+        private readonly ILogger<PriceUsageController> _logger;
+        public PriceUsageController(ILogger<PriceUsageController> logger)
         {
             _logger = logger;
         }
         // GET: api/<ValuesController>
-        [HttpGet("GetProductSpecification")]
-        public async Task<IActionResult> GetProductSpecifications()
+        [HttpGet("GetPriceUsage")]
+        public async Task<IActionResult> GetPriceUsages()
         {
             DBController dbController = DBController.GetInstance();
             //var dataTable = new DataTable();
 
-            string command = @$"select * from ProductSpecification";
+            string command = @$"select * from PriceUsage";
             var dataTable = await dbController.GetData(command);
 
-            var ProductSpecifications = new List<ProductSpecification>();
+            var PriceUsages = new List<PriceUsage>();
 
             foreach (DataRow dataRow in dataTable.Rows)
             {
-                var ProductSpecification = new ProductSpecification()
+                var PriceUsage = new PriceUsage()
                 {
                     Id = (int)dataRow["Id"],
-                    ProductVariantId = (int)dataRow["ProductVariantId"],
-                    SpecificationId = (int)dataRow["SpecificationId"],
+                    PriceId = (int)dataRow["PriceId"],
+                    OrderItemId = (int)dataRow["OrderItemId"],
                 };
-                ProductSpecifications.Add(ProductSpecification);
+                PriceUsages.Add(PriceUsage);
             }
 
-            return Ok(ProductSpecifications);
+            return Ok(PriceUsages);
         }
 
         // GET api/<ValuesController>/5
-        [HttpGet("GetProductSpecificationById")]
+        [HttpGet("GetPriceUsageById")]
         public async Task<IActionResult> Get(int id)
         {
             DBController dbController = DBController.GetInstance();
 
-            string command = @$"select * from ProductSpecification where Id = {id}";
+            string command = @$"select * from PriceUsage where Id = {id}";
             var dataTable = await dbController.GetData(command);
 
-            var ProductSpecifications = new List<ProductSpecification>();
+            var PriceUsages = new List<PriceUsage>();
 
             foreach (DataRow dataRow in dataTable.Rows)
             {
-                var ProductSpecification = new ProductSpecification()
+                var PriceUsage = new PriceUsage()
                 {
                     Id = (int)dataRow["Id"],
-                    ProductVariantId = (int)dataRow["ProductVariantId"],
-                    SpecificationId = (int)dataRow["SpecificationId"],
+                    PriceId = (int)dataRow["PriceId"],
+                    OrderItemId = (int)dataRow["OrderItemId"],
                 };
-                return Ok(ProductSpecification);
+                return Ok(PriceUsage);
             }
             return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]
-        public void Insert([FromBody] ProductSpecification value)
+        public void Insert([FromBody] PriceUsage value)
         {
-            string command = $"INSERT INTO ProductSpecification (ProductVariantId, SpecificationId) VALUES ({value.ProductVariantId}, {value.SpecificationId})";
+            string command = $"INSERT INTO PriceUsage (PriceId, OrderItemId) VALUES ({value.PriceId}, {value.OrderItemId})";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
@@ -76,9 +76,9 @@ namespace TestForASPWebAPI.Controllers
 
         // PUT api/<ValuesController>/5
         [HttpPut("Update")]
-        public void Put(int id, [FromBody] ProductSpecification value)
+        public void Put(int id, [FromBody] PriceUsage value)
         {
-            string command = $"UPDATE ProductSpecification SET ProductVariantId = {value.ProductVariantId}, SpecificationId = {value.SpecificationId} WHERE Id = {id}";
+            string command = $"UPDATE PriceUsage SET PriceId = {value.PriceId}, OrderItemId = {value.OrderItemId} WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
@@ -88,15 +88,15 @@ namespace TestForASPWebAPI.Controllers
         [HttpDelete("Delete")]
         public void Delete(int id)
         {
-            string command = $"DELETE FROM ProductSpecification WHERE Id = {id}";
+            string command = $"DELETE FROM PriceUsage WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.DeleteData(command);
             return;
         }
         [HttpGet("Exists")]
-        public async Task<bool> ProductSpecificationExists(int id)
+        public async Task<bool> PriceUsageExists(int id)
         {
-            string command = $"SELECT * FROM ProductSpecification WHERE Id = {id}";
+            string command = $"SELECT * FROM PriceUsage WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             DataTable data = await dbController.GetData(command);
             return (data.Rows.Count is not 0);

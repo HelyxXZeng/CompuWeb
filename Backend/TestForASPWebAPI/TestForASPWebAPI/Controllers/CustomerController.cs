@@ -64,16 +64,15 @@ namespace TestForASPWebAPI.Controllers
                     JoinDate = (DateTime)dataRow["JoinDate"],
                     PhoneNumber = (string)dataRow["PhoneNumber"],
                 };
-                Customers.Add(Customer);
+                return Ok(Customer);
             }
-
-            return Ok(Customers);
+            return NotFound("Not Exists!");
         }
 
         [HttpPost("Insert")]
         public void Insert([FromBody] Customer value)
         {
-            string command = $"INSERT INTO Customer (Name, PhoneNumber, Birthdate, JoinDate) VALUES ('{value.Name}', '{value.PhoneNumber}', '{value.Birthdate.ToString("yyyy-MM-dd")}', '{DateTime.Now.ToString("yyyy-MM-dd")}')";
+            string command = $"INSERT INTO Customer (Name, PhoneNumber, Birthdate, JoinDate) VALUES (N'{value.Name}', '{value.PhoneNumber}', '{value.Birthdate.ToString("yyyy-MM-dd")}', '{DateTime.Now.ToString("yyyy-MM-dd")}')";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
@@ -83,7 +82,7 @@ namespace TestForASPWebAPI.Controllers
         [HttpPut("Update")]
         public void Put(int id, [FromBody] Customer value)
         {
-            string command = $"UPDATE Customer SET Name = '{value.Name}', Description = '{value.PhoneNumber}', Url = '{value.JoinDate.ToString("yyyy-MM-dd")}', Birthdate = '{value.Birthdate.ToString("yyyy-MM-dd")}' WHERE Id = {id}";
+            string command = $"UPDATE Customer SET Name = N'{value.Name}', PhoneNumber = '{value.PhoneNumber}', JoinDate = '{value.JoinDate.ToString("yyyy-MM-dd")}', Birthdate = '{value.Birthdate.ToString("yyyy-MM-dd")}' WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
