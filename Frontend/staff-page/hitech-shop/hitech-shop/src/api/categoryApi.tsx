@@ -1,23 +1,23 @@
 import axiosClient from "./axiosClient";
 
 interface Category {
-    Id: number,
-    Name: string
+    id: number,
+    name: string
 }
 
 const categoryApi = {
     getAll: (params: any) => {
-        const url = '/categories';
-        return axiosClient.get(url, { params });
+        const url = '/categories/GetCategories';
+        return axiosClient.get(url);
     },
     get: (id: any) => {
-        const url = '/categories/' + id;
+        const url = '/categories/GetCategoryById?id=' + id;
         return axiosClient.get(url);
     },
 
     add: async (category: Category) => {
         try {
-            const response = await axiosClient.post('/categories', category);
+            const response = await axiosClient.post('/categories/Insert', category);
             return response.data;
         } catch (error) {
             throw error;
@@ -26,7 +26,7 @@ const categoryApi = {
 
     update: async (id: number, updatedCategory: Category) => {
         try {
-            const response = await axiosClient.put(`/categories/${id}`, updatedCategory);
+            const response = await axiosClient.put(`/categories/Update?id=${id}`, updatedCategory);
             return response.data;
         } catch (error) {
             throw error;
@@ -35,7 +35,7 @@ const categoryApi = {
 
     remove: async (id: number) => {
         try {
-            const response = await axiosClient.delete(`/categories/${id}`);
+            const response = await axiosClient.delete(`/categories/Delete?id=${id}`);
             return response.data;
         } catch (error) {
             throw error;

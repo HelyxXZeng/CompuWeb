@@ -10,30 +10,30 @@ const ALL = "All"
 
 const columns: GridColDef[] = [
     {
-        field: 'Id', headerName: 'ID'
+        field: 'id', headerName: 'ID'
     },
     {
-        field: 'Category', headerName: 'Category', width: 150
+        field: 'category', headerName: 'Category', width: 150
     },
     {
-        field: 'Name', headerName: 'Name', width: 300
+        field: 'name', headerName: 'Name', width: 300
     },
     {
-        field: 'Quantity', headerName: 'Quantity',
+        field: 'quantity', headerName: 'Quantity',
         renderCell: (params) => {
             return (
                 <div className="quantityCell">
-                    {params.row.Quantity}
+                    {params.row.quantity}
                 </div>
             );
         },
     },
     {
-        field: 'Price', headerName: 'Price',
+        field: 'price', headerName: 'Price',
         renderCell: (params) => {
             return (
                 <div className="priceCell">
-                    {params.row.Price}
+                    {params.row.price}
                 </div>
             );
         },
@@ -92,8 +92,8 @@ const ProductTable: React.FC<ProductTableProps> = ({ rows }) => {
 
         // Apply the input filter to the category-filtered rows
         filteredRows = filteredRows.filter(row =>
-            row.Name.toLowerCase().includes(query.toLowerCase()) ||
-            row.Id.toString().includes(query)
+            row.name.toLowerCase().includes(query.toLowerCase()) ||
+            row.id.toString().includes(query)
         );
 
         setDisplayedRows(filteredRows);

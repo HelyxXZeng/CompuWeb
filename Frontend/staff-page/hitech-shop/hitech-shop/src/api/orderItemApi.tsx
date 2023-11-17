@@ -10,7 +10,7 @@ interface OrderItem {
 const orderItemApi = {
     getAll: (params: any) => {
         const url = '/orderItems';
-        return axiosClient.get(url, { params });
+        return axiosClient.get(url);
     },
 
     get: (id: any) => {

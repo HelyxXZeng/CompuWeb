@@ -11,11 +11,11 @@ interface Brand {
 const brandApi = {
     getAll: (params: any) => {
         const url = '/brands/GetBrands';
-        return axiosClient.get(url, { params });
+        return axiosClient.get(url);
     },
 
     get: (id: any) => {
-        const url = `/brands/GetCategoryById?id=${id}`;
+        const url = `/brands/GetBrandById?id=${id}`;
         return axiosClient.get(url);
     },
 

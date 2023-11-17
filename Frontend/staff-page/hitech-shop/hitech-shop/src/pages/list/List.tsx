@@ -14,6 +14,9 @@ import CustomerTable from "../../components/tables/customerTable/CustomerTable"
 import OrderTable from "../../components/tables/orderTable/OrderTable"
 import ProductTable from "../../components/tables/productTable/ProductTable"
 import PromotionTable from "../../components/tables/promotionTable/PromotionTable"
+import productLineApi from "../../api/productLineApi"
+import ProductLineTable from "../../components/tables/productLineTable/ProductLineTable"
+
 
 
 const List = ({ type }: { type: string }) => {
@@ -43,6 +46,9 @@ const List = ({ type }: { type: string }) => {
                     case 'promotion':
                         data = (await promotionApi.getAll({ _page: 1, _limit: 100000 })).data;
                         break;
+                    case 'productLine':
+                        data = (await productLineApi.getAll({ _page: 1, _limit: 100000 })).data;
+                        break;
                     default:
                         break;
                 }
@@ -70,6 +76,8 @@ const List = ({ type }: { type: string }) => {
                 return <OrderTable rows={rows} />;
             case 'brand':
                 return <BrandTable rows={rows} />;
+            case 'productLine':
+                return <ProductLineTable rows={rows} />;
             case 'promotion':
                 return <PromotionTable rows={rows} />;
             default:
