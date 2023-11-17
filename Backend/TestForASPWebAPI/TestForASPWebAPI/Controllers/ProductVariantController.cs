@@ -68,7 +68,7 @@ namespace TestForASPWebAPI.Controllers
         [HttpPost("Insert")]
         public void Insert([FromBody] ProductVariant value)
         {
-            string command = $"INSERT INTO ProductVariant (ProductLineId, Name, Url) VALUES ({value.ProductLineId}, N'{value.Name}')";
+            string command = $"INSERT INTO ProductVariant (ProductLineId, Name) VALUES ({value.ProductLineId}, N'{value.Name}')";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
