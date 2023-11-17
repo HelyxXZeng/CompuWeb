@@ -5,9 +5,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
 // import actionColumn from '../datatable/DataTable';
 import actionColumn from '../datatable/DataTable';
-import productLineApi from '../../../api/productLineApi';
+import productVariantApi from '../../../api/productVariantApi';
 // import ConfirmationDialog from '../confirmationDialog/ConfirmationDialog';
-interface ProductLineTableProps {
+interface ProductVariantTableProps {
     rows: any[]; // Define the type of your rows here
 }
 
@@ -17,23 +17,12 @@ const columns: GridColDef[] = [
     },
     {
         field: 'name', headerName: 'Name', width: 200
-    },
-    {
-        field: 'releaseDate', headerName: 'Release Date', width: 130,
-        valueFormatter: (params) => {
-            // Format the date before displaying it
-            if (typeof (params.value) === 'string') {
-                const formattedDate = params.value.split('T')[0];
-                return formattedDate;
-            }
-            return params.value
-        }
     }
 ]
 
-const ProductLineTable: React.FC<ProductLineTableProps> = ({ rows }) => {
+const ProductVariantTable: React.FC<ProductVariantTableProps> = ({ rows }) => {
 
-    // console.log('ProductLine rows: ', rows)
+    // console.log('ProductVariant rows: ', rows)
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
 
@@ -41,7 +30,7 @@ const ProductLineTable: React.FC<ProductLineTableProps> = ({ rows }) => {
         const isConfirmed = window.confirm('Are you sure you want to delete this row?');
         if (isConfirmed) {
             // Perform the deletion action here
-            productLineApi.remove(rowId);
+            productVariantApi.remove(rowId);
             console.log('Deleting row with ID:', rowId);
 
             // Update displayedRows after the item has been deleted
@@ -55,7 +44,7 @@ const ProductLineTable: React.FC<ProductLineTableProps> = ({ rows }) => {
 
     const handleView = (rowId: number) => {
         console.log('Viewing row with ID:', rowId);
-        navigate(`/productLines/GetProductLineById?id=${rowId}`);
+        navigate(`/productVariants/GetProductVariantById?id=${rowId}`);
     };
 
     const handleInput = (event: any) => {
@@ -63,9 +52,9 @@ const ProductLineTable: React.FC<ProductLineTableProps> = ({ rows }) => {
     }
 
     useEffect(() => {
-        // console.log('This is rows in productLine table:', rows)
+        // console.log('This is rows in productVariant table:', rows)
         // Use the filter method to create a new array with rows that match the query in either Name or Id
-        // console.log('Rows in Lines:', rows)
+        // console.log('Rows in Variant:', rows)
         const filteredRows = rows.filter(row =>
             row.name.toLowerCase().includes(query.toLowerCase()) || // Check Name
             row.id.toString().includes(query) // Check Id (assuming Id is a number)
@@ -76,12 +65,12 @@ const ProductLineTable: React.FC<ProductLineTableProps> = ({ rows }) => {
     return (
         <div className='datatable'>
             <div className="datatableTitle">
-                Product Lines
+                Product Variants
                 <div className="search">
                     <input type='text' placeholder='Search...' onChange={(e) => handleInput(e)} />
                     <SearchIcon />
                 </div>
-                <Link to="/productLines/new" className='link'>
+                <Link to="/productVariants/new" className='link'>
                     Add New
                 </Link>
             </div>
@@ -105,4 +94,4 @@ const ProductLineTable: React.FC<ProductLineTableProps> = ({ rows }) => {
     )
 }
 
-export default ProductLineTable
+export default ProductVariantTable
