@@ -16,7 +16,7 @@ namespace TestForASPWebAPI.Controllers
             _logger = logger;
         }
         // GET: api/<ValuesController>
-        [HttpGet("GetProductLine")]
+        [HttpGet("GetProductLines")]
         public async Task<IActionResult> GetProductLines()
         {
             DBController dbController = DBController.GetInstance();
