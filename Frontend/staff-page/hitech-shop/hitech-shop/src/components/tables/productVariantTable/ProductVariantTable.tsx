@@ -55,11 +55,17 @@ const ProductVariantTable: React.FC<ProductVariantTableProps> = ({ rows }) => {
         // console.log('This is rows in productVariant table:', rows)
         // Use the filter method to create a new array with rows that match the query in either Name or Id
         // console.log('Rows in Variant:', rows)
-        const filteredRows = rows.filter(row =>
-            row.name.toLowerCase().includes(query.toLowerCase()) || // Check Name
-            row.id.toString().includes(query) // Check Id (assuming Id is a number)
-        );
-        setDisplayedRows(filteredRows);
+        try {
+
+            const filteredRows = rows.filter(row =>
+                row.name.toLowerCase().includes(query.toLowerCase()) || // Check Name
+                row.id.toString().includes(query) // Check Id (assuming Id is a number)
+            );
+            setDisplayedRows(filteredRows);
+        }
+        catch (error) {
+            // console.log('Error in Product Variant Table', error)
+        }
     }, [query, rows]);
 
     return (

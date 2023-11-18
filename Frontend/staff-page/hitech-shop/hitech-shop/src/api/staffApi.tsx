@@ -7,7 +7,7 @@ interface Staff {
 
 const staffApi = {
     getAll: (params: any) => {
-        const url = '/staffs/GetStaff';
+        const url = '/staffs/GetStaffs';
         return axiosClient.get(url);
     },
     get: (id: any) => {

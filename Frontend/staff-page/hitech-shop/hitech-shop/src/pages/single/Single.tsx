@@ -20,6 +20,10 @@ import productVariantApi from "../../api/productVariantApi";
 import ProductVariantSingle from "../../components/singles/productVariantSingle/ProductVariantSingle";
 import productInstanceApi from "../../api/productInstanceApi";
 import ProductInstanceSingle from "../../components/singles/productInstanceSingle/ProductInstaceSingle";
+import specificationTypeApi from "../../api/specificationTypeApi";
+import SpecificationTypeSingle from "../../components/singles/specificationTypeSingle/SpecificationTypeSingle";
+import SpecificationSingle from "../../components/singles/specificationSingle/SpecificationSingle";
+import specificationApi from "../../api/specificationApi";
 
 interface Props {
     type: string,
@@ -68,6 +72,12 @@ const Single = ({ type, isNew }: Props) => {
                 case 'productInstance':
                     data = (await productInstanceApi.get(parseInt(id!))).data;
                     break;
+                case 'specificationType':
+                    data = (await specificationTypeApi.get(parseInt(id!))).data;
+                    break;
+                case 'specification':
+                    data = (await specificationApi.get(parseInt(id!))).data;
+                    break;
                 default:
                     break;
                 // Handle the default case
@@ -105,6 +115,10 @@ const Single = ({ type, isNew }: Props) => {
                 return <ProductVariantSingle productVariant={editRow!} />
             case 'productInstance':
                 return <ProductInstanceSingle productInstance={editRow!} />
+            case 'specificationType':
+                return <SpecificationTypeSingle specificationType={editRow!} />
+            case 'specification':
+                return <SpecificationSingle specification={editRow!} />
             default:
                 return null;
         }

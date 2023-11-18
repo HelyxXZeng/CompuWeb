@@ -18,7 +18,8 @@ export const PrivateRoutes = () => {
             <Route path='/productLines' element={<List type='productLine' />} />
             <Route path='/productVariants' element={<List type='productVariant' />} />
             <Route path='/productInstances' element={<List type='productInstance' />} />
-
+            <Route path='/specificationTypes' element={<List type='specificationType' />} />
+            <Route path='/specifications' element={<List type='specification' />} />
 
             <Route path='/brands/new' element={<Single type='brand' isNew='new' />} />
             <Route path='/customers/new' element={<Single type='customer' isNew='new' />} />
@@ -29,6 +30,8 @@ export const PrivateRoutes = () => {
             <Route path='/productLines/new' element={<Single type='productLine' isNew='new' />} />
             <Route path='/productVariants/new' element={<Single type='productVariant' isNew='new' />} />
             <Route path='/productInstances/new' element={<Single type='productInstance' isNew='new' />} />
+            <Route path='/specificationTypes/new' element={<Single type='specificationType' isNew='new' />} />
+            <Route path='/specifications/new' element={<Single type='specification' isNew='new' />} />
 
             <Route path='/brands/:id' element={<Single type='brand' isNew='update' />} />
             <Route path='/customers/:id' element={<Single type='customer' isNew='update' />} />
@@ -39,6 +42,8 @@ export const PrivateRoutes = () => {
             <Route path='/productLines/:id' element={<Single type='productLine' isNew='update' />} />
             <Route path='/productVariants/:id' element={<Single type='productVariant' isNew='update' />} />
             <Route path='/productInstances/:id' element={<Single type='productInstance' isNew='update' />} />
+            <Route path='/specificationTypes/:id' element={<Single type='specificationType' isNew='update' />} />
+            <Route path='/specifications/:id' element={<Single type='specification' isNew='update' />} />
         </Routes>
     );
 };

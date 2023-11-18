@@ -1,7 +1,7 @@
 import Navbar from "../../components/navbar/Navbar"
 import Sidebar from "../../components/sidebar/Sidebar"
 import "./list.scss"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import productApi from "../../api/productApi"
 import categoryApi from "../../api/categoryApi"
 import customerApi from "../../api/customerApi"
@@ -20,14 +20,20 @@ import ProductVariantTable from "../../components/tables/productVariantTable/Pro
 import productVariantApi from "../../api/productVariantApi"
 import ProductInstanceTable from "../../components/tables/productInstanceTable/ProductInstanceTable"
 import productInstanceApi from "../../api/productInstanceApi"
+import specificationTypeApi from "../../api/specificationTypeApi"
+import SpecificationTypeTable from "../../components/tables/specificationTypeTable/SpecificationTypeTable"
+import SpecificationTable from "../../components/tables/specificationTable/SpecificationTable"
+import specificationApi from "../../api/specificationApi"
 
 
 
 const List = ({ type }: { type: string }) => {
     const [rows, setRows] = useState<any[]>([]);
-    // console.log('This is the very beginning', rows)
     const [doneFetch, setDoneFetch] = useState(false)
+    const typeRef = useRef(type); // Create a ref for the type
+
     useEffect(() => {
+        typeRef.current = type; // Update the ref with the new type at the start of the effect
         setDoneFetch(false)
         const fetchData = async () => {
             try {
@@ -56,23 +62,28 @@ const List = ({ type }: { type: string }) => {
                         break;
                     case 'productVariant':
                         data = (await productVariantApi.getAll({ _page: 1, _limit: 100000 })).data;
-                        // console.log('data of Variant from List', data)
                         break;
                     case 'productInstance':
                         data = (await productInstanceApi.getAll({ _page: 1, _limit: 100000 })).data;
-                        // console.log('data of Instance from List', data)
+                        break;
+                    case 'specificationType':
+                        data = (await specificationTypeApi.getAll({ _page: 1, _limit: 100000 })).data;
+                        break;
+                    case 'specification':
+                        data = (await specificationApi.getAll({ _page: 1, _limit: 100000 })).data;
                         break;
                     default:
                         break;
                 }
 
-                setRows(data);
-
-                console.log(`This is ${type}:`, data);
-                setDoneFetch(true)
+                // Only update state if the type hasn't changed during the fetch operation
+                if (typeRef.current === type) {
+                    setRows(data);
+                    setDoneFetch(true);
+                    console.log(`This is ${type}:`, data);
+                }
             } catch (error) {
                 console.log(`Failed to fetch ${type} list:`, error);
-                setDoneFetch(true)
             }
         };
 
@@ -99,6 +110,10 @@ const List = ({ type }: { type: string }) => {
                 return <ProductVariantTable rows={rows} />;
             case 'productInstance':
                 return <ProductInstanceTable rows={rows} />;
+            case 'specificationType':
+                return <SpecificationTypeTable rows={rows} />;
+            case 'specification':
+                return <SpecificationTable rows={rows} />;
             default:
                 return null;
         }
@@ -117,3 +132,4 @@ const List = ({ type }: { type: string }) => {
 }
 
 export default List
+

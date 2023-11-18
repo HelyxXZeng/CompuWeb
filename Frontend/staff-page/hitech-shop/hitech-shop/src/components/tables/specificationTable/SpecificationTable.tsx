@@ -5,10 +5,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useRef, useState } from 'react';
 // import actionColumn from '../datatable/DataTable';
 import actionColumn from '../datatable/DataTable';
-import productInstanceApi from '../../../api/productInstanceApi';
-import productVariantApi from '../../../api/productVariantApi';
+import specificationApi from '../../../api/specificationApi';
+import specificationTypeApi from '../../../api/specificationTypeApi';
 // import ConfirmationDialog from '../confirmationDialog/ConfirmationDialog';
-interface ProductInstanceTableProps {
+interface SpecificationTableProps {
     rows: any[]; // Define the type of your rows here
 }
 
@@ -17,45 +17,39 @@ const columns: GridColDef[] = [
         field: 'id', headerName: 'ID'
     },
     {
-        field: 'productVariant', headerName: 'Product Variant Name', width: 200
+        field: 'specificationType', headerName: 'Product Variant Name', width: 200
     },
     {
-        field: 'serialNumber', headerName: 'Serial Number', width: 130
-    },
-    {
-        field: 'status', headerName: 'Status', width: 130
-    },
-    {
-        field: 'available', headerName: 'Available', width: 100
-    },
+        field: 'value', headerName: 'Value', width: 130
+    }
 
 ]
 
-const ProductInstanceTable: React.FC<ProductInstanceTableProps> = ({ rows }) => {
+const SpecificationTable: React.FC<SpecificationTableProps> = ({ rows }) => {
 
-    // console.log('ProductInstance rows: ', rows)
+    // console.log('Specification rows: ', rows)
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
-    const [productVariants, setProductVariants] = useState<any[]>([]);
+    const [specificationTypes, setSpecificationTypes] = useState<any[]>([]);
     const previousRowsRef = useRef<any[]>([]);
     useEffect(() => {
-        const fetchProductVariants = async () => {
+        const fetchSpecificationTypes = async () => {
             try {
-                const productVariantsData = (await productVariantApi.getAll({ _page: 1, _limit: 100000 })).data;
-                setProductVariants(productVariantsData);
+                const specificationTypesData = (await specificationTypeApi.getAll({ _page: 1, _limit: 100000 })).data;
+                setSpecificationTypes(specificationTypesData);
             } catch (error) {
-                console.log('Failed to fetch ProductVariant data:', error);
+                console.log('Failed to fetch SpecificationType data:', error);
             }
         };
 
-        fetchProductVariants();
+        fetchSpecificationTypes();
     }, []);
 
     const handleDelete = (rowId: number) => {
         const isConfirmed = window.confirm('Are you sure you want to delete this row?');
         if (isConfirmed) {
             // Perform the deletion action here
-            productInstanceApi.remove(rowId);
+            specificationApi.remove(rowId);
             console.log('Deleting row with ID:', rowId);
 
             // Update displayedRows after the item has been deleted
@@ -69,7 +63,7 @@ const ProductInstanceTable: React.FC<ProductInstanceTableProps> = ({ rows }) => 
 
     const handleView = (rowId: number) => {
         console.log('Viewing row with ID:', rowId);
-        navigate(`/productInstances/GetProductInstanceById?id=${rowId}`);
+        navigate(`/specifications/GetSpecificationById?id=${rowId}`);
     };
 
     const handleInput = (event: any) => {
@@ -78,11 +72,11 @@ const ProductInstanceTable: React.FC<ProductInstanceTableProps> = ({ rows }) => 
 
     useEffect(() => {
         // Check if the rows have actually changed
-        if (previousRowsRef.current !== rows && productVariants.length > 0) {
-            // Update rows directly to include productVariant name
-            console.log('Product Variants in Instance', productVariants)
+        if (previousRowsRef.current !== rows && specificationTypes.length > 0) {
+            // Update rows directly to include specificationType name
+            // console.log('Product SpecificationType in Specification', specificationTypes)
             rows.forEach(row => {
-                row.productVariant = productVariants.find(pl => pl.id === row.productVariantId)?.name || 'N/A';
+                row.specificationType = specificationTypes.find(pl => pl.id === row.specificationTypeId)?.name || 'N/A';
             });
 
         }
@@ -91,9 +85,9 @@ const ProductInstanceTable: React.FC<ProductInstanceTableProps> = ({ rows }) => 
         // console.log('Rows in Instances:', rows)
         try {
             const filteredRows = rows.filter(row =>
-                row.serialNumber.toLowerCase().includes(query.toLowerCase())
+                row.value.toLowerCase().includes(query.toLowerCase())
                 || row.id.toString().includes(query)
-                || row.productVariant.toLowerCase().includes(query.toLowerCase())
+                || row.specificationType.toLowerCase().includes(query.toLowerCase())
             );
             setDisplayedRows(filteredRows);
         }
@@ -101,12 +95,9 @@ const ProductInstanceTable: React.FC<ProductInstanceTableProps> = ({ rows }) => 
             // console.log('Error in Instance Table', error)
         }
 
-
-
-
         // Update the previousRowsRef with the current rows
         previousRowsRef.current = rows.slice(); // Copy the array to avoid reference issues
-    }, [query, rows, productVariants]);
+    }, [query, rows, specificationTypes]);
 
     return (
         <div className='datatable'>
@@ -116,7 +107,7 @@ const ProductInstanceTable: React.FC<ProductInstanceTableProps> = ({ rows }) => 
                     <input type='text' placeholder='Search...' onChange={(e) => handleInput(e)} />
                     <SearchIcon />
                 </div>
-                <Link to="/productInstances/new" className='link'>
+                <Link to="/specifications/new" className='link'>
                     Add New
                 </Link>
             </div>
@@ -140,4 +131,4 @@ const ProductInstanceTable: React.FC<ProductInstanceTableProps> = ({ rows }) => 
     )
 }
 
-export default ProductInstanceTable
+export default SpecificationTable

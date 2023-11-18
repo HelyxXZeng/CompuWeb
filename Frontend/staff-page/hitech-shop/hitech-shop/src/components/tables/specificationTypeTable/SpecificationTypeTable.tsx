@@ -4,9 +4,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
 import actionColumn from '../datatable/DataTable';
-import customerApi from '../../../api/customerApi';
-
-interface CustomerTableProps {
+import specificationTypeApi from '../../../api/specificationTypeApi';
+// import { handleDelete, handleView, actionColumn } from '../datatable/DataTable';
+interface SpecificationTypeTableProps {
     rows: any[]; // Define the type of your rows here
 }
 
@@ -16,15 +16,12 @@ const columns: GridColDef[] = [
     },
     {
         field: 'name', headerName: 'Name', width: 400
-    },
-    {
-        field: 'phoneNumber', headerName: 'Phone', width: 150
     }
 ]
 
-const CustomerTable: React.FC<CustomerTableProps> = ({ rows }) => {
+const SpecificationTypeTable: React.FC<SpecificationTypeTableProps> = ({ rows }) => {
 
-    // console.log('Customer rows: ', rows)
+    // console.log('SpecificationType rows: ', rows)
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
 
@@ -32,7 +29,7 @@ const CustomerTable: React.FC<CustomerTableProps> = ({ rows }) => {
         const isConfirmed = window.confirm('Are you sure you want to delete this row?');
         if (isConfirmed) {
             // Perform the deletion action here
-            customerApi.remove(rowId);
+            specificationTypeApi.remove(rowId);
             console.log('Deleting row with ID:', rowId);
 
             // Update displayedRows after the item has been deleted
@@ -46,7 +43,7 @@ const CustomerTable: React.FC<CustomerTableProps> = ({ rows }) => {
 
     const handleView = (rowId: number) => {
         console.log('Viewing row with ID:', rowId);
-        navigate(`/customers/GetCustomerById?id=${rowId}`);
+        navigate(`/specificationTypes/GetSpecificationTypeById?id=${rowId}`);
     };
 
     const handleInput = (event: any) => {
@@ -54,18 +51,17 @@ const CustomerTable: React.FC<CustomerTableProps> = ({ rows }) => {
     }
 
     useEffect(() => {
-        // Use the filter method to create a new array with rows that match the query in either Name or Id or Phone
+        // Use the filter method to create a new array with rows that match the query in either Name or Id
         try {
 
             const filteredRows = rows.filter(row =>
                 row.name.toLowerCase().includes(query.toLowerCase()) || // Check Name
-                row.id.toString().includes(query) || // Check Id (assuming Id is a number)
-                row.phoneNumber.toString().includes(query) // Check Phone (assuming Phone is a number)
+                row.id.toString().includes(query) // Check Id (assuming Id is a number)
             );
             setDisplayedRows(filteredRows);
         }
         catch (error) {
-            // console.log('Error in Customer Table', error)
+            // console.log('Error in SpecificationTypeTable', error)
         }
     }, [query, rows]);
 
@@ -73,12 +69,12 @@ const CustomerTable: React.FC<CustomerTableProps> = ({ rows }) => {
     return (
         <div className='datatable'>
             <div className="datatableTitle">
-                Customers
+                Specification Types
                 <div className="search">
                     <input type='text' placeholder='Search...' onChange={(e) => handleInput(e)} />
                     <SearchIcon />
                 </div>
-                <Link to="/customers/new" className='link'>
+                <Link to="/specificationTypes/new" className='link'>
                     Add New
                 </Link>
             </div>
@@ -102,4 +98,4 @@ const CustomerTable: React.FC<CustomerTableProps> = ({ rows }) => {
     )
 }
 
-export default CustomerTable
+export default SpecificationTypeTable
