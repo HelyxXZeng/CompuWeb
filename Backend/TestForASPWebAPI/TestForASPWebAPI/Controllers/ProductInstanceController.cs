@@ -16,7 +16,7 @@ namespace TestForASPWebAPI.Controllers
             _logger = logger;
         }
         // GET: api/<ValuesController>
-        [HttpGet("GetProductInstance")]
+        [HttpGet("GetProductInstances")]
         public async Task<IActionResult> GetProductInstances()
         {
             DBController dbController = DBController.GetInstance();
@@ -72,7 +72,7 @@ namespace TestForASPWebAPI.Controllers
         [HttpPost("Insert")]
         public void Insert([FromBody] ProductInstance value)
         {
-            string command = $"INSERT INTO ProductInstance (ProductVariantId, SerialNumber, Status, Available) VALUES ({value.ProductVariantId}, '{value.SerialNumber}', '{value.Status}', {(value.Available? "1" : "0")})";
+            string command = $"INSERT INTO ProductInstance (ProductVariantId, SerialNumber, Status, Available) VALUES ({value.ProductVariantId}, '{value.SerialNumber}', N'{value.Status}', {(value.Available? "1" : "0")})";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
@@ -82,7 +82,7 @@ namespace TestForASPWebAPI.Controllers
         [HttpPut("Update")]
         public void Put(int id, [FromBody] ProductInstance value)
         {
-            string command = $"UPDATE ProductInstance SET ProductVariantId = {value.ProductVariantId}, SerialNumber = '{value.SerialNumber}', Status = '{value.Status}', Available = {(value.Available ? "1" : "0")} WHERE Id = {id}";
+            string command = $"UPDATE ProductInstance SET ProductVariantId = {value.ProductVariantId}, SerialNumber = '{value.SerialNumber}', Status = N'{value.Status}', Available = {(value.Available ? "1" : "0")} WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
