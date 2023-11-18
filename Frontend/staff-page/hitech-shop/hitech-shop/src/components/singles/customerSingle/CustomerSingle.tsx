@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import customerApi from '../../../api/customerApi';
+import customerApi, { Customer } from '../../../api/customerApi';
 import './customerSingle.scss'
 
-interface Customer {
-    id: number;
-    name: string;
-    birthdate: string;
-    joinDate: string;
-    phoneNumber: string;
-}
+// interface Customer {
+//     id: number;
+//     name: string;
+//     birthdate: string;
+//     joinDate: string;
+//     phoneNumber: string;
+// }
 
 interface Props {
-    customer: Customer | null;
+    customer: Customer;
 }
 
 const CustomerSingle: React.FC<Props> = (para: Props) => {

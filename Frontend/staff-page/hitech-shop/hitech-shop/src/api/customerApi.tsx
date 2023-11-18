@@ -1,6 +1,6 @@
 import axiosClient from "./axiosClient";
 
-interface Customer {
+export interface Customer {
     id: number,
     name: string,
     birthdate: string,

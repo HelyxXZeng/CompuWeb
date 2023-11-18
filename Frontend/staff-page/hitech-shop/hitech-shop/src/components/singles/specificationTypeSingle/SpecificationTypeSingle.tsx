@@ -1,12 +1,12 @@
 //SpecificationTypeSingle.tsx
 import React, { useEffect, useState } from 'react';
-import specificationTypeApi from '../../../api/specificationTypeApi';
+import specificationTypeApi, { SpecificationType } from '../../../api/specificationTypeApi';
 import './specificationTypeSingle.scss'
 
-interface SpecificationType {
-    id: number,
-    name: string
-}
+// interface SpecificationType {
+//     id: number,
+//     name: string
+// }
 
 interface Props {
     specificationType: SpecificationType

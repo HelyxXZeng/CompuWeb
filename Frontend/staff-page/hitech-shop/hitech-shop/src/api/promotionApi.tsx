@@ -1,5 +1,5 @@
 import axiosClient from "./axiosClient";
-interface Promotion {
+export interface Promotion {
     Id: number,
     Name: string,
     ProductVariantIdPurchase: number,

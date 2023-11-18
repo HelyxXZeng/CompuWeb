@@ -2,15 +2,15 @@
 import { Autocomplete, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import productLineApi from '../../../api/productLineApi';
-import productVariantApi from '../../../api/productVariantApi';
+import productVariantApi, { ProductVariant } from '../../../api/productVariantApi';
 import './productVariantSingle.scss';
 
 
-interface ProductVariant {
-    id: number,
-    productLineId: number,
-    name: string,
-}
+// interface ProductVariant {
+//     id: number,
+//     productLineId: number,
+//     name: string,
+// }
 
 interface Props {
     productVariant: ProductVariant

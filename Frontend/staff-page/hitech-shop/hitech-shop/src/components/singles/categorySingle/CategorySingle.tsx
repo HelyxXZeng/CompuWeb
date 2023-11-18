@@ -1,12 +1,12 @@
 //CategorySingle.tsx
 import React, { useEffect, useState } from 'react';
-import categoryApi from '../../../api/categoryApi';
+import categoryApi, { Category } from '../../../api/categoryApi';
 import './categorySingle.scss'
 
-interface Category {
-    id: number,
-    name: string
-}
+// interface Category {
+//     id: number,
+//     name: string
+// }
 
 interface Props {
     category: Category

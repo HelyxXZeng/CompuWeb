@@ -1,20 +1,20 @@
 //ProductLineSingle.tsx
 import React, { useEffect, useState } from 'react';
-import productLineApi from '../../../api/productLineApi';
+import productLineApi, { ProductLine } from '../../../api/productLineApi';
 import './productLineSingle.scss'
 import brandApi from '../../../api/brandApi';
 import { Autocomplete, TextField } from '@mui/material';
 import categoryApi from '../../../api/categoryApi';
 
-interface ProductLine {
-    id: number,
-    name: string,
-    categoryId: number,
-    brandId: number,
-    releaseDate: string,
-    warranty: number,
-    description: string
-}
+// interface ProductLine {
+//     id: number,
+//     name: string,
+//     categoryId: number,
+//     brandId: number,
+//     releaseDate: string,
+//     warranty: number,
+//     description: string
+// }
 
 interface Props {
     productLine: ProductLine

@@ -1,6 +1,6 @@
 import axiosClient from "./axiosClient";
 
-interface SpecificationType {
+export interface SpecificationType {
     id: number,
     name: string
 }

@@ -2,17 +2,17 @@
 import { Autocomplete, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import productVariantApi from '../../../api/productVariantApi';
-import productInstanceApi from '../../../api/productInstanceApi';
+import productInstanceApi, { ProductInstance } from '../../../api/productInstanceApi';
 import './productInstanceSingle.scss';
 
 
-interface ProductInstance {
-    id: number,
-    productVariantId: number,
-    serialNumber: string,
-    status: string,
-    available: boolean
-}
+// interface ProductInstance {
+//     id: number,
+//     productVariantId: number,
+//     serialNumber: string,
+//     status: string,
+//     available: boolean
+// }
 
 interface Props {
     productInstance: ProductInstance

@@ -1,14 +1,14 @@
 //BrandSingle.tsx
 import React, { useEffect, useState } from 'react';
-import brandApi from '../../../api/brandApi';
+import brandApi, { Brand } from '../../../api/brandApi';
 import './brandSingle.scss'
 
-interface Brand {
-    id: number;
-    name: string;
-    description: string;
-    logo: string;
-}
+// interface Brand {
+//     id: number;
+//     name: string;
+//     description: string;
+//     logo: string;
+// }
 
 interface Props {
     brand: Brand

@@ -2,14 +2,14 @@
 import { Autocomplete, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import specificationTypeApi from '../../../api/specificationTypeApi';
-import specificationApi from '../../../api/specificationApi';
+import specificationApi, { Specification } from '../../../api/specificationApi';
 import './specificationSingle.scss';
 
-interface Specification {
-    id: number,
-    specificationTypeId: number
-    value: string
-}
+// interface Specification {
+//     id: number,
+//     specificationTypeId: number
+//     value: string
+// }
 
 interface Props {
     specification: Specification
