@@ -318,7 +318,7 @@ export const userRows = [
     email: "kewez@@gmail.com",
     phone: "123 456 789",
     createdAt: "01.02.2023",
-    verified: true,
+    salary: "$10,000",
   },
   {
     id: 2,
@@ -328,7 +328,7 @@ export const userRows = [
     email: "comhuhmit@gmail.com",
     phone: "123 456 789",
     createdAt: "01.02.2023",
-    verified: true,
+    salary: "$12,000",
   },
   {
     id: 3,
@@ -338,7 +338,7 @@ export const userRows = [
     email: "ujudokon@hottmail.com",
     phone: "123 456 789",
     createdAt: "01.02.2023",
-    verified: true,
+    salary: "$5,000",
   },
   {
     id: 4,
@@ -348,7 +348,7 @@ export const userRows = [
     email: "tinhavabe@gmail.com",
     phone: "123 456 789",
     createdAt: "01.02.2023",
-    verified: true,
+    salary: "$7,000",
   },
   {
     id: 5,
@@ -367,7 +367,7 @@ export const userRows = [
     email: "vulca.eder@mail.com",
     phone: "123 456 789",
     createdAt: "01.02.2023",
-    verified: true,
+    salary: "$15,000",
   },
   {
     id: 7,
@@ -386,7 +386,7 @@ export const userRows = [
     email: "codaic@mail.com",
     phone: "123 456 789",
     createdAt: "01.02.2023",
-    verified: true,
+    salary: "$1,000",
   },
   {
     id: 9,
@@ -405,7 +405,7 @@ export const userRows = [
     email: "tuhkabapu@gmail.com",
     phone: "123 456 789",
     createdAt: "01.02.2023",
-    verified: true,
+    salary: "$20,000",
   },
   {
     id: 11,
@@ -415,7 +415,7 @@ export const userRows = [
     email: "gibo@gmail.com",
     phone: "123 456 789",
     createdAt: "01.02.2023",
-    verified: true,
+    salary: "$7,000",
   },
   {
     id: 12,
@@ -566,7 +566,7 @@ export const singleUser = {
     fullname: "John Doe",
     email: "johndoe@gmail.com",
     phone: "123 456 789",
-    status: "verified",
+    status: "salary",
   },
   chart: {
     dataKeys: [
