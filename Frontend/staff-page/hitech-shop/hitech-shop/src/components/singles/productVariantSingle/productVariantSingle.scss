@@ -1,6 +1,4 @@
-// AddBrandPage.scss
-
-.brand-page {
+.productVariant-page {
     max-width: 60%;
     margin: 0 auto;
 
@@ -14,7 +12,8 @@
         width: 100%; // Make the form width 100%
 
         label {
-            margin-top: 10px;
+            margin-top: 20px;
+            margin-bottom: 5px;
         }
 
         input,
@@ -31,6 +30,7 @@
             border: none;
             border-radius: 5px;
             font-size: 16px;
+            margin-top: 15px;
 
             &:hover {
                 background-color: #0056b3;

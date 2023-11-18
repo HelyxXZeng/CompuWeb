@@ -16,6 +16,10 @@ import PromotionSingle from "../../components/singles/promotionSingle/PromotionS
 import CustomerSingle from "../../components/singles/customerSingle/CustomerSingle";
 import productLineApi from "../../api/productLineApi";
 import ProductLineSingle from "../../components/singles/productLineSingle/ProductLineSingle";
+import productVariantApi from "../../api/productVariantApi";
+import ProductVariantSingle from "../../components/singles/productVariantSingle/ProductVariantSingle";
+import productInstanceApi from "../../api/productInstanceApi";
+import ProductInstanceSingle from "../../components/singles/productInstanceSingle/ProductInstaceSingle";
 
 interface Props {
     type: string,
@@ -58,6 +62,12 @@ const Single = ({ type, isNew }: Props) => {
                 case 'productLine':
                     data = (await productLineApi.get(parseInt(id!))).data;
                     break;
+                case 'productVariant':
+                    data = (await productVariantApi.get(parseInt(id!))).data;
+                    break;
+                case 'productInstance':
+                    data = (await productInstanceApi.get(parseInt(id!))).data;
+                    break;
                 default:
                     break;
                 // Handle the default case
@@ -91,6 +101,10 @@ const Single = ({ type, isNew }: Props) => {
                 return <PromotionSingle promotion={editRow!} />
             case 'productLine':
                 return <ProductLineSingle productLine={editRow!} />
+            case 'productVariant':
+                return <ProductVariantSingle productVariant={editRow!} />
+            case 'productInstance':
+                return <ProductInstanceSingle productInstance={editRow!} />
             default:
                 return null;
         }

@@ -16,14 +16,19 @@ import ProductTable from "../../components/tables/productTable/ProductTable"
 import PromotionTable from "../../components/tables/promotionTable/PromotionTable"
 import productLineApi from "../../api/productLineApi"
 import ProductLineTable from "../../components/tables/productLineTable/ProductLineTable"
+import ProductVariantTable from "../../components/tables/productVariantTable/ProductVariantTable"
+import productVariantApi from "../../api/productVariantApi"
+import ProductInstanceTable from "../../components/tables/productInstanceTable/ProductInstanceTable"
+import productInstanceApi from "../../api/productInstanceApi"
 
 
 
 const List = ({ type }: { type: string }) => {
     const [rows, setRows] = useState<any[]>([]);
     // console.log('This is the very beginning', rows)
-
+    const [doneFetch, setDoneFetch] = useState(false)
     useEffect(() => {
+        setDoneFetch(false)
         const fetchData = async () => {
             try {
                 let data: any[] = [];
@@ -49,6 +54,14 @@ const List = ({ type }: { type: string }) => {
                     case 'productLine':
                         data = (await productLineApi.getAll({ _page: 1, _limit: 100000 })).data;
                         break;
+                    case 'productVariant':
+                        data = (await productVariantApi.getAll({ _page: 1, _limit: 100000 })).data;
+                        // console.log('data of Variant from List', data)
+                        break;
+                    case 'productInstance':
+                        data = (await productInstanceApi.getAll({ _page: 1, _limit: 100000 })).data;
+                        // console.log('data of Instance from List', data)
+                        break;
                     default:
                         break;
                 }
@@ -56,8 +69,10 @@ const List = ({ type }: { type: string }) => {
                 setRows(data);
 
                 console.log(`This is ${type}:`, data);
+                setDoneFetch(true)
             } catch (error) {
                 console.log(`Failed to fetch ${type} list:`, error);
+                setDoneFetch(true)
             }
         };
 
@@ -76,10 +91,14 @@ const List = ({ type }: { type: string }) => {
                 return <OrderTable rows={rows} />;
             case 'brand':
                 return <BrandTable rows={rows} />;
-            case 'productLine':
-                return <ProductLineTable rows={rows} />;
             case 'promotion':
                 return <PromotionTable rows={rows} />;
+            case 'productLine':
+                return <ProductLineTable rows={rows} />;
+            case 'productVariant':
+                return <ProductVariantTable rows={rows} />;
+            case 'productInstance':
+                return <ProductInstanceTable rows={rows} />;
             default:
                 return null;
         }
@@ -90,9 +109,7 @@ const List = ({ type }: { type: string }) => {
             <Sidebar />
             <div className="listContainer">
                 <Navbar />
-                {
-                    getElement()
-                }
+                {doneFetch ? getElement() : <p>Loading...</p>}
 
             </div>
         </div>
