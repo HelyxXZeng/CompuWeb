@@ -1,24 +1,18 @@
-import './sidebar.scss'
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import PeopleIcon from '@mui/icons-material/People';
-import LaptopIcon from '@mui/icons-material/Laptop';
-import CategoryIcon from '@mui/icons-material/Category';
-import PaymentIcon from '@mui/icons-material/Payment';
-import LoyaltyIcon from '@mui/icons-material/Loyalty';
-import LogoutIcon from '@mui/icons-material/Logout';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import BusinessIcon from '@mui/icons-material/Business';
-import ReorderIcon from '@mui/icons-material/Reorder';
-import DevicesIcon from '@mui/icons-material/Devices';
-import KeyboardIcon from '@mui/icons-material/Keyboard';
-import MemoryIcon from '@mui/icons-material/Memory';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import LooksOneIcon from '@mui/icons-material/LooksOne';
-import { Link, useNavigate } from 'react-router-dom';
-import { useContext, useState } from 'react';
-import { DarkModeContext } from '../../context/darkModeContext';
+import BusinessIcon from '@mui/icons-material/Business';
+import CategoryIcon from '@mui/icons-material/Category';
+import DevicesIcon from '@mui/icons-material/Devices';
+import LaptopIcon from '@mui/icons-material/Laptop';
 import LaptopMacIcon from '@mui/icons-material/LaptopMac';
-import firebase from 'firebase/compat/app';
+import LooksOneIcon from '@mui/icons-material/LooksOne';
+import MemoryIcon from '@mui/icons-material/Memory';
+import PaymentIcon from '@mui/icons-material/Payment';
+import PeopleIcon from '@mui/icons-material/People';
+import ReorderIcon from '@mui/icons-material/Reorder';
+import { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { DarkModeContext } from '../../context/darkModeContext';
+import './sidebar.scss';
 
 const Sidebar = () => {
 
@@ -29,17 +23,6 @@ const Sidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
-    const navigate = useNavigate();
-
-    const handleLogout = async () => {
-        try {
-            await firebase.auth().signOut();
-            // Perform any additional logout actions here if needed
-            navigate('/login'); // Redirect to the login page after logout
-        } catch (error) {
-            console.error('Error during logout:', error);
-        }
-    };
 
     return (
         <>
@@ -121,11 +104,11 @@ const Sidebar = () => {
                                                 <span>Orders</span>
                                             </li>
                                         </Link>
-                                        <p className="title">Functions</p>
+                                        {/* <p className="title">Functions</p>
                                         <li onClick={handleLogout}>
                                             <LogoutIcon className='icon' />
                                             <span>Log out</span>
-                                        </li>
+                                        </li> */}
                                     </ul>
                                 </div>
                                 <div className="bottom">

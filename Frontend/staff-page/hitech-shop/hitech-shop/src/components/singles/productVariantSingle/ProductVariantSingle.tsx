@@ -100,16 +100,6 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
         <div className="productVariant-page">
             <h2>Product Variants</h2>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="name">Name:</label>
-                <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={productVariant.name}
-                    onChange={handleInputChange}
-                    required
-                />
-
                 <label>ProductLine:</label>
                 <Autocomplete
                     className="autocomplete"
@@ -121,6 +111,17 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
                     onChange={handleProductLineChange}
                     renderInput={(params) => <TextField {...params} label="" />}
                 />
+
+                <label htmlFor="name">Name:</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={productVariant.name}
+                    onChange={handleInputChange}
+                    required
+                />
+
                 <button type="submit" className='button'>Submit</button>
             </form>
         </div>
