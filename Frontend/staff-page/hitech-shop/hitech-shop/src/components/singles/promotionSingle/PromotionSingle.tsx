@@ -1,7 +1,7 @@
 //PromotionSingle.tsx
 import React, { useEffect, useState } from 'react';
 import promotionApi, { Promotion } from '../../../api/promotionApi';
-import './promotionSingle.scss'
+// import './promotionSingle.scss'
 import Autocomplete from '@mui/material/Autocomplete';
 import { TextField } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
