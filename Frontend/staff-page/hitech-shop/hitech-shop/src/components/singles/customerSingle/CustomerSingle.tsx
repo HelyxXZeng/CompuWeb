@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import customerApi, { Customer } from '../../../api/customerApi';
-import './customerSingle.scss'
-
-// interface Customer {
-//     id: number;
-//     name: string;
-//     birthdate: string;
-//     joinDate: string;
-//     phoneNumber: string;
-// }
+// import './customerSingle.scss'
+import '../commonSingle/commonSingle.scss'
 
 interface Props {
     customer: Customer;
@@ -81,7 +74,7 @@ const CustomerSingle: React.FC<Props> = (para: Props) => {
     };
 
     return (
-        <div className="customer-page">
+        <div className="single-page">
             <h2>Customers</h2>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="name">Name:</label>

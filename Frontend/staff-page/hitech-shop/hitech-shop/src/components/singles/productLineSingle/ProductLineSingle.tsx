@@ -1,21 +1,12 @@
 //ProductLineSingle.tsx
 import React, { useEffect, useState } from 'react';
 import productLineApi, { ProductLine } from '../../../api/productLineApi';
-import './productLineSingle.scss'
+// import './productLineSingle.scss'
 import brandApi from '../../../api/brandApi';
 import { Autocomplete, Button, TextField } from '@mui/material';
 import categoryApi from '../../../api/categoryApi';
 import DeleteIcon from '@mui/icons-material/Delete';
-// interface ProductLine {
-//     id: number,
-//     name: string,
-//     categoryId: number,
-//     brandId: number,
-//     releaseDate: string,
-//     warranty: number,
-//     description: string
-// }
-
+import '../commonSingle/commonSingle.scss'
 interface Props {
     productLine: ProductLine
 }
@@ -145,7 +136,7 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
     };
 
     return (
-        <div className="productLine-page">
+        <div className="single-page">
             <h2>Product Lines</h2>
             <form onSubmit={handleSubmit}>
                 <label>Brand:</label>

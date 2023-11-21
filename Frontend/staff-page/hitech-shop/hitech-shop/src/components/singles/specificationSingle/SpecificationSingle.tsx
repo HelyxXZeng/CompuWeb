@@ -3,13 +3,8 @@ import { Autocomplete, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import specificationTypeApi from '../../../api/specificationTypeApi';
 import specificationApi, { Specification } from '../../../api/specificationApi';
-import './specificationSingle.scss';
-
-// interface Specification {
-//     id: number,
-//     specificationTypeId: number
-//     value: string
-// }
+// import './specificationSingle.scss';
+import '../commonSingle/commonSingle.scss'
 
 interface Props {
     specification: Specification
@@ -94,7 +89,7 @@ const SpecificationSingle: React.FC<Props> = (para: Props) => {
     };
 
     return (
-        <div className="specification-page">
+        <div className="single-page">
             <h2>Product Variants</h2>
             <form onSubmit={handleSubmit}>
                 <label>SpecificationType:</label>

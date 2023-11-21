@@ -1,12 +1,8 @@
 //SpecificationTypeSingle.tsx
 import React, { useEffect, useState } from 'react';
 import specificationTypeApi, { SpecificationType } from '../../../api/specificationTypeApi';
-import './specificationTypeSingle.scss'
-
-// interface SpecificationType {
-//     id: number,
-//     name: string
-// }
+// import './specificationTypeSingle.scss'
+import '../commonSingle/commonSingle.scss'
 
 interface Props {
     specificationType: SpecificationType
@@ -68,7 +64,7 @@ const SpecificationTypeSingle: React.FC<Props> = (para: Props) => {
     };
 
     return (
-        <div className="specificationType-page">
+        <div className="single-page">
             <h2>Specification Type</h2>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="name">Name:</label>

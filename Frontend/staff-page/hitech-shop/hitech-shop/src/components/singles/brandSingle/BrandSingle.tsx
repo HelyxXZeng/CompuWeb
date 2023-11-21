@@ -1,14 +1,8 @@
 //BrandSingle.tsx
 import React, { useEffect, useState } from 'react';
 import brandApi, { Brand } from '../../../api/brandApi';
-import './brandSingle.scss'
-
-// interface Brand {
-//     id: number;
-//     name: string;
-//     description: string;
-//     logo: string;
-// }
+// import './brandSingle.scss'
+import '../commonSingle/commonSingle.scss'
 
 interface Props {
     brand: Brand
@@ -214,7 +208,7 @@ const BrandSingle: React.FC<Props> = (para: Props) => {
     };
 
     return (
-        <div className="brand-page">
+        <div className="single-page">
             <h2>Brands</h2>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="name">Name:</label>

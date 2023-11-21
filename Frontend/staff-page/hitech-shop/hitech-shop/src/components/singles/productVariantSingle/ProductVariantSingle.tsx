@@ -3,15 +3,10 @@ import { Autocomplete, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import productLineApi from '../../../api/productLineApi';
 import productVariantApi, { ProductVariant } from '../../../api/productVariantApi';
-import './productVariantSingle.scss';
-
-
-// interface ProductVariant {
-//     id: number,
-//     productLineId: number,
-//     name: string,
-// }
-
+// import './productVariantSingle.scss';
+import specificationApi from '../../../api/specificationApi';
+import '../commonSingle/commonSingle.scss'
+import AddIcon from '@mui/icons-material/Add';
 interface Props {
     productVariant: ProductVariant
 }
@@ -19,13 +14,18 @@ interface Props {
 const initProductVariant = {
     id: 0,
     productLineId: 0,
-    name: '',
+    name: ''
 }
 
 const fetchProductLines = async () => {
     // Fetch productLines data from your API
-    // For simplicity, let's assume the API returns an array of objects with 'id' and 'name' properties
     const data = (await productLineApi.getAll({ _page: 1, _limit: 100000 })).data;
+    return data;
+};
+
+const fetchSpecifications = async () => {
+    // Fetch productLines data from your API
+    const data = (await specificationApi.getAll({ _page: 1, _limit: 100000 })).data;
     return data;
 };
 
@@ -34,6 +34,8 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
     // console.log('This is para: ', para)
     const [productVariant, setProductVariant] = useState<ProductVariant>(initProductVariant);
     const [productLines, setProductLines] = useState([]);
+    const [specifications, setSpecifications] = useState<any>([]);
+    const [specList, setSpecList] = useState<any>([])
 
     useEffect(() => {
         if (para.productVariant !== null) {
@@ -45,11 +47,13 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
     useEffect(() => {
         const fetchData = async () => {
             const productLinesData = await fetchProductLines();
+            const specificationsData = await fetchSpecifications();
             setProductLines(productLinesData);
+            setSpecifications(specificationsData)
         };
 
         fetchData();
-    }, []); // Fetch productLines only once when the component mounts
+    }, []); // Fetch only once when the component mounts
 
     const handleProductLineChange = (
         _event: React.ChangeEvent<unknown>,
@@ -60,6 +64,7 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
         }
         console.log('New Value: ', newValue)
     };
+
 
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -72,6 +77,23 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
             console.log('this is value from product line', value)
         setProductVariant((prevProductVariant) => ({ ...prevProductVariant, [name]: value }));
         // console.log('Product Variant: ', productVariant)
+    };
+
+    const addSpecificationsAutocomplete = () => {
+        const newSpecificationAutocompletes = [
+            ...specList,
+            { id: 0, value: '' }, // Initial state for the new ProductSpecificationAutocomplete
+        ];
+        setSpecList(newSpecificationAutocompletes);
+    };
+
+    const handleSpecificationChange = (
+        index: number,
+        newValue: { id: number; value: string } | null
+    ) => {
+        const updatedSpecificationAutocompletes = [...specList];
+        updatedSpecificationAutocompletes[index] = newValue;
+        setSpecList(updatedSpecificationAutocompletes);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -97,7 +119,7 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
     };
 
     return (
-        <div className="productVariant-page">
+        <div className="single-page">
             <h2>Product Variants</h2>
             <form onSubmit={handleSubmit}>
                 <label>ProductLine:</label>
@@ -121,6 +143,30 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
                     onChange={handleInputChange}
                     required
                 />
+
+                {specList.map((specAutocomplete: any, index: any) => (
+                    <div key={index}>
+                        <label>Specifications: {index + 1}</label>
+
+                        <Autocomplete
+                            className="autocomplete"
+                            disablePortal
+                            id={`specificationsId-${index}`}
+                            options={specifications}
+                            getOptionLabel={(option: any) => option.value}
+                            value={specifications.find((spec: any) => spec.id === specAutocomplete.id) || null}
+                            onChange={(event, newValue) => handleSpecificationChange(index, newValue)}
+                            renderInput={(params) => <TextField {...params} label="" />}
+                        />
+                    </div>
+                ))}
+
+                <AddIcon onClick={addSpecificationsAutocomplete} className="add-button">
+
+                </AddIcon>
+                {/* <button type="button" onClick={addSpecificationsAutocomplete} className="button">
+                    Add Specifications
+                </button> */}
 
                 <button type="submit" className='button'>Submit</button>
             </form>

@@ -14,13 +14,13 @@ interface SpecificationTableProps {
 
 const columns: GridColDef[] = [
     {
-        field: 'id', headerName: 'ID'
+        field: 'id', headerName: 'ID', width: 50
     },
     {
-        field: 'specificationType', headerName: 'Product Variant Name', width: 200
+        field: 'specificationType', headerName: 'Product Variant Name', width: 180
     },
     {
-        field: 'value', headerName: 'Value', width: 130
+        field: 'value', headerName: 'Value', width: 400
     }
 
 ]
@@ -102,7 +102,7 @@ const SpecificationTable: React.FC<SpecificationTableProps> = ({ rows }) => {
     return (
         <div className='datatable'>
             <div className="datatableTitle">
-                Product Instances
+                Specifications
                 <div className="search">
                     <input type='text' placeholder='Search...' onChange={(e) => handleInput(e)} />
                     <SearchIcon />

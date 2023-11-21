@@ -1,12 +1,8 @@
 //CategorySingle.tsx
 import React, { useEffect, useState } from 'react';
 import categoryApi, { Category } from '../../../api/categoryApi';
-import './categorySingle.scss'
-
-// interface Category {
-//     id: number,
-//     name: string
-// }
+// import './categorySingle.scss'
+import '../commonSingle/commonSingle.scss'
 
 interface Props {
     category: Category
@@ -68,7 +64,7 @@ const CategorySingle: React.FC<Props> = (para: Props) => {
     };
 
     return (
-        <div className="category-page">
+        <div className="single-page">
             <h2>Categories</h2>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="name">Name:</label>
