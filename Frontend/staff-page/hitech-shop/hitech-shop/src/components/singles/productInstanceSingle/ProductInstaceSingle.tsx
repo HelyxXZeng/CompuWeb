@@ -2,17 +2,9 @@
 import { Autocomplete, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import productVariantApi from '../../../api/productVariantApi';
-import productInstanceApi from '../../../api/productInstanceApi';
-import './productInstanceSingle.scss';
-
-
-interface ProductInstance {
-    id: number,
-    productVariantId: number,
-    serialNumber: string,
-    status: string,
-    available: boolean
-}
+import productInstanceApi, { ProductInstance } from '../../../api/productInstanceApi';
+// import './productInstanceSingle.scss';
+import '../commonSingle/commonSingle.scss'
 
 interface Props {
     productInstance: ProductInstance
@@ -117,7 +109,7 @@ const ProductInstanceSingle: React.FC<Props> = (para: Props) => {
     };
 
     return (
-        <div className="productInstance-page">
+        <div className="single-page">
             <h2>Product Instances</h2>
             <form onSubmit={handleSubmit}>
                 <label>ProductVariant:</label>

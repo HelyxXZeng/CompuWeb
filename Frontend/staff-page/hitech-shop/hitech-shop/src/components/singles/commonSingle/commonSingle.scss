@@ -1,6 +1,6 @@
 // AddBrandPage.scss
 
-.promotion-page {
+.single-page {
     max-width: 60%;
     margin: 0 auto;
 
@@ -23,14 +23,6 @@
             padding: 8px;
         }
 
-        .autocomplete {
-            margin-bottom: 15px;
-        }
-
-        .datePicker {
-            margin-bottom: 15px;
-        }
-
         .button {
             background-color: #007bff;
             color: #fff;
@@ -39,11 +31,33 @@
             border: none;
             border-radius: 5px;
             font-size: 16px;
-            width: 100%;
+            margin-bottom: 15px;
 
             &:hover {
                 background-color: #0056b3;
             }
         }
+
+        .add-button {
+            color: black;
+            cursor: pointer;
+            border: solid black;
+            border-radius: 5px;
+            font-size: 30px;
+            margin-bottom: 15px;
+            margin-top: 15px;
+            margin-left: 45%;
+
+            &:hover {
+                background-color: #adc5de;
+            }
+        }
+
+        .autocomplete {
+            margin-top: 5px;
+            margin-bottom: 20px;
+        }
     }
+
+
 }

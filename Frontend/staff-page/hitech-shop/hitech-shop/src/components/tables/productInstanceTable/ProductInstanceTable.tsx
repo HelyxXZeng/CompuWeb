@@ -14,19 +14,19 @@ interface ProductInstanceTableProps {
 
 const columns: GridColDef[] = [
     {
-        field: 'id', headerName: 'ID'
+        field: 'id', headerName: 'ID', width: 50
     },
     {
-        field: 'productVariant', headerName: 'Product Variant Name', width: 200
+        field: 'productVariant', headerName: 'Product Variant Name', width: 300
     },
     {
-        field: 'serialNumber', headerName: 'Serial Number', width: 130
+        field: 'serialNumber', headerName: 'Serial Number', width: 220
     },
     {
         field: 'status', headerName: 'Status', width: 130
     },
     {
-        field: 'available', headerName: 'Available', width: 100
+        field: 'available', headerName: 'Available', width: 70
     },
 
 ]
@@ -80,7 +80,7 @@ const ProductInstanceTable: React.FC<ProductInstanceTableProps> = ({ rows }) => 
         // Check if the rows have actually changed
         if (previousRowsRef.current !== rows && productVariants.length > 0) {
             // Update rows directly to include productVariant name
-            console.log('Product Variants in Instance', productVariants)
+            // console.log('Product Variants in Instance', productVariants)
             rows.forEach(row => {
                 row.productVariant = productVariants.find(pl => pl.id === row.productVariantId)?.name || 'N/A';
             });
@@ -88,21 +88,18 @@ const ProductInstanceTable: React.FC<ProductInstanceTableProps> = ({ rows }) => 
         }
 
         // Use the filter method to create a new array with rows that match the query in either Name or Id
-        console.log('Rows in Instances:', rows)
+        // console.log('Rows in Instances:', rows)
         try {
             const filteredRows = rows.filter(row =>
-                row.serialNumber.toLowerCase().includes(query.toLowerCase())
-                || row.id.toString().includes(query)
-                || row.productVariant.toLowerCase().includes(query.toLowerCase())
+                (row.serialNumber && row.serialNumber.toLowerCase().includes(query.toLowerCase()))
+                || (row.id && row.id.toString().includes(query))
+                || (row.productVariant && row.productVariant.toLowerCase().includes(query.toLowerCase()))
             );
             setDisplayedRows(filteredRows);
         }
         catch (error) {
-            console.log('Error in Instance Table', error)
+            // console.log('Error in Instance Table', error)
         }
-
-
-
 
         // Update the previousRowsRef with the current rows
         previousRowsRef.current = rows.slice(); // Copy the array to avoid reference issues

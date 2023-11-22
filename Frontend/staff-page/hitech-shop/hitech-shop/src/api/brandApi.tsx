@@ -1,7 +1,7 @@
 // brandApi.tsx
 import axiosClient from "./axiosClient";
 
-interface Brand {
+export interface Brand {
     id: number;
     name: string;
     description: string;

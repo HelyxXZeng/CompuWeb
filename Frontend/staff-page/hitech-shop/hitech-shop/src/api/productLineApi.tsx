@@ -1,6 +1,6 @@
 import axiosClient from "./axiosClient";
 
-interface ProductLine {
+export interface ProductLine {
     id: number,
     name: string,
     categoryId: number,

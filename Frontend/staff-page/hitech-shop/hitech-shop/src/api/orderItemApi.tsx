@@ -1,7 +1,7 @@
 // orderItemApi.tsx
 import axiosClient from "./axiosClient";
 
-interface OrderItem {
+export interface OrderItem {
     Id: number,
     ProductInstanceId: number,
     OrderId: number

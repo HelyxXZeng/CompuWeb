@@ -1,28 +1,28 @@
-//CategorySingle.tsx
+//SpecificationTypeSingle.tsx
 import React, { useEffect, useState } from 'react';
-import categoryApi, { Category } from '../../../api/categoryApi';
-// import './categorySingle.scss'
+import specificationTypeApi, { SpecificationType } from '../../../api/specificationTypeApi';
+// import './specificationTypeSingle.scss'
 import '../commonSingle/commonSingle.scss'
 
 interface Props {
-    category: Category
+    specificationType: SpecificationType
 }
 
-const CategorySingle: React.FC<Props> = (para: Props) => {
+const SpecificationTypeSingle: React.FC<Props> = (para: Props) => {
 
     // console.log('This is para: ', para)
-    const [category, setCategory] = useState<Category>({
+    const [specificationType, setSpecificationType] = useState<SpecificationType>({
         id: 0,
         name: ''
     });
 
 
     useEffect(() => {
-        if (para.category !== null) {
-            console.log('para category', para.category)
-            setCategory(para.category);
+        if (para.specificationType !== null) {
+            console.log('para specificationType', para.specificationType)
+            setSpecificationType(para.specificationType);
         }
-    }, [para.category]);
+    }, [para.specificationType]);
 
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -30,49 +30,49 @@ const CategorySingle: React.FC<Props> = (para: Props) => {
         const { name, value } = e.target;
         // console.log('This is input name', name)
         // console.log('This is input value', value)
-        setCategory((prevCategory) => ({ ...prevCategory, [name]: value }));
+        setSpecificationType((prevSpecificationType) => ({ ...prevSpecificationType, [name]: value }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         try {
-            if (para.category === null) {
-                await categoryApi.add({
-                    id: category.id,
-                    name: category.name
+            if (para.specificationType === null) {
+                await specificationTypeApi.add({
+                    id: specificationType.id,
+                    name: specificationType.name
                 });
             } else {
-                await categoryApi.update(category.id, {
-                    id: category.id,
-                    name: category.name
+                await specificationTypeApi.update(specificationType.id, {
+                    id: specificationType.id,
+                    name: specificationType.name
                 });
             }
 
             // Reset the form
-            setCategory({
+            setSpecificationType({
                 id: 0,
                 name: ''
             });
 
             alert("Successfully Uploaded!");
         } catch (error) {
-            const action = para.category === null ? 'adding' : 'updating';
-            console.error(`Error in ${action} category:`, error);
+            const action = para.specificationType === null ? 'adding' : 'updating';
+            console.error(`Error in ${action} specificationType:`, error);
             alert(`Error! ${error}`);
         }
     };
 
     return (
         <div className="single-page">
-            <h2>Categories</h2>
+            <h2>Specification Type</h2>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="name">Name:</label>
                 <input
                     type="text"
                     id="name"
                     name="name"
-                    value={category.name}
+                    value={specificationType.name}
                     onChange={handleInputChange}
                     required
                 />
@@ -83,4 +83,4 @@ const CategorySingle: React.FC<Props> = (para: Props) => {
     );
 };
 
-export default CategorySingle;
+export default SpecificationTypeSingle;

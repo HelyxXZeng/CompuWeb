@@ -1,24 +1,13 @@
 //PromotionSingle.tsx
 import React, { useEffect, useState } from 'react';
-import promotionApi from '../../../api/promotionApi';
-import './promotionSingle.scss'
+import promotionApi, { Promotion } from '../../../api/promotionApi';
+// import './promotionSingle.scss'
 import Autocomplete from '@mui/material/Autocomplete';
 import { TextField } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-
-interface Promotion {
-    Id: number,
-    Name: string,
-    ProductVariantIdPurchase: number,
-    ProductVariantIdPromotion: number,
-    StartDate: Date,
-    EndDate: Date,
-    Content: string,
-    Value: number,
-    Status: string
-}
+import '../commonSingle/commonSingle.scss'
 
 interface Props {
     promotion: Promotion
@@ -155,7 +144,7 @@ const PromotionSingle: React.FC<Props> = (para: Props) => {
     };
 
     return (
-        <div className="promotion-page">
+        <div className="single-page">
             <h2>Promotion</h2>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="name">Name:</label>

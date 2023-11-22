@@ -55,12 +55,18 @@ const CustomerTable: React.FC<CustomerTableProps> = ({ rows }) => {
 
     useEffect(() => {
         // Use the filter method to create a new array with rows that match the query in either Name or Id or Phone
-        const filteredRows = rows.filter(row =>
-            row.name.toLowerCase().includes(query.toLowerCase()) || // Check Name
-            row.id.toString().includes(query) || // Check Id (assuming Id is a number)
-            row.phoneNumber.toString().includes(query) // Check Phone (assuming Phone is a number)
-        );
-        setDisplayedRows(filteredRows);
+        try {
+
+            const filteredRows = rows.filter(row =>
+                row.name.toLowerCase().includes(query.toLowerCase()) || // Check Name
+                row.id.toString().includes(query) || // Check Id (assuming Id is a number)
+                row.phoneNumber.toString().includes(query) // Check Phone (assuming Phone is a number)
+            );
+            setDisplayedRows(filteredRows);
+        }
+        catch (error) {
+            // console.log('Error in Customer Table', error)
+        }
     }, [query, rows]);
 
 

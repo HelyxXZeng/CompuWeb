@@ -1,13 +1,13 @@
 import axiosClient from "./axiosClient";
 
-interface Staff {
+export interface Staff {
     Id: number,
     Name: string
 }
 
 const staffApi = {
     getAll: (params: any) => {
-        const url = '/staffs/GetStaff';
+        const url = '/staffs/GetStaffs';
         return axiosClient.get(url);
     },
     get: (id: any) => {

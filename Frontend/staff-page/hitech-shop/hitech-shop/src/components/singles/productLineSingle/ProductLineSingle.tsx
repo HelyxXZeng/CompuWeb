@@ -1,21 +1,12 @@
 //ProductLineSingle.tsx
 import React, { useEffect, useState } from 'react';
-import productLineApi from '../../../api/productLineApi';
-import './productLineSingle.scss'
+import productLineApi, { ProductLine } from '../../../api/productLineApi';
+// import './productLineSingle.scss'
 import brandApi from '../../../api/brandApi';
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, Button, TextField } from '@mui/material';
 import categoryApi from '../../../api/categoryApi';
-
-interface ProductLine {
-    id: number,
-    name: string,
-    categoryId: number,
-    brandId: number,
-    releaseDate: string,
-    warranty: number,
-    description: string
-}
-
+import DeleteIcon from '@mui/icons-material/Delete';
+import '../commonSingle/commonSingle.scss'
 interface Props {
     productLine: ProductLine
 }
@@ -25,7 +16,7 @@ const initProductLine = {
     name: '',
     categoryId: 0,
     brandId: 0,
-    releaseDate: '2000-01-01',
+    releaseDate: '2020-01-01',
     warranty: 0,
     description: ''
 }
@@ -49,6 +40,8 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
     const [productLine, setProductLine] = useState<ProductLine>(initProductLine);
     const [brands, setBrands] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [imageFiles, setImageFiles] = useState<File[]>([]);
+
 
     useEffect(() => {
         if (para.productLine !== null) {
@@ -91,6 +84,23 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
         }
     };
 
+    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = e.target.files;
+
+        if (files) {
+            const fileList = Array.from(files);
+            setImageFiles(fileList);
+        }
+    };
+
+    const handleRemoveImage = (index: number) => {
+        const updatedImages = [...imageFiles];
+        updatedImages.splice(index, 1);
+        setImageFiles(updatedImages);
+    };
+
+
+
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
@@ -126,19 +136,9 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
     };
 
     return (
-        <div className="productLine-page">
+        <div className="single-page">
             <h2>Product Lines</h2>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="name">Name:</label>
-                <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={productLine.name}
-                    onChange={handleInputChange}
-                    required
-                />
-
                 <label>Brand:</label>
                 <Autocomplete
                     className="autocomplete"
@@ -163,6 +163,16 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
                     renderInput={(params) => <TextField {...params} label="" />}
                 />
 
+                <label htmlFor="name">Name:</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={productLine.name}
+                    onChange={handleInputChange}
+                    required
+                />
+
                 <label htmlFor="releaseDate">Release Date:</label>
                 <input
                     type="date"
@@ -182,6 +192,46 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
                     onChange={handleInputChange}
                     required
                 />
+
+                <label htmlFor="image" className='custom-file-input'>Image:
+                    <input
+                        type="file"
+                        id="image"
+                        name="image"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className='custom-file-input'
+                        multiple
+                        required
+                    />
+                </label>
+                {/* Display the placeholder image */}
+                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                    {imageFiles.map((file, index) => (
+                        <div key={index} style={{ marginRight: '10px', marginBottom: '10px', position: 'relative' }}>
+                            <img
+                                src={URL.createObjectURL(file)}
+                                alt={`Image ${index + 1}`}
+                                style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                            />
+                            {/* <button
+                                type="button"
+                                onClick={() => handleRemoveImage(index)}
+                                style={{ position: 'absolute', top: '5px', right: '5px', background: 'none', border: 'none', cursor: 'pointer' }}
+                            >
+                                Remove
+                            </button> */}
+
+                            <Button variant="outlined" startIcon={<DeleteIcon />}
+                                onClick={() => handleRemoveImage(index)}
+                                style={{ position: 'absolute', top: '0px', right: '-25px', background: 'none', border: 'none', cursor: 'pointer' }}>
+
+                            </Button>
+                        </div>
+                    ))}
+                </div>
+
+
 
                 <label htmlFor="description">Description:</label>
                 <input

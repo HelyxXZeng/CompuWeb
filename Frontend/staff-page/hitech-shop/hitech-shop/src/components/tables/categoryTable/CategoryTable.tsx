@@ -52,11 +52,17 @@ const CategoryTable: React.FC<CategoryTableProps> = ({ rows }) => {
 
     useEffect(() => {
         // Use the filter method to create a new array with rows that match the query in either Name or Id
-        const filteredRows = rows.filter(row =>
-            row.name.toLowerCase().includes(query.toLowerCase()) || // Check Name
-            row.id.toString().includes(query) // Check Id (assuming Id is a number)
-        );
-        setDisplayedRows(filteredRows);
+        try {
+
+            const filteredRows = rows.filter(row =>
+                row.name.toLowerCase().includes(query.toLowerCase()) || // Check Name
+                row.id.toString().includes(query) // Check Id (assuming Id is a number)
+            );
+            setDisplayedRows(filteredRows);
+        }
+        catch (error) {
+            // console.log('Error in CategoryTable', error)
+        }
     }, [query, rows]);
 
 
