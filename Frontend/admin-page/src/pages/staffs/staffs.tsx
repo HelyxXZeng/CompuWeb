@@ -1,10 +1,12 @@
+import { useState } from 'react';
 import DataTable from '../../components/dataTable/DataTable'
 import { userRows } from '../../data';
-import './users.scss'
+import './staffs.scss'
 import {GridColDef} from "@mui/x-data-grid"
+import AddStaff from '../../components/addStaff/AddStaff';
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 90 },
+  { field: "id", headerName: "ID", width: 90, },
   {
     field: "img",
     headerName: "Avatar",
@@ -44,23 +46,25 @@ const columns: GridColDef[] = [
     type: "string",
   },
   {
-    field: "verified",
-    headerName: "Verified",
+    field: "salary",
+    headerName: "Salary",
     width: 150,
-    type: "boolean",
+    type: "string",
   },
 ];
 
-const users = () => {
+const staffs = () => {
+  const [open,setOpen] = useState(false)
   return (
-    <div className='users'>
+    <div className='staffs'>
       <div className="info">
         <h1>Users</h1>
-        <button>Add New User</button>
+        <button onClick={() => setOpen(true)}>Add New Staff</button>
       </div>
-      <DataTable columns={columns} rows={userRows} slug='users'/>
+      <DataTable columns={columns} rows={userRows} slug='staffs'/>
+      {open && <AddStaff slug='staffs' columns={columns} setOpen={setOpen}/>}
     </div>
   )
 }
 
-export default users
+export default staffs

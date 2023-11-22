@@ -1,4 +1,6 @@
-.users{
+@import '../../styles/global-variables.scss';
+
+.staffs{
 
     .info{
       display: flex;
@@ -9,6 +11,9 @@
       button{
         padding: 5px;
         cursor: pointer;
+        background-color: $soft-bg;
+        color: $main-color;
+        border-radius: 10%;
       }
     }
   }
