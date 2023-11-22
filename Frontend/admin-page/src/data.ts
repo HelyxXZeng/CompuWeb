@@ -12,7 +12,7 @@ export const menuData = [
       {
         id: 2,
         title: "Profile",
-        url: "/users/1",
+        url: "/staffs/1",
         icon: "profile.svg",
       },
     ],
@@ -23,15 +23,15 @@ export const menuData = [
     listItems: [
       {
         id: 1,
-        title: "Users",
-        url: "/users",
-        icon: "user.svg",
+        title: "Staffs",
+        url: "/staffs",
+        icon: "staff.svg",
       },
       {
         id: 2,
-        title: "Products",
-        url: "/products",
-        icon: "product.svg",
+        title: "Promotions",
+        url: "/promotions",
+        icon: "promotion.svg",
       },
       {
         id: 3,
@@ -41,9 +41,9 @@ export const menuData = [
       },
       {
         id: 4,
-        title: "Posts",
-        url: "/posts",
-        icon: "post.svg",
+        title: "Reviews",
+        url: "/reviews",
+        icon: "review.svg",
       },
     ],
   },
@@ -566,62 +566,62 @@ export const singleUser = {
     fullname: "John Doe",
     email: "johndoe@gmail.com",
     phone: "123 456 789",
-    status: "salary",
+    salary: "$1000",
   },
   chart: {
     dataKeys: [
-      { name: "visits", color: "#82ca9d" },
-      { name: "clicks", color: "#8884d8" },
+      { name: "sells", color: "#82ca9d" },
+      { name: "checks", color: "#8884d8" },
     ],
     data: [
       {
         name: "Sun",
-        visits: 4000,
-        clicks: 2400,
+        sells: 4000,
+        checks: 2400,
       },
       {
         name: "Mon",
-        visits: 3000,
-        clicks: 1398,
+        sells: 3000,
+        checks: 1398,
       },
       {
         name: "Tue",
-        visits: 2000,
-        clicks: 3800,
+        sells: 2000,
+        checks: 3800,
       },
       {
         name: "Wed",
-        visits: 2780,
-        clicks: 3908,
+        sells: 2780,
+        checks: 3908,
       },
       {
         name: "Thu",
-        visits: 1890,
-        clicks: 4800,
+        sells: 1890,
+        checks: 4800,
       },
       {
         name: "Fri",
-        visits: 2390,
-        clicks: 3800,
+        sells: 2390,
+        checks: 3800,
       },
       {
         name: "Sat",
-        visits: 3490,
-        clicks: 4300,
+        sells: 3490,
+        checks: 4300,
       },
     ],
   },
   activities: [
     {
-      text: "John Doe purchased Playstation 5 Digital Edition",
+      text: "John Doe sold receipt B41551 with a value of $500",
       time: "3 day ago",
     },
     {
-      text: "John Doe added 3 items into their wishlist",
+      text: "John Doe added 3 new items to warehouse",
       time: "1 week ago",
     },
     {
-      text: "John Doe purchased Sony Bravia KD-32w800",
+      text: "John Doe damaged Sony Vaio FE14 i5 1235U worth $700",
       time: "2 weeks ago",
     },
     {
@@ -629,7 +629,7 @@ export const singleUser = {
       time: "1 month ago",
     },
     {
-      text: "John Doe added 1 items into their wishlist",
+      text: "John Doe added 1 new items to warehouse",
       time: "1 month ago",
     },
     {
@@ -651,44 +651,44 @@ export const singleProduct = {
   },
   chart: {
     dataKeys: [
-      { name: "visits", color: "#82ca9d" },
-      { name: "orders", color: "#8884d8" },
+      { name: "sells", color: "#82ca9d" },
+      { name: "checks", color: "#8884d8" },
     ],
     data: [
       {
         name: "Sun",
-        visits: 4000,
-        orders: 2400,
+        sells: 4000,
+        checks: 2400,
       },
       {
         name: "Mon",
-        visits: 3000,
-        orders: 1398,
+        sells: 3000,
+        checks: 1398,
       },
       {
         name: "Tue",
-        visits: 2000,
-        orders: 3800,
+        sells: 2000,
+        checks: 3800,
       },
       {
         name: "Wed",
-        visits: 2780,
-        orders: 3908,
+        sells: 2780,
+        checks: 3908,
       },
       {
         name: "Thu",
-        visits: 1890,
-        orders: 4800,
+        sells: 1890,
+        checks: 4800,
       },
       {
         name: "Fri",
-        visits: 2390,
-        orders: 3800,
+        sells: 2390,
+        checks: 3800,
       },
       {
         name: "Sat",
-        visits: 3490,
-        orders: 4300,
+        sells: 3490,
+        checks: 4300,
       },
     ],
   },
