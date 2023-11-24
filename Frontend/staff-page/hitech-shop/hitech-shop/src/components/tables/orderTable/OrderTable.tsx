@@ -14,30 +14,30 @@ const statusList = ["ALL", "PENDING", "SHIPPING", "RECEIVED", "COMPLETED"]
 
 const columns: GridColDef[] = [
     {
-        field: 'Id', headerName: 'ID'
+        field: 'id', headerName: 'ID'
     },
     {
-        field: 'Name', headerName: 'Name', width: 300
+        field: 'name', headerName: 'Name', width: 300
     },
     {
-        field: 'Phone', headerName: 'Phone', width: 130
+        field: 'phoneNumber', headerName: 'Phone', width: 130
     },
     {
-        field: 'Total', headerName: 'Total', width: 110,
+        field: 'total', headerName: 'Total', width: 110,
         renderCell: (params) => {
             return (
-                <div className={"priceCell" + " " + params.row.Total}>
-                    {params.row.Total}
+                <div className={"priceCell" + " " + params.row.total}>
+                    {params.row.total}
                 </div>
             );
         },
     },
     {
-        field: 'Status', headerName: 'Status', width: 150,
+        field: 'status', headerName: 'Status', width: 150,
         renderCell: (params) => {
             return (
-                <div className={"statusCell" + " " + params.row.Status}>
-                    {params.row.Status}
+                <div className={"statusCell" + " " + params.row.status}>
+                    {params.row.status}
                 </div>
             );
         },
@@ -74,9 +74,9 @@ const OrderTable: React.FC<OrderTableProps> = ({ rows }) => {
             filteredRows = filteredRows.filter(row => row.Status === currentStatus);
         }
         filteredRows = filteredRows.filter(row =>
-            row.Name.toLowerCase().includes(query.toLowerCase()) || // Check Name
-            row.Id.toString().includes(query) || // Check Id (assuming Id is a number)
-            row.Phone.toString().includes(query) // Check Id (assuming Phone is a number)
+            row.name.toLowerCase().includes(query.toLowerCase()) || // Check Name
+            row.id.toString().includes(query) || // Check Id (assuming Id is a number)
+            row.phoneNumber.toString().includes(query) // Check Id (assuming Phone is a number)
         );
         setDisplayedRows(filteredRows);
     }, [query, rows, currentStatus]);

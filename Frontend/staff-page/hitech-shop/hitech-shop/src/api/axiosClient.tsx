@@ -1,6 +1,8 @@
 // api/axiosClient.js
 import axios from 'axios';
 import queryString from 'query-string';
+import firebase from "firebase/compat/app";
+
 // Set up default config for http requests here
 // Please have a look at here 'https://github.com/axios/axios#request-config' for the full list of configs
 
@@ -14,8 +16,47 @@ const axiosClient = axios.create({
 });
 
 
+const getFirebaseToken = async () => {
+    // logged in 
+    const currentUser = firebase.auth().currentUser;
+    if (currentUser)
+        return currentUser.getIdToken();
+    // not logged in
+    const hasRememberedAccount = localStorage.getItem('firebaseui::rememberedAccounts');
+    if (!hasRememberedAccount)
+        return null;
+    // logged in but current user is not fetch
+    return new Promise((resolve, reject) => {
+        const waitTimer = setTimeout(() => {
+            reject(null)
+            console.log('Reject due to timeout')
+        }, 10000)
+        const unregisterAuthObserver = firebase.auth().onAuthStateChanged(async (user) => {
+            // setIsSignedIn(!!user);
+
+            if (!user) {
+                reject(null)
+            }
+
+            const token = await user!.getIdToken();
+            console.log('Logged in, token:', token)
+            resolve(token)
+
+            unregisterAuthObserver();
+            clearTimeout(waitTimer)
+        });
+    })
+
+}
+
 axiosClient.interceptors.request.use(async (config) => {
     // Handle token here ...
+
+    const token = await getFirebaseToken()
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`
+    }
+
     return config;
 })
 

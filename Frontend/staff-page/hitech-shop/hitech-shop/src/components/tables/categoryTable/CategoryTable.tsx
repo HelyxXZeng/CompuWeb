@@ -1,9 +1,10 @@
 import '../datatable/datatable.scss'
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
 import actionColumn from '../datatable/DataTable';
+import categoryApi from '../../../api/categoryApi';
 // import { handleDelete, handleView, actionColumn } from '../datatable/DataTable';
 interface CategoryTableProps {
     rows: any[]; // Define the type of your rows here
@@ -11,10 +12,10 @@ interface CategoryTableProps {
 
 const columns: GridColDef[] = [
     {
-        field: 'Id', headerName: 'ID'
+        field: 'id', headerName: 'ID'
     },
     {
-        field: 'Name', headerName: 'Name', width: 400
+        field: 'name', headerName: 'Name', width: 400
     }
 ]
 
@@ -28,12 +29,21 @@ const CategoryTable: React.FC<CategoryTableProps> = ({ rows }) => {
         const isConfirmed = window.confirm('Are you sure you want to delete this row?');
         if (isConfirmed) {
             // Perform the deletion action here
+            categoryApi.remove(rowId);
             console.log('Deleting row with ID:', rowId);
+
+            // Update displayedRows after the item has been deleted
+            const updatedRows = displayedRows.filter(row => row.id !== rowId); // It should be row.Id later
+            setDisplayedRows(updatedRows);
+            rows.filter(row => row.id !== rowId); // It should be row.Id later
         }
     };
 
+    const navigate = useNavigate();
+
     const handleView = (rowId: number) => {
         console.log('Viewing row with ID:', rowId);
+        navigate(`/categories/GetCategoryById?id=${rowId}`);
     };
 
     const handleInput = (event: any) => {
@@ -42,11 +52,17 @@ const CategoryTable: React.FC<CategoryTableProps> = ({ rows }) => {
 
     useEffect(() => {
         // Use the filter method to create a new array with rows that match the query in either Name or Id
-        const filteredRows = rows.filter(row =>
-            row.Name.toLowerCase().includes(query.toLowerCase()) || // Check Name
-            row.Id.toString().includes(query) // Check Id (assuming Id is a number)
-        );
-        setDisplayedRows(filteredRows);
+        try {
+
+            const filteredRows = rows.filter(row =>
+                row.name.toLowerCase().includes(query.toLowerCase()) || // Check Name
+                row.id.toString().includes(query) // Check Id (assuming Id is a number)
+            );
+            setDisplayedRows(filteredRows);
+        }
+        catch (error) {
+            // console.log('Error in CategoryTable', error)
+        }
     }, [query, rows]);
 
 

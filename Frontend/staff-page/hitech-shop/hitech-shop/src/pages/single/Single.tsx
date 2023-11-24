@@ -1,70 +1,127 @@
 
+import { useLocation, useParams } from "react-router-dom";
+import brandApi from "../../api/brandApi";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import BrandSingle from "../../components/singles/brandSingle/BrandSingle";
 import "./single.scss"
 import { useEffect, useState } from "react"
+import customerApi from "../../api/customerApi";
+import productApi from "../../api/productApi";
+import categoryApi from "../../api/categoryApi";
+import orderApi from "../../api/orderApi";
+import promotionApi from "../../api/promotionApi";
+import CategorySingle from "../../components/singles/categorySingle/CategorySingle";
+import PromotionSingle from "../../components/singles/promotionSingle/PromotionSingle";
+import CustomerSingle from "../../components/singles/customerSingle/CustomerSingle";
+import productLineApi from "../../api/productLineApi";
+import ProductLineSingle from "../../components/singles/productLineSingle/ProductLineSingle";
+import productVariantApi from "../../api/productVariantApi";
+import ProductVariantSingle from "../../components/singles/productVariantSingle/ProductVariantSingle";
+import productInstanceApi from "../../api/productInstanceApi";
+import ProductInstanceSingle from "../../components/singles/productInstanceSingle/ProductInstaceSingle";
+import specificationTypeApi from "../../api/specificationTypeApi";
+import SpecificationTypeSingle from "../../components/singles/specificationTypeSingle/SpecificationTypeSingle";
+import SpecificationSingle from "../../components/singles/specificationSingle/SpecificationSingle";
+import specificationApi from "../../api/specificationApi";
 
-const Single = ({ type }: { type: string }) => {
-    const [rows, setRows] = useState<any[]>([]);
-    // console.log('This is the very beginning', rows)
+interface Props {
+    type: string,
+    isNew: string
+}
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             let data: any[] = [];
-    //             switch (type) {
-    //                 case 'customer':
-    //                     data = (await customerApi.getAll({ _page: 1, _limit: 100000 })).data;
-    //                     break;
-    //                 case 'category':
-    //                     data = (await categoryApi.getAll({ _page: 1, _limit: 100000 })).data;
-    //                     break;
-    //                 case 'product':
-    //                     data = (await productApi.getAll({ _page: 1, _limit: 100000 })).data;
-    //                     break;
-    //                 case 'order':
-    //                     data = (await orderApi.getAll({ _page: 1, _limit: 100000 })).data;
-    //                     break;
-    //                 case 'brand':
-    //                     data = (await brandApi.getAll({ _page: 1, _limit: 100000 })).data;
-    //                     break;
-    //                 case 'promotion':
-    //                     data = (await promotionApi.getAll({ _page: 1, _limit: 100000 })).data;
-    //                     break;
-    //                 default:
-    //                     break;
-    //             }
+const Single = ({ type, isNew }: Props) => {
 
-    //             setRows(data);
-    //             // console.log(`This is ${type}:`, data);
-    //         } catch (error) {
-    //             // console.log(`Failed to fetch ${type} list:`, error);
-    //         }
-    //     };
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const id = queryParams.get('id');
 
-    //     fetchData();
-    // }, [type]);
+    // console.log("This is id from url:", id);
+
+    const [editRow, setEditRow] = useState(null);
+    const [isDoneFetch, setIsDoneFetch] = useState(false)
+    useEffect(() => {
+        setIsDoneFetch(false)
+        const fetchData = async () => {
+            let data: any;
+            switch (type) {
+                case 'brand':
+                    data = (await brandApi.get(parseInt(id!))).data;
+                    break;
+                case 'customer':
+                    data = (await customerApi.get(parseInt(id!))).data;
+                    break;
+                case 'product':
+                    data = (await productApi.get(parseInt(id!))).data;
+                    break;
+                case 'category':
+                    data = (await categoryApi.get(parseInt(id!))).data;
+                    break;
+                case 'order':
+                    data = (await orderApi.get(parseInt(id!))).data;
+                    break;
+                case 'promotion':
+                    data = (await promotionApi.get(parseInt(id!))).data;
+                    break;
+                case 'productLine':
+                    data = (await productLineApi.get(parseInt(id!))).data;
+                    break;
+                case 'productVariant':
+                    data = (await productVariantApi.get(parseInt(id!))).data;
+                    break;
+                case 'productInstance':
+                    data = (await productInstanceApi.get(parseInt(id!))).data;
+                    break;
+                case 'specificationType':
+                    data = (await specificationTypeApi.get(parseInt(id!))).data;
+                    break;
+                case 'specification':
+                    data = (await specificationApi.get(parseInt(id!))).data;
+                    break;
+                default:
+                    break;
+                // Handle the default case
+            }
+
+
+            setEditRow(data)
+            // console.log("This is data: ", data)
+            setIsDoneFetch(true)
+        }
+        if (isNew === 'update') {
+            fetchData();
+        } else {
+            setIsDoneFetch(true)
+        }
+    }, [type, id, isNew])
 
     const getElement = () => {
-        // switch (type) {
-        //     case 'category':
-        //         return <CategoryTable rows={rows} />;
-        //     case 'product':
-        //         return <ProductTable rows={rows} />;
-        //     case 'customer':
-        //         return <CustomerTable rows={rows} />;
-        //     case 'order':
-        //         return <OrderTable rows={rows} />;
-        //     case 'brand':
-        //         return <BrandTable rows={rows} />;
-        //     case 'promotion':
-        //         return <PromotionTable rows={rows} />;
-        //     default:
-        //         return null;
-        // }
-
-        return <BrandSingle />
+        switch (type) {
+            case 'category':
+                return <CategorySingle category={editRow!} />;
+            case 'product':
+            // return <ProductTable rows={rows} />;
+            case 'customer':
+                return <CustomerSingle customer={editRow!} />
+            case 'order':
+            // return <OrderTable rows={rows} />;
+            case 'brand':
+                return <BrandSingle brand={editRow!} />
+            case 'promotion':
+                return <PromotionSingle promotion={editRow!} />
+            case 'productLine':
+                return <ProductLineSingle productLine={editRow!} />
+            case 'productVariant':
+                return <ProductVariantSingle productVariant={editRow!} />
+            case 'productInstance':
+                return <ProductInstanceSingle productInstance={editRow!} />
+            case 'specificationType':
+                return <SpecificationTypeSingle specificationType={editRow!} />
+            case 'specification':
+                return <SpecificationSingle specification={editRow!} />
+            default:
+                return null;
+        }
     }
 
     return (
@@ -73,9 +130,8 @@ const Single = ({ type }: { type: string }) => {
             <div className="singleContainer">
                 <Navbar />
                 {
-                    getElement()
+                    isDoneFetch ? getElement() : <p>Loading...</p>
                 }
-
             </div>
         </div>
     )
