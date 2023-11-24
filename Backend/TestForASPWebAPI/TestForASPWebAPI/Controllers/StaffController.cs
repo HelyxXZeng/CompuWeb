@@ -33,6 +33,7 @@ namespace TestForASPWebAPI.Controllers
                 {
                     Id = (int)dataRow["Id"],
                     Name = (string)dataRow["Name"],
+                    Avatar = (string)dataRow["Avatar"],
                     Birthdate = (DateTime)dataRow["Birthdate"],
                     Gender = (string)dataRow["Gender"],
                     IdcardNumber = (string)dataRow["IdcardNumber"],
@@ -66,6 +67,7 @@ namespace TestForASPWebAPI.Controllers
                 {
                     Id = (int)dataRow["Id"],
                     Name = (string)dataRow["Name"],
+                    Avatar = (string)dataRow["Avatar"],
                     Birthdate = (DateTime)dataRow["Birthdate"],
                     Gender = (string)dataRow["Gender"],
                     IdcardNumber = (string)dataRow["IdcardNumber"],
@@ -86,8 +88,9 @@ namespace TestForASPWebAPI.Controllers
         {
             if (value == null) { return BadRequest("Invalid Data!"); }
 
-            string command = $"INSERT INTO Staff (Name, Birthdate, Gender, IdcardNumber, Address, JoinDate, PhoneNumber, Position, Salary, Other) " +
+            string command = $"INSERT INTO Staff (Name, Avatar, Birthdate, Gender, IdcardNumber, Address, JoinDate, PhoneNumber, Position, Salary, Other) " +
                 $"VALUES (N'{value.Name}', " +
+                $"'{value.Avatar}', " +
                 $"'{value.Birthdate.ToString("yyyy-MM-dd")}', " +
                 $"'{value.Gender}', " +
                 $"'{value.IdcardNumber}', " +
@@ -111,6 +114,7 @@ namespace TestForASPWebAPI.Controllers
 
             string command = $"UPDATE Staff SET " +
                 $"Name = N'{value.Name}', " +
+                $"Avatar = '{value.Avatar}', " +
                 $"Birthdate = '{value.Birthdate.ToString("yyyy-MM-dd")}', " +
                 $"Gender = '{value.Gender}', " +
                 $"IdcardNumber = '{value.IdcardNumber}', " +

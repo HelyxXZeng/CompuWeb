@@ -107,5 +107,41 @@ namespace TestForASPWebAPI.Controllers
             DataTable data = await dbController.GetData(command);
             return (data.Rows.Count is not 0);
         }
+
+        [HttpGet("UpdatePriceStatus")]
+        public static async Task<bool> UpdatePriceStatus()
+        {
+            DBController dbController = DBController.GetInstance();
+            //var dataTable = new DataTable();
+
+            string command = @$"select * from Price where Status = 'ACTIVE' or Status = 'NOTREADY'";
+            var dataTable = await dbController.GetData(command);
+
+            var Prices = new List<Price>();
+
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                var Price = new Price()
+                {
+                    Id = (int)dataRow["Id"],
+                    ProductVariantId = (int)dataRow["ProductVariantId"],
+                    StartDate = (DateTime)dataRow["StartDate"],
+                    EndDate = (DateTime)dataRow["EndDate"],
+                    Status = (string)dataRow["Status"],
+                    Value = (decimal)dataRow["Value"],
+                };
+                if (Price.Status is "ACTIVE" && Price.EndDate < DateTime.Now)
+                {
+                    string UpdateCommand = $"UPDATE Price SET Status = 'OUTDATED' WHERE Id = {Price.Id}";
+                    dbController.UpdateData(UpdateCommand);
+                }
+                else if (Price.Status is "NOTREADY" && Price.StartDate > DateTime.Now)
+                {
+                    string UpdateCommand = $"UPDATE Price SET Status = 'ACTIVE' WHERE Id = {Price.Id}";
+                    dbController.UpdateData(UpdateCommand);
+                }
+            }
+            return true;
+        }
     }
 }
