@@ -34,6 +34,8 @@ namespace TestForASPWebAPI.Controllers
                     Id = (int)dataRow["Id"],
                     ProductInstanceId = (int)dataRow["Name"],
                     OrderId = (int)dataRow["Description"],
+                    PromotionId = (int)dataRow["PromotionId"],
+                    PriceId = (int)dataRow["PriceId"],
                 };
                 OrderItems.Add(OrderItem);
             }
@@ -59,6 +61,8 @@ namespace TestForASPWebAPI.Controllers
                     Id = (int)dataRow["Id"],
                     ProductInstanceId = (int)dataRow["Name"],
                     OrderId = (int)dataRow["Description"],
+                    PromotionId = (int)dataRow["PromotionId"],
+                    PriceId = (int)dataRow["PriceId"],
                 };
                 return Ok(OrderItem);
             }
@@ -68,7 +72,7 @@ namespace TestForASPWebAPI.Controllers
         [HttpPost("Insert")]
         public void Insert([FromBody] OrderItem value)
         {
-            string command = $"INSERT INTO OrderItem (ProductInstanceId, OrderId) VALUES ({value.ProductInstanceId}, {value.OrderId})";
+            string command = $"INSERT INTO OrderItem (ProductInstanceId, OrderId, PromotionId, PriceId) VALUES ({value.ProductInstanceId}, {value.OrderId}, {value.PromotionId}, {value.PriceId})";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
@@ -78,7 +82,7 @@ namespace TestForASPWebAPI.Controllers
         [HttpPut("Update")]
         public void Put(int id, [FromBody] OrderItem value)
         {
-            string command = $"UPDATE OrderItem SET ProductInstanceId = {value.ProductInstanceId}, OrderId = {value.OrderId} WHERE Id = {id}";
+            string command = $"UPDATE OrderItem SET ProductInstanceId = {value.ProductInstanceId}, OrderId = {value.OrderId}, PromotionId = {value.PromotionId}, PriceId = {value.PriceId} WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
