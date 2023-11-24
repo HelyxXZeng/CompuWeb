@@ -5,6 +5,7 @@ const routes = {
     accessory: '/phukien',
     promotion: '/khuyenmai',
     login: '/login',
+    productDetail: '/productDetail',
 };
 
 export default routes;
