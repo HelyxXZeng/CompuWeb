@@ -9,6 +9,7 @@ import MemoryIcon from '@mui/icons-material/Memory';
 import PaymentIcon from '@mui/icons-material/Payment';
 import PeopleIcon from '@mui/icons-material/People';
 import ReorderIcon from '@mui/icons-material/Reorder';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DarkModeContext } from '../../context/darkModeContext';
@@ -42,7 +43,7 @@ const Sidebar = () => {
                             <div>
                                 <div className="center">
                                     <ul>
-                                        <p className="title">Products</p>
+                                        {/* <p className="title">Products</p> */}
                                         <Link to='/categories' style={{ textDecoration: 'none' }}>
                                             <li>
                                                 <CategoryIcon className='icon' />
@@ -73,6 +74,12 @@ const Sidebar = () => {
                                                 <span>Product Instances</span>
                                             </li>
                                         </Link>
+                                        <Link to='/prices' style={{ textDecoration: 'none' }}>
+                                            <li>
+                                                <AttachMoneyIcon className='icon' />
+                                                <span>Prices</span>
+                                            </li>
+                                        </Link>
                                         <Link to='/specificationTypes' style={{ textDecoration: 'none' }}>
                                             <li>
                                                 <AssignmentIcon className='icon' />
@@ -85,7 +92,7 @@ const Sidebar = () => {
                                                 <span>Specifications</span>
                                             </li>
                                         </Link>
-                                        <p className="title">Sales</p>
+                                        {/* <p className="title">Sales</p> */}
                                         <Link to='/customers' style={{ textDecoration: 'none' }}>
                                             <li>
                                                 <PeopleIcon className='icon' />
@@ -98,12 +105,12 @@ const Sidebar = () => {
                                                 <span>Brands</span>
                                             </li>
                                         </Link>
-                                        <Link to='/orders' style={{ textDecoration: 'none' }}>
+                                        {/* <Link to='/orders' style={{ textDecoration: 'none' }}>
                                             <li>
                                                 <PaymentIcon className='icon' />
                                                 <span>Orders</span>
                                             </li>
-                                        </Link>
+                                        </Link> */}
                                         {/* <p className="title">Functions</p>
                                         <li onClick={handleLogout}>
                                             <LogoutIcon className='icon' />

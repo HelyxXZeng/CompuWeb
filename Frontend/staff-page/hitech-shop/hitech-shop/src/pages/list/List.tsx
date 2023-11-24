@@ -24,6 +24,8 @@ import PromotionTable from "../../components/tables/promotionTable/PromotionTabl
 import SpecificationTable from "../../components/tables/specificationTable/SpecificationTable"
 import SpecificationTypeTable from "../../components/tables/specificationTypeTable/SpecificationTypeTable"
 import "./list.scss"
+import priceApi from "../../api/priceApi"
+import PriceTable from "../../components/tables/priceTable/PriceTable"
 
 
 
@@ -72,6 +74,9 @@ const List = ({ type }: { type: string }) => {
                         break;
                     case 'specification':
                         data = (await specificationApi.getAll({ _page: 1, _limit: 100000 })).data;
+                        break;
+                    case 'price':
+                        data = (await priceApi.getAll({ _page: 1, _limit: 100000 })).data;
                         break;
                     default:
                         break;
@@ -126,6 +131,8 @@ const List = ({ type }: { type: string }) => {
                 return <SpecificationTypeTable rows={rows} />;
             case 'specification':
                 return <SpecificationTable rows={rows} />;
+            case 'price':
+                return <PriceTable rows={rows} />;
             default:
                 return null;
         }
