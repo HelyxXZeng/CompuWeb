@@ -306,7 +306,7 @@ namespace TestForASPWebAPI.Controllers
             string createVariantCommand = $"INSERT INTO ProductVariant (ProductLineId, Name) VALUES ({variants.ProductLineId}, N'{variants.Name}')";
             dbController.UpdateData(createVariantCommand);
 
-            foreach (var specification in variants.Specifications)
+            foreach (var specification in variants.ProductSpecifications)
             {
                 string command = $"INSERT INTO ProductSpecification (ProductVariantId, SpecificationId) VALUES ({specification.ProductVariantId}, {specification.SpecificationId})";
                 dbController.UpdateData(command);

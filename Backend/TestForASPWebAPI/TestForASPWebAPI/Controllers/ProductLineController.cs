@@ -53,16 +53,16 @@ namespace TestForASPWebAPI.Controllers
 
             string command = @$"select * from ProductLine where Id = {id}";
             var dataTable = await dbController.GetData(command);
-
-            var ProductLines = new List<ProductLine>();
+            if (dataTable.Rows.Count is 0)
+                return NotFound("Not Exists!");
 
             foreach (DataRow dataRow in dataTable.Rows)
             {
-                string GetImages = @$"select * from ProductImage";
+                string GetImages = @$"select * from ProductImage where ProductLineId = {id}";
                 var ProductImages = new List<ProductImage>();
-                using (var data = await dbController.GetData(command))
+                using (var data = await dbController.GetData(GetImages))
                 {
-                    foreach (DataRow row in dataTable.Rows)
+                    foreach (DataRow row in data.Rows)
                     {
                         var ProductImage = new ProductImage()
                         {
