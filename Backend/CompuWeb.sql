@@ -1,7 +1,7 @@
 ﻿create database CompuWeb
-
+go
 use CompuWeb
-
+go
 -- Create the Sản phẩm table
 CREATE TABLE Category (
    Id INT IDENTITY(1,1) PRIMARY KEY,
@@ -225,17 +225,18 @@ alter table ProductImage
 alter column Url NVARCHAR(MAX)
 ---
 
-use CompuWeb
-ALTER TABLE Customer ALTER COLUMN Name NVARCHAR(50) COLLATE Vietnamese_CI_AS;
-select * from Customer
-insert into Customer (Name, PhoneNumber, Birthdate, JoinDate) VALUES (N'Nguyễn Văn A', '0123456789', '2000-11-26', '2023-11-16')
-alter table ProductInstance
-alter column Status NVARCHAR(150)
-select count(*) as ColumnCount from Category where Id = 1 and Name = 'Hi'
-select Id, Name from Category
-select * from Price where Status = 'ACTIVE' and ProductVariantId = 1
+--use CompuWeb
+--ALTER TABLE Customer ALTER COLUMN Name NVARCHAR(50) COLLATE Vietnamese_CI_AS;
+--select * from Customer
+--insert into Customer (Name, PhoneNumber, Birthdate, JoinDate) VALUES (N'Nguyễn Văn A', '0123456789', '2000-11-26', '2023-11-16')
+--alter table ProductInstance
+--alter column Status NVARCHAR(150)
+--select count(*) as ColumnCount from Category where Id = 1 and Name = 'Hi'
+--select Id, Name from Category
+--select * from Price where Status = 'ACTIVE' and ProductVariantId = 1
 
-select * from OrderItem
-drop database CompuWeb
+--select * from OrderItem
+--drop database CompuWeb
 
-select MAX(Id) from Orders
+--select MAX(Id) from Orders
+

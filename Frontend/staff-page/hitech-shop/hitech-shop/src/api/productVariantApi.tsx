@@ -15,7 +15,7 @@ const productVariantApi = {
         return axiosClient.get(url);
     },
     get: (id: any) => {
-        const url = '/productVariants/GetProductVariantById?id=' + id;
+        const url = '/productVariants/GetProductVariantById/' + id;
         return axiosClient.get(url);
     },
 
@@ -39,7 +39,7 @@ const productVariantApi = {
 
     remove: async (id: number) => {
         try {
-            const response = await axiosClient.delete(`/productVariants/Delete?id=${id}`);
+            const response = await axiosClient.delete(`/productVariants/Delete/${id}`);
             return response.data;
         } catch (error) {
             throw error;

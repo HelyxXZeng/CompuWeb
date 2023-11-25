@@ -56,17 +56,17 @@ const ProductTable: React.FC<ProductTableProps> = ({ rows }) => {
     const [displayedRows, setDisplayedRows] = useState(rows);
     const [selectedCategory, setSelectedCategory] = useState(ALL);
 
-    const handleDelete = (rowId: number) => {
-        const isConfirmed = window.confirm('Are you sure you want to delete this row?');
-        if (isConfirmed) {
-            // Perform the deletion action here
-            console.log('Deleting row with ID:', rowId);
-        }
-    };
+    // const handleDelete = (rowId: number) => {
+    //     const isConfirmed = window.confirm('Are you sure you want to delete this row?');
+    //     if (isConfirmed) {
+    //         // Perform the deletion action here
+    //         console.log('Deleting row with ID:', rowId);
+    //     }
+    // };
 
-    const handleView = (rowId: number) => {
-        console.log('Viewing row with ID:', rowId);
-    };
+    // const handleView = (rowId: number) => {
+    //     console.log('Viewing row with ID:', rowId);
+    // };
 
     const handleInput = (event: any) => {
         setQuery(event.target.value);
@@ -123,7 +123,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ rows }) => {
             <DataGrid
                 className='datagrid'
                 rows={displayedRows}
-                columns={columns.concat(actionColumn(handleDelete, handleView))}
+                columns={columns}
                 initialState={{
                     pagination: {
                         paginationModel: { page: 0, pageSize: 5 },

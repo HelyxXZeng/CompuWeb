@@ -14,7 +14,7 @@ const productInstanceApi = {
         return axiosClient.get(url);
     },
     get: (id: any) => {
-        const url = '/productInstances/GetProductInstanceById?id=' + id;
+        const url = '/productInstances/GetProductInstanceById/' + id;
         return axiosClient.get(url);
     },
 
@@ -38,7 +38,7 @@ const productInstanceApi = {
 
     remove: async (id: number) => {
         try {
-            const response = await axiosClient.delete(`/productInstances/Delete?id=${id}`);
+            const response = await axiosClient.delete(`/productInstances/Delete/${id}`);
             return response.data;
         } catch (error) {
             throw error;
