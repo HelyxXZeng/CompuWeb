@@ -1,13 +1,15 @@
 import Home from "./pages/home/home";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import Users from "./pages/users/users";
-import Products from "./pages/products/products";
+import Staffs from "./pages/staffs/staffs";
+//import Products from "./pages/products/products";
 import NavBar from "./components/navBar/navBar";
 import Footer from "./pages/footer/footer";
 import Menu from "./components/menu/menu";
 import Login from "./pages/login/login";
+import Staff from "./pages/staff/Staff";
+import "./styles/global-styles.scss";
+import Promotion from "./pages/promotion/Promotion";
 
-import "./styles/global-styles.scss"
 
 function App() {
   const Layout = () => { 
@@ -37,12 +39,20 @@ function App() {
           element:<Home />,
         },
         {
-          path:"/users",
-          element:<Users />,
+          path:"/staffs",
+          element:<Staffs />,
         },
         {
-          path:"/products",
-          element:<Products />,
+          path:"/staffs/:id",
+          element:<Staff />,
+        },
+        {
+          path:"/promotions",
+          element:<Promotion />,
+        },
+        {
+          path:"/promotions/:id",
+          element:<Promotion />,
         },
       ]
     },

@@ -1,0 +1,1652 @@
+{
+  "employees": [
+    {
+      "firstName": "tam",
+      "lastName": "sdaf",
+      "email": "",
+      "dob": "",
+      "gender": "",
+      "education": "Intermediate",
+      "company": "google",
+      "experience": 7,
+      "package": 125,
+      "id": 2
+    },
+    {
+      "firstName": "tuyn",
+      "lastName": "",
+      "email": "",
+      "dob": "",
+      "gender": "",
+      "education": "Graduate",
+      "company": "",
+      "experience": "",
+      "package": 100,
+      "id": 3
+    },
+    {
+      "firstName": "kieu",
+      "lastName": "doan",
+      "email": "kieu@gmail.com",
+      "dob": "2023-04-13T17:00:00.000Z",
+      "gender": "",
+      "education": "Diploma",
+      "company": "Google",
+      "experience": 5,
+      "package": 5,
+      "id": 4
+    },
+    {
+      "firstName": "dat",
+      "lastName": "",
+      "email": "",
+      "dob": "",
+      "gender": "",
+      "education": "",
+      "company": "",
+      "experience": "",
+      "package": "",
+      "id": 7
+    },
+    {
+      "firstName": "",
+      "lastName": "bao",
+      "email": "",
+      "dob": "",
+      "gender": "",
+      "education": "",
+      "company": "",
+      "experience": "",
+      "package": "",
+      "id": 8
+    },
+    {
+      "firstName": "",
+      "lastName": "",
+      "email": "",
+      "dob": "",
+      "gender": "",
+      "education": "Post Graduate",
+      "company": "",
+      "experience": "",
+      "package": "",
+      "id": 10
+    },
+    {
+      "firstName": "",
+      "lastName": "",
+      "email": "",
+      "dob": "",
+      "gender": "others",
+      "education": "Matric",
+      "company": "",
+      "experience": "",
+      "package": "",
+      "id": 11
+    },
+    {
+      "firstName": "",
+      "lastName": "",
+      "email": "",
+      "dob": "2023-04-10T17:00:00.000Z",
+      "gender": "female",
+      "education": "Post Graduate",
+      "company": "",
+      "experience": "",
+      "package": "",
+      "id": 12
+    },
+    {
+      "firstName": "",
+      "lastName": "",
+      "email": "",
+      "dob": "2023-04-25T17:00:00.000Z",
+      "gender": "",
+      "education": "",
+      "company": "",
+      "experience": "",
+      "package": "",
+      "id": 14
+    },
+    {
+      "firstName": "",
+      "lastName": "ádf",
+      "email": "",
+      "dob": "",
+      "gender": "",
+      "education": "",
+      "company": "",
+      "experience": "",
+      "package": "",
+      "id": 15
+    },
+    {
+      "firstName": "",
+      "lastName": "",
+      "email": "",
+      "dob": "",
+      "gender": "",
+      "education": "",
+      "company": "",
+      "experience": "",
+      "package": "",
+      "id": 16
+    },
+    {
+      "firstName": "",
+      "lastName": "",
+      "email": "",
+      "dob": "",
+      "gender": "",
+      "education": "Intermediate",
+      "company": "ThanhTam",
+      "experience": "",
+      "package": "",
+      "id": 17
+    }
+  ],
+  "sales": [
+    {
+      "year": 2015,
+      "amount": 5000,
+      "colorcode": "green"
+    },
+    {
+      "year": 2016,
+      "amount": 6000,
+      "colorcode": "yellow"
+    },
+    {
+      "year": 2017,
+      "amount": 2000,
+      "colorcode": "red"
+    },
+    {
+      "year": 2018,
+      "amount": 6500,
+      "colorcode": "blue"
+    },
+    {
+      "year": 2019,
+      "amount": 4000,
+      "colorcode": "grey"
+    }
+  ],
+  "manufacturer": [
+    {
+      "name": "samsung galaxy",
+      "description": "",
+      "displayOrder": "",
+      "picture": "",
+      "id": 2
+    },
+    {
+      "name": "",
+      "description": "",
+      "displayOrder": 5,
+      "picture": "",
+      "id": 3
+    },
+    {
+      "name": "",
+      "description": "",
+      "displayOrder": "",
+      "picture": "",
+      "id": 4
+    },
+    {
+      "name": "dfdfasfasd",
+      "description": "",
+      "displayOrder": "",
+      "picture": "",
+      "id": 5
+    },
+    {
+      "name": "huewei",
+      "description": "",
+      "displayOrder": "",
+      "picture": "",
+      "id": 6
+    },
+    {
+      "name": "xiaomi",
+      "description": "",
+      "displayOrder": "",
+      "picture": "",
+      "id": 7
+    },
+    {
+      "name": "oppo",
+      "description": "ầdsdfsadfsf",
+      "displayOrder": 5,
+      "picture": "sầ",
+      "id": 8
+    },
+    {
+      "name": "flip",
+      "description": "",
+      "displayOrder": "",
+      "picture": "",
+      "id": 9
+    },
+    {
+      "name": "",
+      "description": "",
+      "displayOrder": "",
+      "picture": "",
+      "id": 10
+    },
+    {
+      "name": "",
+      "description": "",
+      "displayOrder": "",
+      "picture": "sadsdafdsafsadfjksdjfjlksdfjl;kfl;dsfl;sdkf;lldskflkdsf",
+      "id": 11
+    },
+    {
+      "name": "",
+      "description": "",
+      "displayOrder": "",
+      "picture": "",
+      "id": 12
+    }
+  ],
+  "admin": [
+    {
+      "id": 1,
+      "username": "DOZLAP",
+      "password": "BESTSERVICE",
+      "isactive": true
+    }
+  ],
+  "discount": [
+    {
+      "id": 1,
+      "name": "Giảm giá Laptop",
+      "discount_percentage": 15,
+      "start_date_utc": "2023-04-24T00:00:00",
+      "end_date_utc": "2023-04-26T00:00:00"
+    },
+    {
+      "id": 2,
+      "name": "Giảm giá PC",
+      "discount_percentage": 10,
+      "start_date_utc": "2023-06-15T00:00:00",
+      "end_date_utc": "2023-07-22T00:00:00"
+    },
+    {
+      "id": 3,
+      "name": "Giảm giá màn hình",
+      "discount_percentage": 20,
+      "start_date_utc": "2023-06-01T00:00:00",
+      "end_date_utc": "2023-06-20T00:00:00"
+    },
+    {
+      "id": 4,
+      "name": "Giảm giá bàn phím",
+      "discount_percentage": 33,
+      "start_date_utc": "2023-04-30T00:00:00",
+      "end_date_utc": "2023-05-01T00:00:00"
+    },
+    {
+      "id": 5,
+      "name": "Giảm giá chuột",
+      "discount_percentage": 20,
+      "start_date_utc": "2023-06-22T00:00:00",
+      "end_date_utc": "2023-07-01T00:00:00"
+    },
+    {
+      "id": 6,
+      "name": "Giảm giá loa & tai nghe",
+      "discount_percentage": 50,
+      "start_date_utc": "2023-05-16T00:00:00",
+      "end_date_utc": "2023-07-01T00:00:00"
+    },
+    {
+      "id": 7,
+      "name": "Giảm giá linh kiện PC",
+      "discount_percentage": 25,
+      "start_date_utc": "2023-05-10T00:00:00",
+      "end_date_utc": "2023-07-05T00:00:00"
+    },
+    {
+      "id": 8,
+      "name": "Giảm giá Apple",
+      "discount_percentage": 10,
+      "start_date_utc": "2023-05-02T00:00:00",
+      "end_date_utc": "2023-06-30T00:00:00"
+    }
+  ],
+  "category": [
+    {
+      "name": "Laptop",
+      "description": "A small, portable personal computer (PC)",
+      "id": 1
+    },
+    {
+      "id": 2,
+      "name": "PC",
+      "description": "Personal Computer"
+    },
+    {
+      "id": 3,
+      "name": "Screen",
+      "description": "An output device that displays information in pictorial or textual form"
+    },
+    {
+      "id": 6,
+      "name": "Earphone & Speaker",
+      "description": "Common output devices for generating sounds to the user."
+    },
+    {
+      "id": 7,
+      "name": "PC components",
+      "description": "Electrical components of a PC which can be replaced."
+    },
+    {
+      "id": 8,
+      "name": "Apple",
+      "description": "A brand which specializes in making digital devices."
+    }
+  ],
+  "shipment_method": [
+    {
+      "id": 1,
+      "name": "Thường",
+      "description": "Chuyển hàng thông thường",
+      "ship_charge": 15000
+    },
+    {
+      "id": 2,
+      "name": "Hỏa tốc",
+      "description": "Hàng sẽ giao trong khoảng 24-72h",
+      "ship_charge": 30000
+    },
+    {
+      "id": 3,
+      "name": "Hỏa tốc trong ngày",
+      "description": "Hàng sẽ giao ngay trong ngày đặt hàng",
+      "ship_charge": 70000
+    }
+  ],
+  "payment_method": [
+    {
+      "id": 1,
+      "name": "Giao tiền khi nhận hàng (COD)"
+    },
+    {
+      "id": 2,
+      "name": "Thanh toán bằng chuyển khoản (thẻ tín dụng / ghi nợ)"
+    }
+  ],
+  "province": [
+    {
+      "id": 1,
+      "name": "An Giang",
+      "shipping_charge": 18000
+    },
+    {
+      "id": 2,
+      "name": "Bà Rịa-Vũng Tàu",
+      "shipping_charge": 88000
+    },
+    {
+      "id": 3,
+      "name": "Bạc Liêu",
+      "shipping_charge": 33000
+    },
+    {
+      "id": 4,
+      "name": "Bắc Giang",
+      "shipping_charge": 18000
+    },
+    {
+      "id": 5,
+      "name": "Bắc Kạn",
+      "shipping_charge": 61000
+    },
+    {
+      "id": 6,
+      "name": "Bắc Ninh",
+      "shipping_charge": 24000
+    },
+    {
+      "id": 7,
+      "name": "Bến Tre",
+      "shipping_charge": 21000
+    },
+    {
+      "id": 8,
+      "name": "Bình Dương",
+      "shipping_charge": 15000
+    },
+    {
+      "id": 9,
+      "name": "Bình Định",
+      "shipping_charge": 13000
+    },
+    {
+      "id": 10,
+      "name": "Bình Phước",
+      "shipping_charge": 2000
+    },
+    {
+      "id": 11,
+      "name": "Bình Thuận",
+      "shipping_charge": 43000
+    },
+    {
+      "id": 12,
+      "name": "Cà Mau",
+      "shipping_charge": 1000
+    },
+    {
+      "id": 13,
+      "name": "Cao Bằng",
+      "shipping_charge": 61000
+    },
+    {
+      "id": 14,
+      "name": "Cần Thơ",
+      "shipping_charge": 32000
+    },
+    {
+      "id": 15,
+      "name": "Đà Nẵng",
+      "shipping_charge": 70000
+    },
+    {
+      "id": 16,
+      "name": "Đắk Lắk",
+      "shipping_charge": 92000
+    },
+    {
+      "id": 17,
+      "name": "Đắk Nông",
+      "shipping_charge": 25000
+    },
+    {
+      "id": 18,
+      "name": "Điện Biên",
+      "shipping_charge": 65000
+    },
+    {
+      "id": 19,
+      "name": "Đồng Nai",
+      "shipping_charge": 68000
+    },
+    {
+      "id": 20,
+      "name": "Đồng Tháp",
+      "shipping_charge": 32000
+    },
+    {
+      "id": 21,
+      "name": "Gia Lai",
+      "shipping_charge": 90000
+    },
+    {
+      "id": 22,
+      "name": "NHà Giang",
+      "shipping_charge": 94000
+    },
+    {
+      "id": 23,
+      "name": "Hà Nam",
+      "shipping_charge": 35000
+    },
+    {
+      "id": 24,
+      "name": "Hà Nội",
+      "shipping_charge": 50000
+    },
+    {
+      "id": 25,
+      "name": "Hà Tĩnh",
+      "shipping_charge": 12000
+    },
+    {
+      "id": 26,
+      "name": "Hải Dương",
+      "shipping_charge": 72000
+    },
+    {
+      "id": 27,
+      "name": "Hải Phòng",
+      "shipping_charge": 95000
+    },
+    {
+      "id": 28,
+      "name": "Hậu Giang",
+      "shipping_charge": 96000
+    },
+    {
+      "id": 29,
+      "name": "Hòa Bình",
+      "shipping_charge": 18000
+    },
+    {
+      "id": 30,
+      "name": "Hưng Yên",
+      "shipping_charge": 24000
+    },
+    {
+      "id": 31,
+      "name": "Khánh Hòa",
+      "shipping_charge": 75000
+    },
+    {
+      "id": 32,
+      "name": "Kiên Giang",
+      "shipping_charge": 86000
+    },
+    {
+      "id": 33,
+      "name": "Kon Tum",
+      "shipping_charge": 70000
+    },
+    {
+      "id": 34,
+      "name": "Lai Châu",
+      "shipping_charge": 71000
+    },
+    {
+      "id": 35,
+      "name": "Lạng Sơn",
+      "shipping_charge": 73000
+    },
+    {
+      "id": 36,
+      "name": "Lào Cai",
+      "shipping_charge": 78000
+    },
+    {
+      "id": 37,
+      "name": "Lâm Đồng",
+      "shipping_charge": 73000
+    },
+    {
+      "id": 38,
+      "name": "Long An",
+      "shipping_charge": 32000
+    },
+    {
+      "id": 39,
+      "name": "Nam Định",
+      "shipping_charge": 77000
+    },
+    {
+      "id": 40,
+      "name": "Nghệ An",
+      "shipping_charge": 21000
+    },
+    {
+      "id": 41,
+      "name": "Ninh Bình",
+      "shipping_charge": 32000
+    },
+    {
+      "id": 42,
+      "name": "Ninh Thuận",
+      "shipping_charge": 59000
+    },
+    {
+      "id": 43,
+      "name": "Phú Thọ",
+      "shipping_charge": 66000
+    },
+    {
+      "id": 44,
+      "name": "Phú Yên",
+      "shipping_charge": 4000
+    },
+    {
+      "id": 45,
+      "name": "Quảng Bình",
+      "shipping_charge": 62000
+    },
+    {
+      "id": 46,
+      "name": "Quảng Nam",
+      "shipping_charge": 33000
+    },
+    {
+      "id": 47,
+      "name": "Quảng Ngãi",
+      "shipping_charge": 68000
+    },
+    {
+      "id": 48,
+      "name": "Quảng Ninh",
+      "shipping_charge": 97000
+    },
+    {
+      "id": 49,
+      "name": "Quảng Trị",
+      "shipping_charge": 61000
+    },
+    {
+      "id": 50,
+      "name": "Sóc Trăng",
+      "shipping_charge": 36000
+    },
+    {
+      "id": 51,
+      "name": "Sơn La",
+      "shipping_charge": 72000
+    },
+    {
+      "id": 52,
+      "name": "Tây Ninh",
+      "shipping_charge": 8000
+    },
+    {
+      "id": 53,
+      "name": "Thái Bình",
+      "shipping_charge": 9000
+    },
+    {
+      "id": 54,
+      "name": "Thái Nguyên",
+      "shipping_charge": 13000
+    },
+    {
+      "id": 55,
+      "name": "Thanh Hóa",
+      "shipping_charge": 35000
+    },
+    {
+      "id": 56,
+      "name": "Thừa Thiên Huế",
+      "shipping_charge": 16000
+    },
+    {
+      "id": 57,
+      "name": "Tiền Giang",
+      "shipping_charge": 53000
+    },
+    {
+      "id": 58,
+      "name": "TP Hồ Chí Minh",
+      "shipping_charge": 30000
+    },
+    {
+      "id": 59,
+      "name": "Trà Vinh",
+      "shipping_charge": 13000
+    },
+    {
+      "id": 60,
+      "name": "Tuyên Quang",
+      "shipping_charge": 7000
+    },
+    {
+      "id": 61,
+      "name": "Vĩnh Long",
+      "shipping_charge": 96000
+    },
+    {
+      "id": 62,
+      "name": "Vĩnh Phúc",
+      "shipping_charge": 72000
+    },
+    {
+      "id": 63,
+      "name": "Yên Bái",
+      "shipping_charge": 12000
+    }
+  ],
+  "credit_card_type": [
+    {
+      "id": 1,
+      "name": "ATM",
+      "charge": 0
+    },
+    {
+      "id": 2,
+      "name": "Thẻ ghi nợ (Debit)",
+      "charge": 0
+    },
+    {
+      "id": 3,
+      "name": "Thẻ tín dụng (Credit)",
+      "charge": 10000
+    }
+  ],
+  "discount_applied_category": [
+    {
+      "discount_id": 1,
+      "category_id": 1
+    },
+    {
+      "discount_id": 2,
+      "category_id": 2
+    },
+    {
+      "discount_id": 3,
+      "category_id": 3
+    },
+    {
+      "discount_id": 4,
+      "category_id": 4
+    },
+    {
+      "discount_id": 5,
+      "category_id": 5
+    },
+    {
+      "discount_id": 6,
+      "category_id": 6
+    },
+    {
+      "discount_id": 7,
+      "category_id": 7
+    },
+    {
+      "discount_id": 8,
+      "category_id": 8
+    }
+  ],
+  "product": [
+    {
+      "id": 1,
+      "name": "Laptop MSI Modern 14 B11MOU-1065VN dfadsfsadfsdaf fdsafsdfdsf",
+      "image_url": "https://cdn2.cellphones.com.vn/358x358,webp,q100/media/catalog/product/t/e/text_ng_n_5__1_68.png",
+      "description": "Laptop học tập - văn phòng cực mỏng nhẹ với trọng lượng chỉ 1.3 kg|\r\nCPU Intel Core i7-1195G7 cân mọi tác vụ văn phòng như: Word, Excel, PowerPoint|\r\nCard đồ họa Intel Iris Xe Graphics thoải mái chạy các ứng dụng văn phòng cơ bản hay các phần mềm thiết kế đơn giản|\r\nRAM 8 GB chuẩn DDR4 giúp thao tác đa nhiệm mượt mà hơn|\r\nKhởi động máy, ứng dụng nhanh chóng chỉ trong vài giây nhờ ổ cứng SSD 512 GB PCIe NVMe|\r\nĐộ phủ màu 45% NTSC, 63% sRGB hỗ trợ thiết kế, làm việc với màu sắc chuẩn xác",
+      "specs": "Loại card đồ họa    Intel Iris Xe Graphics|\r\nDung lượng RAM    8GB|\r\nLoại RAM    DDR4 3200MHz|\r\nSố khe ram    2 khe (Nâng cấp tối đa 64GB)|\r\nỔ cứng    512GB PCIe NVMe M.2 SSD (1 slot)|\r\nKích thước màn hình    14 inches|\r\nCông nghệ màn hình    Tần số quét 60Hz  Độ phủ màu 45% NTSC, 63% sRGB  Thin Bezel|\r\nPin    3 Cell, 39Whr|\r\nHệ điều hành    Windows 11 Home|\r\nĐộ phân giải màn hình    1920 x 1080 pixels (FullHD)|\r\nCổng giao tiếp    1x Type-C USB3.2 Gen 2  2x Type-A USB3.2 Gen 1 1x Micro SD 1x HDMI (4K @ 60Hz)|\r\n",
+      "price": 16100000,
+      "status": false,
+      "category_id": 1
+    },
+    {
+      "id": 2,
+      "name": "Laptop Asus Gaming Rog Strix G15 G513IH HN015W",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/6/_/6_22_24.jpg",
+      "description": "Chip R7-4800H cùng card đồ họa rời Geforce GTX 1650 cho khả năng chiến các tựa game nặng, chỉnh sửa hình ảnh trên PTS, Render video ngắn mượt mà|\r\nRam 8GB + 1 khe, nâng cấp tối đa 32GB cùng ổ cứng SSD có không gian lưu trữ lên tới 512GB cho tốc độ xử lý mượt mà, nhanh chóng, không lo giật lag|\r\nMàn hình 15.6 inches trên tấm nền IPS với độ phân giải Full HD cùng tần số 144Hz cho trải nghiệm hình ảnh, màu sắc chân thực, sinh động|\r\nĐa dạng cổng giao tiếp, dễ dàng sử dụng|\r\nTrọng lượng 2.1 kg thuận tiện cho di chuyển và mang theo.Máy đi kèm Windows 11 SL bản quyền",
+      "specs": "Loại card đồ họa    Geforce GTX 1650 4GB|\r\nDung lượng RAM    8GB|\r\nLoại RAM    DDR4 8GB (1 x 8GB) 3200MHz, up to 32GB|\r\nSố khe ram    2 khe|\r\nỔ cứng    512GB SSD NVMe M.2 PCIe Gen 3 x 4|\r\nKích thước màn hình    15.6 inches|\r\nCông nghệ màn hình    IPS Panel, 144Hz|\r\nHệ điều hành    Windows 11 SL 64 Bit|\r\nĐộ phân giải màn hình    1920 x 1080 pixels (FullHD)|\r\nCổng giao tiếp    1x Type C USB 3.2 Gen 1 (Power Delivery/Display Port)  3x USB 3.2 Gen 1 Type-A  1x 3.5mm Combo Audio Jack  1x HDMI 2.0b|\r\n",
+      "price": 19000000,
+      "status": true,
+      "category_id": 1
+    },
+    {
+      "id": 3,
+      "name": "Laptop Acer Aspire 3 A315-56-38B1 NX.HS5SV.00G",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/c/d/cd554_5_.jpg",
+      "description": "Card đồ hoạ Intel UHD Graphics - Hiệu năng đáp ứng tốt nhu cầu chỉnh sửa ảnh cơ bản hay|\r\nDung lượng ổ cứng lớn 256GB|\r\nSSD giúp khởi động, vào ứng dụng hay việc sao chép dữ liệu cực nhanh|\r\nMàn hình Full HD sống động và sắc nét, đem lại hình ảnh và màu sắc tuyệt vời|\r\nThiết kế tương đối gọn nhẹ - Nặng 1.7kg đồng hành cùng bạn đi học, đi làm hay đến bất kỳ đâu một cách dễ dàng|\r\nDung lượng pin ổn 2 cell 37Wh, giúp cho người dùng có thể sử dụng thoải mái làm việc hay giải trí",
+      "specs": "Loại card đồ họa    Intel UHD Graphics|\r\nDung lượng RAM    4GB|\r\nLoại RAM    DDR4 2400MHz|\r\nSố khe ram    1 Khe cắm / Hỗ trợ tối đa 12GB|\r\nỔ cứng    256GB SSD M.2 NVMe1 x 2.5\" SATA , 1 x M.2 NVMe|\r\nKích thước màn hình    15.6 inches|\r\nPin    2 cell 37 Wh|\r\nHệ điều hành    Windows 11|\r\nĐộ phân giải màn hình    1920 x 1080 pixels (FullHD)|\r\nCổng giao tiếp    1 x USB 3.1 , 2 x USB 2.0 , Audio combo , LAN 1 Gb/s|\r\n",
+      "price": 8700000,
+      "status": true,
+      "category_id": 1
+    },
+    {
+      "id": 4,
+      "name": "Laptop MSI Gaming GF63 Thin 11UD 473VN",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/9/_/9_9_21.jpg",
+      "description": "Chip i5-11400H cùng card đồ họa rời RTX 3050 Ti cho khả năng chiến các tựa game nặng, chỉnh sửa hình ảnh trên PTS, Render video ngắn mượt mà|\r\nRam 8GB với 1 khe cắm có thể nâng cấp tối đa lên 64GB cùng ổ cứng SSD 512GB mang đến tốc độ xử lý nhanh cùng đa nhiệm mượt mà|\r\nMàn hình LCD 15.6 inches với dải màu 72% NTSC cho trải nghiệm màu sắc chân thực|\r\nTích hợp web cam HD 720p cho phép đàm thoại thông qua video thoải mái|\r\nTrọng lượng 1.86 kg thuận tiện di chuyển, mang theo|\r\nMáy đi kèm Windows 11 Home bản quyền",
+      "specs": "Loại card đồ họa    NVIDIA® GeForce RTX™ 3050 Ti Max-Q 4GB|\r\nDung lượng RAM    8GB|\r\nLoại RAM    8 GB (8GBx1) DDR4 3200MHz (2 Khe, tối đa 64GB)|\r\nỔ cứng    512GB NVMe PCIe Gen3x4 SSD|\r\nKích thước màn hình    15.6 inches|\r\nCông nghệ màn hình    72% NTSC IPS-Level, close to 100%s RGB|\r\nPin    3 cell, 51Whr|\r\nHệ điều hành    Windows 11 Home SEA|\r\nĐộ phân giải màn hình    1920 x 1080 pixels (FullHD)|\r\nCổng giao tiếp    1x Type-C USB3.2 Gen1  3x Type-A USB3.2 Gen1  1x (4K @ 30Hz) HDMI  1x Mic-in  1x Headphone-out|\r\n",
+      "price": 19400000,
+      "status": true,
+      "category_id": 1
+    },
+    {
+      "id": 5,
+      "name": "Laptop Lenovo Ideapad 5 Pro 14ITL6 82L300MAVN",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/t/e/text_ng_n_1__6.png",
+      "description": "Sở hữu phong cách thiết kế tao nhã, thời thượng với lớp vỏ kim loại bền chắc|\r\nMàn hình 14 inch đi kèm độ phân giải 2.2K mãn nhãn thị giác người xem với chất lượng hình ảnh tuyệt hảo, sắc nét đến từng chi tiết|\r\nBộ vi xử lý Intel Core i7-1195G7 giải quyết nhẹ nhàng các nhu cầu học tập và giải trí|\r\nRAM 16 GB chuẩn DDR4 nâng cao hiệu suất với các thao tác chuyển động giữa các ứng dụng trở nên nhanh gọn hơn|\r\nKhối lượng chỉ vỏn vẹn 1.38 kg luôn sẵn sàng đồng hành cùng người dùng trên mọi chuyến công tác xa",
+      "specs": "Loại card đồ họa    Intel Iris Xe Graphics|\r\nDung lượng RAM    16GB|\r\nLoại RAM    16GB Onboard DDR4-3200|\r\nỔ cứng    512GB SSD M.2 2242 PCIe 3.0x4 NVMe|\r\nKích thước màn hình    14 inches|\r\nCông nghệ màn hình    Độ sáng 300nits  Màn hình Anti-glare Độ phủ màu 100% sRGB TÜV Low Blue Light|\r\nPin    56.5Wh|\r\nHệ điều hành    Windows 11 Home 64 Single Language|\r\nĐộ phân giải màn hình    2240 x 1400 pixels|\r\nCổng giao tiếp    1x USB 3.2 Gen 1 1x USB 3.2 Gen 1 (Always On) 1x USB-C 3.2 Gen 1 (Truyền dữ liệu, Power Delivery 3.0, DisplayPort 1.4) 1x USB-C 3.2 Gen 1 (Truyền dữ liệu, Power Delivery 3.0) 1x HDMI 1.4b 1x Đầu đọc thẻ 1x Headphone / microphone co|\r\n",
+      "price": 22300000,
+      "status": true,
+      "category_id": 1
+    },
+    {
+      "id": 6,
+      "name": "Laptop Lenovo Ideapad 3 15IAU7 82RK001GVN",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/x/n/xnah_nh_.png",
+      "description": "Thiết kế tông Xanh lịch thiệp, màn hình 15.6 inch quan sát bắt mắt|\r\nHiệu năng chuyên đa ứng dụng với Intel Gen 12 và 512 GB lưu trữ|\r\nLaptop Lenovo IdeaPad 3 15IAU7 82RK001GVN sử dụng hệ điều hành Windows 11, dung lượng pin 45W cho bạn thời lượng pin đủ để không bị gián đoạn khi đang sử dụng làm việc hay giải trí|\r\nLaptop Lenovo IdeaPad 3 15IAU7 82RK001GVN còn được trang bị hệ thống âm thanh Dolby cho ra chất lượng âm thanh tuyệt vời và chân thật",
+      "specs": "Loại card đồ họa    Intel UHD Graphics|\r\nDung lượng RAM    8GB|\r\nLoại RAM    8GB DDR4-3200|\r\nỔ cứng    512GB SSD M.2 2242 PCIe 4.0x4 NVMe|\r\nKích thước màn hình    15.6 inches|\r\nCông nghệ màn hình    TN 250nits Chống chói|\r\nPin    45Wh|\r\nHệ điều hành    Windows 11|\r\nĐộ phân giải màn hình    1920 x 1080 pixels (FullHD)|\r\nCổng giao tiếp    1x USB 2.0  1x USB 3.2 Thế hệ 1  1x USB-C 3.2 Gen 1 (hỗ trợ truyền dữ liệu, Power Delivery 3.0 và DisplayPort 1.2)  1x HDMI 1.4b  1x đầu đọc thẻ 1 x giắc cắm kết hợp tai nghe / micrô (3,5 mm)  1x Đầu nối nguồn|\r\n",
+      "price": 13600000,
+      "status": true,
+      "category_id": 1
+    },
+    {
+      "id": 7,
+      "name": "Laptop Acer Aspire 3 A315-58-53S6 NX.AM0SV.005",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/t/e/text_ng_n_9__1.png",
+      "description": "Thoải mái lưu trữ - 256GB SSD + 1 khe HDD trống cho phép nâng cấp|\r\n4GB onboard + 4GB trên khe cho khả năng nâng cấp tối đa 12GB|\r\nThoả sức giải trí với các bộ phim hay edit hình ảnh - Màn hình Full HD, kích thước 15.6 inch|\r\nChơi game nhẹ nhàng với card đồ hoạ Intel® Iris® Xe Graphics",
+      "specs": "Loại card đồ họa    Intel Iris Xe Graphics|\r\nDung lượng RAM    8GB|\r\nLoại RAM    DDR4, tốc độ bus 2400Mhz|\r\nSố khe ram    Nâng cấp tối đa 12GB (4GB onboard cắm sẵn + 4GB khe rời)|\r\nỔ cứng    256GB PCIe NVMe SSD (nâng cấp tối đa 2TB HDD và 1TBSSD PCIe NVMe)|\r\nKích thước màn hình    15.6 inches|\r\nPin    36.7 Wh 2-cell Li-ion battery|\r\nHệ điều hành    Windows 11 Home SL|\r\nĐộ phân giải màn hình    1920 x 1080 pixels (FullHD)|\r\nCổng giao tiếp    1 x USB 2.01 x HDMI®2.0 1 x Combo mic tai nghe 3.5mm 1 x Ethernet (RJ-45)  2 x USB 3.2 Gen 1|\r\n",
+      "price": 13000000,
+      "status": true,
+      "category_id": 1
+    },
+    {
+      "id": 8,
+      "name": "Laptop HP Pavilion 15-EG2037TX 6K783PA",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/_/0/_0005_screenshaot_1_.jpg",
+      "description": "I5 1235U - Xử lý tốt các tác vụ văn phòng|\r\n8GB Ram cho khả năng xử lý đa nhiệm tốt, có thể tháo ra nâng cấp|\r\nCard đồ hoạ MX550 - Chỉnh sửa ảnh trên PTS hay giải trí nhẹ nhàng với các tựa game|\r\nMàn hình lớn 15.6 inch thoả sức làm việc hay giải tr&iacute.|\r\nSSD 256GB cho khả năng lưu trữ đủ dùng, khởi động ứng dụng nhanh hơn",
+      "specs": "Loại card đồ họa    NVIDIA® GeForce® MX550 2GB GDDR6|\r\nDung lượng RAM    8GB|\r\nLoại RAM    DDR4  3200 MHz|\r\nỔ cứng    256 GB PCIe® NVMe™ M.2 SSD|\r\nKích thước màn hình    15.6 inches|\r\nPin    3-cell, 41 Wh Li-ion|\r\nHệ điều hành    Windows 11 Home SL|\r\nĐộ phân giải màn hình    1920 x 1080 pixels (FullHD)|\r\nCổng giao tiếp    1 USB Type-C2 USB Type-A1 HDMI 2.1  1 cổng mic tai nghe|\r\n",
+      "price": 16300000,
+      "status": true,
+      "category_id": 1
+    },
+    {
+      "id": 9,
+      "name": "Laptop HP 245 G9 6L1N8PA",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/t/e/text_d_i_20.png",
+      "description": "Phù hợp sinh viên - nhân viên văn phòng với thiết kế mỏng nhẹ, màn hình 14 inch Full HD|\r\nCân mọi tác vụ học tập, văn phòng với CPU AMD Ryzen 5-5625U|\r\nRAM 8 GB đa nhiệm hỗ trợ mở hàng chục tab duyệt web mà không lo lag, giật|\r\nỔ cứng 256GB SSD thoải mái lưu trữ mọi file, dữ liệu học tập|\r\nCamera HD hỗ trợ hình ảnh sắc nét trong các buổi họp, call video, meet, vv",
+      "specs": "Loại card đồ họa    AMD Radeon Graphics|\r\nDung lượng RAM    8GB|\r\nLoại RAM    DDR4 3200MHz|\r\nSố khe ram    2 khe|\r\nỔ cứng    256GB SSD M.2 NVMe|\r\nKích thước màn hình    14 inches|\r\nPin    3 cell 41 Wh|\r\nHệ điều hành    Windows 11 Home SL|\r\nĐộ phân giải màn hình    1920 x 1080 pixels (FullHD)|\r\nCổng giao tiếp    1x HDMI  1x USB Type C  2x USB 3.2  1x Audio combo  1x LAN 1 Gb/s|\r\n",
+      "price": 13000000,
+      "status": true,
+      "category_id": 1
+    },
+    {
+      "id": 10,
+      "name": "Laptop Lenovo Ideapad Gaming 3 15IHU6 82K101HGVN",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/t/e/text_ng_n_2__2_8.png",
+      "description": "Bộ vi xử lý Intel Core i5-11320 giải quyết tất tần tật mọi tác vụ Word, Excel, PowerPoint,... đến thiết kế đồ họa hay chiến game một cách mượt mà|\r\nCard đồ họa RTX 3050 4GB GDDR6 giúp các tác vụ thiết kế Adobe Illustrator hay Premiere nhanh gọn|\r\nRAM 8 GB cho phép mở nhiều cửa sổ ứng dụng khác nhau rất mượt mà|\r\nMở máy nhanh chóng cũng như không gian lưu trữ thoải mái hơn nhờ ổ cứng 512 GB SSD|\r\nĐèn nền Led RGB hỗ trợ làm việc trong môi trường thiếu sáng hay mang lại cảm giác phấn khích khi chiến game|\r\nMàn hình 15.6 inch cùng tấm nền IPS cho góc nhìn lên đến 178 độ, giúp theo dõi đối thủ trên bản đồ một cách chính xác",
+      "specs": "Loại card đồ họa    NVIDIA GeForce RTX 3050 4GB GDDR6, Boost Clock 1500 / 1740MHz, TGP 90W|\r\nDung lượng RAM    8GB|\r\nLoại RAM    8GB SO-DIMM DDR4-3200|\r\nSố khe ram    2 khe cắm DDR4 SO-DIMM, hỗ trợ kênh đôi|\r\nỔ cứng    512GB SSD M.2 2280 PCIe 3.0x4 NVMe1 khe 2.5\" tối nâng tối đa 1TB M.2 2242 SSD nâng tối đa 512GB|\r\nKích thước màn hình    15.6 inches|\r\nCông nghệ màn hình    Độ sáng 250 nits  Màn hình chống chói Độ phủ màu 45% NTSC Tần số quét 120Hz|\r\nPin    45Wh|\r\nHệ điều hành    Windows 11 Home Single Language|\r\nĐộ phân giải màn hình    1920 x 1080 pixels (FullHD)|\r\nCổng giao tiếp    2x USB 3.2 Gen 1 1x USB-C 3.2 Gen 1 (chỉ hỗ trợ truyền dữ liệu) 1x HDMI 2.0 1x Ethernet (RJ-45) 1x Headphone / microphone combo jack (3.5mm) 1x Đầu nối nguồn|\r\n",
+      "price": 19600000,
+      "status": true,
+      "category_id": 1
+    },
+    {
+      "id": 11,
+      "name": "PC CPS Gaming G3",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/p/c/pc_gaming_3_1.png",
+      "description": "PC chứa đựng bộ vi xử lý Intel Core i3 cùng khả năng ép xung với đồ họa GTX 1660 có nhiều nâng cấp|\r\nDung lượng bộ nhớ trong đạt 240 GB|\r\nRAM 8GB|\r\nĐồng thời bộ nguồn Deepcool PF550D 550W sẽ giúp cho thiết bị đảm bảo được sự ổn định của nguồn điện, trong suốt quá trình vận hành",
+      "specs": "Socket    Intel LGA 1700|\r\nLoại card đồ họa    GTX 1660 Super|\r\nDung lượng RAM    8GB|\r\nLoại RAM    DDR4 3200Mhz|\r\nSố khe ram    2 x DDR4|\r\nỔ cứng    SSD 240GB Sata III 2.5inch|\r\nChipset (PC lắp ráp)    H610|\r\nCổng I/O mặt sau (PC lắp ráp)    2 x Antenna Mounting Points1 x PS/2 Mouse/Keyboard Port1 x D-Sub Port1 x HDMI Port1 x DisplayPort 1.42 x USB 3.2 Gen1 Ports (Supports ESD Protection)2 x USB 2.0 Ports (Supports ESD Protection)1 x RJ-45 LAN Port with LED (ACT/LINK LED and SPEED LED)HD Audio Jacks: Line in / Front Speaker / Microphone|\r\n",
+      "price": 26700000,
+      "status": true,
+      "category_id": 2
+    },
+    {
+      "id": 12,
+      "name": "PC CPS Gaming G8",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/p/c/pc-cps-gaming-g8-12.png",
+      "description": "Thùng PC CPS Gaming G8 sở hữu con chip Intel Core i7-13700F với cấu trúc 16 nhân, 24 luồng cùng mức xung nhịp đạt đến 5.2GHz|\r\nChiếc card đồ họa rời cao cấp RTX 3070TI, thùng PC có khả năng xử lý mọi tựa game yêu cầu mức cấu hình cao|\r\nNhờ trang bị bộ nhớ SSD đạt đến 500GB, thùng PC giúp bạn tiết kiệm thời gian khởi động máy và các phần mềm|\r\nVới SSD 500GB cùng dung lượng RAM 8GB, tốc độ hoạt động của thùng PC được nâng cấp đáng kể",
+      "specs": "Socket    Intel LGA 1700|\r\nLoại card đồ họa    RTX 4070Ti OC|\r\nDung lượng RAM    16GB|\r\nLoại RAM    2 x 8GB DDR4 3200Mhz|\r\nSố khe ram    2 x DDR4|\r\nỔ cứng    SSD 500GB M2 PCIe|\r\nChipset (PC lắp ráp)    Z790|\r\nCổng I/O mặt sau (PC lắp ráp)    1 x USB Type-C, hỗ trợ USB 3.2 Gen 2x22 x USB 3.2 Gen 2 Type-A (màu đỏ)3 x USB 3.2 Gen 14 x USB 2.0/1.12 x SMA (2T2R)1 x HDMI 2.01 x RJ-451 x S/PDIF Out2 x jack âm thanh|\r\n",
+      "price": 56740000,
+      "status": true,
+      "category_id": 2
+    },
+    {
+      "id": 13,
+      "name": "PC CPS văn phòng S3",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_112_2_.png",
+      "description": "Bộ vi xử lý Intel Core i5-11400|\r\nNhững phụ kiện được lắp đặt trên mainboard ASUS PRIME B560M-A  có tính tương thích cao, tạo được hiệu suất ổn định, bền vững|\r\nRAM 8GB đa nhiệm với mọi công việc|\r\nỔ cứng SSD Sata III chuẩn chứa đựng dung lượng lên đến 120GB|\r\nThiết kế case XIGMATEK XA-20 một mặt trong suốt giúp người chơi có thể quan sát hết những thức bên trong được build",
+      "specs": "Socket    Intel LGA 1200|\r\nLoại card đồ họa    Intel® UHD 630|\r\nDung lượng RAM    8GB|\r\nLoại RAM    DDR4 3200Mhz|\r\nSố khe ram    4 x DDR4|\r\nỔ cứng    SSD 120GB Sata III|\r\nChipset (PC lắp ráp)    B560|\r\nCổng I/O mặt sau (PC lắp ráp)    2 x USB 3.2 Gen 2 port(s) (1 x Type-A, 1 x USB Type-C4 x USB 2.0 port(s) (4 x Type-A)1 x DisplayPort2 x HDMI™ port1 x Intel® I219-V 1Gb Ethernet port1 x V-M.2 slot (Key E)3 x Audio jacks1 x PS/2 Keyboard/Mouse combo port|\r\n",
+      "price": 11680000,
+      "status": true,
+      "category_id": 2
+    },
+    {
+      "id": 14,
+      "name": "PC CPS đồ họa D2",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_209_4_.png",
+      "description": "Phần vỏ case bên ngoài của thiết bị được thiết kế theo kiểu dáng XIGMATEK ELITE 1 3F giúp người dùng vừa làm việc vừa có thể chiêm ngưỡng được các linh kiện, bộ phận phía bên trong của máy|\r\nCon chip siêu mạnh tới từ nhà Intel - Core i7|\r\nHệ thống bo mạch chủ thế hệ mới với chipset hiện đại B760 cùng card đồ họa đỉnh cao GTX1650 đem tới những trải nghiệm tuyệt vời nhất cho người dùng trong quá trình sử dụng|\r\nVới 16GB RAM và 500GB bộ nhớ SSD(vẫn có thể được mở rộng thêm), người dùng có thể thỏa sức lưu trữ dữ liệu, trải nghiệm game đồ họa nặng",
+      "specs": "Socket    Intel LGA 1700|\r\nLoại card đồ họa    GTX 1650|\r\nDung lượng RAM    16GB|\r\nLoại RAM    1 x 16GB DDR4 3200Mhz|\r\nSố khe ram    4 x DDR4|\r\nỔ cứng    SSD 500GB M2 PCIe|\r\nChipset (PC lắp ráp)    B760|\r\nCổng I/O mặt sau (PC lắp ráp)    2 cổng USB 2.0/1.11 cổng bàn phím/chuột PS/22 x SMA (2T2R)1 x HDMI2 x DisplayPorts3 x USB 3.2 Gen 11 x USB Type-C1 x RJ-453 x jack âm thanh|\r\n",
+      "price": 29000000,
+      "status": true,
+      "category_id": 2
+    },
+    {
+      "id": 15,
+      "name": "PC CPS đồ họa D1",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/p/c/pc_cps_o_hoa_d1_1_.png",
+      "description": "PC CPS đồ họa D1 được trang bị bộ vi xử lý mạnh mẽ Intel Core i7 thế hệ mới nhất, có khả năng tương thích với nhiều dòng mainboard trên thị trường|\r\nVà để khả năng xử lý hình ảnh, đồ hoạ được nâng cao hơn, PC CPS D1 còn được trang bị thêm card đồ hoạ VGA GIGABYTE GT 1030 với khả năng hỗ trợ độ phân giải tối đa lên đến 4K|\r\nPC CPS đồ họa D1 được trang bị tới 16GB RAM, cao hơn mức RAM tiêu chuẩn tới 2 lần để bạn có thể thực hiện công việc một cách trơn tru, mượt mà|\r\nVà để việc lưu trữ dữ liệu thoải mái hơn, PC CPS D1 còn sở hữu ổ cứng SSD với dung lượng lưu trữ lên đến 240GB",
+      "specs": "Socket    Intel LGA 1700|\r\nLoại card đồ họa    GT1030|\r\nDung lượng RAM    16GB|\r\nLoại RAM    DDR4 3200Mhz|\r\nSố khe ram    1 x 16GB DDR4 3200Mhz|\r\nỔ cứng    SSD 240GB Sata III|\r\nChipset (PC lắp ráp)    B760|\r\nCổng I/O mặt sau (PC lắp ráp)    2 cổng USB 2.0/1.11 cổng bàn phím/chuột PS/22 x SMA (2T2R)1 x HDMI2 x DisplayPorts3 x USB 3.2 Gen 11 x USB Type-C1 x RJ-453 x jack âm thanh|\r\n",
+      "price": 22730000,
+      "status": true,
+      "category_id": 2
+    },
+    {
+      "id": 16,
+      "name": "Máy tính văn phòng All In One văn phòng Asus V241EAT-BA057W",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_182.png",
+      "description": "CPU Intel Core i3 1115G4 cùng Card Intel UHD đảm bảo mọi tác vụ văn phòng hay xem phim, giải trí,vv diễn ra trơn tru|\r\nRAM 4 GB cho khả năng đa nhiệm tốt. SSD 512 GB cho không gian lưu trữ đủ dùng, thời gian phản hồi nhanh|\r\nMàn hình cảm ứng 23.8 inch với công nghệ Wide View cung cấp góc nhìn rộng mở cùng độ phủ màu đạt 100% sRGB|\r\nĐa dạng cổng giao tiếp với 2 x HDMI, 4 x USB 3.2, Jack tai nghe 3.5 mm, LAN (RJ45), USB 2.0|\r\nThiết kế sang trọng, tinh tế nhưng gọn gàng, phù hợp cho mọi không gian làm việc",
+      "specs": "Loại card đồ họa    Intel® UHD Graphics|\r\nDung lượng RAM    4GB|\r\nLoại RAM    4GB DDR4/ 3200MHz - RAM NoteBook|\r\nSố khe ram    2 khe|\r\nỔ cứng    512 GB SSD PCIe (M.2 2280)|\r\nKích thước màn hình    23.8 inches|\r\nCông nghệ màn hình    FHD (1920 x 1080) IPS  Wide view  Anti-glare  Touch-screen | 16:9|\r\nHệ điều hành    Windows 11 Home Single Language 64-bit|\r\nĐộ phân giải màn hình    1920 x 1080 pixels (FullHD)|\r\nCổng giao tiếp    Side I/O Ports: 1x USB 2.0 Type-A  1x Headphone/ Microphone combo audio jack  1x Mode button  1x Kensington lock Back I/O Ports: 4x USB 3.2 Gen 1 Type-A  1 x HDMI-in  1x HDMI-out  1x RJ45 (LAN)  1x SATA3 (không cáp)|\r\n",
+      "price": 18990000,
+      "status": true,
+      "category_id": 2
+    },
+    {
+      "id": 17,
+      "name": "Máy tính d? bàn All In One van phòng ASUS E5202WHAK BAO19W",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_186.png",
+      "description": "Thiết kế thời trang, thanh lịch|\r\nBộ nhớ RAM 4GB cho khả năng đa nhiệm ổn định, cùng với ổ cứng SSD 512 GB truy xuất dữ liệu dễ dàng, khởi động máy nhanh hơn|\r\nChip bảo mật TPM 2.0 với khả năng mã hóa thông tin cá nhân, nhằm giúp người dùng đảm bảo dữ liệu danh tính cá nhân tránh sự xâm nhập trái phép từ nguồn bên ngoài|\r\nTrọng lượng thích hợp với mọi không gian phòng (7,7kg)",
+      "specs": "Loại card đồ họa    Intel UHD Graphics|\r\nDung lượng RAM    4GB|\r\nLoại RAM    DDR4 2 khe (1 khe 4GB + 1 khe trống)|\r\nSố khe ram    2 khe tối đa 32GB|\r\nỔ cứng    512 GB SSD   Hỗ trợ thêm 1 khe cắm HDD SATA (Nâng cấp tối đa 1TB)   Hỗ trợ thêm 1 khe cắm SSD M2 PCIe mở rộng|\r\nKích thước màn hình    21.5 inches|\r\nCông nghệ màn hình    Màn hình chống loá, 100% sRGB, 250 nits|\r\nHệ điều hành    Windows 11 Home SL|\r\nĐộ phân giải màn hình    1920 x 1080 pixels (FullHD)|\r\nCổng giao tiếp    1x USB 3.2 Gen 2 Type-   1x Thunderbolt 4   2 x USB 2.0   3 x USB 3.2   HDMI   Jack 3.5 mm   LAN (RJ45)|\r\n",
+      "price": 16990000,
+      "status": true,
+      "category_id": 2
+    },
+    {
+      "id": 18,
+      "name": "PC Gaming Asus Rog Strix GA35 G35DX-VN003W",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_160.png",
+      "description": "Chip được tích hợp dưới nền tảng socket AM4 với 8 nhân 16 luồng cho xung nhịp tối đa|\r\nBộ nhớ RAM đến 16GB được cung cấp khả năng đa nhiệm và hiệu năng mạnh mẽ|\r\nPC Asus Rog Strix Ga35 G35dx VN003W dựa theo kiến trúc RTX của nhà NVIDIA",
+      "specs": "Loại card đồ họa    NVIDIA GeForce RTX3070 8GB DDR6|\r\nDung lượng RAM    16GB|\r\nLoại RAM    DDR4-3200 LO-DIMM|\r\nỔ cứng    1TB M.2 NVMe™ PCIe® 4.0 SSD|\r\nCổng giao tiếp    Mặt trước:  2x USB 3.2 Gen 1 Type-A  2x USB 3.2 Gen 1 Type-C  1x Headphone  1x Microphone  Mặt sau:  1x USB 3.2 Gen 2 Type-C  3x USB 3.2 Gen 2 Type-A  4x USB 3.2 Gen 1 Type-A  1x Mic-in  1x Center / Sub Wo|\r\n",
+      "price": 49890000,
+      "status": true,
+      "category_id": 2
+    },
+    {
+      "id": 19,
+      "name": "PC Gaming Asus ROG Strix GT15 G15CF-71270F110W",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_176_2_.png",
+      "description": "Sở hữu con chip Intel Core i7-12700F mới nhất hiện nay, với khả năng ép xung tối đa lên tới 4,9GHz cùng 12 nhân và 20 luồng có thể hoạt động song song|\r\nĐược trang bị 1 ổ cứng SSD 512GB|\r\nDung lượng RAM tiêu chuẩn của PC là 16GB có tốc độ bus 3200MHz|\r\nCard đồ hoạ rời GeForce RTX 3070 8GB",
+      "specs": "Loại card đồ họa    NVIDIA GeForce RTX RTX3070 8GB DDR6 (LHR: 3x DP, 2x HDMI)|\r\nDung lượng RAM    16GB|\r\nLoại RAM    16 GB DDR4 U-DIMM|\r\nSố khe ram    2 khe tối đa 64 GB|\r\nỔ cứng    512 GB M.2 NVMe PCIe 4.0 SSD|\r\nChipset (PC lắp ráp)    B660|\r\nCổng I/O mặt sau (PC lắp ráp)    1x RJ45 Gigabit Ethernet 1x HDMI 2.0a1x Display port 1.45 x Audio jacks4x USB 2.0 Type-A1x USB 3.2 Gen 2 Type-C2x USB 3.2 Gen 2 Type-A|\r\nHệ điều hành    Windows 11 Home|\r\nCổng giao tiếp    Cổng trước: 1x Headphone1x Mic in1x USB 3.2 Gen 1 Type-A1x USB 3.2 Gen 1 Type-C|\r\n",
+      "price": 45990000,
+      "status": true,
+      "category_id": 2
+    },
+    {
+      "id": 20,
+      "name": "PC Gaming Asus ROG Strix GT15 G15CF-51240F141W",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_176_1__1.png",
+      "description": "Một mặt kính trong suốt giúp người dùng có thể dễ dàng nhìn thấy hiệu ứng đèn RGB bên trong|\r\nHiệu năng mượt mà mạnh mẽ, kết nối đa dạng|\r\nNgoài ra, trên PC còn được trang bị card đồ hoạ rời cho mọi trải nghiệm tuyệt đỉnh hơn bao giờ hết",
+      "specs": "Loại card đồ họa    NVIDIA GeForce RTX3060Ti 8GB DDR6 (3x DP, 2x HDMI)|\r\nDung lượng RAM    16GB|\r\nLoại RAM    8GB DDR4 U-DIMM x 2|\r\nSố khe ram    2 khe tối đa 64 GB|\r\nỔ cứng    512 GB M.2 NVMe PCIe 4.0 SSD|\r\nChipset (PC lắp ráp)    B660|\r\nCổng I/O mặt sau (PC lắp ráp)    1x RJ45 Gigabit Ethernet 1x HDMI 2.0a1x Display port 1.45 x Audio jacks4x USB 2.0 Type-A1x USB 3.2 Gen 2 Type-C2x USB 3.2 Gen 2 Type-A|\r\nHệ điều hành    Windows 11 Home|\r\nCổng giao tiếp    Cổng trước: 1x Headphone1x Mic in1x USB 3.2 Gen 1 Type-A1x USB 3.2 Gen 1 Type-C|\r\n",
+      "price": 37990000,
+      "status": true,
+      "category_id": 2
+    },
+    {
+      "id": 21,
+      "name": "Màn hình Samsung LS24R350FZEXXV 23.8",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/3/7/37_1_10.jpg",
+      "description": "Màn hình viền mỏng Full HD (1920x1080)|\r\nCông nghệ AMD Radeon FreeSync™trải nghiệm không gián đoạn, chuyển động mượt mà|\r\nTốc độ làm mới đạt 75Hz giúp hiển thị rõ nét mọi chuyển động",
+      "specs": "Tần số quét    75 Hz|\r\nThời gian phản hồi    5ms|\r\nTỉ lệ màn hình    16:9|\r\nCổng kết nối    1x HDMI  1x D-Sub|\r\nĐộ tương phản tĩnh    1000:1|\r\nGóc nhìn    178°/178°|\r\nTấm nền    IPS|\r\nKích thước màn hình    23.8 inches|\r\nTrọng lượng    3.4 kg bao gồm chân đế|\r\nĐộ phân giải màn hình    Full HD (1920x1080)|\r\n",
+      "price": 4789000,
+      "status": true,
+      "category_id": 3
+    },
+    {
+      "id": 22,
+      "name": "Màn hình LG Ultrawide 29WN600 29 inch",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/m/a/man-hinh-cong-lg-ultrawide-29-inch-29wn600-2.png",
+      "description": "Màn hình 29 inch Full HD 2560 x 1080 tỷ lệ 21:9|\r\nTần số quét 75Hz|\r\nĐộ phủ màu 99% sRGB|\r\nChế độ tùy chỉnh không gian làm việc trên màn hình|\r\nCông nghệ AMD FreeSync, HDR10|\r\nThiết kế gần như không viền",
+      "specs": "Tần số quét    75 Hz|\r\nThời gian phản hồi    5ms|\r\nTỉ lệ màn hình    21:9|\r\nCổng kết nối    2 cổng HDMI1 DisplayPort 1.2|\r\nĐộ tương phản tĩnh    1000:1|\r\nGóc nhìn    178/178|\r\nTấm nền    IPS|\r\nKích thước màn hình    29 inches|\r\nTrọng lượng    Khối lượng gồm chân để:4,7kg|\r\nĐộ phân giải màn hình    2560x1080 pixels|\r\nTính năng khác    Hiệu ứng HDR Chống chớp hình Chế độ mù màu AMD FreeSync™\tDynamic Action Sync Tiết kiệm năng lượng thông minh|\r\n",
+      "price": 6990000,
+      "status": true,
+      "category_id": 3
+    },
+    {
+      "id": 23,
+      "name": "Màn hình LG UltraWide 29WP60G 29 inch",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/m/a/man-hinh-lg-ultrawide-29-inch-29wp60g-4.jpg",
+      "description": "Màn hình 29\" UltraWide Full HD nhiều không gian hơn cho công việc đa nhiệm|\r\nCông nghệ HDR10 giúp bạn có thể thưởng thức nội dung với màu sắc ấn tượng|\r\nTấm nền IPS với sRGB 99% hiển thị màu sắc chính xác hoàn hảo với góc nhìn rộng|\r\n1ms MBR giúp chơi game mượt mà, không bị nhòe hay bóng mờ, chiến thắng mọi trận đấu|\r\nCông nghệ AMD FreeSync, người chơi game có thể trải nghiệm chuyển động liền mạch, mượt mà",
+      "specs": "Tần số quét    75 Hz|\r\nThời gian phản hồi    5ms|\r\nTỉ lệ màn hình    21:9|\r\nCổng kết nối    1 x HDMI  1 x DisplayPort 1.4  1 x USB-C  1 x Jack tai nghe 3.5|\r\nĐộ tương phản tĩnh    1000:1|\r\nGóc nhìn    178º(R/L), 178º(U/D)|\r\nTấm nền    IPS|\r\nKích thước màn hình    29 inches|\r\nTrọng lượng    Khối lượng không tính chân đế: 4kg  Khối lượng tính cả chân đế: 4.8kg|\r\nĐộ phân giải màn hình    2560 x 1080 pixels|\r\n",
+      "price": 7290000,
+      "status": true,
+      "category_id": 3
+    },
+    {
+      "id": 24,
+      "name": "Màn hình Samsung LU28R550UQEXXV 28 inch",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/2/_/2_63_1.png",
+      "description": "Tận hưởng từng chi tiết khung hình với chất lượng 4K Ultra HD ấn tượng|\r\nTấm nền IPS siêu việt giúp tái hiện hình ảnh rõ ràng với sắc màu sống động|\r\nCông nghệ HDR ưu việt giúp hình ảnh trở nên rõ ràng, sắc nét đến từng chi tiết phức tạp nhất|\r\nTính năng hạn chế tối đa phát xạ ánh sáng xanh dễ gây ra tình trạng mỏi mắt|\r\nCông nghệ AMD FreeSync chuyển động mượt mà sắc nét, nâng tầm giải trí|\r\nThiết kế 3 cạnh không viền thời thượng mở rộng tối đa không gian",
+      "specs": "Tần số quét    60 Hz|\r\nThời gian phản hồi    4ms|\r\nTỉ lệ màn hình    16:9|\r\nCổng kết nối    Cổng màn hìnhCổng HDMICổng Display Port 1.2|\r\nĐộ tương phản tĩnh    1.000:1|\r\nGóc nhìn    178°(ngang) x 178° (dọc)|\r\nTấm nền    IPS|\r\nKích thước màn hình    28 inches|\r\nTrọng lượng    Có chân đế 5.8 kg  Không có chân đế 5.0 kg|\r\nĐộ phân giải màn hình    3,840 x 2,160 pixels|\r\n",
+      "price": 8889000,
+      "status": true,
+      "category_id": 3
+    },
+    {
+      "id": 25,
+      "name": "Màn hình HKC MB24V9 24 inch",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_179_1.png",
+      "description": "Thiết kế với đường viền hẹp tạo cảm giác tinh tế khi sử dụng|\r\nKích thước 24\" FHD hiển thị rõ nét, sinh động từng chi tiết|\r\nTốc độ làm mới 75Hz tạo nên không gian giải trí mượt mà|\r\nTích hợp cổng kết nối VGA/HDMI giúp truyền tải tốt chất lượng hình ảnh",
+      "specs": "T?n s? quét    75 Hz|\r\nTh?i gian ph?n h?i    8ms|\r\nT? l? màn hình    16:9|\r\nC?ng k?t n?i    VGA  HDMI|\r\nÐ? tuong ph?n tinh    1000 : 1|\r\nGóc nhìn    178/178|\r\nT?m n?n    IPS|\r\nKích thu?c màn hình    24 inches|\r\nKích thu?c màn hình (studio display)    23.8 inch|\r\nTr?ng lu?ng    4.1 kg|\r\nÐ? phân gi?i màn hình    1920 x 1080 pixels|\r\n",
+      "price": 3790000,
+      "status": true,
+      "category_id": 3
+    },
+    {
+      "id": 26,
+      "name": "Màn hình Samsung Gaming Odyssey G32 LS27AG320NEXXV 27 inch",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/a/gaming_002_1.png",
+      "description": "Tần số quét 165Hz trải nghiệm mượt mà khi chiến đấu|\r\nPhản xạ nhanh chóng trước mọi tình huống nhờ tốc độ phản hồi 1ms|\r\nCông nghệ AMD FreeSync Premium mỗi phân cảnh chuyển động đều trở nên liền mạch và mượt mà|\r\nThiết kế tràn viền 3 cạnh ấn tượng và màn hình cho phép bạn xoay, nghiêng dễ dàng điều chỉnh",
+      "specs": "Tần số quét    165 Hz|\r\nThời gian phản hồi    1ms|\r\nTỉ lệ màn hình    16:9|\r\nCổng kết nối    Display Port 1.2 (1), HDMI 1.4 (1), Tai nghe|\r\nĐộ tương phản động    3000:1(Typ.)|\r\nGóc nhìn    178°(H)/178°(V)|\r\nTấm nền    WVA|\r\nKích thước màn hình    27 inches|\r\nTrọng lượng    4.8 kg bao gồm chân đế|\r\nĐộ phân giải màn hình    1920 x 1080 pixels|\r\n",
+      "price": 7890000,
+      "status": true,
+      "category_id": 3
+    },
+    {
+      "id": 27,
+      "name": "Màn hình Gaming LG Ultragear 24GN650-B 24 inch",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/7/_/7_18_78.jpg",
+      "description": "Thiết kế bắt mắt và viền màn hình siêu mỏng, phần đế có thể thay đổi độ cao, nghiêng và xoay|\r\nIPS 1ms giảm thiểu hiện tượng dư ảnh và thời gian phản hồi nhanh|\r\nTrang bị tốc độ làm mới 144Hz mang đến trải nghiệm chơi game mượt mà|\r\nCông nghệ HDR10 với sRGB 99% mang lại hình ảnh chân thực với màu sắc phong phú|\r\nCông nghệ AMD FreeSync Premium giúp trải nghiệm chuyển động liền mạch, trôi chảy",
+      "specs": "Tần số quét    144 Hz|\r\nThời gian phản hồi    1ms|\r\nTỉ lệ màn hình    16:9|\r\nCổng kết nối    2 x HDMI  1 x DisplayPor  Headphone Out|\r\nĐộ tương phản tĩnh    1000:1|\r\nGóc nhìn    178º (R/L), 178º (U/D)|\r\nTấm nền    IPS|\r\nKích thước màn hình    24 inches|\r\nTrọng lượng    5.6Kg|\r\nĐộ phân giải màn hình    1920 x 1080|\r\n",
+      "price": 5990000,
+      "status": true,
+      "category_id": 3
+    },
+    {
+      "id": 28,
+      "name": "Bàn phím cơ Rapoo V500 Pro Yellow Blue",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/i/m/image_9_1.png",
+      "description": "Bàn phím có LED trắng và 12 hiệu ứng ánh sáng khác nhau cho người dùng trải nghiệm chơi game tốt hơn|\r\ntrang bị cho mình Blue Switch, là loại switch màu xanh. Bàn phím cơ Rapoo V500 Pro Yellow Blue sẽ mang lại cảm giác vui tai khi sử dụng|\r\nNhấn tổ hợp phím cũng dễ dàng, cải thiện trải nghiệm chơi game của người dùng",
+      "specs": "Loại bàn phím (bàn phím)    Full-size|\r\nSố phím (bàn phím)    104|\r\nKeycap (bàn phím)    Thiết kế keycap có chủ ý để chiếu sáng chính xác và rõ ràng|\r\nNút nhấn    Thiết kế chống tràn, không xung đột cho tất cả các phím|\r\nTương thích    Windows|\r\nKết nối    Dây USB|\r\nĐèn LED    Đèn nền phím màu trắng với 12 chế độ chỉnh độ sáng|\r\nTiện ích    Tuổi thọ bàn phím lên đến 60 triệu lần gõCảm giác cơ học thuần túy, phù hợp với những game thủ cao|\r\nHãng sản xuất    Rapoo|\r\nChất liệu    Nhựa PBT|\r\nKết nối    USB 2.0|\r\n",
+      "price": 990000,
+      "status": true,
+      "category_id": 4
+    },
+    {
+      "id": 29,
+      "name": "Bàn Phím Cơ Gaming Predator Aethon TKL 301",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_163_4.png",
+      "description": "Thiết kế bàn phím gọn nhẹ, kích thước tối ưu|\r\nĐèn LED đa dạng màu sắc với N-Key Rollover đạt chuẩn bền bỉ|",
+      "specs": "Đèn nền LED    Có|\r\nHãng sản xuất    Acer|\r\nChất liệu    Nhựa ABS|\r\nTiện ích    Trang bị Switch Outemu Blue, lực nhấn 60g   N-Key Rollover đầy đủ, đạt tiêu chuẩn 50 triệu lần nhấn|",
+      "price": 2590000,
+      "status": true,
+      "category_id": 4
+    },
+    {
+      "id": 30,
+      "name": "Bàn Phím Gaming ZADEZ G-852K",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_184_3.png",
+      "description": "Bàn phím thiết kế đầy đủ phím bấm kèm bàn phím số tích hợp hỗ trợ nhập dữ liệu, tính toán và điều hướng diễn ra nhanh chóng|\r\nPhím bấm cơ học sử dụng Switch bán cơ cho phản ứng chính xác và nhanh hơn, cùng với âm thanh nhấn - click và cảm giác cơ học|\r\nBàn phím chống nước cực ổn, giúp người dùng không cần llo lắng trong trường hợp không may đánh đổ nước khi sử dụng|\r\nTrang bị dây USB kết nối dài 1.8m chỉ cần cắm vào cổng USB máy tính để sử dụng|\r\nChức năng cài đặt Macro và 3 phím nóng để chuyển hồ sơ macro (Macro Profile), rất hữu dụng với game thủ chơi nhiều thể loại game|\r\nĐèn nền LED 7 màu hỗ trợ điều chỉnh độ sáng, chế độ hiển thị bằng cả phần mềm và phím tắt",
+      "specs": "Tương thích    Windows|\r\nCách kết nối    Dây cắm USB|\r\nHãng sản xuất    Zadez|\r\nTính năng khác    - Thiết kế Ergonomic - 11 phím Multimedia  4 phím Macro, 3 phím chuyển Profile  Chức năng ghi macro bằng phím nóng  - 11 phím Multimedia, 26 phím N-Rollover   Độ bền phím: &gt;10 triệu lần nhấn|\r\n",
+      "price": 600000,
+      "status": true,
+      "category_id": 4
+    },
+    {
+      "id": 31,
+      "name": "Bàn phím Bluetooth Logitech K380",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_149_1_.png",
+      "description": "Thiết kế hiện đại, mỏng nhẹ cùng với nhiều màu sắc trẻ trung, tiện lợi khi mang theo và không tốn nhiều diện tích trên bàn làm việc|\r\nTrang bị kết nối Bluetooth tiện lợi với khoảng cách tối đa 10m|\r\nTương thích với nhiều hệ điều hành như Windows®, macOS, Chrome OS™, Android™, iOS, và thậm chí cả Apple TV|\r\nKhả năng kết nối cùng lúc 3 thiết bị cùng chức năng Easy-Switch hỗ trợ chuyển đổi giữa các thiết bị nhanh chóng|\r\nBàn phím thiết kế thấp dạng cắt kéo hơi lõm ôm lấy hình dáng đầu ngón tay cho trải nghiệm gõ mượt mà, yên tĩnh|\r\nTrang bị 2 Pin AAA cho thời gian sử dụng thoải mái lên tới 24 tháng",
+      "specs": "Pin    2 pin AAA, tuổi thọ pin 24 tháng.|\r\nTương thích    Windows, MacOS, ChromeOS, iOS, Android, PadOS|\r\nCách kết nối    Bluetooth|\r\nĐộ dài dây / Khoảng cách kết nối    10 m|\r\nKích thước bàn phím    Tenkeyless|\r\nĐèn nền LED    Không|\r\nHãng sản xuất    Logitech|\r\n",
+      "price": 750000,
+      "status": true,
+      "category_id": 4
+    },
+    {
+      "id": 32,
+      "name": "Bàn phím không dây Logitech K270",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_165_2__1.png",
+      "description": "Thiết kế đơn giản và tiện dụng|\r\nĐược phủ lớp chống tia cực tím|\r\nBộ phím full size cho khả năng gõ nhanh, êm với độ nhạy phím tốt|\r\nHiệu năng sử dụng cao trong phạm vi 10m mà hoàn toàn không có tình trạng bị trễ, mất kết nối và nhiễu sóng",
+      "specs": "Hãng sản xuất    Logitech|\r\nCổng giao tiếp    USB (Khoảng cách kết nối: 10m)|\r\nTính năng khác    - Bàn phím gõ thoải mái- Phím dễ đọc- Phím nhấn bền|\r\n",
+      "price": 450000,
+      "status": true,
+      "category_id": 4
+    },
+    {
+      "id": 33,
+      "name": "Bàn phím không dây Logitech MX Keys mini",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/f/r/frame_1_1__2.png",
+      "description": "Thiết kế tối giản, thanh lịch giúp bạn đặt gọn gàng trên bàn làm việc|\r\nTạo hình vừa với ngón tay giúp gõ siêu mượt mà và giảm tiếng ồn|\r\nPhím F6 đọc chính tả giúp chuyển từ đàm thoại sang văn bản|\r\nTrang bị đèn LED chiếu sáng hỗ trợ bạn làm việc vào buổi tối|\r\nSử dụng pin sạc thời lượng đến 10 ngày hoặc 5 tháng (tắt đèn nền)|\r\nDễ dàng chuyển tệp, tài liệu và hình ảnh trên nhiều thiết bị hoặc hệ điều hành",
+      "specs": "Loại bàn phím (bàn phím)    Mini-size|\r\nNút nhấn    Phím được tạo hình vừa vặn với ngón tayMỗi phím được trang bị lớp phủ mờ|\r\nTương thích    MacOS, Windows, Linux|\r\nKết nối    USB Receiver, Dây USB|\r\nĐèn LED    Có hỗ trợ|\r\nTiện ích    Tính năng tiết kiệm pin thông minhPhím đọc chính tả giúp chuyển đàm thoại thành văn bản|\r\nHãng sản xuất    Logitech|\r\n",
+      "price": 2690000,
+      "status": true,
+      "category_id": 4
+    },
+    {
+      "id": 34,
+      "name": "Bàn phím cơ AKKO MonsGeek MG108",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_21_4.png",
+      "description": "Thiết kế hiện đại|\r\nSở hữu Switch độc quyền",
+      "specs": "Loại bàn phím (bàn phím)    Full-size|\r\nSố phím (bàn phím)    108|\r\nKeycap (bàn phím)    PBT Double-Shot, ASA profile|\r\nTương thích    MacOS, Windows, Linux|\r\nKết nối    Dây USB to Type-C|\r\nHãng sản xuất    AKKO|\r\nKết nối    USB Type-C to Type-A|\r\nTính năng khác    AKKO switch v3 (Cream Blue / Cream Yellow) kết hợp cùng foam tiêu âm PCB cho trải nghiệm gõ tối ưu và êm ái, LED nền RGB / PCBA 1.6mm|\r\n",
+      "price": 1399000,
+      "status": true,
+      "category_id": 4
+    },
+    {
+      "id": 35,
+      "name": "Chuột Gaming Rapoo V16",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/1/_/1.6_4.png",
+      "description": "Thiết kế cân xứng, bề mặt phủ lớp chống trơn trượt mang lại cảm giác thoải mái khi sử dụng|\r\nTrang bị cảm biến 2000DPI hoạt động hiệu quả và di chuyển mượt mà|\r\nDây USB kết nối dài 2.1m dễ dàng kết nối với thiết bị và sử dụng ổn định|\r\nTốc độ phản hồi nhanh chóng chỉ 1 ms (0.001 giây), xử lý nhanh và chính xác|\r\nTrang bị đèn LED với và tính năng chớp tắt giúp có những trải nghiệm thú vị hơn",
+      "specs": "Tương thích    Windows, MacOS|\r\nCách kết nối    Dây cắm USB|\r\nĐèn nền LED    Có|\r\nHãng sản xuất    Rapoo|\r\nTính năng khác    DPI: Lên tới 2000 DPI Nút chuyển đổi DPI nhanh trên chuột với 3 mức 750/1350/2000 DPI. Tuổi thọ: 5 triệu lần click. Tốc độ xử lý hình ảnh lên đến 6400/giây|\r\n",
+      "price": 390000,
+      "status": true,
+      "category_id": 5
+    },
+    {
+      "id": 36,
+      "name": "Chuột không dây Elecom M-IR07DRBK",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/u/n/untitled-dcd.jpg",
+      "description": "Thân chuột được thiết kế thon gọn cho cảm giác cầm nắm thoải mái đồng thời giảm mỏi tay khi sử dụng trong thời gian dài|\r\nĐộ phân giải 1200 DPI sẽ giúp sử dụng ổn định và trơn tru hoàn hảo|\r\nSử dụng pin AA thông dụng cùng với chế độ tiết kiệm năng lượng cho thời gian sử dụng kéo dài lên đến 12 tháng",
+      "specs": "Pin    Lên đến 12 tháng|\r\nTương thích    Windows, MacOS|\r\nCách kết nối    USB Receiver (Đầu thu USB)|\r\nĐộ dài dây / Khoảng cách kết nối    10 m|\r\nHãng sản xuất    Elecom|\r\nLõi pin    1 pin AA|\r\nCảm biến    1200 DPI|\r\n",
+      "price": 249000,
+      "status": true,
+      "category_id": 5
+    },
+    {
+      "id": 37,
+      "name": "Chuột Bluetooth Microsoft Mouse",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_95.png",
+      "description": "Thiết kế nhỏ gọn, hiện đại vừa vặn thoải mái trong tay để cuộn và điều hướng chính xác|\r\nTrang bị cảm biến 1000 DPI hoạt động hiệu quả khi di chuyển trên hầu hết các bề mặt|\r\nHỗ trợ kết nối với thiết bị thông qua Bluetooth trong khoảng cách lên tới 10m|\r\nHoạt động bằng 1 viên Pin AA, thời lượng sử dụng cực kỳ cao lên đến 12 tháng",
+      "specs": "Độ phân giải    1000 DPI|\r\nNút nhấn    4 nút: trái, phải, bánh xe, nguồn (nhấn &gt;3 giây để kết nối)|\r\nTương thích    MacOS, Windows|\r\nKết nối    Bluetooth|\r\nTiện ích    Bánh xe hiện đại để cuộn dọc và nhấp nút. Swift Pair để kết nối chuột với máy tính dễ dàng. Điều chỉnh độ phân giải. Xác định lại chức năng nút bánh xe. Hoán đổi nhấp chuột trái và phải. Tùy chỉnh bánh xe, báo cáo mức pin|\r\nHãng sản xuất    Microsoft|\r\n",
+      "price": 590000,
+      "status": true,
+      "category_id": 5
+    },
+    {
+      "id": 38,
+      "name": "Chuột có dây MSI M88",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_98_1.png",
+      "description": "Thiết kế đối xứng, sử dụng tốt cho cả hai tay|\r\nĐộ phân giải 1600 DPI giúp di chuyển mượt mà|\r\nKết nối tiện lợi thông qua dây USB dài đến 2m|\r\nTrọng lượng nhẹ giúp sử dụng linh hoạt hơn",
+      "specs": "Cảm biến    1600 DPI|\r\nTương thích    Windows|\r\nKết nối    Dây USB|\r\nHãng sản xuất    MSI|",
+      "price": 300000,
+      "status": true,
+      "category_id": 5
+    },
+    {
+      "id": 39,
+      "name": "Chuột không dây Dareu LM115G",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_51_2_.png",
+      "description": "Thiết kế bo tròn tạo cảm giác thoải mái khi sử dụng|\r\nKết nối không dây tiện lợi, khoảng cách tối đa đến 10m|\r\nDi chuyển mượt mà với độ phân giải lên đến 1600 DPI|\r\nTrang bị 6 nút nhấn giúp nhanh chóng mọi thao tác",
+      "specs": "Độ phân giải    800- 1200 - 1600 DPI|\r\nNút nhấn    6 nút gồm:+ Bi lăn+ Chuột trái/phải+ Nút chỉnh DBI+ Nút trở về/chuyển tiếp|\r\nTương thích    Windows, Linux|\r\nKết nối    USB Receiver|\r\nĐèn LED    Không|\r\nHãng sản xuất    DAREU|\r\nCảm biến    Lên đến 1600DPI|\r\n",
+      "price": 169000,
+      "status": true,
+      "category_id": 5
+    },
+    {
+      "id": 40,
+      "name": "Chuột Bluetooth Rapoo M160 Silent",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/1/_/1.3_5.png",
+      "description": "Kiểu dáng đơn giản, phù hợp cho người thuận cả 2 tay|\r\nĐộ phân giải 1300 DPI, đáp ứng nhiều nhu cầu sử dụng|\r\nKết nối Bluetooth 3.0, 4.0 và đầu thu USB 2.4 GHz mượt mà|\r\nDùng 1 viên pin AA, dễ tìm mua và thay thế",
+      "specs": "Pin    Lên đến 9 tháng|\r\nTương thích    Windows, MacOS|\r\nCách kết nối    USB Receiver (Đầu thu USB), Bluetooth|\r\nĐộ dài dây / Khoảng cách kết nối    10m|\r\nHãng sản xuất    Rapoo|\r\nChất liệu    Nhựa|\r\nLõi pin    1 pin AA|\r\nCảm biến    1300 DPI|\r\n",
+      "price": 300000,
+      "status": true,
+      "category_id": 5
+    },
+    {
+      "id": 41,
+      "name": "Chuột không dây Microsoft 1850",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_101.png",
+      "description": "Thiết kế nhỏ gọn, vừa vặn thoải mái trong tay để cuộn và điều hướng chính xác|\r\nTrang bị cảm biến 1000 DPI hoạt động hiệu quả và di chuyển mượt mà|\r\nHỗ trợ kết nối với thiết bị thông qua đầu thu USB trong khoảng cách lên tới 10m|\r\nHoạt động bằng 1 viên Pin AA, thời lượng sử dụng lên đến 6 tháng",
+      "specs": "Độ phân giải    1000 DPI|\r\nTương thích    MacOS, Windows|\r\nKết nối    USB Receiver|\r\nĐèn LED    Không có|\r\nTiện ích    Lướt tốt trên mặt kính và gỗ|\r\nHãng sản xuất    Microsoft|\r\n",
+      "price": 350000,
+      "status": true,
+      "category_id": 5
+    },
+    {
+      "id": 42,
+      "name": "Chuột có dây Rapoo N200",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/1/_/1.11_1_1.png",
+      "description": "Thiết kế nhỏ gọn, sử dụng thoải mái|\r\nĐộ phân giải lên đến 1600 DPI, giúp chuột di chuyển mượt mà|\r\nThiết kế phù hợp cho người thuận tay phải hay tay trái|\r\nThuận tiện điều khiển, nút bấm êm và nhạy",
+      "specs": "Tương thích    Windows|\r\nCách kết nối    Dây cắm USB|\r\nĐộ dài dây / Khoảng cách kết nối    180 cm|\r\nĐèn nền LED    Không|\r\nHãng sản xuất    Rapoo|\r\nChất liệu    Nhựa|\r\nCảm biến    1600 DPI|\r\n",
+      "price": 100000,
+      "status": true,
+      "category_id": 5
+    },
+    {
+      "id": 43,
+      "name": "Chuột có dây Gaming MSI M99",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_102_1.png",
+      "description": "Sử dụng bền bỉ với độ thử nghiệm đến 10 triệu lần nhấn|\r\nĐộ phân giải 4000 DPI giúp di chuyển mượt mà, ổn định|\r\nTrang bị đèn LED RGB với 16.8 triệu màu siêu ấn tượng|\r\nThiết kế nút cuộn 3D trống trượt, giúp bạn cuộn chính xác",
+      "specs": "Độ phân giải    4000 DPI|\r\nCảm biến    Avago 3050|\r\nNút nhấn    8 nút có thể tùy chỉnh|\r\nTương thích    Windows|\r\nKết nối    Dây USB|\r\nĐèn LED    RGB|\r\nTiện ích    Độ bền đến 10 triệu lần nhấn Thiết kế tản nhiệt tốt|\r\nTương thích    Windows|\r\nCách kết nối    Dây cắm USB|\r\nĐộ dài dây / Khoảng cách kết nối    1.8m|\r\nĐèn nền LED    Có|\r\nHãng sản xuất    MSI|\r\n",
+      "price": 500000,
+      "status": true,
+      "category_id": 5
+    },
+    {
+      "id": 44,
+      "name": "Chuột có dây Gaming Rapoo V280",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/1/_/1.2_1_6.png",
+      "description": "Thiết kế cân xứng, dễ dàng thao tác cho mọi game thủ, mang lại cảm giác thoải mái khi sử dụng lâu|\r\nTrang bị cảm biến độ phân giải lên tới 7000DPI hoạt động hiệu quả và di chuyển mượt mà|\r\nDây USB kết nối dài 1.8m dễ dàng kết nối với thiết bị và sử dụng ổn định|\r\nTốc độ phản hồi nhanh chóng chỉ 1 ms (0.001 giây), xử lý nhanh và chính xác|\r\nTrang bị đèn LED RGB hỗ trợ 16.8 triệu màu và có thể tùy chỉnh qua phần mềm|\r\nTích hợp cảm biến chạm tay làm thay đổi ánh sáng nền mang lại trải nghiệm thú vị",
+      "specs": "Tương thích    Windows, MacOS|\r\nCách kết nối    Dây cắm USB|\r\nĐộ dài dây / Khoảng cách kết nối    1.8m|\r\nĐèn nền LED    Có|\r\nHãng sản xuất    Rapoo|\r\nTính năng khác    DPI: Lên tới 7000 DPI. Nút chuyển đổi DPI nhanh trên chuột. LED RGB với 16 triệu màu. Cảm biến chạm tay làm thay đổi ánh sáng nền|\r\n",
+      "price": 690000,
+      "status": true,
+      "category_id": 5
+    },
+    {
+      "id": 45,
+      "name": "Tai nghe Devia Smart Series Dual Speakers 3,5mm",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/f/r/frame_28_1.png",
+      "description": "Thiết kế độc đáo với phần củ tai được đặt 2 màng loa bên trong|\r\nTrang bị 2 driver 9mm mang đến chất âm mạnh mẽ và bùng nổ|\r\nCổng 3.5mm tương thích nhiều thiết bị: Smartphone, laptop, PC, vv|\r\nDây dẫn chất liệu nhựa PC chống rối, bền bỉ hạn chế bị đứt gãy",
+      "specs": "Cổng kết nối    3.5mm|\r\nMicro    Có|\r\nKích thước driver    9mm|\r\nPhương thức điều khiển    Nút bấm trên dây|\r\nHãng sản xuất    Devia|\r\nChất liệu    Nhựa + Kim loại|\r\n",
+      "price": 200000,
+      "status": true,
+      "category_id": 6
+    },
+    {
+      "id": 46,
+      "name": "Tai nghe chụp tai JBL Live 660NC",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_269_1.png",
+      "description": "Tính năng chống ồn chủ động ANC giúp loại bỏ mọi tạp âm môi trường xung quanh|\r\nKiểu dáng thời thượng, tai nghe được bọc vải Fabric tạo cảm giác thoải mái khi đeo|\r\nMàng loa kích thước 40 mm mang đến chất lượng âm thanh sống động, chân thực|\r\nThời lượng pin ấn tượng khi có thể hoạt động đến 50 giờ liên tục chỉ với một lần sạc",
+      "specs": "Thời lượng pin    50 giờ|\r\nCông nghệ âm thanh    JBL Signature Sound, Chống ồn chủ động ANC|\r\nMicro    Có|\r\nTương thích    Các thiết bị có hỗ trợ Bluetooth|\r\nTính năng khác    Chế độ môi trường xung quanh|\r\nKích thước driver    40mm|\r\nPhương thức điều khiển    Nút bấm vật lý|\r\nHãng sản xuất    JBL|\r\nPhạm vi kết nối    10 m|\r\n",
+      "price": 4490000,
+      "status": true,
+      "category_id": 6
+    },
+    {
+      "id": 47,
+      "name": "Tai nghe không dây Havit TW959",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/f/r/frame_4_1_1.png",
+      "description": "Chuẩn Bluetooth 5.1 cho chất lượng kết nối ổn định, nhanh chóng|\r\nĐộ trễ thấp chỉ 65 ms mang đến trải nghiệm chơi game mượt mà|\r\nKháng nước, bụi chuẩn IPX4 giúp bảo vệ tai nghe khi bị dính nước|\r\nThiết kế chuẩn công thái học mang đến cảm giác thoải mái khi đeo",
+      "specs": "Thời lượng pin    Tai nghe: 5.5 giờ. Hộp sạc: 20 giờ|\r\nChống nước    IPX4|\r\nMicro    Có|\r\nTương thích    Các thiết bị có hỗ trợ Bluetooth|\r\nKích thước driver    10 mm|\r\nĐộ trễ    65 ms|\r\nPhương thức điều khiển    Chạm cảm ứng|\r\nHãng sản xuất    Havit|\r\nPhạm vi kết nối    10 m|\r\n",
+      "price": 690000,
+      "status": true,
+      "category_id": 6
+    },
+    {
+      "id": 48,
+      "name": "Tai nghe KZ ZST",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_192_1__1_1.png",
+      "description": "Lõi dây mạ bạc giúp giúp giảm hiện tượng thất thoát, méo tiếng khi nghe|\r\nKiểu dáng nhỏ gọn ôm khít tai tạo cảm giác dễ chịu ngay cả khi đeo lâu|\r\nTích hợp phím bấm vật lý trên dây giúp thao tác nhanh chóng và tiện lợi|\r\nTrang bị jack cắm 3.5 mm và chuẩn Bluetooth hỗ trợ chuyển đổi đa dạng",
+      "specs": "Cổng kết nối    3.5mm|\r\nMicro    Có|\r\nTương thích    Các thiết bị có hỗ trợ cổng 3.5 mm|\r\nTính năng khác    Dây đeo có thể tháo rời|\r\nKích thước driver    10 mm|\r\nPhương thức điều khiển    Nút bấm vật lý|\r\nHãng sản xuất    KZ|\r\n",
+      "price": 550000,
+      "status": true,
+      "category_id": 6
+    },
+    {
+      "id": 49,
+      "name": "Tai nghe chụp tai Sony WH-1000XM5",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_172_2.png",
+      "description": "Công nghệ Auto NC Optimizer tự động khử tiếng ồn dựa theo môi trường|\r\nTrải nghiệm nghe chân thật, sống động nhờ tính năng 360 Reality Audio|\r\nThiết kế sang trọng, trọng lượng nhẹ với phần da mềm mại, ôm khít đầu|\r\nNăng lượng cho cả ngày dài với thời lượng sử dụng pin lên đến 40 giờ",
+      "specs": "Thời lượng pin    Tắt chống ồn ANC: Dùng 40 giờ. Bật chống ồn ANC: Dùng 30 giờ|\r\nCông nghệ âm thanh    Auto NC Optimizer (Tự động điều chỉnh chống ồn). Âm thanh 360 độ|\r\nMicro    Có|\r\nTương thích    Các thiết bị có hỗ trợ Bluetooth|\r\nTính năng khác    Tự động dừng nhạc khi bắt đầu trò chuyện. Điều khiển bằng giọng nói thông qua Google, Alexa|\r\nKích thước driver    30mm|\r\nPhương thức điều khiển    Cảm ứng chạm|\r\nHãng sản xuất    Sony|\r\nPhạm vi kết nối    10 m|\r\n",
+      "price": 9490000,
+      "status": true,
+      "category_id": 6
+    },
+    {
+      "id": 50,
+      "name": "Tai nghe Bluetooth Havit TW945",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_196_1_.png",
+      "description": "Thiết kế nhỏ gọn, đột phá với tông màu trong suốt|\r\nTrang bị Bluetooth 5.3, kết nối nhanh chóng, ổn định|\r\nGaming Mode 0.05s, mang đến trải nghiệm tuyệt vời|\r\nSử dụng driver 13mm cho âm bass sâu và nội lực",
+      "specs": "Thời lượng pin    Tai nghe: 3 giờ. Hộp sạc: 30 giờ|\r\nCông nghệ âm thanh    Gaming Mode 0.05s|\r\nMicro    Có|\r\nTương thích    Các thiết bị có hỗ trợ Bluetooth|\r\nKích thước driver    13mm|\r\nPhương thức điều khiển    Chạm cảm ứng|\r\nHãng sản xuất    Havit|\r\n",
+      "price": 450000,
+      "status": true,
+      "category_id": 6
+    },
+    {
+      "id": 51,
+      "name": "Tai nghe chụp tai Robot RH-G20",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/f/r/frame_1_3_7.png",
+      "description": "Trang bị micro có thể điều chỉnh linh hoạt giúp thu âm, đàm thoại tốt hơn|\r\nCổng kết nối 3.5mm tương thích nhiều thiết bị như điện thoại, laptop, PC, vv|\r\nĐèn LED có khả năng chuyển đổi 7 màu sắc, chuẩn phong cách gaming|\r\nThiết kế gọng kim loại dẻo ôm khít vào tai và dây dẫn bọc dù chắc chắn",
+      "specs": "Cổng kết nối    3.5mm|\r\nMicro    Có|\r\nTương thích    PC, Laptop, Smartphone, Máy chơi game|\r\nKích thước driver    50mm|\r\nPhương thức điều khiển    Nút bấm vật lý|\r\nHãng sản xuất    Robot|\r\nChất liệu    Gọng kim loại dẻo Dây dẫn bọc dù|\r\nCông suất    30mW|\r\n",
+      "price": 390000,
+      "status": true,
+      "category_id": 6
+    },
+    {
+      "id": 52,
+      "name": "Tai nghe không dây Nokia E3100",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/f/r/frame_7_1_1.png",
+      "description": "Thiết kế trẻ trung, siêu cuốn hút với đa dạng lựa chọn màu sắc nổi bật|\r\nTận hưởng chất lượng âm thanh tốt với màng loa có kích thước 6 mm|\r\nChuẩn kháng nước IPX3 giúp đảm bảo an toàn với những tia nước bắn|\r\nTrang bị công nghệ Bluetooth 5.0 cho phép kết nối nhanh chóng, ổn định",
+      "specs": "Thời lượng pin    Tai nghe: Dùng 2.5 giờHộp sạc: Dùng 10 giờ|\r\nChống nước    IPX3|\r\nMicro    Có|\r\nTương thích    Các thiết bị có hỗ trợ Bluetooth|\r\nTính năng khác    Tự động kết nối khi mở hộp sạc|\r\nKích thước driver    6 mm|\r\nPhương thức điều khiển    Nút điều khiển vật lý|\r\nHãng sản xuất    Nokia|\r\n",
+      "price": 590000,
+      "status": true,
+      "category_id": 6
+    },
+    {
+      "id": 53,
+      "name": "Tai nghe không dây Soundpeats H2",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_198_2_1.png",
+      "description": "Đàm thoại rõ ràng với 2 micro mỗi bên tai cùng với công nghệ khử ồn cVc 8.0|\r\nChất lượng âm thanh tiên tiến độc đáo với khả năng tái tạo nhịp điệu nổi bật|\r\nThời lượng pin tốt có thể hoạt động đến 20 giờ liên tục khi dùng kèm hộp sạc|\r\nĐộ trễ thấp chỉ 60ms cho bạn chơi game thỏa thích mà không bị gián đoạn",
+      "specs": "Thời lượng pin    Tai nghe: 5 giờHộp sạc: 20 giờ|\r\nChống nước    IPX4|\r\nMicro    Có|\r\nTương thích    Các thiết bị có hỗ trợ Bluetooth|\r\nTính năng khác    Tự động kết nối khi mở hộp|\r\nKích thước driver    8 mm|\r\nĐộ trễ    60 ms (Chế độ Game mode)|\r\nPhương thức điều khiển    Chạm cảm ứng|\r\nHãng sản xuất    Soundpeats|\r\nPhạm vi kết nối    10 m|\r\n",
+      "price": 1690000,
+      "status": true,
+      "category_id": 6
+    },
+    {
+      "id": 54,
+      "name": "Tai nghe chụp tai Gaming Sony Inzone H7",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/s/o/sonyyy.jpg",
+      "description": "Công nghệ âm thanh 360 Spatial Sound - cho phép phát hiện vị trí của đối thủ, nghe rõ từng tiếng bước chân|\r\nÂm trầm mạnh mẽ - Tái hiện chân thật tứng tiếng nổ và tiếng động cơ|\r\nCảm giác đeo thoải mái - Đệm tai ôm sát tai|\r\nSiêu bền bỉ - Sử dụng lên đến 40 giờ chỉ với 1 lần sạc|\r\nKết nối không dây thông qua bluetooth hay kết nối không dây USB ",
+      "specs": "Thời lượng pin    Tối đa 40 giờ|\r\nCông nghệ âm thanh    360 Spatial Sound|\r\nMicro    Micro boom, tập trung vào giọng nói|\r\nTính năng khác    Có thể vừa chơi vừa sạc  Cho phép tinh chỉnh cá nhân hóa nội dung game  Có thể điều chỉnh cài đặt tai nghe trong trung tâm điều khiển PS5|\r\nKích thước driver    40 mm, loại vòm (Cuộn dây âm thanh EDCCA)|\r\nĐộ trễ    Độ trễ thấp với kết nối không dây 2.4 GHz|\r\nPin    Pin sạc lithium-ion tích hợp|\r\nHãng sản xuất    Sony|\r\n",
+      "price": 5300000,
+      "status": true,
+      "category_id": 6
+    },
+    {
+      "id": 55,
+      "name": "VGA Radeon RX 6400 Aero ITX 4G",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_311_2_.png",
+      "description": "",
+      "specs": "Chipset    AMD|\r\nDung lượng    4GB|\r\nKiểu bộ nhớ    GDDR6|\r\nGiao diện bộ nhớ    64-bit|\r\nGPU clock    2039 MHz|\r\nGiao tiếp PCI    PCI Express 4.0 x4|\r\nSố lượng đơn vị xử lí    768 CUDA|\r\nNguồn đề xuất    350W|\r\nHãng sản xuất    MSI|\r\n",
+      "price": 4990000,
+      "status": true,
+      "category_id": 7
+    },
+    {
+      "id": 56,
+      "name": "Ổ cứng SSD Kimtigo 128GB 2.5 inch SATA K128S3A25KTA320",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/1/5/15_3_106.jpg",
+      "description": "",
+      "specs": "Loại ổ cứng    SSD|\r\nKết nối    SATA III|\r\nDung lượng    128GB|\r\nTốc độ đọc    530 MB/s|\r\nHãng sản xuất    KIMTIGO|\r\n",
+      "price": 590000,
+      "status": true,
+      "category_id": 7
+    },
+    {
+      "id": 57,
+      "name": "VGA Gigabyte GeForce RTX 2060 6G",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/5/_/5.1_5.png",
+      "description": "",
+      "specs": "Chipset    NVIDIA|\r\nDung lượng    6GB|\r\nKiểu bộ nhớ    GDDR6|\r\nGiao diện bộ nhớ    192 bit|\r\nGPU    NVIDIA RTX 2060|\r\nGPU clock    1680 MHz|\r\nGiao tiếp PCI    16x PCI-E 3.0|\r\nSố lượng đơn vị xử lí    1920 CUDA|\r\nĐầu cấp nguồn    8 Pin*1|\r\nNguồn đề xuất    500W|\r\nHãng sản xuất    Gigabyte|\r\nCổng giao tiếp    3x DisplayPort 1.4 1x HDMI 2.0b|\r\n",
+      "price": 10190000,
+      "status": true,
+      "category_id": 7
+    },
+    {
+      "id": 58,
+      "name": "Ổ cứng SSD Kingston SA400S37 480GB",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/o/-/o-cung-ssd-kingston-sa400-s37-480gb-5.jpg",
+      "description": "",
+      "specs": "Bộ nhớ trong    480 GB|\r\nLoại ổ cứng    SSD|\r\nKết nối    SATA III|\r\nTốc độ đọc    500 MB/s|\r\nHãng sản xuất    Kingston|\r\n",
+      "price": 1510000,
+      "status": true,
+      "category_id": 7
+    },
+    {
+      "id": 59,
+      "name": "Ổ cứng HDD WD Blue 1TB WD10EZEX",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/t/_/t_i_xu_ng_-_2023-01-28t224540.685.png",
+      "description": "",
+      "specs": "Loại ổ cứng    HDD|\r\nKết nối    SATA III|\r\nDung lượng    1TB|\r\nTốc độ vòng quay    7200 RPM|\r\nBộ nhớ đệm    64MB|\r\nHãng sản xuất    Western Digital|\r\n",
+      "price": 1290000,
+      "status": true,
+      "category_id": 7
+    },
+    {
+      "id": 60,
+      "name": "Ổ cứng HDD Seagate Barracuda 1TB 64MB ST1000DM010",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/o/-/o-cung-hdd-seagate-barracuda-1tb-64mb-st1000dm010-1.jpg",
+      "description": "",
+      "specs": "Loại ổ cứng    HDD|\r\nKết nối    SATA III|\r\nDung lượng    1TB|\r\nTốc độ đọc    ~ 210 MB/s|\r\nHãng sản xuất    Seagate|\r\n",
+      "price": 1190000,
+      "status": true,
+      "category_id": 7
+    },
+    {
+      "id": 61,
+      "name": "Ổ cứng SSD Gigabyte 120GB SATA III",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/1/6/16_1_10.jpg",
+      "description": "",
+      "specs": "Loại ổ cứng    SSD|\r\nKết nối    SATA III|\r\nDung lượng    120GB|\r\nTốc độ đọc    500 MBps|\r\nHãng sản xuất    Gigabyte|\r\n",
+      "price": 590000,
+      "status": true,
+      "category_id": 7
+    },
+    {
+      "id": 62,
+      "name": "RAM PC G.SKILL Aegis 8GB 3200MHz DDR4",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/r/a/ram-gskill-aegis-8gb-3200mhz-ddr4-f4-3200c16s-8gis-2.jpg",
+      "description": "",
+      "specs": "Dung lượng    8GB|\r\nBus RAM    3200MHz|\r\nHỗ trợ    DIMM (PC, Desktop)|\r\nTiming    CL16-18-18-38|\r\nVoltage    1.2V|\r\nHãng sản xuất    G.SKILL|\r\n",
+      "price": 990000,
+      "status": true,
+      "category_id": 7
+    },
+    {
+      "id": 63,
+      "name": "RAM Laptop G.SKILL Ripjaw 8GB 3200MHz DDR4",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/2/_/2_64_29.jpg",
+      "description": "",
+      "specs": "Dung lượng    8GB|\r\nBus RAM    3200MHz|\r\nHỗ trợ    SO-DIMM (Laptop)|\r\nVoltage    1.2 V|\r\nHãng sản xuất    G.SKILL|\r\n",
+      "price": 1190000,
+      "status": true,
+      "category_id": 7
+    },
+    {
+      "id": 64,
+      "name": "RAM Laptop Lexar 16GB 3200MHZ DDR4",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/g/r/group_303_1_.png",
+      "description": "",
+      "specs": "Dung lượng    16GB|\r\nBus RAM    3200MHz|\r\nHỗ trợ    SO-DIMM (Laptop)|\r\nVoltage    1.2V|\r\nHãng sản xuất    LEXAR|\r\n",
+      "price": 1250000,
+      "status": true,
+      "category_id": 7
+    },
+    {
+      "id": 65,
+      "name": "Mac mini M2 2023 (8 CPU - 10 GPU - 8GB - 256GB) | Chính hãng Apple Việt Nam",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/m/2/m2_256gb.png",
+      "description": "Hiệu năng vượt trội với con chip M2 cùng 10 nhân GPU - Chạy tốt các tác vụ như render video, chỉnh sửa hình ảnh|\r\nĐa nhiệm tốt, mở cùng lúc nhiều ứng dụng với dung lượng ram lên đến 8GBSSD 256GB giúp máy khởi động nhanh chóng, cho phép người dùng lưu trữ nhiều dữ liệu|\r\nThiết kế nhỏ gọn cùng trọng lượng chỉ 1.18kg - dễ dàng di chuyển mọi lúc mọi nơi|\r\nHệ điều hành MacOS Ventura mang đến khả năng bảo mật vượt trội, bảo vệ mọi dữ liẹu của người dùng",
+      "specs": "Loại card đồ họa    10 nhận GPU, 16 nhân Neural Engine|\r\nDung lượng RAM    8GB|\r\nLoại RAM    8GB|\r\nỔ cứng    256GB SSD|\r\nCông nghệ màn hình    Hỗ trợ xuất hình ảnh 6K 60HZ qua cổng Thunderbolt. Xuất hình ảnh 4K qua cổng HDMI|\r\nCổng giao tiếp    Jack 3.5mm, cổng HDMI, 2 cổng USB-A, Cổng Ethernet|\r\n",
+      "price": 15990000,
+      "status": true,
+      "category_id": 8
+    },
+    {
+      "id": 66,
+      "name": "MacBook Pro 16 inch M2 Max 2023 (12 CPU - 38 GPU - 32GB - 1TB)",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/1/6/16_m2_max.png",
+      "description": "Chip M2 Max - Hoạt động mượt mà từ các ứng dụng đến các tác vụ render video 4K, 8K32GB ram - Vừa render video, vừa mở cùng lúc nhiều tab trình duyệt mà không lo giật lag|\r\nÂm thanh hình ảnh chân thật - Màn hình 120Hz cùng công nghệ Dolby Atmos|\r\nThiết kế thời thượng củng phần vỏ kim loại chắc chắn|\r\nBảo mật tuyệt đối với tính năng bảo mật vân tay",
+      "specs": "Loại card đồ họa    38 nhân GPU|\r\nDung lượng RAM    32GB|\r\nSố khe ram    Không hỗ trợ nâng cấp|\r\nỔ cứng    1TB SSD|\r\nKích thước màn hình    16 inches|\r\nCông nghệ màn hình    Tần số quét 120Hz. Công nghệ Liquid Retina, Mini LED, XDR1 tỳ màu|\r\nHệ điều hành    MacOS|\r\nĐộ phân giải màn hình    3456 x 2234 pixels|\r\nCổng giao tiếp    1x Headphone jack  1x MagSafe port  1x HDMI  1x Thunderbolt 4  1x SDXC|\r\n",
+      "price": 92990000,
+      "status": true,
+      "category_id": 8
+    },
+    {
+      "id": 67,
+      "name": "Apple MacBook Air M1 256GB 2020 I Chính hãng Apple Việt Nam",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/a/i/air_m2.png",
+      "description": "Phù hợp cho lập trình viên, thiết kế đồ họa 2D, dân văn phòng|\r\nHiệu năng vượt trội - Cân mọi tác vụ từ word, exel đến chỉnh sửa ảnh trên các phần mềm như AI, PTS|\r\nĐa nhiệm mượt mà - Ram 8GB cho phép vừa mở trình duyệt để tra cứu thông tin, vừa làm việc trên phần mềm|\r\nTrang bị SSD 256GB - Cho thời gian khởi động nhanh chóng, tối ưu hoá thời gian load ứng dụng|\r\nChất lượng hình ảnh sắc nét - Màn hình Retina cao cấp cùng công nghệ TrueTone cân bằng màu sắc|\r\nThiết kế sang trọng - Nặng chỉ 1.29KG, độ dày 16.1mm. Tiện lợi mang theo mọi nơi",
+      "specs": "Loại card đồ họa    GPU 7 nhân, 16 nhân Neural Engine|\r\nDung lượng RAM    8GB|\r\nLoại RAM    LPDDR4|\r\nỔ cứng    256GB SSD|\r\nKích thước màn hình    13.3 inches|\r\nCông nghệ màn hình    Độ sáng 400 nits Hỗ trợ dải màu P3 True-Tone|\r\nPin    49.9-watt lithium-polymer, củ sạc công suất 30W|\r\nHệ điều hành    macOS Big Sur|\r\nĐộ phân giải màn hình    2560 x 1600 pixels (2K)|\r\nCổng giao tiếp    2 cổng Thunderbolt / USB 4|\r\nTính năng khác    Cảm biến vân tay Touch ID, 720p FaceTime HD camera|\r\n",
+      "price": 28990000,
+      "status": true,
+      "category_id": 8
+    },
+    {
+      "id": 68,
+      "name": "MacBook Pro 14 inch M2 Pro 2023 (10 CPU - 16 GPU - 32GB - 512GB)",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/m/b/mbp14-silver-select-202301_1_4_1.jpg",
+      "description": "Thiết kế sang trọng - Vỏ kim loại cùng trọng lượng chỉ 1.6kg dễ dàng mang theo mọi nơi|\r\nHiển thị chân thật - Kích thước màn hình 14 inch cùng tần số quét lên đến 120Hz|\r\nCấu hình mạnh mẽ - Ram 32GB cùng SSD 512 GB đa nhiệm mượt mà, tránh tình trạng giật lag|\r\nXử lý tốt các tác vụ đồ hoạ - GPU 19 nhân giúp việc render video hay chỉnh sửa ảnh diễn ra một cách nhẹ nhàng",
+      "specs": "Loại card đồ họa    16 nhân GPU|\r\nDung lượng RAM    32GB|\r\nỔ cứng    512GB SSD|\r\nKích thước màn hình    14.2 inches|\r\nCông nghệ màn hình    120Hz, Liquid Retina, Mini LED, XDR|\r\nPin    70Wh, Đi kèm sạc 67W|\r\nHệ điều hành    MacOS|\r\nĐộ phân giải màn hình    3024 x 1964 pixels|\r\nCổng giao tiếp    1 x 3.5mm Cổng MagSafe 1x HDMI  1x SDXC|\r\n",
+      "price": 63990000,
+      "status": true,
+      "category_id": 8
+    },
+    {
+      "id": 69,
+      "name": "Apple MacBook Pro 13 M2 2022 8GB 512GB I Chính hãng Apple Việt Nam",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/m/a/macbook13.png",
+      "description": "Vẻ ngoài sang trọng, siêu mỏng nhẹ - trọng lượng chỉ 1.4kg|\r\nChip Apple M2 chạy mượt các úng dụng đồ hoạ như Phototshop, Premier hay các phần mềm văn phòng Word, Exel, Powerpoint|\r\nRam 8GB - Đa nhiệm mượt mà, mở cùng lúc nhiều ứng dụng hay tab trình duyệt mà không lo giật lag|\r\nMàn hình Retina cùng các công nghệ như True Tone, Wide Color - Màu sắc hiển thị sắc nét, trải nghiệm giải trí tuyệt vời hơn bao giờ hết|\r\nTích hợp touch bar - Các thao tác nhu chụp màn hình, chỉnh âm lượng trở nên dễ dàng hơn|\r\nWebcam 720p - Sẵn sàng tham gia các buổi họp trực tuyến hay họp online",
+      "specs": "Loại card đồ họa    10 nhân GPU|\r\nDung lượng RAM    8GB|\r\nLoại RAM    8GB|\r\nỔ cứng    512GB SSD|\r\nKích thước màn hình    13 inches|\r\nPin    58.2Whrs|\r\nHệ điều hành    MacOS|\r\nCổng giao tiếp    Cổng sạc, Cổng màn hình Thunderbolt 3 (lên đến 40Gb/s)USB 4 (lên đến 40Gb/s) USB 3.1 Gen 2 (lên đến 10Gb/s) Cổng 3.5mm|\r\n",
+      "price": 41990000,
+      "status": true,
+      "category_id": 8
+    },
+    {
+      "id": 70,
+      "name": "Apple Macbook Air M2 2022 24GB 256GB I Chính hãng Apple Việt Nam",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/m/a/macbook_air_m2_1.png",
+      "description": "Thiết kế sang trọng, lịch lãm - siêu mỏng 11.3mm, chỉ 1.24kg|\r\nHiệu năng hàng đầu - Chip Apple m2, 8 nhân GPU, hỗ trợ tốt các phần mềm như Word, Axel, Adoble Premier|\r\nRam lên đến 24GB - Tốc độ khởi động ứng dụng nhanh chóng, cho phép chạy máy ảo mở cùng lúc nhiều ứng dụng|\r\nMàn hình sắc nét - Độ phân giải 2560 x 1664 cùng độ sáng 500 nits|\r\nÂm thanh sống động - 4 loa tramg bị công nghệ dolby atmos và âm thanh đa chiều",
+      "specs": "Loại card đồ họa    8 nhân GPU, 16 nhân Neural Engine|\r\nDung lượng RAM    24GB|\r\nỔ cứng    256GB|\r\nKích thước màn hình    13.6 inches|\r\nCông nghệ màn hình    Liquid Retina Display|\r\nPin    52,6 Wh|\r\nHệ điều hành    MacOS|\r\nĐộ phân giải màn hình    2560 x 1664 pixels|\r\nCổng giao tiếp    2 x Thunderbolt 3, Jack tai nghe 3.5 mm MagSafe 3|\r\n",
+      "price": 45990000,
+      "status": true,
+      "category_id": 8
+    },
+    {
+      "id": 71,
+      "name": "Apple Macbook Pro 13 M2 2022  8GB 256GB I Chính hãng Apple Việt Nam",
+      "image_url": "https://cdn2.cellphones.com.vn/x358,webp,q100/media/catalog/product/p/r/pro-m2.jpg",
+      "description": "Chip M2 mới nhất - hiệu năng hàng đầu, thoải mái sử dụng các phần mềm đồ hoạ hay render video|\r\nMàn hình Retina - màu sắc hiển thị sống động tạo ra không gian giải trí đỉnh cao|\r\nThiết kế sang trọng - Trọng lượng máy chỉ 1.4kg, độ dày chỉ 15.6mm giúp bạn dễ dàng mang theo|\r\nÂm thanh chân thật - Tích hợp loa kép cùng công nghệ Dolby Atmos mang đến chất lượng âm thanh tuyệt vời",
+      "specs": "Loại card đồ họa    10 nhân GPU|\r\nDung lượng RAM    8GB|\r\nLoại RAM    8GB|\r\nỔ cứng    256GB SSD|\r\nKích thước màn hình    13 inches|\r\nPin    58.2Whrs|\r\nHệ điều hành    MacOS|\r\nĐộ phân giải màn hình    2560 x 1664 pixels|\r\nCổng giao tiếp    Cổng sạc Cổng màn hình Thunderbolt 3 (lên đến 40Gb/s)USB 4 (lên đến 40Gb/s) USB 3.1 Gen 2 (lên đến 10Gb/s) Cổng 3.5mm|\r\n",
+      "price": 35990000,
+      "status": true,
+      "category_id": 8
+    },
+    {
+      "name": "new lap",
+      "image_url": "https://cdn2.cellphones.com.vn/358x358,webp,q100/media/catalog/product/2/_/2.5_1.png",
+      "description": "Mỏng nhẹ là một trong những đặc điểm nổi bật của laptop Asus và Asus Zenbook 14X UM5401QA KN209W cũng không ngoại lệ. Chiếc laptop Asus Zenbook sở hữu một thiết kế sang trọng nhỏ gọn, cấu hình ổn định hứa hẹn mang lại trải nghiệm ấn tượng cho người dùng.",
+      "specs": "Xử lý tốt các tác vụ nặng nề, thoả sức giải trí với các tựa game Esport - AMD Ryzen 5-5600H Card đồ hoạ AMD Radeon™ Graphics\nRam 8GB, ổ cứng SSD 512GB mang đến tốc độ xử lý nhanh cùng đa nhiệm mượt mà, mở nhiều trang cùng lúc không bị giật, lag.\nĐộ phân giải cao 2.8K , màn hình 14.0 inch, tấm nền OLED, tần số quét 90Hz mang lại chất lượng hiển thị rõ nét, mượt mà.\nCổng kết nối đa dạng - Thuận tiện cho người dùng.\nNăng lượng bất tận cả ngày với viên pin 63WHrs, 3S1P, 3-cell Li-ion.\nThiết kế mỏng nhẹ, sang trọng thuận tiện di chuyển, mang theo trọng lượng chỉ 1.3 kg\nMáy đi kèm Windows 11 bản quyền.",
+      "price": "18490000",
+      "status": true,
+      "category_id": 1,
+      "id": 72
+    }
+  ],
+  "customer": [
+    {
+      "id": 1,
+      "username": "bowjaro",
+      "password": "bowjaro3",
+      "email": "bo@gm.com",
+      "first_name": "bow",
+      "last_name": "jaro",
+      "gender": "female",
+      "phone_number": "0123456789",
+      "date_of_birth": "2023-05-18"
+    },
+    {
+      "id": 2,
+      "username": "user1",
+      "password": "bowjaro3",
+      "email": "mn@gm.com",
+      "first_name": "Bow",
+      "last_name": "Jaro",
+      "gender": "male",
+      "phone_number": "0123456777",
+      "date_of_birth": "2023-05-24"
+    },
+    {
+      "username": "thanhtamdfsdafasdf",
+      "password": "1232312312",
+      "email": "tam@gm.com",
+      "first_name": "Tam",
+      "last_name": "Tran",
+      "gender": "female",
+      "phone_number": "123123123",
+      "date_of_birth": "2003-12-15T17:00:00.000Z",
+      "id": 3
+    },
+    {
+      "username": "sdfdsfasdfgfsgfdg",
+      "password": "",
+      "email": "",
+      "first_name": "",
+      "last_name": "",
+      "gender": "",
+      "phone_number": "",
+      "date_of_birth": "",
+      "id": 4
+    }
+  ],
+  "shopping_cart_item": [
+    {
+      "product_id": 1,
+      "customer_id": null,
+      "quantity": 1,
+      "id": 1
+    },
+    {
+      "product_id": 45,
+      "customer_id": null,
+      "quantity": 1,
+      "id": 2
+    },
+    {
+      "id": 3,
+      "customer_id": "2",
+      "product_id": 35,
+      "quantity": 4
+    },
+    {
+      "product_id": 1,
+      "customer_id": "1",
+      "quantity": 1,
+      "id": 4
+    },
+    {
+      "product_id": 2,
+      "customer_id": "1",
+      "quantity": 1,
+      "id": 5
+    },
+    {
+      "product_id": 3,
+      "customer_id": "1",
+      "quantity": 1,
+      "id": 6
+    },
+    {
+      "product_id": 6,
+      "customer_id": "1",
+      "quantity": 1,
+      "id": 7
+    }
+  ],
+  "orders": [
+    {
+      "note": "This is note",
+      "created_on_utc": "2023-05-17T08:14:45.252Z",
+      "customer_id": "1",
+      "shipping_address_id": 1,
+      "total_price": 0,
+      "status": "COMPLETED",
+      "id": 1
+    },
+    {
+      "note": "",
+      "created_on_utc": "2023-05-17T10:00:45.067Z",
+      "customer_id": "1",
+      "shipping_address_id": 2,
+      "total_price": 5560000,
+      "status": "COMPLETED",
+      "id": 2
+    },
+    {
+      "note": "333fdafdsaf",
+      "created_on_utc": "2023-05-17T10:36:56.451Z",
+      "customer_id": "2",
+      "shipping_address_id": 4,
+      "total_price": 141010000,
+      "status": "COMPLETED",
+      "category_id": "",
+      "id": 4
+    }
+  ],
+  "order_item": [
+    {
+      "order_id": 2,
+      "product_id": 28,
+      "quantity": 3,
+      "rate": 1,
+      "comment": "China’s first self-developed 150 MW large-scale impulse water turbine runner rolled off the production line on Tuesday in Deyang, Sichuan. The 20-tonne runner, made with the help of 3D-printing technology, is expected to be operational in June.",
+      "id": 4
+    },
+    {
+      "order_id": 2,
+      "product_id": 29,
+      "quantity": 1,
+      "rate": 5,
+      "comment": "As part of the Rolex Perpetual Planet Initiative, legendary oceanographer Sylvia Earle has spent her life exploring the world's seas; she says that humanity is only just beginning to understand them. https://cnn.it/431EYVx #CallToEarth #PerpetualPlanet",
+      "id": 5
+    },
+    {
+      "order_id": 4,
+      "product_id": 65,
+      "quantity": 3,
+      "rate": 5,
+      "comment": "excellent",
+      "id": 8
+    },
+    {
+      "order_id": 4,
+      "product_id": 66,
+      "quantity": 1,
+      "rate": 4,
+      "comment": "qutie good",
+      "id": 9
+    }
+  ],
+  "address": [
+    {
+      "house_number": "12A",
+      "street": "New Street",
+      "province_id": 2,
+      "id": 1
+    },
+    {
+      "house_number": "A222",
+      "street": "12A",
+      "province_id": 0,
+      "id": 2
+    },
+    {
+      "house_number": "",
+      "street": "",
+      "province_id": 1,
+      "id": 3
+    },
+    {
+      "house_number": "",
+      "street": "",
+      "province_id": 1,
+      "id": 4
+    }
+  ]
+}

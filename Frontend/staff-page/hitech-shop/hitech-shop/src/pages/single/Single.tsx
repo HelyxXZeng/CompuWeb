@@ -1,5 +1,5 @@
 
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import brandApi from "../../api/brandApi";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
@@ -14,6 +14,18 @@ import promotionApi from "../../api/promotionApi";
 import CategorySingle from "../../components/singles/categorySingle/CategorySingle";
 import PromotionSingle from "../../components/singles/promotionSingle/PromotionSingle";
 import CustomerSingle from "../../components/singles/customerSingle/CustomerSingle";
+import productLineApi from "../../api/productLineApi";
+import ProductLineSingle from "../../components/singles/productLineSingle/ProductLineSingle";
+import productVariantApi from "../../api/productVariantApi";
+import ProductVariantSingle from "../../components/singles/productVariantSingle/ProductVariantSingle";
+import productInstanceApi from "../../api/productInstanceApi";
+import ProductInstanceSingle from "../../components/singles/productInstanceSingle/ProductInstaceSingle";
+import specificationTypeApi from "../../api/specificationTypeApi";
+import SpecificationTypeSingle from "../../components/singles/specificationTypeSingle/SpecificationTypeSingle";
+import SpecificationSingle from "../../components/singles/specificationSingle/SpecificationSingle";
+import specificationApi from "../../api/specificationApi";
+import PriceSingle from "../../components/singles/priceSingle/PriceSingle";
+import priceApi from "../../api/priceApi";
 
 interface Props {
     type: string,
@@ -21,10 +33,12 @@ interface Props {
 }
 
 const Single = ({ type, isNew }: Props) => {
-    const params = useParams();
-    console.log("This is params from url: ", params)
-    const id = params[type + 'Id']; // Get the id from the URL
-    console.log("This is id from url:", id)
+
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const id = queryParams.get('id');
+
+    // console.log("This is id from url:", id);
 
     const [editRow, setEditRow] = useState(null);
     const [isDoneFetch, setIsDoneFetch] = useState(false)
@@ -50,6 +64,24 @@ const Single = ({ type, isNew }: Props) => {
                     break;
                 case 'promotion':
                     data = (await promotionApi.get(parseInt(id!))).data;
+                    break;
+                case 'productLine':
+                    data = (await productLineApi.get(parseInt(id!))).data;
+                    break;
+                case 'productVariant':
+                    data = (await productVariantApi.get(parseInt(id!))).data;
+                    break;
+                case 'productInstance':
+                    data = (await productInstanceApi.get(parseInt(id!))).data;
+                    break;
+                case 'specificationType':
+                    data = (await specificationTypeApi.get(parseInt(id!))).data;
+                    break;
+                case 'specification':
+                    data = (await specificationApi.get(parseInt(id!))).data;
+                    break;
+                case 'price':
+                    data = (await priceApi.get(parseInt(id!))).data;
                     break;
                 default:
                     break;
@@ -82,6 +114,18 @@ const Single = ({ type, isNew }: Props) => {
                 return <BrandSingle brand={editRow!} />
             case 'promotion':
                 return <PromotionSingle promotion={editRow!} />
+            case 'productLine':
+                return <ProductLineSingle productLine={editRow!} />
+            case 'productVariant':
+                return <ProductVariantSingle productVariant={editRow!} />
+            case 'productInstance':
+                return <ProductInstanceSingle productInstance={editRow!} />
+            case 'specificationType':
+                return <SpecificationTypeSingle specificationType={editRow!} />
+            case 'specification':
+                return <SpecificationSingle specification={editRow!} />
+            case 'price':
+                return <PriceSingle price={editRow!} />
             default:
                 return null;
         }
@@ -92,9 +136,6 @@ const Single = ({ type, isNew }: Props) => {
             <Sidebar />
             <div className="singleContainer">
                 <Navbar />
-                {/* {
-                    getElement()
-                } */}
                 {
                     isDoneFetch ? getElement() : <p>Loading...</p>
                 }

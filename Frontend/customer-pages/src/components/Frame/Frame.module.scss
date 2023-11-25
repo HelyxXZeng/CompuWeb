@@ -1,0 +1,22 @@
+.wrapper {
+    position: relative;
+    z-index: 1;
+    margin-top: 30px;
+    margin-bottom: 55px;
+    box-shadow: 0 0 10px 0 #ddd;
+    border-radius: 10px;
+    background: #fff;
+    padding: 0 60px;
+    //
+    display: flex;
+    flex-wrap: wrap;
+    &::before,
+    &::after {
+        content: '';
+        display: table;
+    }
+
+    &::after {
+        clear: both;
+    }
+}

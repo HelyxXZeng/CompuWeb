@@ -10,30 +10,30 @@ const ALL = "All"
 
 const columns: GridColDef[] = [
     {
-        field: 'Id', headerName: 'ID'
+        field: 'id', headerName: 'ID'
     },
     {
-        field: 'Category', headerName: 'Category', width: 150
+        field: 'categoryName', headerName: 'Category', width: 150
     },
     {
-        field: 'Name', headerName: 'Name', width: 300
+        field: 'name', headerName: 'Name', width: 300
     },
     {
-        field: 'Quantity', headerName: 'Quantity',
+        field: 'numberInStock', headerName: 'Quantity',
         renderCell: (params) => {
             return (
                 <div className="quantityCell">
-                    {params.row.Quantity}
+                    {params.row.numberInStock}
                 </div>
             );
         },
     },
     {
-        field: 'Price', headerName: 'Price',
+        field: 'price', headerName: 'Price',
         renderCell: (params) => {
             return (
                 <div className="priceCell">
-                    {params.row.Price}
+                    {params.row.price}
                 </div>
             );
         },
@@ -46,9 +46,8 @@ interface ProductTableProps {
 
 const ProductTable: React.FC<ProductTableProps> = ({ rows }) => {
 
-    // console.log('This is rows: ' + rows)
     // Use a Set to collect unique category values
-    const categorySet = new Set(rows.map(row => row.Category));
+    const categorySet = new Set(rows.map(row => row.categoryName));
 
     // Convert the Set back to an array and add "All" at the beginning
     const [categories, setCategories] = useState([ALL, ...Array.from(categorySet)]);
@@ -81,35 +80,35 @@ const ProductTable: React.FC<ProductTableProps> = ({ rows }) => {
         setSelectedCategory(category);
     };
 
-
     useEffect(() => {
         setCategories([ALL, ...Array.from(categorySet)])
         // Use the filter method to create a new array with rows that match the category filter
         let filteredRows = rows;
         if (selectedCategory !== ALL) {
-            filteredRows = filteredRows.filter(row => row.Category === selectedCategory);
+            filteredRows = filteredRows.filter(row => row.categoryName === selectedCategory);
         }
 
         // Apply the input filter to the category-filtered rows
         filteredRows = filteredRows.filter(row =>
-            row.Name.toLowerCase().includes(query.toLowerCase()) ||
-            row.Id.toString().includes(query)
+            row.name.toLowerCase().includes(query.toLowerCase()) ||
+            row.id.toString().includes(query)
         );
 
         setDisplayedRows(filteredRows);
     }, [query, selectedCategory, rows]);
 
     return (
-        <div className='datatable'>
+        <div className='product-datatable'>
             <div className="datatableTitle">
                 Products
                 <div className="search">
                     <input type='text' placeholder='Search...' value={query} onChange={(e) => handleInput(e)} />
                     <SearchIcon />
                 </div>
-                <Link to="/products/new" className='link'>
+                {/* <Link to="/products/new" className='link'>
                     Add New
-                </Link>
+                </Link> */}
+                <div style={{ width: 10 }}></div>
             </div>
 
             <div className="categoryList">

@@ -9,6 +9,7 @@ import Introduce from '../pages/Introduce';
 import Laptop from '../pages/Laptop';
 import Promotion from '../pages/Promotion';
 import Accessory from '../pages/Accessory';
+import ProductDetail from '~/pages/ProductDetail';
 
 //Public routes
 const publicRoutes = [
@@ -18,6 +19,7 @@ const publicRoutes = [
     { path: config.routes.promotion, component: Promotion, layout: HeaderOnly },
     { path: config.routes.accessory, component: Accessory, layout: null },
     { path: '/:nickname', component: Laptop },
+    { path: config.routes.productDetail, component: ProductDetail },
 ];
 
 const privateRoutes = [];

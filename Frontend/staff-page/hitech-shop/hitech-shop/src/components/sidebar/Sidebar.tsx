@@ -1,18 +1,19 @@
-import './sidebar.scss'
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import PeopleIcon from '@mui/icons-material/People';
-import LaptopIcon from '@mui/icons-material/Laptop';
-import CategoryIcon from '@mui/icons-material/Category';
-import PaymentIcon from '@mui/icons-material/Payment';
-import LoyaltyIcon from '@mui/icons-material/Loyalty';
-import LogoutIcon from '@mui/icons-material/Logout';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import BusinessIcon from '@mui/icons-material/Business';
+import CategoryIcon from '@mui/icons-material/Category';
+import DevicesIcon from '@mui/icons-material/Devices';
+import LaptopIcon from '@mui/icons-material/Laptop';
+import LaptopMacIcon from '@mui/icons-material/LaptopMac';
+import LooksOneIcon from '@mui/icons-material/LooksOne';
+import MemoryIcon from '@mui/icons-material/Memory';
+import PaymentIcon from '@mui/icons-material/Payment';
+import PeopleIcon from '@mui/icons-material/People';
 import ReorderIcon from '@mui/icons-material/Reorder';
-import { Link } from 'react-router-dom';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { DarkModeContext } from '../../context/darkModeContext';
-
+import './sidebar.scss';
 
 const Sidebar = () => {
 
@@ -42,16 +43,11 @@ const Sidebar = () => {
                             <div>
                                 <div className="center">
                                     <ul>
-                                        <p className="title">Main</p>
-                                        <li>
-                                            <DashboardIcon className='icon' />
-                                            <span>Dashboard</span>
-                                        </li>
-                                        <p className="title">Lists</p>
-                                        <Link to='/customers' style={{ textDecoration: 'none' }}>
+                                        {/* <p className="title">Products</p> */}
+                                        <Link to='/categories' style={{ textDecoration: 'none' }}>
                                             <li>
-                                                <PeopleIcon className='icon' />
-                                                <span>Customers</span>
+                                                <CategoryIcon className='icon' />
+                                                <span>Categories</span>
                                             </li>
                                         </Link>
                                         <Link to='/products' style={{ textDecoration: 'none' }}>
@@ -60,10 +56,47 @@ const Sidebar = () => {
                                                 <span>Products</span>
                                             </li>
                                         </Link>
-                                        <Link to='/categories' style={{ textDecoration: 'none' }}>
+                                        <Link to='/productLines' style={{ textDecoration: 'none' }}>
                                             <li>
-                                                <CategoryIcon className='icon' />
-                                                <span>Categories</span>
+                                                <LaptopMacIcon className='icon' />
+                                                <span>Product Lines</span>
+                                            </li>
+                                        </Link>
+                                        <Link to='/productVariants' style={{ textDecoration: 'none' }}>
+                                            <li>
+                                                <DevicesIcon className='icon' />
+                                                <span>Product Variants</span>
+                                            </li>
+                                        </Link>
+                                        <Link to='/productInstances' style={{ textDecoration: 'none' }}>
+                                            <li>
+                                                <LooksOneIcon className='icon' />
+                                                <span>Product Instances</span>
+                                            </li>
+                                        </Link>
+                                        <Link to='/prices' style={{ textDecoration: 'none' }}>
+                                            <li>
+                                                <AttachMoneyIcon className='icon' />
+                                                <span>Prices</span>
+                                            </li>
+                                        </Link>
+                                        <Link to='/specificationTypes' style={{ textDecoration: 'none' }}>
+                                            <li>
+                                                <AssignmentIcon className='icon' />
+                                                <span>Specification Types</span>
+                                            </li>
+                                        </Link>
+                                        <Link to='/specifications' style={{ textDecoration: 'none' }}>
+                                            <li>
+                                                <MemoryIcon className='icon' />
+                                                <span>Specifications</span>
+                                            </li>
+                                        </Link>
+                                        {/* <p className="title">Sales</p> */}
+                                        <Link to='/customers' style={{ textDecoration: 'none' }}>
+                                            <li>
+                                                <PeopleIcon className='icon' />
+                                                <span>Customers</span>
                                             </li>
                                         </Link>
                                         <Link to='/brands' style={{ textDecoration: 'none' }}>
@@ -78,21 +111,11 @@ const Sidebar = () => {
                                                 <span>Orders</span>
                                             </li>
                                         </Link>
-                                        <Link to='/promotions' style={{ textDecoration: 'none' }}>
-                                            <li>
-                                                <LoyaltyIcon className='icon' />
-                                                <span>Promotions</span>
-                                            </li>
-                                        </Link>
-                                        <p className="title">User</p>
-                                        <li>
-                                            <PersonOutlineIcon className='icon' />
-                                            <span>Profile</span>
-                                        </li>
-                                        <li>
+                                        {/* <p className="title">Functions</p>
+                                        <li onClick={handleLogout}>
                                             <LogoutIcon className='icon' />
                                             <span>Log out</span>
-                                        </li>
+                                        </li> */}
                                     </ul>
                                 </div>
                                 <div className="bottom">

@@ -12,10 +12,10 @@ interface CategoryTableProps {
 
 const columns: GridColDef[] = [
     {
-        field: 'Id', headerName: 'ID'
+        field: 'id', headerName: 'ID'
     },
     {
-        field: 'Name', headerName: 'Name', width: 400
+        field: 'name', headerName: 'Name', width: 400
     }
 ]
 
@@ -43,7 +43,7 @@ const CategoryTable: React.FC<CategoryTableProps> = ({ rows }) => {
 
     const handleView = (rowId: number) => {
         console.log('Viewing row with ID:', rowId);
-        navigate(`/categories/${rowId}`);
+        navigate(`/categories/GetCategoryById?id=${rowId}`);
     };
 
     const handleInput = (event: any) => {
@@ -52,11 +52,17 @@ const CategoryTable: React.FC<CategoryTableProps> = ({ rows }) => {
 
     useEffect(() => {
         // Use the filter method to create a new array with rows that match the query in either Name or Id
-        const filteredRows = rows.filter(row =>
-            row.Name.toLowerCase().includes(query.toLowerCase()) || // Check Name
-            row.Id.toString().includes(query) // Check Id (assuming Id is a number)
-        );
-        setDisplayedRows(filteredRows);
+        try {
+
+            const filteredRows = rows.filter(row =>
+                row.name.toLowerCase().includes(query.toLowerCase()) || // Check Name
+                row.id.toString().includes(query) // Check Id (assuming Id is a number)
+            );
+            setDisplayedRows(filteredRows);
+        }
+        catch (error) {
+            // console.log('Error in CategoryTable', error)
+        }
     }, [query, rows]);
 
 
