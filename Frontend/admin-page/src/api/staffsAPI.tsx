@@ -19,8 +19,13 @@ const staffApi = {
         const url = '/staffs/GetStaffs';
         return axiosClient.get(url, {params});
     },
-    get: (id: any) => {
-        const url = `staffs/GetStaffById?id=${id}`
+    getID: (id: any) => {
+        const url = `/staffs/GetStaffById?id=${id}`;
+        return axiosClient.get(url);
+    },
+
+    getName: (Name:string) => {
+        const url = `/staffs/GetStaffByName?id=${Name}`;
         return axiosClient.get(url);
     },
 

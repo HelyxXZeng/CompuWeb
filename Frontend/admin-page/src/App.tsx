@@ -8,6 +8,7 @@ import Menu from "./components/menu/menu";
 import Login from "./pages/login/login";
 import Staff from "./pages/staff/Staff";
 import "./styles/global-styles.scss";
+import Promotion from "./pages/promotion/Promotion";
 
 
 function App() {
@@ -44,6 +45,14 @@ function App() {
         {
           path:"/staffs/:id",
           element:<Staff />,
+        },
+        {
+          path:"/promotions",
+          element:<Promotion />,
+        },
+        {
+          path:"/promotions/:id",
+          element:<Promotion />,
         },
       ]
     },
