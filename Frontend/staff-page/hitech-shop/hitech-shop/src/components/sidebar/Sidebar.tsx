@@ -105,12 +105,12 @@ const Sidebar = () => {
                                                 <span>Brands</span>
                                             </li>
                                         </Link>
-                                        {/* <Link to='/orders' style={{ textDecoration: 'none' }}>
+                                        <Link to='/orders' style={{ textDecoration: 'none' }}>
                                             <li>
                                                 <PaymentIcon className='icon' />
                                                 <span>Orders</span>
                                             </li>
-                                        </Link> */}
+                                        </Link>
                                         {/* <p className="title">Functions</p>
                                         <li onClick={handleLogout}>
                                             <LogoutIcon className='icon' />

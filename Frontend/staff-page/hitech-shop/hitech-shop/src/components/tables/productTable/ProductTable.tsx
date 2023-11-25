@@ -98,16 +98,17 @@ const ProductTable: React.FC<ProductTableProps> = ({ rows }) => {
     }, [query, selectedCategory, rows]);
 
     return (
-        <div className='datatable'>
+        <div className='product-datatable'>
             <div className="datatableTitle">
                 Products
                 <div className="search">
                     <input type='text' placeholder='Search...' value={query} onChange={(e) => handleInput(e)} />
                     <SearchIcon />
                 </div>
-                <Link to="/products/new" className='link'>
+                {/* <Link to="/products/new" className='link'>
                     Add New
-                </Link>
+                </Link> */}
+                <div style={{ width: 10 }}></div>
             </div>
 
             <div className="categoryList">

@@ -34,8 +34,13 @@ const PriceSingle: React.FC<Props> = (para: Props) => {
 
     useEffect(() => {
         if (para.price !== null) {
-            // console.log('para price', para.price)
-            setPrice(para.price);
+            const updatedPrice: Price = {
+                ...para.price,
+                startDate: para.price.startDate.split('T')[0],
+                endDate: para.price.endDate.split('T')[0]
+            };
+
+            setPrice(updatedPrice);
         }
     }, [para.price]);
 
@@ -112,6 +117,37 @@ const PriceSingle: React.FC<Props> = (para: Props) => {
                     id="value"
                     name="value"
                     value={price.value}
+                    onChange={handleInputChange}
+                    required
+                />
+
+
+                <label htmlFor="startDate">Start Date:</label>
+                <input
+                    type="date"
+                    id="startDate"
+                    name="startDate"
+                    value={price.startDate}
+                    onChange={handleInputChange}
+                    required
+                />
+
+                <label htmlFor="endDate">End Date:</label>
+                <input
+                    type="date"
+                    id="endDate"
+                    name="endDate"
+                    value={price.endDate}
+                    onChange={handleInputChange}
+                    required
+                />
+
+                <label htmlFor="status">Status:</label>
+                <input
+                    type="text"
+                    id="status"
+                    name="status"
+                    value={price.status}
                     onChange={handleInputChange}
                     required
                 />
