@@ -43,7 +43,7 @@ namespace TestForASPWebAPI.Controllers
         }
 
         // GET api/<ValuesController>/5
-        [HttpGet("GetBrandById")]
+        [HttpGet("GetBrandById/{id}")]
         public async Task<IActionResult> Get(int id)
         {
             DBController dbController = DBController.GetInstance();
@@ -93,7 +93,7 @@ namespace TestForASPWebAPI.Controllers
         }
 
         // DELETE api/<ValuesController>/5
-        [HttpDelete("Delete")]
+        [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             if (!await BrandExists(id)) { return NotFound("Brand not found!"); }
@@ -104,7 +104,7 @@ namespace TestForASPWebAPI.Controllers
 
             return NoContent();
         }
-        [HttpGet("Exists")]
+        [HttpGet("Exists/{id}")]
         public async Task<bool> BrandExists(int id)
         {
             string command = $"SELECT * FROM Brand WHERE Id = {id}";

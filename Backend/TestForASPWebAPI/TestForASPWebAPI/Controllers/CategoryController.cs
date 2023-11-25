@@ -42,7 +42,7 @@ namespace TestForASPWebAPI.Controllers
         }
 
         // GET api/<ValuesController>/5
-        [HttpGet("GetCategoryById")]
+        [HttpGet("GetCategoryById/{id}")]
         public async Task<IActionResult> Get(int id)
         {
             DBController dbController = DBController.GetInstance();
@@ -90,7 +90,7 @@ namespace TestForASPWebAPI.Controllers
         }
 
         // DELETE api/<ValuesController>/5
-        [HttpDelete("Delete")]
+        [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             if (!await CategoryExists(id)) { return NotFound("Category not found!"); }
@@ -101,7 +101,7 @@ namespace TestForASPWebAPI.Controllers
 
             return NoContent();
         }
-        [HttpGet("Exists")]
+        [HttpGet("Exists/{id}")]
         public async Task<bool> CategoryExists(int id)
         {
             string command = $"SELECT * FROM Category WHERE Id = {id}";
