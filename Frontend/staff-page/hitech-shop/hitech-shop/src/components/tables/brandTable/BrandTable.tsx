@@ -13,13 +13,13 @@ interface BrandTableProps {
 
 const columns: GridColDef[] = [
     {
-        field: 'Id', headerName: 'ID'
+        field: 'id', headerName: 'ID'
     },
     {
-        field: 'Name', headerName: 'Name', width: 200
+        field: 'name', headerName: 'Name', width: 200
     },
     {
-        field: 'Description', headerName: 'Description', width: 700
+        field: 'description', headerName: 'Description', width: 700
     }
 ]
 
@@ -47,7 +47,7 @@ const BrandTable: React.FC<BrandTableProps> = ({ rows }) => {
 
     const handleView = (rowId: number) => {
         console.log('Viewing row with ID:', rowId);
-        navigate(`/brands/${rowId}`);
+        navigate(`/brands/GetBrandById?id=${rowId}`);
     };
 
     const handleInput = (event: any) => {
@@ -57,11 +57,17 @@ const BrandTable: React.FC<BrandTableProps> = ({ rows }) => {
     useEffect(() => {
         // console.log('This is rows in brand table:', rows)
         // Use the filter method to create a new array with rows that match the query in either Name or Id
-        const filteredRows = rows.filter(row =>
-            row.Name.toLowerCase().includes(query.toLowerCase()) || // Check Name
-            row.Id.toString().includes(query) // Check Id (assuming Id is a number)
-        );
-        setDisplayedRows(filteredRows);
+        try {
+
+            const filteredRows = rows.filter(row =>
+                row.name.toLowerCase().includes(query.toLowerCase()) || // Check Name
+                row.id.toString().includes(query) // Check Id (assuming Id is a number)
+            );
+            setDisplayedRows(filteredRows);
+        }
+        catch (error) {
+
+        }
     }, [query, rows]);
 
     return (

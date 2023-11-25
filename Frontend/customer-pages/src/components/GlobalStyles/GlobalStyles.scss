@@ -4,6 +4,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
 :root {
     --primary: #12419b;
+    --light-primary: #098bf6;
     --black: #000;
     --white: #fff;
     --text-color: #333;
@@ -52,4 +53,9 @@ a[href] {
 @font-face {
     font-family: bold;
     src: url('/assets/fonts/Roboto-Bold.ttf');
+}
+
+@font-face {
+    font-family: regular;
+    src: url('/assets/fonts/Roboto-Regular.ttf');
 }

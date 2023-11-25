@@ -18,12 +18,9 @@ export const AppRouter = () => {
             .then(({ data }) => {
                 if (data) {
                     const filteredRows = data.filter((row: any) => {
-                        console.log('This is row from App router', row)
-                        console.log('Is is equal', row.PhoneNumber.toString() === phoneNumber)
-                        return row.PhoneNumber.toString() === phoneNumber
+                        return row.phoneNumber === phoneNumber
                     }
                     );
-                    console.log('This is all rows from App Router', filteredRows)
                     return filteredRows.length > 0;
                 }
                 return false;
@@ -33,7 +30,7 @@ export const AppRouter = () => {
 
     const [status, setStatus] = useState<Status>('no-authenticated');
     const updateAuthenticationStatus = (newStatus: Status) => {
-        console.log('Come here in side updateAuthenticationStatus (AppRouter)', newStatus)
+        // console.log('Come here in side updateAuthenticationStatus (AppRouter)', newStatus)
         setStatus(newStatus);
     };
     if (status === 'checking')
@@ -44,18 +41,22 @@ export const AppRouter = () => {
             if (user) {
                 phoneExists(user.phoneNumber).then((exists) => {
                     if (exists) {
+                        // console.log('Will be authenticated')
                         updateAuthenticationStatus('authenticated');
                     } else {
+                        // console.log('Will be no-authenticated (user exist, not phone)')
                         updateAuthenticationStatus('no-authenticated');
                     }
                 });
             } else {
+                // console.log('Will be no-authenticated')
                 updateAuthenticationStatus('no-authenticated');
             }
+            // console.log('This is user in AppRouter', user)
         });
     }, []);
 
-    console.log('Come inside AppRouter', status)
+    // console.log('Come inside AppRouter', status)
     return (
         <BrowserRouter>
             <Routes>

@@ -1,14 +1,8 @@
 //BrandSingle.tsx
 import React, { useEffect, useState } from 'react';
-import brandApi from '../../../api/brandApi';
-import './brandSingle.scss'
-
-interface Brand {
-    id: number;
-    name: string;
-    description: string;
-    logo: string;
-}
+import brandApi, { Brand } from '../../../api/brandApi';
+// import './brandSingle.scss'
+import '../commonSingle/commonSingle.scss'
 
 interface Props {
     brand: Brand
@@ -65,103 +59,159 @@ const BrandSingle: React.FC<Props> = (para: Props) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (para.brand === null) {
-            try {
-                let logo = brand.logo; // Use the current logoBase64 as a fallback
+        // if (para.brand === null) {
+        //     try {
+        //         let logo = brand.logo; // Use the current logoBase64 as a fallback
 
-                if (imageFile) {
-                    // Upload the image as base64 and get the string
-                    const reader = new FileReader();
+        //         if (imageFile) {
+        //             // Upload the image as base64 and get the string
+        //             const reader = new FileReader();
 
-                    // Use a Promise to read the file as base64
-                    const readAsDataURL = (): Promise<string> => {
-                        return new Promise((resolve, reject) => {
-                            reader.onloadend = () => {
-                                resolve(reader.result as string);
-                            };
-                            reader.onerror = reject;
-                            reader.readAsDataURL(imageFile);
-                        });
-                    };
+        //             // Use a Promise to read the file as base64
+        //             const readAsDataURL = (): Promise<string> => {
+        //                 return new Promise((resolve, reject) => {
+        //                     reader.onloadend = () => {
+        //                         resolve(reader.result as string);
+        //                     };
+        //                     reader.onerror = reject;
+        //                     reader.readAsDataURL(imageFile);
+        //                 });
+        //             };
 
-                    logo = await readAsDataURL();
-                    // Check if imageFile is not null before calling uploadImage
-                    // Add the brand data (including logoBase64) to the JSON server
-                    await brandApi.add({
-                        id: brand.id,
-                        name: brand.name,
-                        description: brand.description,
-                        logo,
+        //             logo = await readAsDataURL();
+        //             // Check if imageFile is not null before calling uploadImage
+        //             // Add the brand data (including logoBase64) to the JSON server
+        //             await brandApi.add({
+        //                 id: brand.id,
+        //                 name: brand.name,
+        //                 description: brand.description,
+        //                 logo,
+        //             });
+        //             alert("Successfully Uploaded!")
+        //         }
+
+        //         // Reset the form
+        //         setBrand({
+        //             id: 0,
+        //             name: '',
+        //             description: '',
+        //             logo: '',
+        //         });
+        //         setImageFile(null); // Reset the imageFile state
+
+        //     } catch (error) {
+        //         console.error('Error in adding brand:', error);
+        //         alert("Error!" + error)
+        //     }
+        // } else {
+        //     try {
+        //         let logo = brand.logo; // Use the current logoBase64 as a fallback
+
+        //         if (imageFile) {
+        //             // Upload the image as base64 and get the string
+        //             const reader = new FileReader();
+
+        //             // Use a Promise to read the file as base64
+        //             const readAsDataURL = (): Promise<string> => {
+        //                 return new Promise((resolve, reject) => {
+        //                     reader.onloadend = () => {
+        //                         resolve(reader.result as string);
+        //                     };
+        //                     reader.onerror = reject;
+        //                     reader.readAsDataURL(imageFile);
+        //                 });
+        //             };
+
+        //             logo = await readAsDataURL();
+        //             // Check if imageFile is not null before calling uploadImage
+        //             // Add the brand data (including logoBase64) to the JSON server
+        //             await brandApi.update(brand.id, {
+        //                 id: brand.id,
+        //                 name: brand.name,
+        //                 description: brand.description,
+        //                 logo,
+        //             });
+        //             alert("Successfully Uploaded!")
+        //         }
+
+        //         // Reset the form
+        //         setBrand({
+        //             id: 0,
+        //             name: '',
+        //             description: '',
+        //             logo: '',
+        //         });
+        //         setImageFile(null); // Reset the imageFile state
+
+        //     } catch (error) {
+        //         console.error('Error in updating brand:', error);
+        //         alert("Error!" + error)
+        //     }
+        // }
+        try {
+            let logo = brand.logo; // Use the current logoBase64 as a fallback
+
+            if (imageFile) {
+                // Upload the image as base64 and get the string
+                const reader = new FileReader();
+
+                // Use a Promise to read the file as base64
+                const readAsDataURL = (): Promise<string> => {
+                    return new Promise((resolve, reject) => {
+                        reader.onloadend = () => {
+                            resolve(reader.result as string);
+                        };
+                        reader.onerror = reject;
+                        reader.readAsDataURL(imageFile);
                     });
-                    alert("Successfully Uploaded!")
-                }
+                };
 
-                // Reset the form
-                setBrand({
-                    id: 0,
-                    name: '',
-                    description: '',
-                    logo: '',
-                });
-                setImageFile(null); // Reset the imageFile state
-
-            } catch (error) {
-                console.error('Error in adding brand:', error);
-                alert("Error!" + error)
+                logo = await readAsDataURL();
+                // Check if imageFile is not null before calling uploadImage
             }
-        } else {
-            try {
-                let logo = brand.logo; // Use the current logoBase64 as a fallback
 
-                if (imageFile) {
-                    // Upload the image as base64 and get the string
-                    const reader = new FileReader();
-
-                    // Use a Promise to read the file as base64
-                    const readAsDataURL = (): Promise<string> => {
-                        return new Promise((resolve, reject) => {
-                            reader.onloadend = () => {
-                                resolve(reader.result as string);
-                            };
-                            reader.onerror = reject;
-                            reader.readAsDataURL(imageFile);
-                        });
-                    };
-
-                    logo = await readAsDataURL();
-                    // Check if imageFile is not null before calling uploadImage
-                    // Add the brand data (including logoBase64) to the JSON server
-                    await brandApi.update(brand.id, {
-                        id: brand.id,
-                        name: brand.name,
-                        description: brand.description,
-                        logo,
-                    });
-                    alert("Successfully Uploaded!")
-                }
-
-                // Reset the form
-                setBrand({
-                    id: 0,
-                    name: '',
-                    description: '',
-                    logo: '',
+            // Add the brand data (including logoBase64) to the JSON server
+            if (para.brand === null) {
+                await brandApi.add({
+                    id: brand.id,
+                    name: brand.name,
+                    description: brand.description,
+                    logo,
                 });
-                setImageFile(null); // Reset the imageFile state
-
-            } catch (error) {
-                console.error('Error in updating brand:', error);
-                alert("Error!" + error)
+            } else {
+                await brandApi.update(brand.id, {
+                    id: brand.id,
+                    name: brand.name,
+                    description: brand.description,
+                    logo,
+                });
             }
+
+            alert("Successfully Uploaded!");
+
+            // Reset the form
+            setBrand({
+                id: 0,
+                name: '',
+                description: '',
+                logo: '',
+            });
+            setImageFile(null); // Reset the imageFile state
+
+        } catch (error) {
+            const action = para.brand === null ? 'adding' : 'updating';
+            console.error(`Error in ${action} brand:`, error);
+            alert(`Error! ${error}`);
         }
+
 
     };
 
     return (
-        <div className="brand-page">
+        <div className="single-page">
             <h2>Brands</h2>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="name">name:</label>
+                <label htmlFor="name">Name:</label>
                 <input
                     type="text"
                     id="name"
@@ -171,7 +221,7 @@ const BrandSingle: React.FC<Props> = (para: Props) => {
                     required
                 />
 
-                <label htmlFor="description">description:</label>
+                <label htmlFor="description">Description:</label>
                 <textarea
                     id="description"
                     name="description"

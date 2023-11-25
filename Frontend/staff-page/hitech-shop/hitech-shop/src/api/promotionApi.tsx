@@ -1,5 +1,5 @@
 import axiosClient from "./axiosClient";
-interface Promotion {
+export interface Promotion {
     Id: number,
     Name: string,
     ProductVariantIdPurchase: number,
@@ -13,16 +13,16 @@ interface Promotion {
 
 const promotionApi = {
     getAll: (params: any) => {
-        const url = '/promotions';
-        return axiosClient.get(url, { params });
+        const url = '/promotions/GetPromotion';
+        return axiosClient.get(url);
     },
     get: (id: any) => {
-        const url = '/promotions/' + id;
+        const url = '/promotions/GetPromotionById?id=' + id;
         return axiosClient.get(url);
     },
     add: async (promotion: Promotion) => {
         try {
-            const response = await axiosClient.post('/promotions', promotion);
+            const response = await axiosClient.post('/promotions/Insert', promotion);
             return response.data;
         } catch (error) {
             throw error;
@@ -31,7 +31,7 @@ const promotionApi = {
 
     update: async (id: number, updatedPromotion: Promotion) => {
         try {
-            const response = await axiosClient.put(`/promotions/${id}`, updatedPromotion);
+            const response = await axiosClient.put(`/promotions/Update?id=${id}`, updatedPromotion);
             return response.data;
         } catch (error) {
             throw error;
@@ -40,7 +40,7 @@ const promotionApi = {
 
     remove: async (id: number) => {
         try {
-            const response = await axiosClient.delete(`/promotions/${id}`);
+            const response = await axiosClient.delete(`/promotions/Delete?id=${id}`);
             return response.data;
         } catch (error) {
             throw error;

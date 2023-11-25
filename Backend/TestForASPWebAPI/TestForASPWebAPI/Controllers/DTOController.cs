@@ -45,8 +45,10 @@ namespace TestForASPWebAPI.Controllers
             foreach (ProductVariant productVariant in ProductVariants)
             {
                 string Name = string.Empty;
+                
                 string getCategoryIdCommand = $@"select CategoryId from ProductLine where Id = {productVariant.ProductLineId}";
                 using (DataTable data = await DBController.GetInstance().GetData(getCategoryIdCommand))
+
                 {
                     if (data.Rows.Count is 0)
                     {

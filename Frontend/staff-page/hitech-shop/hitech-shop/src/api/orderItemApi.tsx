@@ -1,7 +1,7 @@
 // orderItemApi.tsx
 import axiosClient from "./axiosClient";
 
-interface OrderItem {
+export interface OrderItem {
     Id: number,
     ProductInstanceId: number,
     OrderId: number
@@ -10,7 +10,7 @@ interface OrderItem {
 const orderItemApi = {
     getAll: (params: any) => {
         const url = '/orderItems';
-        return axiosClient.get(url, { params });
+        return axiosClient.get(url);
     },
 
     get: (id: any) => {

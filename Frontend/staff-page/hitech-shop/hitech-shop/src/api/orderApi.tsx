@@ -1,6 +1,6 @@
 //orderApi.tsx
 import axiosClient from "./axiosClient";
-interface Order {
+export interface Order {
     Id: number,
     CustomerId: number,
     Date: Date,
@@ -23,11 +23,11 @@ interface PromotionUsage {
 
 const orderApi = {
     getAll: (params: any) => {
-        const url = '/orders';
-        return axiosClient.get(url, { params });
+        const url = '/orders/GetOrders';
+        return axiosClient.get(url);
     },
     get: (id: any) => {
-        const url = '/orders/' + id;
+        const url = '/orders/GetOrderById?id=' + id;
         return axiosClient.get(url);
     },
     // add: async (brand: Brand) => {

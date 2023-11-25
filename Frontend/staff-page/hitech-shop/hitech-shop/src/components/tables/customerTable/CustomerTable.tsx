@@ -12,13 +12,13 @@ interface CustomerTableProps {
 
 const columns: GridColDef[] = [
     {
-        field: 'Id', headerName: 'ID'
+        field: 'id', headerName: 'ID'
     },
     {
-        field: 'Name', headerName: 'Name', width: 400
+        field: 'name', headerName: 'Name', width: 400
     },
     {
-        field: 'PhoneNumber', headerName: 'Phone', width: 150
+        field: 'phoneNumber', headerName: 'Phone', width: 150
     }
 ]
 
@@ -46,7 +46,7 @@ const CustomerTable: React.FC<CustomerTableProps> = ({ rows }) => {
 
     const handleView = (rowId: number) => {
         console.log('Viewing row with ID:', rowId);
-        navigate(`/customers/${rowId}`);
+        navigate(`/customers/GetCustomerById?id=${rowId}`);
     };
 
     const handleInput = (event: any) => {
@@ -55,12 +55,18 @@ const CustomerTable: React.FC<CustomerTableProps> = ({ rows }) => {
 
     useEffect(() => {
         // Use the filter method to create a new array with rows that match the query in either Name or Id or Phone
-        const filteredRows = rows.filter(row =>
-            row.Name.toLowerCase().includes(query.toLowerCase()) || // Check Name
-            row.Id.toString().includes(query) || // Check Id (assuming Id is a number)
-            row.PhoneNumber.toString().includes(query) // Check Phone (assuming Phone is a number)
-        );
-        setDisplayedRows(filteredRows);
+        try {
+
+            const filteredRows = rows.filter(row =>
+                row.name.toLowerCase().includes(query.toLowerCase()) || // Check Name
+                row.id.toString().includes(query) || // Check Id (assuming Id is a number)
+                row.phoneNumber.toString().includes(query) // Check Phone (assuming Phone is a number)
+            );
+            setDisplayedRows(filteredRows);
+        }
+        catch (error) {
+            // console.log('Error in Customer Table', error)
+        }
     }, [query, rows]);
 
 

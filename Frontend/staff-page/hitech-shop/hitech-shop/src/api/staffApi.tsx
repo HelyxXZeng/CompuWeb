@@ -1,23 +1,23 @@
 import axiosClient from "./axiosClient";
 
-interface Staff {
+export interface Staff {
     Id: number,
     Name: string
 }
 
 const staffApi = {
     getAll: (params: any) => {
-        const url = '/staffs';
-        return axiosClient.get(url, { params });
+        const url = '/staffs/GetStaffs';
+        return axiosClient.get(url);
     },
     get: (id: any) => {
-        const url = '/staffs/' + id;
+        const url = '/staffs/GetStaff' + id;
         return axiosClient.get(url);
     },
 
     add: async (staff: Staff) => {
         try {
-            const response = await axiosClient.post('/staffs', staff);
+            const response = await axiosClient.post('/staffs/Insert', staff);
             return response.data;
         } catch (error) {
             throw error;
@@ -26,7 +26,7 @@ const staffApi = {
 
     update: async (id: number, updatedStaff: Staff) => {
         try {
-            const response = await axiosClient.put(`/staffs/${id}`, updatedStaff);
+            const response = await axiosClient.put(`/staffs/Update/${id}`, updatedStaff);
             return response.data;
         } catch (error) {
             throw error;
@@ -35,7 +35,7 @@ const staffApi = {
 
     remove: async (id: number) => {
         try {
-            const response = await axiosClient.delete(`/staffs/${id}`);
+            const response = await axiosClient.delete(`/staffs/Delete?id=/${id}`);
             return response.data;
         } catch (error) {
             throw error;

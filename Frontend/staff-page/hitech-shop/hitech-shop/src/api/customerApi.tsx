@@ -1,27 +1,27 @@
 import axiosClient from "./axiosClient";
 
-interface Customer {
-    Id: number,
-    Name: string,
-    Birthdate: string,
-    JoinDate: string,
-    PhoneNumber: string
+export interface Customer {
+    id: number,
+    name: string,
+    birthdate: string,
+    joinDate: string,
+    phoneNumber: string
 }
 
 
 const customerApi = {
     getAll: (params: any) => {
-        const url = '/customers';
-        return axiosClient.get(url, { params });
+        const url = '/customers/GetCustomers';
+        return axiosClient.get(url);
     },
     get: (id: any) => {
-        const url = '/customers/' + id;
+        const url = '/customers/GetCustomerById?id=' + id;
         return axiosClient.get(url);
     },
 
     add: async (customer: Customer) => {
         try {
-            const response = await axiosClient.post('/customers', customer);
+            const response = await axiosClient.post('/customers/Insert', customer);
             return response.data;
         } catch (error) {
             throw error;
@@ -30,7 +30,7 @@ const customerApi = {
 
     update: async (id: number, updatedCustomer: Customer) => {
         try {
-            const response = await axiosClient.put(`/customers/${id}`, updatedCustomer);
+            const response = await axiosClient.put(`/customers/Update?id=${id}`, updatedCustomer);
             return response.data;
         } catch (error) {
             throw error;
@@ -39,7 +39,7 @@ const customerApi = {
 
     remove: async (id: number) => {
         try {
-            const response = await axiosClient.delete(`/customers/${id}`);
+            const response = await axiosClient.delete(`/customers/Delete?id=${id}`);
             return response.data;
         } catch (error) {
             throw error;
