@@ -45,15 +45,15 @@ namespace TestForASPWebAPI.Controllers
             foreach (ProductVariant productVariant in ProductVariants)
             {
                 string Name = string.Empty;
-                string getProductLineNameCommand = $@"select CategoryId from ProductLine where Id = {productVariant.ProductLineId}";
-                using (DataTable data = await DBController.GetInstance().GetData(getProductLineNameCommand))
+                
+                string getCategoryIdCommand = $@"select CategoryId from ProductLine where Id = {productVariant.ProductLineId}";
+                using (DataTable data = await DBController.GetInstance().GetData(getCategoryIdCommand))
+
                 {
-                    if (data is null)
+                    if (data.Rows.Count is 0)
                     {
                         break;
                     }
-                    /*DataRow nameRow = data.Rows[0];
-                    Name = (string)nameRow["Name"];*/
 
                     string getCategoryNameCommand = $"select Name from Category where Id = {data.Rows[0]["CategoryId"]}";
                     using (DataTable name = await DBController.GetInstance().GetData(getCategoryNameCommand))
@@ -71,13 +71,9 @@ namespace TestForASPWebAPI.Controllers
                 string GetPriceCommand = @$"select * from Price where Status = 'ACTIVE' and ProductVariantId = {productVariant.Id}";
                 using (DataTable data = await DBController.GetInstance().GetData(GetPriceCommand))
                 {
-                    if (data is not null)
+                    if (data.Rows.Count is not 0)
                     {
-                        foreach (DataRow row in data.Rows)
-                        {
-                            Value = (decimal)row["Value"];
-                            break;
-                        }
+                        Value = (decimal)data.Rows[0]["Value"];
                     }
                 }
 
@@ -93,6 +89,83 @@ namespace TestForASPWebAPI.Controllers
             }
             return Ok(ProductTable);
         }
+
+        [HttpGet("GetProductLineTable")]
+        public async Task<IActionResult> GetProductLineTable()
+        {
+            DBController dbController = DBController.GetInstance();
+            string GetProductLinesCommand = $"select * from ProductLine";
+            var productLines = new List<ProductLineDTO>();
+            using (DataTable dataTable = await dbController.GetData(GetProductLinesCommand))
+            {
+                foreach (DataRow dataRow in dataTable.Rows)
+                {
+                    string CategoryName = string.Empty;
+                    string GetCategoryName = $"select Name from Category where Id = {(int)dataRow["CategoryId"]}";
+                    using (DataTable data = await dbController.GetData(GetCategoryName))
+                    {
+                        CategoryName = (string)data.Rows[0]["Name"];
+                    }
+
+                    var productLineDTO = new ProductLineDTO()
+                    {
+                        Id = (int)dataRow["Id"],
+                        Name = (string)dataRow["Name"],
+                        CategoryName = CategoryName,
+                        ReleaseDate = (DateTime)dataRow["ReleaseDate"],
+                    };
+                    productLines.Add(productLineDTO);
+                }
+            }
+            return Ok(productLines);
+        }
+
+        [HttpGet("GetBrandTable")]
+        public async Task<IActionResult> GetBrandTable()
+        {
+            DBController dbController = DBController.GetInstance();
+
+            string command = @$"select Id, Name from Brand";
+            var dataTable = await dbController.GetData(command);
+
+            var Brands = new List<Brand>();
+
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                var Brand = new Brand()
+                {
+                    Id = (int)dataRow["Id"],
+                    Name = (string)dataRow["Name"],
+                };
+                Brands.Add(Brand);
+            }
+            return Ok(Brands);
+        }
+
+        [HttpGet("AuthenticateStaff/{phoneNumber}")]
+        public async Task<IActionResult> AuthenticateStaff(string phoneNumber)
+        {
+            DBController dbController = DBController.GetInstance();
+            string GetStaffAuthetication = $"select Id from Staff where PhoneNumber = '{phoneNumber}' and Other = 'ACTIVE'";
+            using (DataTable data = await dbController.GetData(GetStaffAuthetication))
+            {
+                if (data.Rows.Count is 0) return Ok(false);
+            }
+            return Ok(true);
+        }
+
+        [HttpGet("GetStaffAvatar/{phoneNumber}")]
+        public async Task<IActionResult> GetStaffAvatar(string phoneNumber)
+        {
+            DBController dbController = DBController.GetInstance();
+            string GetStaffAuthetication = $"select Avatar from Staff where PhoneNumber = '{phoneNumber}'";
+            using (DataTable data = await dbController.GetData(GetStaffAuthetication))
+            {
+                if (data.Rows.Count is 0) return NotFound("Not Exists!");
+                return Ok((string)data.Rows[0]["Avatar"]);
+            }
+        }
+
 
         // GET api/<ValuesController>/5
         [HttpPut("CreateOrder")]
@@ -226,35 +299,7 @@ namespace TestForASPWebAPI.Controllers
             }
             return Ok(promoList);
         }
-        [HttpGet("GetProductLineTable")]
-        public async Task<IActionResult> GetProductLineTable()
-        {
-            DBController dbController = DBController.GetInstance();
-            string GetProductLinesCommand = $"select * from ProductLine";
-            var productLines = new List<ProductLineDTO>();
-            using (DataTable dataTable = await dbController.GetData(GetProductLinesCommand))
-            {
-                foreach (DataRow dataRow in dataTable.Rows)
-                {
-                    string CategoryName = string.Empty;
-                    string GetCategoryName = $"select Name from Category where Id = {(int)dataRow["CategoryId"]}";
-                    using (DataTable data = await dbController.GetData(GetCategoryName))
-                    {
-                        CategoryName = (string)data.Rows[0]["Name"];
-                    }
 
-                    var productLineDTO = new ProductLineDTO()
-                    {
-                        Id = (int)dataRow["Id"],
-                        Name = (string)dataRow["Name"],
-                        CategoryName = CategoryName,
-                        ReleaseDate = (DateTime)dataRow["ReleaseDate"],
-                    };
-                    productLines.Add(productLineDTO);
-                }
-            }
-            return Ok(productLines);
-        }
         [HttpPut("CreateProductVariant")]
         public async Task<IActionResult> CreateProductVariant(ProductVariant variants, int Price)
         {
