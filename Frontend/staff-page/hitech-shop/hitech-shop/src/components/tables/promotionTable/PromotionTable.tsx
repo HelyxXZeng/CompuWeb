@@ -103,7 +103,7 @@ const PromotionTable: React.FC<PromotionTableProps> = ({ rows }) => {
 
 
     return (
-        <div className='datatable'>
+        <div className='promotion-datatable'>
             <div className="datatableTitle">
                 Promotions
                 <div className="search">

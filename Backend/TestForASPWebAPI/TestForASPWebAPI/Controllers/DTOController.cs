@@ -45,15 +45,21 @@ namespace TestForASPWebAPI.Controllers
             foreach (ProductVariant productVariant in ProductVariants)
             {
                 string Name = string.Empty;
-                string getProductLineNameCommand = $@"select Name from ProductLine where Id = {productVariant.ProductLineId}";
+                string getProductLineNameCommand = $@"select CategoryId from ProductLine where Id = {productVariant.ProductLineId}";
                 using (DataTable data = await DBController.GetInstance().GetData(getProductLineNameCommand))
                 {
                     if (data is null)
                     {
                         break;
                     }
-                    DataRow nameRow = data.Rows[0];
-                    Name = (string)nameRow["Name"];
+                    /*DataRow nameRow = data.Rows[0];
+                    Name = (string)nameRow["Name"];*/
+
+                    string getCategoryNameCommand = $"select Name from Category where Id = {data.Rows[0]["CategoryId"]}";
+                    using (DataTable name = await DBController.GetInstance().GetData(getCategoryNameCommand))
+                    {
+                        Name = (string)name.Rows[0]["Name"];
+                    }
                 }
 
                 int InstancesCount = 0;
@@ -69,7 +75,7 @@ namespace TestForASPWebAPI.Controllers
                     {
                         foreach (DataRow row in data.Rows)
                         {
-                            Value = (decimal)row["Name"];
+                            Value = (decimal)row["Value"];
                             break;
                         }
                     }

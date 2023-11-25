@@ -31,7 +31,7 @@ const SpecificationTable: React.FC<SpecificationTableProps> = ({ rows }) => {
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
     const [specificationTypes, setSpecificationTypes] = useState<any[]>([]);
-    const previousRowsRef = useRef<any[]>([]);
+    // const previousRowsRef = useRef<any[]>([]);
     useEffect(() => {
         const fetchSpecificationTypes = async () => {
             try {
@@ -72,15 +72,15 @@ const SpecificationTable: React.FC<SpecificationTableProps> = ({ rows }) => {
 
     useEffect(() => {
         // Check if the rows have actually changed
-        if (previousRowsRef.current !== rows && specificationTypes.length > 0) {
-            // Update rows directly to include specificationType name
-            // console.log('Product SpecificationType in Specification', specificationTypes)
-            rows.forEach(row => {
-                row.specificationType = specificationTypes.find(pl => pl.id === row.specificationTypeId)?.name || 'N/A';
-            });
+        // if (previousRowsRef.current !== rows && specificationTypes.length > 0) {
+        //     // Update rows directly to include specificationType name
+        //     // console.log('Product SpecificationType in Specification', specificationTypes)
 
-        }
+        // }
 
+        rows.forEach(row => {
+            row.specificationType = specificationTypes.find(pl => pl.id === row.specificationTypeId)?.name || 'N/A';
+        });
         // Use the filter method to create a new array with rows that match the query in either Name or Id
         // console.log('Rows in Instances:', rows)
         try {
@@ -96,7 +96,7 @@ const SpecificationTable: React.FC<SpecificationTableProps> = ({ rows }) => {
         }
 
         // Update the previousRowsRef with the current rows
-        previousRowsRef.current = rows.slice(); // Copy the array to avoid reference issues
+        // previousRowsRef.current = rows.slice(); // Copy the array to avoid reference issues
     }, [query, rows, specificationTypes]);
 
     return (
