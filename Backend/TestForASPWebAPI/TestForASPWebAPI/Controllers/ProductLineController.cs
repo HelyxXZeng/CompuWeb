@@ -56,8 +56,6 @@ namespace TestForASPWebAPI.Controllers
             if (dataTable.Rows.Count is 0)
                 return NotFound("Not Exists!");
 
-            var ProductLines = new List<ProductLine>();
-
             foreach (DataRow dataRow in dataTable.Rows)
             {
                 string GetImages = @$"select * from ProductImage where ProductLineId = {id}";
