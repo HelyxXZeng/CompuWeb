@@ -6,13 +6,16 @@ import { DarkModeContext } from '../../context/darkModeContext';
 import './navbar.scss';
 import logo from '/src/assets/logo.png';
 import firebase from 'firebase/compat/app';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import staffApi from '../../api/staffApi';
 
 
 const Navbar = () => {
 
     const { dispatch } = useContext(DarkModeContext)
     const navigate = useNavigate();
+    const [avatar, setAvatar] = useState('')
+
     const handleFullscreenToggle = () => {
         if (!document.fullscreenElement) {
             document.documentElement.requestFullscreen()
@@ -30,6 +33,28 @@ const Navbar = () => {
             console.error('Error during logout:', error);
         }
     };
+
+    useEffect(() => {
+        // firebase.auth().onAuthStateChanged((user) => {
+        //     if (user) {
+        //         phoneExists(user.phoneNumber).then((exists) => {
+        //             if (exists) {
+        //                 // console.log('Will be authenticated')
+        //                 updateAuthenticationStatus('authenticated');
+        //             } else {
+        //                 // console.log('Will be no-authenticated (user exist, not phone)')
+        //                 updateAuthenticationStatus('no-authenticated');
+        //             }
+        //         });
+        //     } else {
+        //         // console.log('Will be no-authenticated')
+        //         updateAuthenticationStatus('no-authenticated');
+        //     }
+        //     // console.log('This is user in AppRouter', user)
+        // });
+
+        // chỗ này lấy số điện thoại ra và gửi lên back end lấy Avatar để chèn vào hình
+    }, []);
 
     return (
         <div className='navbar'>
@@ -66,11 +91,20 @@ const Navbar = () => {
                     {/* <div className="item">
                         <ListIcon className='icon' />
                     </div> */}
-                    <div className="item">
-                        <img alt='' className='avatar'
-                            src={logo} />
+                    <Link to='/' style={{ textDecoration: 'none' }}>
+                        <div className="item">
+                            <img alt='' className='avatar'
+                                src={logo} />
 
-                    </div>
+                        </div>
+                    </Link>
+                    <Link to='/' style={{ textDecoration: 'none' }}>
+                        <div className="item">
+                            <img alt='' className='avatar'
+                                src={logo} />
+
+                        </div>
+                    </Link>
                 </div>
             </div>
         </div>

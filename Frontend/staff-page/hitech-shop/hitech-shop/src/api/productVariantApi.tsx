@@ -1,10 +1,13 @@
 import axiosClient from "./axiosClient";
-
+import { Specification } from "./specificationApi";
 export interface ProductVariant {
     id: number,
     productLineId: number,
     name: string,
+    specifications: any
 }
+
+
 
 const productVariantApi = {
     getAll: (params: any) => {
