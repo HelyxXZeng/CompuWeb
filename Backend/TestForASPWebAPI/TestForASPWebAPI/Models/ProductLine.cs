@@ -12,5 +12,6 @@
         public DateTime ReleaseDate { get; set; }
         public int Warranty { get; set; }
         public string Description { get; set; }
+        public List<ProductImage> Images { get; set; }
     }
 }
