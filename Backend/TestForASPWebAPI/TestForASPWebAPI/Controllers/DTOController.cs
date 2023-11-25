@@ -67,8 +67,11 @@ namespace TestForASPWebAPI.Controllers
                 {
                     if (data is not null)
                     {
-                        DataRow valueRow = data.Rows[0];
-                        Value = (decimal)valueRow["Name"];
+                        foreach (DataRow row in data.Rows)
+                        {
+                            Value = (decimal)row["Name"];
+                            break;
+                        }
                     }
                 }
 
@@ -94,11 +97,11 @@ namespace TestForASPWebAPI.Controllers
             string CreateOrderCommand = $"INSERT INTO Orders (CustomerId, StaffId, Date, Note, Status, Address, Total) VALUES ({order.CustomerId}, {order.StaffId}, '{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}', N'{order.Note}', '{order.Status}', N'{order.Address}', 0.00)";
             dbController.UpdateData(CreateOrderCommand);
 
-            string getOrderIdCommand = $"select MAX(Id) from Orders where CustomerId = {order.CustomerId} and StaffId = {order.StaffId}";
-            int thisOrderId = await dbController.GetCount(getOrderIdCommand);
-
             await PromotionController.UpdatePromotionStatus();
             await PriceController.UpdatePriceStatus();
+
+            string getOrderIdCommand = $"select MAX(Id) from Orders where CustomerId = {order.CustomerId} and StaffId = {order.StaffId}";
+            int thisOrderId = await dbController.GetCount(getOrderIdCommand);
 
             Promotion thisOrderPromotion;
             string GetPromotionCommand = $"select * from Promotion where Id = {PromotionId} and Status = 'ACTIVE'";
@@ -217,8 +220,68 @@ namespace TestForASPWebAPI.Controllers
             }
             return Ok(promoList);
         }
+        [HttpGet("GetProductLineTable")]
+        public async Task<IActionResult> GetProductLineTable()
+        {
+            DBController dbController = DBController.GetInstance();
+            string GetProductLinesCommand = $"select * from ProductLine";
+            var productLines = new List<ProductLineDTO>();
+            using (DataTable dataTable = await dbController.GetData(GetProductLinesCommand))
+            {
+                foreach (DataRow dataRow in dataTable.Rows)
+                {
+                    string CategoryName = string.Empty;
+                    string GetCategoryName = $"select Name from Category where Id = {(int)dataRow["CategoryId"]}";
+                    using (DataTable data = await dbController.GetData(GetCategoryName))
+                    {
+                        CategoryName = (string)data.Rows[0]["Name"];
+                    }
 
+                    var productLineDTO = new ProductLineDTO()
+                    {
+                        Id = (int)dataRow["Id"],
+                        Name = (string)dataRow["Name"],
+                        CategoryName = CategoryName,
+                        ReleaseDate = (DateTime)dataRow["ReleaseDate"],
+                    };
+                    productLines.Add(productLineDTO);
+                }
+            }
+            return Ok(productLines);
+        }
+        [HttpPut("CreateProductVariant")]
+        public async Task<IActionResult> CreateProductVariant(ProductVariant variants, int Price)
+        {
+            DBController dbController = DBController.GetInstance();
 
+            string createVariantCommand = $"INSERT INTO ProductVariant (ProductLineId, Name) VALUES ({variants.ProductLineId}, N'{variants.Name}')";
+            dbController.UpdateData(createVariantCommand);
+
+            foreach (var specification in variants.Specifications)
+            {
+                string command = $"INSERT INTO ProductSpecification (ProductVariantId, SpecificationId) VALUES ({specification.ProductVariantId}, {specification.SpecificationId})";
+                dbController.UpdateData(command);
+            }
+
+            string CreatePriceCommand = $"INSERT INTO Price (ProductVariantId, StartDate, EndDate, Status, Value) VALUES ({variants.Id}, '{DateTime.Now.ToString("yyyy-MM-dd")}', '2030-12-31', 'ACTIVE', '{Price.ToString("0.00")}')";
+            dbController.UpdateData(CreatePriceCommand);
+            return Ok();
+        }
+        [HttpPut("CreateProductLine")]
+        public async Task<IActionResult> CreateProductLine(ProductLine productLine)
+        {
+            DBController dbController = DBController.GetInstance();
+
+            string CreateProductLine = $"INSERT INTO ProductLine (CategoryId, BrandId, Name, ReleaseDate, Warranty, Description) VALUES ({productLine.CategoryId}, {productLine.BrandId}, N'{productLine.Name}', '{productLine.ReleaseDate.ToString("yyyy-MM-dd")}', {productLine.Warranty}, N'{productLine.Description}')";
+            dbController.UpdateData(CreateProductLine);
+
+            foreach (var image in productLine.Images)
+            {
+                string command = $"INSERT INTO ProductImage (ProductLineId, Name, Url) VALUES ({image.ProductLineId}, N'{image.Name}', '{image.Image}')";
+                dbController.UpdateData(command);
+            }
+            return Ok();
+        }
 
 
 
