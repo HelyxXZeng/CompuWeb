@@ -35,25 +35,19 @@ const Navbar = () => {
     };
 
     useEffect(() => {
-        // firebase.auth().onAuthStateChanged((user) => {
-        //     if (user) {
-        //         phoneExists(user.phoneNumber).then((exists) => {
-        //             if (exists) {
-        //                 // console.log('Will be authenticated')
-        //                 updateAuthenticationStatus('authenticated');
-        //             } else {
-        //                 // console.log('Will be no-authenticated (user exist, not phone)')
-        //                 updateAuthenticationStatus('no-authenticated');
-        //             }
-        //         });
-        //     } else {
-        //         // console.log('Will be no-authenticated')
-        //         updateAuthenticationStatus('no-authenticated');
-        //     }
-        //     // console.log('This is user in AppRouter', user)
-        // });
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                staffApi.getAvatar(user.phoneNumber).then((result) => {
 
-        // chỗ này lấy số điện thoại ra và gửi lên back end lấy Avatar để chèn vào hình
+                    // console.log('This is result', result.data)
+                    setAvatar(result.data)
+                })
+                // setAvatar(image)
+            }
+            // console.log('This is user in AppRouter', user)
+        });
+
+
     }, []);
 
     return (
@@ -95,14 +89,12 @@ const Navbar = () => {
                         <div className="item">
                             <img alt='' className='avatar'
                                 src={logo} />
-
                         </div>
                     </Link>
                     <Link to='/' style={{ textDecoration: 'none' }}>
                         <div className="item">
                             <img alt='' className='avatar'
-                                src={logo} />
-
+                                src={avatar} />
                         </div>
                     </Link>
                 </div>

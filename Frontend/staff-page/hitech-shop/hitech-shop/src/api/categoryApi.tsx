@@ -11,7 +11,7 @@ const categoryApi = {
         return axiosClient.get(url);
     },
     get: (id: any) => {
-        const url = '/categories/GetCategoryById?id=' + id;
+        const url = '/categories/GetCategoryById/' + id;
         return axiosClient.get(url);
     },
 
@@ -35,7 +35,7 @@ const categoryApi = {
 
     remove: async (id: number) => {
         try {
-            const response = await axiosClient.delete(`/categories/Delete?id=${id}`);
+            const response = await axiosClient.delete(`/categories/Delete/${id}`);
             return response.data;
         } catch (error) {
             throw error;
