@@ -2,6 +2,7 @@ import axiosClient from "./axiosClient";
 
 export interface Staff {
     Id: number,
+    Img:ImageBitmap,
     Name: string,
     Birthday: Date,
     Gender: string,
@@ -10,7 +11,6 @@ export interface Staff {
     JoinDate: Date,
     PhoneNumber: string,
     Position: string,
-    Salary: number,
     Other: string, //Status: ACTIVE, NONACTIVE, FIRED
 }
 
