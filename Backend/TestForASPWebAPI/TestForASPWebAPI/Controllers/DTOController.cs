@@ -45,10 +45,8 @@ namespace TestForASPWebAPI.Controllers
             foreach (ProductVariant productVariant in ProductVariants)
             {
                 string Name = string.Empty;
-                
                 string getCategoryIdCommand = $@"select CategoryId from ProductLine where Id = {productVariant.ProductLineId}";
                 using (DataTable data = await DBController.GetInstance().GetData(getCategoryIdCommand))
-
                 {
                     if (data.Rows.Count is 0)
                     {
@@ -308,13 +306,16 @@ namespace TestForASPWebAPI.Controllers
             string createVariantCommand = $"INSERT INTO ProductVariant (ProductLineId, Name) VALUES ({variants.ProductLineId}, N'{variants.Name}')";
             dbController.UpdateData(createVariantCommand);
 
+            string getThisPVIdCommand = $"select MAX(Id) from ProductVariant where ProductLineId = {variants.ProductLineId} and Name = N'{variants.Name}'";
+            int thisPVId = await dbController.GetCount(getThisPVIdCommand);
+
             foreach (var specification in variants.ProductSpecifications)
             {
-                string command = $"INSERT INTO ProductSpecification (ProductVariantId, SpecificationId) VALUES ({specification.ProductVariantId}, {specification.SpecificationId})";
+                string command = $"INSERT INTO ProductSpecification (ProductVariantId, SpecificationId) VALUES ({thisPVId}, {specification.SpecificationId})";
                 dbController.UpdateData(command);
             }
 
-            string CreatePriceCommand = $"INSERT INTO Price (ProductVariantId, StartDate, EndDate, Status, Value) VALUES ({variants.Id}, '{DateTime.Now.ToString("yyyy-MM-dd")}', '2030-12-31', 'ACTIVE', '{Price.ToString("0.00")}')";
+            string CreatePriceCommand = $"INSERT INTO Price (ProductVariantId, StartDate, EndDate, Status, Value) VALUES ({thisPVId}, '{DateTime.Now.ToString("yyyy-MM-dd")}', '2030-12-31', 'ACTIVE', '{Price.ToString("0.00")}')";
             dbController.UpdateData(CreatePriceCommand);
             return Ok();
         }
@@ -326,9 +327,12 @@ namespace TestForASPWebAPI.Controllers
             string CreateProductLine = $"INSERT INTO ProductLine (CategoryId, BrandId, Name, ReleaseDate, Warranty, Description) VALUES ({productLine.CategoryId}, {productLine.BrandId}, N'{productLine.Name}', '{productLine.ReleaseDate.ToString("yyyy-MM-dd")}', {productLine.Warranty}, N'{productLine.Description}')";
             dbController.UpdateData(CreateProductLine);
 
+            string getThisPVIdCommand = $"select MAX(Id) from ProductLine where CategoryId = {productLine.CategoryId} and BrandId = {productLine.BrandId}";
+            int thisPLId = await dbController.GetCount(getThisPVIdCommand);
+
             foreach (var image in productLine.Images)
             {
-                string command = $"INSERT INTO ProductImage (ProductLineId, Name, Url) VALUES ({image.ProductLineId}, N'{image.Name}', '{image.Image}')";
+                string command = $"INSERT INTO ProductImage (ProductLineId, Name, Url) VALUES ({thisPLId}, N'{image.Name}', N'{image.Image}')";
                 dbController.UpdateData(command);
             }
             return Ok();
