@@ -13,13 +13,13 @@ interface ProductLineTableProps {
 
 const columns: GridColDef[] = [
     {
-        field: 'id', headerName: 'ID'
+        field: 'id', headerName: 'ID', flex: 1
     },
     {
-        field: 'name', headerName: 'Name', width: 250
+        field: 'name', headerName: 'Name', flex: 4
     },
     {
-        field: 'releaseDate', headerName: 'Release Date', width: 130,
+        field: 'releaseDate', headerName: 'Release Date', flex: 2,
         valueFormatter: (params) => {
             // Format the date before displaying it
             if (typeof (params.value) === 'string') {

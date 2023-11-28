@@ -10,16 +10,16 @@ const ALL = "All"
 
 const columns: GridColDef[] = [
     {
-        field: 'id', headerName: 'ID'
+        field: 'id', headerName: 'ID', width: 60
     },
     {
-        field: 'categoryName', headerName: 'Category', width: 150
+        field: 'categoryName', headerName: 'Category', flex: 2
     },
     {
-        field: 'name', headerName: 'Name', width: 300
+        field: 'name', headerName: 'Name', flex: 4,
     },
     {
-        field: 'numberInStock', headerName: 'Quantity',
+        field: 'numberInStock', headerName: 'Quantity', flex: 1,
         renderCell: (params) => {
             return (
                 <div className="quantityCell">
@@ -29,7 +29,7 @@ const columns: GridColDef[] = [
         },
     },
     {
-        field: 'price', headerName: 'Price',
+        field: 'price', headerName: 'Price', flex: 2,
         renderCell: (params) => {
             return (
                 <div className="priceCell">

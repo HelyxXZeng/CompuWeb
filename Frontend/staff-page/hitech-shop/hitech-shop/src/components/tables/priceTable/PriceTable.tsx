@@ -14,27 +14,26 @@ interface PriceTableProps {
 
 const columns: GridColDef[] = [
     {
-        field: 'id', headerName: 'ID'
+        field: 'id', headerName: 'ID', width: 60
     },
     {
-        field: 'productVariant', headerName: 'Variant', width: 400
+        field: 'productVariant', headerName: 'Variant', flex: 7
     },
     {
-        field: 'value', headerName: 'Value'
+        field: 'value', headerName: 'Value', flex: 3
     },
     {
-        field: 'startDate', headerName: 'Start Date', width: 100,
+        field: 'startDate', headerName: 'Start Date', flex: 3,
         renderCell: (params) => {
             return (
                 <div className={"date" + " " + params.row.startDate}>
                     {params.row.startDate}
-                    {/* {params.row.startDate.split['T'][0]} */}
                 </div>
             );
         },
     },
     {
-        field: 'endDate', headerName: 'End Date', width: 100,
+        field: 'endDate', headerName: 'End Date', flex: 3,
         renderCell: (params) => {
             return (
                 <div className={"date" + " " + params.row.endDate}>

@@ -77,7 +77,7 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
         if (newValue) {
             setProductLine((prevProductLine) => ({ ...prevProductLine, brandId: newValue.id }));
         }
-        console.log('New Value: ', newValue)
+        // console.log('New Value: ', newValue)
     };
 
     const handleCategoryChange = (

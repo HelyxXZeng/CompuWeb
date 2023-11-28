@@ -14,19 +14,19 @@ interface ProductInstanceTableProps {
 
 const columns: GridColDef[] = [
     {
-        field: 'id', headerName: 'ID', width: 50
+        field: 'id', headerName: 'ID', width: 60
     },
     {
-        field: 'productVariant', headerName: 'Product Variant Name', width: 300
+        field: 'productVariant', headerName: 'Product Variant Name', flex: 4
     },
     {
-        field: 'serialNumber', headerName: 'Serial Number', width: 220
+        field: 'serialNumber', headerName: 'Serial Number', flex: 3
     },
+    // {
+    //     field: 'status', headerName: 'Status', flex: 2
+    // },
     {
-        field: 'status', headerName: 'Status', width: 130
-    },
-    {
-        field: 'available', headerName: 'Available', width: 70
+        field: 'available', headerName: 'Available', flex: 2
     },
 
 ]
