@@ -40,6 +40,13 @@ const columns: GridColDefWithDisplay[] = [
     displayInForm: true,
   },
   {
+    field: "IdCardNumber",
+    type: "string",
+    headerName: "IdCard",
+    width: 100,
+    displayInForm: true,
+  },
+  {
     field: "JoinDate",
     type: "string",
     headerName: "Join Date",
@@ -73,7 +80,7 @@ const staffs = () => {
   const [open,setOpen] = useState(false)
 
   const dataTableColumns = columns.filter(
-    (column) => column.field !== "Birthday"
+    (column) => ( column.field !== "Birthday" && column.field !== "IdCardNumber" )
   );
 
   const addStaffColumns = columns.filter(
