@@ -66,3 +66,29 @@
         cursor: pointer;
     }
 }
+
+@media (max-width: 768px) {
+
+    .datatable {
+
+        width: 90%;
+
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .datatable {
+
+        width: 100%;
+
+    }
+
+    .datatableTitle {
+
+        font-size: 18px;
+
+    }
+
+}
