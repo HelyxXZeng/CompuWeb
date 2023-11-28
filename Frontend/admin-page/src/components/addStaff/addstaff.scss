@@ -35,6 +35,15 @@
         flex-wrap: wrap;
         max-width: 500px;
         justify-content: space-between;
+
+        .invalid{
+          label{
+            color: red;
+          }
+           input{
+            border-color: red;
+           }
+        }
   
         .item {
           width: 40%;
@@ -54,6 +63,9 @@
             outline: none;
             border: 1px solid $soft-color;
             border-radius: 3px;
+            &:not(.invalid) + label {
+              color: white;
+            }
           }
         }
 
