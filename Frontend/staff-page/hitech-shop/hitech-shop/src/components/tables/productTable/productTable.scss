@@ -66,7 +66,7 @@
     .categoryList {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 15px;
+        flex-wrap: wrap;
 
         .categoryButton {
             background: #b5ccf2;
@@ -75,6 +75,7 @@
             padding: 15px;
             font-size: large;
             cursor: pointer;
+            margin-bottom: 10px;
 
         }
     }

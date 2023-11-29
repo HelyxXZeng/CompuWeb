@@ -131,8 +131,12 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
         const { name, value } = e.target;
         // console.log('This is input name', name)
         // console.log('This is input value', value)
+        if (name === 'warranty') {
+            setProductLine((prevProductLine) => ({ ...prevProductLine, [name]: Number.parseInt(value) }));
+        } else {
+            setProductLine((prevProductLine) => ({ ...prevProductLine, [name]: value }));
+        }
 
-        setProductLine((prevProductLine) => ({ ...prevProductLine, [name]: value }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -160,6 +164,7 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
 
             // Reset the form
             setProductLine(initProductLine);
+            setImageFiles([])
 
             alert("Successfully Uploaded!");
         } catch (error) {

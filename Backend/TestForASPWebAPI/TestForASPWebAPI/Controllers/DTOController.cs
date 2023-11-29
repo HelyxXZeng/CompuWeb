@@ -319,7 +319,7 @@ namespace TestForASPWebAPI.Controllers
             dbController.UpdateData(CreatePriceCommand);
             return Ok();
         }
-        [HttpPut("CreateProductLine")]
+        [HttpPost("CreateProductLine")]
         public async Task<IActionResult> CreateProductLine(ProductLine productLine)
         {
             DBController dbController = DBController.GetInstance();

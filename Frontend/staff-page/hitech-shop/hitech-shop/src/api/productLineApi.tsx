@@ -33,6 +33,10 @@ const productLineApi = {
         const url = '/productLines/GetProductLines';
         return axiosClient.get(url);
     },
+    getTable: (params: any) => {
+        const url = '/DTOController/GetProductLineTable';
+        return axiosClient.get(url);
+    },
     get: (id: any) => {
         const url = '/productLines/GetProductLineById/' + id;
         return axiosClient.get(url);

@@ -61,7 +61,7 @@ const List = ({ type }: { type: string }) => {
                         data = (await promotionApi.getAll({ _page: 1, _limit: 100000 })).data;
                         break;
                     case 'productLine':
-                        data = (await productLineApi.getAll({ _page: 1, _limit: 100000 })).data;
+                        data = (await productLineApi.getTable({ _page: 1, _limit: 100000 })).data;
                         break;
                     case 'productVariant':
                         data = (await productVariantApi.getAll({ _page: 1, _limit: 100000 })).data;
