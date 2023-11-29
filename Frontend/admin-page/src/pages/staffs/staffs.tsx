@@ -8,11 +8,11 @@ import AddStaff from '../../components/addStaff/AddStaff';
 type GridColDefWithDisplay = GridColDef & { displayInForm: boolean };
 
 const columns: GridColDefWithDisplay[] = [
-  { field: "Id", headerName: "ID", width: 75, displayInForm: false, },
+  { field: "Id", headerName: "ID", flex: 1, displayInForm: false, },
   {
     field: "Img",
     headerName: "Avatar",
-    width: 100,
+    flex: 2,
     renderCell: (params) => {
       return <img src={params.row.img || "/noavatar.png"} alt="" />;
     },
@@ -22,55 +22,55 @@ const columns: GridColDefWithDisplay[] = [
     field: "Name",
     type: "string",
     headerName: "Name",
-    width: 250,
+    flex: 5,
     displayInForm: true,
   },
   {
     field: "Birthday",
     type: "string",
     headerName: "Birthday",
-    width: 250,
+    flex: 4,
     displayInForm: true,
   },
   {
     field: "Gender",
     type: "string",
     headerName: "Gender",
-    width: 100,
+    flex: 2,
     displayInForm: true,
   },
   {
     field: "IdCardNumber",
     type: "string",
     headerName: "IdCard",
-    width: 100,
+    flex: 2,
     displayInForm: true,
   },
   {
     field: "JoinDate",
     type: "string",
     headerName: "Join Date",
-    width: 200,
+    flex: 4,
     displayInForm: true,
   },
   {
     field: "PhoneNumber",
     type: "string",
     headerName: "Phone",
-    width: 150,
+    flex: 3,
     displayInForm: true,
   },
   {
     field: "Posistion",
     headerName: "Posistion",
-    width: 150,
+    flex: 3,
     type: "string",
     displayInForm: true,
   },
   {
     field: "Status",
     headerName: "Status",
-    width: 100,
+    flex: 2,
     type: "string",
     displayInForm: false,
   },
