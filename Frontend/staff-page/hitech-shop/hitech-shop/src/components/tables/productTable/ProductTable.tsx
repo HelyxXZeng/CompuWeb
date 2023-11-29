@@ -1,9 +1,7 @@
-import './productTable.scss'
-import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
-import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
-import { useState, useEffect } from 'react';
-import actionColumn from '../datatable/DataTable';
+import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
+import { useEffect, useState } from 'react';
+import '../datatable/datatable.scss'
 // import { handleDelete, handleView, actionColumn } from '../datatable/DataTable';
 
 const ALL = "All"
@@ -56,18 +54,6 @@ const ProductTable: React.FC<ProductTableProps> = ({ rows }) => {
     const [displayedRows, setDisplayedRows] = useState(rows);
     const [selectedCategory, setSelectedCategory] = useState(ALL);
 
-    // const handleDelete = (rowId: number) => {
-    //     const isConfirmed = window.confirm('Are you sure you want to delete this row?');
-    //     if (isConfirmed) {
-    //         // Perform the deletion action here
-    //         console.log('Deleting row with ID:', rowId);
-    //     }
-    // };
-
-    // const handleView = (rowId: number) => {
-    //     console.log('Viewing row with ID:', rowId);
-    // };
-
     const handleInput = (event: any) => {
         setQuery(event.target.value);
     }
@@ -98,16 +84,13 @@ const ProductTable: React.FC<ProductTableProps> = ({ rows }) => {
     }, [query, selectedCategory, rows]);
 
     return (
-        <div className='product-datatable'>
+        <div className='datatable'>
             <div className="datatableTitle">
-                Products
+                Product Overview
                 <div className="search">
                     <input type='text' placeholder='Search...' value={query} onChange={(e) => handleInput(e)} />
                     <SearchIcon />
                 </div>
-                {/* <Link to="/products/new" className='link'>
-                    Add New
-                </Link> */}
                 <div style={{ width: 10 }}></div>
             </div>
 

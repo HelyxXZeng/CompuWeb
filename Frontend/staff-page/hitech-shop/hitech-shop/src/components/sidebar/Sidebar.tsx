@@ -65,7 +65,7 @@ const Sidebar = () => {
                                         <Link to='/products' style={{ textDecoration: 'none' }}>
                                             <li>
                                                 <LaptopIcon className='icon' />
-                                                <span>Products</span>
+                                                <span>Product Overview</span>
                                             </li>
                                         </Link>
                                         <Link to='/productLines' style={{ textDecoration: 'none' }}>
