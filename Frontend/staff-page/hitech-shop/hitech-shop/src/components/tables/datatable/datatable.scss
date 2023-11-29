@@ -43,6 +43,22 @@
     }
 
 
+    .categoryList {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        .categoryButton {
+            background: #b5ccf2;
+            border: solid white;
+            border-radius: 15px;
+            padding: 15px;
+            font-size: large;
+            cursor: pointer;
+            margin-bottom: 10px;
+
+        }
+    }
 }
 
 .cellAction {

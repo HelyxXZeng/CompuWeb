@@ -125,6 +125,7 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
         const newData = [...specList];
         newData[index] = updatedData;
         setSpecList(newData)
+
         console.log('Here are updatedData', updatedData);
         console.log('Here are newValue.id', newValue?.id);
         console.log('Here are specifications', specifications);

@@ -1,7 +1,7 @@
 import SearchIcon from '@mui/icons-material/Search';
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
-import './productTable.scss';
+import '../datatable/datatable.scss'
 // import { handleDelete, handleView, actionColumn } from '../datatable/DataTable';
 
 const ALL = "All"
@@ -84,7 +84,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ rows }) => {
     }, [query, selectedCategory, rows]);
 
     return (
-        <div className='product-datatable'>
+        <div className='datatable'>
             <div className="datatableTitle">
                 Product Overview
                 <div className="search">
