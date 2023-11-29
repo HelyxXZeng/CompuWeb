@@ -10,6 +10,7 @@ import Staff from "./pages/staff/Staff";
 import "./styles/global-styles.scss";
 import Promotion from "./pages/promotion/Promotion";
 import Charts from "./pages/charts/Charts";
+import Promotions from "./pages/promotions/Promotions";
 
 
 function App() {
@@ -49,7 +50,7 @@ function App() {
         },
         {
           path:"/promotions",
-          element:<Promotion />,
+          element:<Promotions />,
         },
         {
           path:"/promotions/:id",
