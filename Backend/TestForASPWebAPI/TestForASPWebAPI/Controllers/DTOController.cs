@@ -166,7 +166,7 @@ namespace TestForASPWebAPI.Controllers
 
 
         // GET api/<ValuesController>/5
-        [HttpPut("CreateOrder")]
+        [HttpPost("CreateOrder")]
         public async Task<IActionResult> CreateOrder(int PromotionId, OrderDTO order)
         {
             DBController dbController = DBController.GetInstance();
@@ -298,7 +298,7 @@ namespace TestForASPWebAPI.Controllers
             return Ok(promoList);
         }
 
-        [HttpPut("CreateProductVariant")]
+        [HttpPost("CreateProductVariant")]
         public async Task<IActionResult> CreateProductVariant(ProductVariant variants, int Price)
         {
             DBController dbController = DBController.GetInstance();
@@ -319,7 +319,7 @@ namespace TestForASPWebAPI.Controllers
             dbController.UpdateData(CreatePriceCommand);
             return Ok();
         }
-        [HttpPut("CreateProductLine")]
+        [HttpPost("CreateProductLine")]
         public async Task<IActionResult> CreateProductLine(ProductLine productLine)
         {
             DBController dbController = DBController.GetInstance();
