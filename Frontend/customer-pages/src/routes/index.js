@@ -10,6 +10,8 @@ import Laptop from '../pages/Laptop';
 import Promotion from '../pages/Promotion';
 import Accessory from '../pages/Accessory';
 import ProductDetail from '~/pages/ProductDetail';
+import Cart from '~/pages/Cart';
+import Order from '~/pages/Order';
 
 //Public routes
 const publicRoutes = [
@@ -18,8 +20,9 @@ const publicRoutes = [
     { path: config.routes.laptop, component: Laptop },
     { path: config.routes.promotion, component: Promotion, layout: HeaderOnly },
     { path: config.routes.accessory, component: Accessory, layout: null },
-    { path: '/:nickname', component: Laptop },
     { path: config.routes.productDetail, component: ProductDetail },
+    { path: config.routes.cart, component: Cart },
+    { path: config.routes.order, component: Order },
 ];
 
 const privateRoutes = [];

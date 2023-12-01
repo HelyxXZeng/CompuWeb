@@ -69,10 +69,10 @@ function Header() {
                         <span className={cx('badge', 'heart')}>12</span>
                     </button>
 
-                    <button className={cx('action-btn')}>
+                    <Link className={cx('action-btn')} to={config.routes.cart}>
                         <ShoppingCartOutlinedIcon className={cx('icon')} />
                         <span className={cx('badge', 'cart')}>1</span>
-                    </button>
+                    </Link>
 
                     <MenuPopper items={MENU_ITEMS} onChange={handleMenuChange}>
                         <button className={cx('account-btn')}>

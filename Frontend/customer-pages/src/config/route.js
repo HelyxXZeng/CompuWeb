@@ -6,6 +6,8 @@ const routes = {
     promotion: '/khuyenmai',
     login: '/login',
     productDetail: '/productDetail',
+    cart: '/cart',
+    order: '/order',
 };
 
 export default routes;
