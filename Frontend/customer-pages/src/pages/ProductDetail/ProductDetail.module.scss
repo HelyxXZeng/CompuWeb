@@ -449,6 +449,7 @@
 //product reviews
 .product-reviews {
     margin-top: 50px;
+    margin-bottom: 50px;
     box-shadow: 0 0 10px 1px #ddd;
     background-color: #fff;
     border-radius: 5px;
@@ -574,6 +575,50 @@
             }
             .content-list {
                 .content-user {
+                    padding: 10px 35px 10px 25px;
+                    display: flex;
+                    gap: 12px;
+                    .avartar {
+                        background: #cbd1d6;
+                        border-radius: 50%;
+                        color: #fff;
+                        width: 48px;
+                        height: 48px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        span {
+                            font-size: 20px;
+                            font-family: bold;
+                        }
+                    }
+
+                    .infor-user {
+                        .name-user {
+                            font-size: 18px;
+                            line-height: 24px;
+                            color: #32373d;
+                            font-family: medium;
+                        }
+
+                        .rate-user {
+                        }
+                        .comment-user {
+                            p {
+                                font-family: regular;
+                                font-size: 16px;
+                                color: #444b52;
+                                text-align: justify;
+                            }
+                        }
+                        .time-user {
+                            .time-text {
+                                font-family: regular;
+                                color: #939ca3;
+                                font-size: 14px;
+                            }
+                        }
+                    }
                 }
             }
 

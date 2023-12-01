@@ -1,0 +1,160 @@
+//btn-compare
+.btn-compare {
+    &.btn-active {
+        display: unset;
+    }
+    display: none;
+
+    a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        border: 1px solid #ddd;
+        background: #fff;
+        box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 30px;
+        color: #20863d;
+        font-size: 14px;
+        width: 140px;
+        height: 44px;
+        cursor: pointer;
+        z-index: 10;
+
+        svg {
+            margin-right: 12px;
+        }
+    }
+}
+
+//compare-container
+.compare-container {
+    &.active {
+        display: block;
+    }
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: var(--default-layout-width);
+    margin: auto;
+    z-index: 10;
+    .container {
+        padding: 0 var(--default-layout-horizontal-spacer);
+        .title {
+            text-align: right;
+            a {
+                width: 120px;
+                height: 40px;
+                background: #fff;
+                box-shadow: -4px -4px 4px rgba(0, 0, 0, 0.05);
+                border-radius: 5px 5px 0 0;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+
+                color: #444;
+                font-size: 14px;
+                text-align: center;
+
+                .icon-down {
+                    margin-left: 10px;
+                    font-size: 2rem;
+                }
+
+                &:hover {
+                    color: #20863d;
+                }
+            }
+        }
+
+        //check display inline-flex
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            background: #fff;
+            box-shadow: -4px -4px 4px rgba(0, 0, 0, 0.05);
+            border-radius: 5px 0 0 0;
+
+            .item {
+                &:last-child {
+                    border-right: none;
+                }
+
+                padding: 15px;
+                position: relative;
+                border-right: 1px solid #ddd;
+                text-align: center;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+
+                .remove-icon {
+                    font-size: 2.3rem;
+                    position: absolute;
+                    right: 15px;
+                    top: 10px;
+                    cursor: pointer;
+
+                    &:hover {
+                        color: #20863d;
+                    }
+                }
+
+                a {
+                    cursor: pointer;
+                    font-family: medium;
+                    font-size: 14px;
+                    color: #444;
+                    line-height: 18px;
+                    img,
+                    svg {
+                        margin: auto;
+                        height: 70px;
+                        width: auto;
+                        margin-bottom: 10px;
+                        display: block;
+                    }
+
+                    &:hover {
+                        color: #0079f2;
+                    }
+                }
+
+                .compare-div {
+                    .compare-all {
+                        //active
+                        pointer-events: auto;
+                        background: linear-gradient(93.01deg, #0079f2 15.48%, #7ab6f1 92.66%);
+
+                        // background: #999;
+                        // pointer-events: none;
+                        font-size: 16px;
+                        color: #fff;
+                        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.12);
+                        border-radius: 3px;
+                        padding: 9px 19px;
+                        display: flex;
+                        margin-bottom: 10px;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    .remove-all-compare {
+                        font-size: 16px;
+                        color: #20863d;
+                        cursor: pointer;
+                        font-family: medium;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+    }
+}
