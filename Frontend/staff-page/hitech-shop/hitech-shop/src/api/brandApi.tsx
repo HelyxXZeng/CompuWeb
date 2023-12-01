@@ -15,7 +15,7 @@ const brandApi = {
     },
 
     get: (id: any) => {
-        const url = `/brands/GetBrandById?id=${id}`;
+        const url = `/brands/GetBrandById/${id}`;
         return axiosClient.get(url);
     },
 
@@ -76,7 +76,7 @@ const brandApi = {
 
     remove: async (id: number) => {
         try {
-            const response = await axiosClient.delete(`/brands/Delete?id=${id}`);
+            const response = await axiosClient.delete(`/brands/Delete/${id}`);
             return response.data;
         } catch (error) {
             throw error;

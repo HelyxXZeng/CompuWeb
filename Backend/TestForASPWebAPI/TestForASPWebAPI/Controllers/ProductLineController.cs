@@ -46,18 +46,36 @@ namespace TestForASPWebAPI.Controllers
         }
 
         // GET api/<ValuesController>/5
-        [HttpGet("GetProductLineById")]
+        [HttpGet("GetProductLineById/{id}")]
         public async Task<IActionResult> Get(int id)
         {
             DBController dbController = DBController.GetInstance();
 
             string command = @$"select * from ProductLine where Id = {id}";
             var dataTable = await dbController.GetData(command);
-
-            var ProductLines = new List<ProductLine>();
+            if (dataTable.Rows.Count is 0)
+                return NotFound("Not Exists!");
 
             foreach (DataRow dataRow in dataTable.Rows)
             {
+                string GetImages = @$"select * from ProductImage where ProductLineId = {id}";
+                var ProductImages = new List<ProductImage>();
+                using (var data = await dbController.GetData(GetImages))
+                {
+                    foreach (DataRow row in data.Rows)
+                    {
+
+                        var ProductImage = new ProductImage()
+                        {
+                            Id = (int)row["Id"],
+                            ProductLineId = (int)row["ProductLineId"],
+                            Name = (string)row["Name"],
+                            Image = (string)row["Url"],
+                        };
+                        ProductImages.Add(ProductImage);
+                    }
+                }
+
                 var ProductLine = new ProductLine()
                 {
                     Id = (int)dataRow["Id"],
@@ -67,6 +85,7 @@ namespace TestForASPWebAPI.Controllers
                     ReleaseDate = (DateTime)dataRow["ReleaseDate"],
                     Warranty = (int)dataRow["Warranty"],
                     Description = (string)dataRow["Description"],
+                    Images = ProductImages,
                 };
                 return Ok(ProductLine);
             }
@@ -93,15 +112,18 @@ namespace TestForASPWebAPI.Controllers
         }
 
         // DELETE api/<ValuesController>/5
-        [HttpDelete("Delete")]
-        public void Delete(int id)
+        [HttpDelete("Delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
+            if (!await ProductLineExists(id)) { return NotFound("Product Line not found!"); }
+
             string command = $"DELETE FROM ProductLine WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.DeleteData(command);
-            return;
+
+            return NoContent();
         }
-        [HttpGet("Exists")]
+        [HttpGet("Exists/{id}")]
         public async Task<bool> ProductLineExists(int id)
         {
             string command = $"SELECT * FROM ProductLine WHERE Id = {id}";

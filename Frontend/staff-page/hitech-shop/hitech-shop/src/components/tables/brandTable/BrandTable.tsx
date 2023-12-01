@@ -13,13 +13,13 @@ interface BrandTableProps {
 
 const columns: GridColDef[] = [
     {
-        field: 'id', headerName: 'ID'
+        field: 'id', headerName: 'ID', width: 60
     },
     {
-        field: 'name', headerName: 'Name', width: 200
+        field: 'name', headerName: 'Name', flex: 5
     },
     {
-        field: 'description', headerName: 'Description', width: 700
+        field: 'description', headerName: 'Description', flex: 10
     }
 ]
 

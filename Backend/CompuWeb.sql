@@ -1,7 +1,7 @@
 ﻿create database CompuWeb
-
+go
 use CompuWeb
-
+go
 -- Create the Sản phẩm table
 CREATE TABLE Category (
    Id INT IDENTITY(1,1) PRIMARY KEY,
@@ -22,6 +22,22 @@ CREATE TABLE Customer (
    Birthdate DATE,
    JoinDate DATE,
    PhoneNumber NVARCHAR(20)
+);
+
+-- Create the Staff table
+CREATE TABLE Staff (
+   Id INT IDENTITY(1,1) PRIMARY KEY,
+   Name NVARCHAR(50) COLLATE Vietnamese_CI_AS,
+   Avatar NVARCHAR(MAX),
+   Birthdate DATE,
+   Gender NVARCHAR(10),
+   IdCardNumber NVARCHAR(20),
+   Address NVARCHAR(255) COLLATE Vietnamese_CI_AS,
+   JoinDate DATE,
+   PhoneNumber NVARCHAR(20),
+   Position NVARCHAR(50) COLLATE Vietnamese_CI_AS,
+   Salary DECIMAL(18, 2),
+   Other NVARCHAR(255) COLLATE Vietnamese_CI_AS
 );
 
 CREATE TABLE ProductLine (
@@ -45,17 +61,17 @@ CREATE TABLE ProductVariant (
 
 CREATE TABLE ProductImage (
    Id INT IDENTITY(1,1) PRIMARY KEY,
-   ProductVariantId INT,
+   ProductLineId INT,
    Name NVARCHAR(50) COLLATE Vietnamese_CI_AS,
    Url NVARCHAR(255),
-   FOREIGN KEY (ProductVariantId) REFERENCES ProductVariant(Id) ON DELETE CASCADE
+   FOREIGN KEY (ProductLineId) REFERENCES ProductLine(Id) ON DELETE CASCADE
 );
 
 CREATE TABLE ProductInstance (
    Id INT IDENTITY(1,1) PRIMARY KEY,
    ProductVariantId INT,
    SerialNumber NVARCHAR(50) COLLATE Vietnamese_CI_AS,
-   Status NVARCHAR(50),
+   Status NVARCHAR(150),
    Available BIT,
    FOREIGN KEY (ProductVariantId) REFERENCES ProductVariant(Id) ON DELETE CASCADE
 );
@@ -68,7 +84,7 @@ CREATE TABLE SpecificationType (
 CREATE TABLE Specification (
    Id INT IDENTITY(1,1) PRIMARY KEY,
    SpecificationTypeId INT,
-   Value NVARCHAR(50) COLLATE Vietnamese_CI_AS,
+   Value NVARCHAR(255) COLLATE Vietnamese_CI_AS,
    FOREIGN KEY (SpecificationTypeId) REFERENCES SpecificationType(Id) ON DELETE CASCADE
 );
 
@@ -108,28 +124,33 @@ CREATE TABLE Promotion (
    Value DECIMAL(18, 2),
    Status NVARCHAR(50),
    FOREIGN KEY (ProductVariantIdPurchase) REFERENCES ProductVariant(Id) ON DELETE NO ACTION,
-   FOREIGN KEY (ProductVariantIdPromotion) REFERENCES ProductVariant(Id) ON DELETE CASCADE
+   FOREIGN KEY (ProductVariantIdPromotion) REFERENCES ProductVariant(Id) ON DELETE NO ACTION
 );
 
 -- Create the Đặt hàng table
 CREATE TABLE Orders (
    Id INT IDENTITY(1,1) PRIMARY KEY,
    CustomerId INT,
+   StaffId INT,
    Date DATETIME,
    Note NVARCHAR(255) COLLATE Vietnamese_CI_AS,
    Status NVARCHAR(50),
    Address NVARCHAR(255) COLLATE Vietnamese_CI_AS,
-   FOREIGN KEY (CustomerId) REFERENCES Customer(Id)
+   Total DECIMAL(18, 2),
+   FOREIGN KEY (CustomerId) REFERENCES Customer(Id),
+   FOREIGN KEY (StaffId) REFERENCES Staff(Id)
 );
 
 CREATE TABLE OrderItem (
    Id INT IDENTITY(1,1) PRIMARY KEY,
    ProductInstanceId INT,
-   ProductVariantID INT,
+   PromotionId INT NULL,
+   PriceId INT,
    OrderId INT,
    FOREIGN KEY (ProductInstanceId) REFERENCES ProductInstance(Id) ON DELETE NO ACTION,
-   FOREIGN KEY (ProductVariantID) REFERENCES ProductVariant(Id),
-   FOREIGN KEY (OrderId) REFERENCES Orders(Id) ON DELETE CASCADE
+   FOREIGN KEY (OrderId) REFERENCES Orders(Id) ON DELETE CASCADE,
+   FOREIGN KEY (PromotionId) REFERENCES Promotion(Id) ON DELETE NO ACTION,
+   FOREIGN KEY (PriceId) REFERENCES Price(Id) ON DELETE NO ACTION
 );
 
 CREATE TABLE PromotionUsage (
@@ -179,25 +200,11 @@ CREATE TABLE CartItem (
    FOREIGN KEY (CustomerId) REFERENCES Customer(Id) ON DELETE CASCADE
 );
 
--- Create the Staff table
-CREATE TABLE Staff (
-   Id INT IDENTITY(1,1) PRIMARY KEY,
-   Name NVARCHAR(50) COLLATE Vietnamese_CI_AS,
-   Birthdate DATE,
-   Gender NVARCHAR(10),
-   IdCardNumber NVARCHAR(20),
-   Address NVARCHAR(255) COLLATE Vietnamese_CI_AS,
-   JoinDate DATE,
-   PhoneNumber NVARCHAR(20),
-   Position NVARCHAR(50) COLLATE Vietnamese_CI_AS,
-   Salary DECIMAL(18, 2),
-   Other NVARCHAR(255) COLLATE Vietnamese_CI_AS
-);
-
 -- Create the Manager table
 CREATE TABLE Manager (
    Id INT IDENTITY(1,1) PRIMARY KEY,
    Name NVARCHAR(50) COLLATE Vietnamese_CI_AS,
+   Avatar NVARCHAR(MAX),
    Birthdate DATE,
    Gender NVARCHAR(10),
    IdCardNumber NVARCHAR(20),
@@ -206,7 +213,8 @@ CREATE TABLE Manager (
    PhoneNumber NVARCHAR(20),
    Position NVARCHAR(50) COLLATE Vietnamese_CI_AS,
    Salary DECIMAL(18, 2),
-   Department NVARCHAR(50) COLLATE Vietnamese_CI_AS
+   Department NVARCHAR(50) COLLATE Vietnamese_CI_AS,
+   Other NVARCHAR(255) COLLATE Vietnamese_CI_AS,
 );
 ALTER DATABASE CompuWeb COLLATE SQL_Latin1_General_CP1_CI_AS;
 
@@ -217,7 +225,18 @@ alter table ProductImage
 alter column Url NVARCHAR(MAX)
 ---
 
+--use CompuWeb
+--ALTER TABLE Customer ALTER COLUMN Name NVARCHAR(50) COLLATE Vietnamese_CI_AS;
+--select * from Customer
+--insert into Customer (Name, PhoneNumber, Birthdate, JoinDate) VALUES (N'Nguyễn Văn A', '0123456789', '2000-11-26', '2023-11-16')
+--alter table ProductInstance
+--alter column Status NVARCHAR(150)
+--select count(*) as ColumnCount from Category where Id = 1 and Name = 'Hi'
+--select Id, Name from Category
+--select * from Price where Status = 'ACTIVE' and ProductVariantId = 1
 
-ALTER TABLE Customer ALTER COLUMN Name NVARCHAR(50) COLLATE Vietnamese_CI_AS;
-select * from Customer
-insert into Customer (Name, PhoneNumber, Birthdate, JoinDate) VALUES (N'Nguyễn Văn A', '0123456789', '2000-11-26', '2023-11-16')
+--select * from OrderItem
+--drop database CompuWeb
+
+--select MAX(Id) from Orders
+

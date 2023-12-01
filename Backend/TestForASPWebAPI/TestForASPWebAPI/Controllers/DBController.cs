@@ -27,6 +27,30 @@ namespace TestForASPWebAPI.Controllers
             return instance;
         }
 
+        public async Task<int> GetCount(string command)
+        {
+            var dataTable = new DataTable();
+            int count = 0;
+            using (sqlConnection = new SqlConnection(_dbConnectionString))
+            {
+                try
+                {
+                    sqlConnection.Open();
+
+                    using (var sqlCommand = new SqlCommand(command, sqlConnection))
+                    {
+                        count = (int)sqlCommand.ExecuteScalar();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return -1;
+                }
+                finally { }
+            }
+            return count;
+        }
+
         public async Task<DataTable> GetData(string command)
         {
             var dataTable = new DataTable();

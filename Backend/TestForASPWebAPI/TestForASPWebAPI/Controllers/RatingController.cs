@@ -44,7 +44,7 @@ namespace TestForASPWebAPI.Controllers
         }
 
         // GET api/<ValuesController>/5
-        [HttpGet("GetRatingById")]
+        [HttpGet("GetRatingById/{id}")]
         public async Task<IActionResult> Get(int id)
         {
             DBController dbController = DBController.GetInstance();
@@ -89,15 +89,18 @@ namespace TestForASPWebAPI.Controllers
         }
 
         // DELETE api/<ValuesController>/5
-        [HttpDelete("Delete")]
-        public void Delete(int id)
+        [HttpDelete("Delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
+            if (!await RatingExists(id)) { return NotFound("Rating not found!"); }
+
             string command = $"DELETE FROM Rating WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.DeleteData(command);
-            return;
+
+            return NoContent();
         }
-        [HttpGet("Exists")]
+        [HttpGet("Exists/{id}")]
         public async Task<bool> RatingExists(int id)
         {
             string command = $"SELECT * FROM Rating WHERE Id = {id}";

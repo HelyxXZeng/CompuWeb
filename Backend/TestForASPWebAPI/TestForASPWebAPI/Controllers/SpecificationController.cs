@@ -37,12 +37,41 @@ namespace TestForASPWebAPI.Controllers
                 };
                 Specifications.Add(Specification);
             }
+            return Ok(Specifications);
+        }
 
+        [HttpGet("GetSpecificationTable")]
+        public async Task<IActionResult> GetSpecificationTable()
+        {
+            DBController dbController = DBController.GetInstance();
+            //var dataTable = new DataTable();
+
+            string command = @$"select * from Specification";
+            var dataTable = await dbController.GetData(command);
+
+            var Specifications = new List<Specification>();
+
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                var Specification = new Specification()
+                {
+                    Id = (int)dataRow["Id"],
+                    SpecificationTypeId = (int)dataRow["SpecificationTypeId"],
+                    Value = (string)dataRow["Value"],
+                };
+                string Name = string.Empty;
+                string GetSpecTypeNameCommand = $"select Name from SpecificationType where Id = {(int)dataRow["SpecificationTypeId"]}";
+                using (DataTable data = await dbController.GetData(GetSpecTypeNameCommand))
+                {
+                    Name = (string)data.Rows[0]["Name"];
+                }
+                Specifications.Add(Specification);
+            }
             return Ok(Specifications);
         }
 
         // GET api/<ValuesController>/5
-        [HttpGet("GetSpecificationById")]
+        [HttpGet("GetSpecificationById/{id}")]
         public async Task<IActionResult> Get(int id)
         {
             DBController dbController = DBController.GetInstance();
@@ -85,15 +114,18 @@ namespace TestForASPWebAPI.Controllers
         }
 
         // DELETE api/<ValuesController>/5
-        [HttpDelete("Delete")]
-        public void Delete(int id)
+        [HttpDelete("Delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
+            if (!await SpecificationExists(id)) { return NotFound("Specification not found!"); }
+
             string command = $"DELETE FROM Specification WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.DeleteData(command);
-            return;
+
+            return NoContent();
         }
-        [HttpGet("Exists")]
+        [HttpGet("Exists/{id}")]
         public async Task<bool> SpecificationExists(int id)
         {
             string command = $"SELECT * FROM Specification WHERE Id = {id}";

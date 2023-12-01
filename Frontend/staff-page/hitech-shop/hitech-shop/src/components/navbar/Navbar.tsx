@@ -6,13 +6,16 @@ import { DarkModeContext } from '../../context/darkModeContext';
 import './navbar.scss';
 import logo from '/src/assets/logo.png';
 import firebase from 'firebase/compat/app';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import staffApi from '../../api/staffApi';
 
 
 const Navbar = () => {
 
     const { dispatch } = useContext(DarkModeContext)
     const navigate = useNavigate();
+    const [avatar, setAvatar] = useState('')
+
     const handleFullscreenToggle = () => {
         if (!document.fullscreenElement) {
             document.documentElement.requestFullscreen()
@@ -30,6 +33,22 @@ const Navbar = () => {
             console.error('Error during logout:', error);
         }
     };
+
+    useEffect(() => {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                staffApi.getAvatar(user.phoneNumber).then((result) => {
+
+                    // console.log('This is result', result.data)
+                    setAvatar(result.data)
+                })
+                // setAvatar(image)
+            }
+            // console.log('This is user in AppRouter', user)
+        });
+
+
+    }, []);
 
     return (
         <div className='navbar'>
@@ -66,11 +85,18 @@ const Navbar = () => {
                     {/* <div className="item">
                         <ListIcon className='icon' />
                     </div> */}
-                    <div className="item">
-                        <img alt='' className='avatar'
-                            src={logo} />
-
-                    </div>
+                    <Link to='/' style={{ textDecoration: 'none' }}>
+                        <div className="item">
+                            <img alt='' className='avatar'
+                                src={logo} />
+                        </div>
+                    </Link>
+                    <Link to='/' style={{ textDecoration: 'none' }}>
+                        <div className="item">
+                            <img alt='' className='avatar'
+                                src={avatar} />
+                        </div>
+                    </Link>
                 </div>
             </div>
         </div>

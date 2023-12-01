@@ -7,27 +7,33 @@ import productVariantApi, { ProductVariant } from '../../../api/productVariantAp
 import specificationApi from '../../../api/specificationApi';
 import '../commonSingle/commonSingle.scss'
 import AddIcon from '@mui/icons-material/Add';
+import { Price } from '../../../api/priceApi';
 interface Props {
     productVariant: ProductVariant
 }
 
-const initProductVariant = {
+const initProductVariant: ProductVariant = {
     id: 0,
     productLineId: 0,
-    name: ''
+    name: '',
+    specifications: [
+        {
+            id: 0,
+            productVariantId: 0,
+            specificationId: 0
+        }
+    ]
 }
 
-const fetchProductLines = async () => {
-    // Fetch productLines data from your API
-    const data = (await productLineApi.getAll({ _page: 1, _limit: 100000 })).data;
-    return data;
-};
 
-const fetchSpecifications = async () => {
-    // Fetch productLines data from your API
-    const data = (await specificationApi.getAll({ _page: 1, _limit: 100000 })).data;
-    return data;
-};
+const initPrice = {
+    id: 0,
+    productVariantId: 0,
+    startDate: new Date().toISOString().split('T')[0],
+    endDate: '2030-12-31',
+    value: 0,
+    status: ''
+}
 
 const ProductVariantSingle: React.FC<Props> = (para: Props) => {
 
@@ -36,16 +42,32 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
     const [productLines, setProductLines] = useState([]);
     const [specifications, setSpecifications] = useState<any>([]);
     const [specList, setSpecList] = useState<any>([])
+    const [price, setPrice] = useState<Price>(initPrice);
 
     useEffect(() => {
         if (para.productVariant !== null) {
             // console.log('para productVariant', para.productVariant)
             setProductVariant(para.productVariant);
+            setSpecList(para.productVariant.specifications)
         }
     }, [para.productVariant]);
 
     useEffect(() => {
         const fetchData = async () => {
+
+
+            const fetchProductLines = async () => {
+                // Fetch productLines data from your API
+                const data = (await productLineApi.getAll({ _page: 1, _limit: 100000 })).data;
+                return data;
+            };
+
+            const fetchSpecifications = async () => {
+                // Fetch productLines data from your API
+                const data = (await specificationApi.getAll({ _page: 1, _limit: 100000 })).data;
+                return data;
+            };
+
             const productLinesData = await fetchProductLines();
             const specificationsData = await fetchSpecifications();
             setProductLines(productLinesData);
@@ -73,8 +95,10 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
         // console.log('This is input name', name)
         // console.log('This is input value', value)
 
-        if (name === 'releaseDate')
-            console.log('this is value from product line', value)
+        if (name === 'value') {
+            setPrice((pre) => ({ ...pre, [name]: Number.parseInt(value) }))
+            return;
+        }
         setProductVariant((prevProductVariant) => ({ ...prevProductVariant, [name]: value }));
         // console.log('Product Variant: ', productVariant)
     };
@@ -82,18 +106,30 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
     const addSpecificationsAutocomplete = () => {
         const newSpecificationAutocompletes = [
             ...specList,
-            { id: 0, value: '' }, // Initial state for the new ProductSpecificationAutocomplete
+            { id: 0, productVariantId: 0, specificationId: '' }, // Initial state for the new ProductSpecificationAutocomplete
         ];
         setSpecList(newSpecificationAutocompletes);
+
     };
 
     const handleSpecificationChange = (
         index: number,
-        newValue: { id: number; value: string } | null
+        newValue: { id: number } | null
     ) => {
-        const updatedSpecificationAutocompletes = [...specList];
-        updatedSpecificationAutocompletes[index] = newValue;
-        setSpecList(updatedSpecificationAutocompletes);
+        // const updatedSpecificationAutocompletes = [...specList];
+        // updatedSpecificationAutocompletes[index] = [...updatedSpecificationAutocompletes[index], specificationId: newValue?.id];
+
+        let updatedData = specList[index];
+        updatedData.specificationId = newValue?.id
+        // setSpecList(updatedSpecificationAutocompletes);
+        const newData = [...specList];
+        newData[index] = updatedData;
+        setSpecList(newData)
+
+        console.log('Here are updatedData', updatedData);
+        console.log('Here are newValue.id', newValue?.id);
+        console.log('Here are specifications', specifications);
+        console.log('Here are specList', specList)
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -102,13 +138,16 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
         try {
             if (para.productVariant === null) {
                 console.log('This is variant will be added', productVariant)
-                await productVariantApi.add(productVariant);
+                console.log('this is specifications', specList)
+                // await productVariantApi.add(productVariant);
+                // console.log('Add successfully!', data)
             } else {
                 await productVariantApi.update(productVariant.id, productVariant);
             }
 
             // Reset the form
             setProductVariant(initProductVariant);
+            setPrice(initPrice)
 
             alert("Successfully Uploaded!");
         } catch (error) {
@@ -144,6 +183,16 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
                     required
                 />
 
+                <label htmlFor="value">Price:</label>
+                <input
+                    type="number"
+                    id="value"
+                    name="value"
+                    value={price.value}
+                    onChange={handleInputChange}
+                    required
+                />
+
                 {specList.map((specAutocomplete: any, index: any) => (
                     <div key={index}>
                         <label>Specifications: {index + 1}</label>
@@ -154,12 +203,14 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
                             id={`specificationsId-${index}`}
                             options={specifications}
                             getOptionLabel={(option: any) => option.value}
-                            value={specifications.find((spec: any) => spec.id === specAutocomplete.id) || null}
+                            value={specifications.find((spec: any) => spec.id === specAutocomplete.specificationId) || null}
                             onChange={(event, newValue) => handleSpecificationChange(index, newValue)}
                             renderInput={(params) => <TextField {...params} label="" />}
                         />
                     </div>
                 ))}
+
+
 
                 <AddIcon onClick={addSpecificationsAutocomplete} className="add-button">
 

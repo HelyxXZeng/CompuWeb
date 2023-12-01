@@ -42,8 +42,31 @@ namespace TestForASPWebAPI.Controllers
             return Ok(Brands);
         }
 
+        [HttpGet("GetBrandTable")]
+        public async Task<IActionResult> GetBrandTable()
+        {
+            DBController dbController = DBController.GetInstance();
+
+            string command = @$"select Id, Name, Description from Brand";
+            var dataTable = await dbController.GetData(command);
+
+            var Brands = new List<Brand>();
+
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                var Brand = new Brand()
+                {
+                    Id = (int)dataRow["Id"],
+                    Name = (string)dataRow["Name"],
+                    Description = (string)dataRow["Description"],
+                };
+                Brands.Add(Brand);
+            }
+            return Ok(Brands);
+        }
+
         // GET api/<ValuesController>/5
-        [HttpGet("GetBrandById")]
+        [HttpGet("GetBrandById/{id}")]
         public async Task<IActionResult> Get(int id)
         {
             DBController dbController = DBController.GetInstance();
@@ -93,7 +116,7 @@ namespace TestForASPWebAPI.Controllers
         }
 
         // DELETE api/<ValuesController>/5
-        [HttpDelete("Delete")]
+        [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             if (!await BrandExists(id)) { return NotFound("Brand not found!"); }
@@ -104,7 +127,7 @@ namespace TestForASPWebAPI.Controllers
 
             return NoContent();
         }
-        [HttpGet("Exists")]
+        [HttpGet("Exists/{id}")]
         public async Task<bool> BrandExists(int id)
         {
             string command = $"SELECT * FROM Brand WHERE Id = {id}";

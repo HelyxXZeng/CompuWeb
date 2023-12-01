@@ -48,7 +48,7 @@ namespace TestForASPWebAPI.Controllers
         }
 
         // GET api/<ValuesController>/5
-        [HttpGet("GetPromotionById")]
+        [HttpGet("GetPromotionById/{id}")]
         public async Task<IActionResult> Get(int id)
         {
             DBController dbController = DBController.GetInstance();
@@ -97,21 +97,62 @@ namespace TestForASPWebAPI.Controllers
         }
 
         // DELETE api/<ValuesController>/5
-        [HttpDelete("Delete")]
-        public void Delete(int id)
+        [HttpDelete("Delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
+            if (!await PromotionExists(id)) { return NotFound("Promotion not found!"); }
+
             string command = $"DELETE FROM Promotion WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.DeleteData(command);
-            return;
+
+            return NoContent();
         }
-        [HttpGet("Exists")]
+        [HttpGet("Exists/{id}")]
         public async Task<bool> PromotionExists(int id)
         {
             string command = $"SELECT * FROM Promotion WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             DataTable data = await dbController.GetData(command);
             return (data.Rows.Count is not 0);
+        }
+        [HttpGet("UpdatePromotionStatus")]
+        public static async Task<bool> UpdatePromotionStatus()
+        {
+            DBController dbController = DBController.GetInstance();
+            //var dataTable = new DataTable();
+
+            string command = @$"select * from Promotion where Status = 'ACTIVE' or Status = 'NOTREADY'";
+            var dataTable = await dbController.GetData(command);
+
+            var Promotions = new List<Promotion>();
+
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                var Promotion = new Promotion()
+                {
+                    Id = (int)dataRow["Id"],
+                    Name = (string)dataRow["Name"],
+                    ProductVariantIdPromotion = (int)dataRow["ProductVariantIdPromotion"],
+                    ProductVariantIdPurchase = (int)dataRow["ProductVariantIdPurchase"],
+                    StartDate = (DateTime)dataRow["StartDate"],
+                    EndDate = (DateTime)dataRow["EndDate"],
+                    Content = (string)dataRow["Content"],
+                    Value = (decimal)dataRow["Value"],
+                    Status = (string)dataRow["Status"],
+                };
+                if (Promotion.Status is "ACTIVE" && Promotion.EndDate < DateTime.Now)
+                {
+                    string UpdateCommand = $"UPDATE Promotion SET Status = 'OUTDATED' WHERE Id = {Promotion.Id}";
+                    dbController.UpdateData(UpdateCommand);
+                }
+                else if (Promotion.Status is "NOTREADY" && Promotion.StartDate > DateTime.Now)
+                {
+                    string UpdateCommand = $"UPDATE Promotion SET Status = 'ACTIVE' WHERE Id = {Promotion.Id}";
+                    dbController.UpdateData(UpdateCommand);
+                }
+            }
+            return true;
         }
     }
 }

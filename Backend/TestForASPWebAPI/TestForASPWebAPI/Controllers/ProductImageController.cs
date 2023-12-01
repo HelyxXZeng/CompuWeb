@@ -32,7 +32,7 @@ namespace TestForASPWebAPI.Controllers
                 var ProductImage = new ProductImage()
                 {
                     Id = (int)dataRow["Id"],
-                    ProductVariantId = (int)dataRow["ProductVariantId"],
+                    ProductLineId = (int)dataRow["ProductLineId"],
                     Name = (string)dataRow["Name"],
                     Image = (string)dataRow["Url"],
                 };
@@ -43,7 +43,7 @@ namespace TestForASPWebAPI.Controllers
         }
 
         // GET api/<ValuesController>/5
-        [HttpGet("GetProductImageById")]
+        [HttpGet("GetProductImageById/{id}")]
         public async Task<IActionResult> Get(int id)
         {
             DBController dbController = DBController.GetInstance();
@@ -58,7 +58,7 @@ namespace TestForASPWebAPI.Controllers
                 var ProductImage = new ProductImage()
                 {
                     Id = (int)dataRow["Id"],
-                    ProductVariantId = (int)dataRow["ProductVariantId"],
+                    ProductLineId = (int)dataRow["ProductLineId"],
                     Name = (string)dataRow["Name"],
                     Image = (string)dataRow["Url"],
                 };
@@ -70,7 +70,7 @@ namespace TestForASPWebAPI.Controllers
         [HttpPost("Insert")]
         public void Insert([FromBody] ProductImage value)
         {
-            string command = $"INSERT INTO ProductImage (ProductVariantId, Name, Url) VALUES ({value.ProductVariantId}, N'{value.Name}', '{value.Image}')";
+            string command = $"INSERT INTO ProductImage (ProductLineId, Name, Url) VALUES ({value.ProductLineId}, N'{value.Name}', '{value.Image}')";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
@@ -80,22 +80,25 @@ namespace TestForASPWebAPI.Controllers
         [HttpPut("Update")]
         public void Put(int id, [FromBody] ProductImage value)
         {
-            string command = $"UPDATE ProductImage SET ProductVariantId = {value.ProductVariantId}, Name = N'{value.Name}', Url = '{value.Image}' WHERE Id = {id}";
+            string command = $"UPDATE ProductImage SET ProductLineId = {value.ProductLineId}, Name = N'{value.Name}', Url = '{value.Image}' WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
         }
 
         // DELETE api/<ValuesController>/5
-        [HttpDelete("Delete")]
-        public void Delete(int id)
+        [HttpDelete("Delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
+            if (!await ProductImageExists(id)) { return NotFound("Product Image not found!"); }
+
             string command = $"DELETE FROM ProductImage WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.DeleteData(command);
-            return;
+
+            return NoContent();
         }
-        [HttpGet("Exists")]
+        [HttpGet("Exists/{id}")]
         public async Task<bool> ProductImageExists(int id)
         {
             string command = $"SELECT * FROM ProductImage WHERE Id = {id}";

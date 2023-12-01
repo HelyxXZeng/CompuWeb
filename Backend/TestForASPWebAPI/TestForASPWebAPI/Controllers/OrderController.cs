@@ -33,10 +33,12 @@ namespace TestForASPWebAPI.Controllers
                 {
                     Id = (int)dataRow["Id"],
                     CustomerId = (int)dataRow["CustomerId"],
+                    StaffId = (int)dataRow["StaffId"],
                     Date = (DateTime)dataRow["Date"],
                     Note = (string)dataRow["Note"],
                     Status = (string)dataRow["Status"],
                     Address = (string)dataRow["Address"],
+                    Total = (decimal)dataRow["Total"],
                 };
                 Orders.Add(Order);
             }
@@ -45,7 +47,7 @@ namespace TestForASPWebAPI.Controllers
         }
 
         // GET api/<ValuesController>/5
-        [HttpGet("GetOrderById")]
+        [HttpGet("GetOrderById/{id}")]
         public async Task<IActionResult> Get(int id)
         {
             DBController dbController = DBController.GetInstance();
@@ -61,10 +63,12 @@ namespace TestForASPWebAPI.Controllers
                 {
                     Id = (int)dataRow["Id"],
                     CustomerId = (int)dataRow["CustomerId"],
+                    StaffId = (int)dataRow["StaffId"],
                     Date = (DateTime)dataRow["Date"],
                     Note = (string)dataRow["Note"],
                     Status = (string)dataRow["Status"],
                     Address = (string)dataRow["Address"],
+                    Total = (decimal)dataRow["Total"],
                 };
                 return Ok(Order);
             }
@@ -74,7 +78,7 @@ namespace TestForASPWebAPI.Controllers
         [HttpPost("Insert")]
         public void Insert([FromBody] Orders value)
         {
-            string command = $"INSERT INTO Orders (CustomerId, Date, Note, Status, Address) VALUES ({value.CustomerId}, '{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}', N'{value.Note}', '{value.Status}', N'{value.Address}')";
+            string command = $"INSERT INTO Orders (CustomerId, StaffId, Date, Note, Status, Address, Total) VALUES ({value.CustomerId}, {value.StaffId}, '{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}', N'{value.Note}', '{value.Status}', N'{value.Address}', {value.Total.ToString("0.00")})";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
@@ -82,24 +86,27 @@ namespace TestForASPWebAPI.Controllers
 
         // PUT api/<ValuesController>/5
         [HttpPut("Update")]
-        public void Put(int id, [FromBody] Orders value)
+        public void Put(int id, Orders value)
         {
-            string command = $"UPDATE Orders SET CustomerId = {value.CustomerId}, Date = '{value.Date.ToString("yyyy-MM-dd HH:mm:ss")}', Note = N'{value.Note}', Status = '{value.Status}', Address = N'{value.Address}' WHERE Id = {id}";
+            string command = $"UPDATE Orders SET CustomerId = {value.CustomerId}, StaffId = {value.StaffId}, Date = '{value.Date.ToString("yyyy-MM-dd HH:mm:ss")}', Note = N'{value.Note}', Status = '{value.Status}', Address = N'{value.Address}', Total = {value.Total.ToString("0.00")} WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
         }
 
         // DELETE api/<ValuesController>/5
-        [HttpDelete("Delete")]
-        public void Delete(int id)
+        [HttpDelete("Delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
+            if (!await OrderExists(id)) { return NotFound("Order not found!"); }
+
             string command = $"DELETE FROM Orders WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.DeleteData(command);
-            return;
+
+            return NoContent();
         }
-        [HttpGet("Exists")]
+        [HttpGet("Exists/{id}")]
         public async Task<bool> OrderExists(int id)
         {
             string command = $"SELECT * FROM Orders WHERE Id = {id}";

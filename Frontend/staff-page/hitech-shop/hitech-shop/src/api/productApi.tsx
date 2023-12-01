@@ -1,7 +1,7 @@
 import axiosClient from "./axiosClient";
 const productApi = {
     getAll: (params: any) => {
-        const url = '/products';
+        const url = '/DTOController/GetProductTable';
         return axiosClient.get(url);
     },
     get: (id: any) => {

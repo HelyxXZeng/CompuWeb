@@ -20,6 +20,7 @@ export const PrivateRoutes = () => {
             <Route path='/productInstances' element={<List type='productInstance' />} />
             <Route path='/specificationTypes' element={<List type='specificationType' />} />
             <Route path='/specifications' element={<List type='specification' />} />
+            <Route path='/prices' element={<List type='price' />} />
 
             <Route path='/brands/new' element={<Single type='brand' isNew='new' />} />
             <Route path='/customers/new' element={<Single type='customer' isNew='new' />} />
@@ -32,6 +33,7 @@ export const PrivateRoutes = () => {
             <Route path='/productInstances/new' element={<Single type='productInstance' isNew='new' />} />
             <Route path='/specificationTypes/new' element={<Single type='specificationType' isNew='new' />} />
             <Route path='/specifications/new' element={<Single type='specification' isNew='new' />} />
+            <Route path='/prices/new' element={<Single type='price' isNew='new' />} />
 
             <Route path='/brands/:id' element={<Single type='brand' isNew='update' />} />
             <Route path='/customers/:id' element={<Single type='customer' isNew='update' />} />
@@ -44,6 +46,7 @@ export const PrivateRoutes = () => {
             <Route path='/productInstances/:id' element={<Single type='productInstance' isNew='update' />} />
             <Route path='/specificationTypes/:id' element={<Single type='specificationType' isNew='update' />} />
             <Route path='/specifications/:id' element={<Single type='specification' isNew='update' />} />
+            <Route path='/prices/:id' element={<Single type='price' isNew='update' />} />
         </Routes>
     );
 };

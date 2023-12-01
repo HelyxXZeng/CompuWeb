@@ -33,6 +33,7 @@ namespace TestForASPWebAPI.Controllers
                 {
                     Id = (int)dataRow["Id"],
                     Name = (string)dataRow["Name"],
+                    Avatar = (string)dataRow["Avatar"],
                     Birthdate = (DateTime)dataRow["Birthdate"],
                     Gender = (string)dataRow["Gender"],
                     IdcardNumber = (string)dataRow["IdcardNumber"],
@@ -50,7 +51,7 @@ namespace TestForASPWebAPI.Controllers
         }
 
         // GET api/<ValuesController>/5
-        [HttpGet("GetStaffById")]
+        [HttpGet("GetStaffById/{id}")]
         public async Task<IActionResult> Get(int id)
         {
             DBController dbController = DBController.GetInstance();
@@ -66,6 +67,7 @@ namespace TestForASPWebAPI.Controllers
                 {
                     Id = (int)dataRow["Id"],
                     Name = (string)dataRow["Name"],
+                    Avatar = (string)dataRow["Avatar"],
                     Birthdate = (DateTime)dataRow["Birthdate"],
                     Gender = (string)dataRow["Gender"],
                     IdcardNumber = (string)dataRow["IdcardNumber"],
@@ -86,8 +88,9 @@ namespace TestForASPWebAPI.Controllers
         {
             if (value == null) { return BadRequest("Invalid Data!"); }
 
-            string command = $"INSERT INTO Staff (Name, Birthdate, Gender, IdcardNumber, Address, JoinDate, PhoneNumber, Position, Salary, Other) " +
+            string command = $"INSERT INTO Staff (Name, Avatar, Birthdate, Gender, IdcardNumber, Address, JoinDate, PhoneNumber, Position, Salary, Other) " +
                 $"VALUES (N'{value.Name}', " +
+                $"'{value.Avatar}', " +
                 $"'{value.Birthdate.ToString("yyyy-MM-dd")}', " +
                 $"'{value.Gender}', " +
                 $"'{value.IdcardNumber}', " +
@@ -111,6 +114,7 @@ namespace TestForASPWebAPI.Controllers
 
             string command = $"UPDATE Staff SET " +
                 $"Name = N'{value.Name}', " +
+                $"Avatar = '{value.Avatar}', " +
                 $"Birthdate = '{value.Birthdate.ToString("yyyy-MM-dd")}', " +
                 $"Gender = '{value.Gender}', " +
                 $"IdcardNumber = '{value.IdcardNumber}', " +
@@ -128,7 +132,7 @@ namespace TestForASPWebAPI.Controllers
         }
 
         // DELETE api/<ValuesController>/5
-        [HttpDelete("Delete")]
+        [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             if (!await StaffExists(id)) { return NotFound("Staff not found!"); }
@@ -139,7 +143,7 @@ namespace TestForASPWebAPI.Controllers
 
             return NoContent();
         }
-        [HttpGet("Exists")]
+        [HttpGet("Exists/{id}")]
         public async Task<bool> StaffExists(int id)
         {
             string command = $"SELECT * FROM Staff WHERE Id = {id}";

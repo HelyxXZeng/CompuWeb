@@ -42,7 +42,7 @@ namespace TestForASPWebAPI.Controllers
         }
 
         // GET api/<ValuesController>/5
-        [HttpGet("GetProductVariantById")]
+        [HttpGet("GetProductVariantById/{id}")]
         public async Task<IActionResult> Get(int id)
         {
             DBController dbController = DBController.GetInstance();
@@ -50,15 +50,42 @@ namespace TestForASPWebAPI.Controllers
             string command = @$"select * from ProductVariant where Id = {id}";
             var dataTable = await dbController.GetData(command);
 
-            var ProductVariants = new List<ProductVariant>();
+            if (dataTable.Rows.Count is 0)
+                return NotFound("Not Exists!");
 
             foreach (DataRow dataRow in dataTable.Rows)
             {
+                var Specifications = new List<Specification>();
+
+                string GetProductSpecCommand = @$"select * from ProductSpecification where ProductVariantId = {id}";
+                
+                using (var data = await dbController.GetData(GetProductSpecCommand))
+                {
+                    foreach (DataRow row in data.Rows)
+                    {
+                        string GetSpecCommand = $"select * from Specification where Id = {(int)row["SpecificationId"]}";
+                        using (var SpecTable = await dbController.GetData(GetSpecCommand))
+                        {
+                            foreach (DataRow Row in SpecTable.Rows)
+                            {
+                                var Specification = new Specification()
+                                {
+                                    Id = (int)Row["Id"],
+                                    SpecificationTypeId = (int)Row["SpecificationTypeId"],
+                                    Value = (string)Row["Value"],
+                                };
+                                Specifications.Add(Specification);
+                            }
+                        }
+                    }
+                }
+
                 var ProductVariant = new ProductVariant()
                 {
                     Id = (int)dataRow["Id"],
                     ProductLineId = (int)dataRow["ProductLineId"],
                     Name = (string)dataRow["Name"],
+                    Specifications = Specifications,
                 };
                 return Ok(ProductVariant);
             }
@@ -85,15 +112,18 @@ namespace TestForASPWebAPI.Controllers
         }
 
         // DELETE api/<ValuesController>/5
-        [HttpDelete("Delete")]
-        public void Delete(int id)
+        [HttpDelete("Delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
+            if (!await ProductVariantExists(id)) { return NotFound("Variant not found!"); }
+
             string command = $"DELETE FROM ProductVariant WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.DeleteData(command);
-            return;
+
+            return NoContent();
         }
-        [HttpGet("Exists")]
+        [HttpGet("Exists/{id}")]
         public async Task<bool> ProductVariantExists(int id)
         {
             string command = $"SELECT * FROM ProductVariant WHERE Id = {id}";

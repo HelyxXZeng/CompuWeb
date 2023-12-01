@@ -8,6 +8,9 @@ import Menu from "./components/menu/menu";
 import Login from "./pages/login/login";
 import Staff from "./pages/staff/Staff";
 import "./styles/global-styles.scss";
+import Promotion from "./pages/promotion/Promotion";
+import Charts from "./pages/charts/Charts";
+import Promotions from "./pages/promotions/Promotions";
 
 
 function App() {
@@ -41,10 +44,22 @@ function App() {
           path:"/staffs",
           element:<Staffs />,
         },
-        {
+        {//truyền tham số vô đây sau
           path:"/staffs/:id",
           element:<Staff />,
         },
+        {
+          path:"/promotions",
+          element:<Promotions />,
+        },
+        {
+          path:"/promotions/:id",
+          element:<Promotion />,
+        },
+        {
+          path:"/charts",
+          element:<Charts/>
+        }
       ]
     },
     {

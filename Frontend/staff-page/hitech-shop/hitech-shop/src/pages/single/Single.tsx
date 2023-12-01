@@ -24,6 +24,9 @@ import specificationTypeApi from "../../api/specificationTypeApi";
 import SpecificationTypeSingle from "../../components/singles/specificationTypeSingle/SpecificationTypeSingle";
 import SpecificationSingle from "../../components/singles/specificationSingle/SpecificationSingle";
 import specificationApi from "../../api/specificationApi";
+import PriceSingle from "../../components/singles/priceSingle/PriceSingle";
+import priceApi from "../../api/priceApi";
+import ProductTable from "../../components/tables/productTable/ProductTable";
 
 interface Props {
     type: string,
@@ -78,6 +81,9 @@ const Single = ({ type, isNew }: Props) => {
                 case 'specification':
                     data = (await specificationApi.get(parseInt(id!))).data;
                     break;
+                case 'price':
+                    data = (await priceApi.get(parseInt(id!))).data;
+                    break;
                 default:
                     break;
                 // Handle the default case
@@ -85,7 +91,7 @@ const Single = ({ type, isNew }: Props) => {
 
 
             setEditRow(data)
-            // console.log("This is data: ", data)
+            console.log("This is data: ", data)
             setIsDoneFetch(true)
         }
         if (isNew === 'update') {
@@ -100,7 +106,7 @@ const Single = ({ type, isNew }: Props) => {
             case 'category':
                 return <CategorySingle category={editRow!} />;
             case 'product':
-            // return <ProductTable rows={rows} />;
+                return <ProductTable rows={editRow!} />;
             case 'customer':
                 return <CustomerSingle customer={editRow!} />
             case 'order':
@@ -119,6 +125,8 @@ const Single = ({ type, isNew }: Props) => {
                 return <SpecificationTypeSingle specificationType={editRow!} />
             case 'specification':
                 return <SpecificationSingle specification={editRow!} />
+            case 'price':
+                return <PriceSingle price={editRow!} />
             default:
                 return null;
         }
