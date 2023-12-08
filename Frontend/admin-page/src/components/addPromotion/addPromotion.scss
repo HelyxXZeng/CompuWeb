@@ -1,0 +1,112 @@
+@import "../../styles/global-variables.scss";
+
+.addpromotion {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.724);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    .modal {
+      padding: 50px;
+      border-radius: 10px;
+      background-color: $main-bg;
+      position: relative;
+  
+      h1 {
+        margin-bottom: 40px;
+        font-size: 24px;
+        color: $soft-color;
+      }
+  
+      .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+      }
+  
+      form {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 500px;
+        justify-content: space-between;
+
+        .invalid{
+          label{
+            color: red;
+          }
+           input{
+            border-color: red;
+           }
+        }
+  
+        .item {
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+          
+            &.name-content-row {
+              width: 100%; // Set width to 100% for "Name" and "Content" fields
+              flex-direction: column;
+              gap: 16px; // Adjust the gap as needed
+            }
+            
+            &.value-row {
+                width: 100%;
+                align-items: left;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            label {
+              font-size: 14px;
+            }
+          
+            input {
+              padding: 10px;
+              background-color: transparent;
+              color: white;
+              outline: none;
+              border: 1px solid $soft-color;
+              border-radius: 3px;
+              
+              &:not(.invalid) + label {
+                color: white;
+              }
+            }
+        }
+
+        .datepicker{
+          background-color: $main-bg;
+          color: white;
+        }
+
+        .image-upload {
+          width: 100%; // Set width to 100% to take the full width of the form
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          
+          .preview-container {
+            margin-top: 10px;
+            img {
+              width: 100px; // Adjust the width of the preview image as needed
+              height: auto;
+            }
+          }
+        }
+        button {
+          width: 100%;
+          padding: 10px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
