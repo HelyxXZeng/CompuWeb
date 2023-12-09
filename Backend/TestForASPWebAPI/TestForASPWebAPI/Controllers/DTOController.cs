@@ -595,5 +595,42 @@ namespace TestForASPWebAPI.Controllers
             }
             return Ok(product);
         }
+
+        [HttpGet("GetSpecificationList")]
+        public async Task<IActionResult> GetSpecificationList()
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync($"api/specificationtypes/GetSpecificationTypes");
+            List<SpecificationType> SpecTypes;
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest();
+            }
+            string jsonResponse = await response.Content.ReadAsStringAsync();
+            SpecTypes = JsonConvert.DeserializeObject<List<SpecificationType>>(jsonResponse);
+
+            List<SpecificationTypeDTO> Types = new List<SpecificationTypeDTO>();
+            foreach (var type in SpecTypes)
+            {
+                SpecificationTypeDTO Type = new SpecificationTypeDTO(type);
+                Type.Specifications = new List<Specification>();
+
+                string GetSpecs = $"select * from Specification where SpecificationTypeId = {Type.Id}";
+                using (DataTable dataTable = await DBController.GetInstance().GetData(GetSpecs))
+                {
+                    foreach (DataRow dataRow in dataTable.Rows)
+                    {
+                        var Specification = new Specification()
+                        {
+                            Id = (int)dataRow["Id"],
+                            SpecificationTypeId = (int)dataRow["SpecificationTypeId"],
+                            Value = (string)dataRow["Value"],
+                        };
+                        Type.Specifications.Add(Specification);
+                    }
+                }
+                Types.Add(Type);
+            }
+            return Ok(Types);
+        }
     }
 }

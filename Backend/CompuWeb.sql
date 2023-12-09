@@ -269,3 +269,5 @@ join Orders o on o.CustomerId = c.Id
 join OrderItem oi on oi.OrderId = o.Id
 join Rating r on r.OrderItemId = oi.Id
 where r.Id = 1
+
+select * from Specification where SpecificationTypeId = 1
