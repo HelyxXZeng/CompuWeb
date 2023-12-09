@@ -14,13 +14,13 @@ interface SpecificationTableProps {
 
 const columns: GridColDef[] = [
     {
-        field: 'id', headerName: 'ID', width: 50
+        field: 'id', headerName: 'ID', width: 60
     },
     {
-        field: 'specificationType', headerName: 'Product Variant Name', width: 180
+        field: 'specificationType', headerName: 'Specification Type', flex: 2
     },
     {
-        field: 'value', headerName: 'Value', width: 400
+        field: 'value', headerName: 'Value', flex: 5
     }
 
 ]

@@ -43,6 +43,22 @@
     }
 
 
+    .categoryList {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        .categoryButton {
+            background: #b5ccf2;
+            border: solid white;
+            border-radius: 15px;
+            padding: 15px;
+            font-size: large;
+            cursor: pointer;
+            margin-bottom: 10px;
+
+        }
+    }
 }
 
 .cellAction {
@@ -65,4 +81,30 @@
         border: 1px dotted rgba(220, 20, 60, 0.6);
         cursor: pointer;
     }
+}
+
+@media (max-width: 768px) {
+
+    .datatable {
+
+        width: 90%;
+
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .datatable {
+
+        width: 100%;
+
+    }
+
+    .datatableTitle {
+
+        font-size: 18px;
+
+    }
+
 }

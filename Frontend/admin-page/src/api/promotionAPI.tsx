@@ -1,6 +1,6 @@
 import axiosClient from "./axiosClient"
 
-export interface Promotion{
+export interface PromotionDef{
   Id: number;
   Name: string,
   ProductVariantIdPurchase: number,
@@ -23,7 +23,7 @@ const promotionAPI = {
     return axiosClient.get(url);
   },
 
-  add: async (promotion: Promotion) => {
+  add: async (promotion: PromotionDef) => {
     try {
         const response = await axiosClient.post('/promotions/Insert', promotion);
         return response.data;
@@ -32,7 +32,7 @@ const promotionAPI = {
     }
   },
 
-  update: async (id: number, updatedPromotion: Promotion) => {
+  update: async (id: number, updatedPromotion: PromotionDef) => {
     try {
         const response = await axiosClient.put(`/promotions/Update?id=${id}`, updatedPromotion);
         return response.data;

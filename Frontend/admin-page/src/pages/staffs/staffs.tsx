@@ -5,64 +5,96 @@ import './staffs.scss'
 import {GridColDef} from "@mui/x-data-grid"
 import AddStaff from '../../components/addStaff/AddStaff';
 
-const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 90, },
+type GridColDefWithDisplay = GridColDef & { displayInForm: boolean };
+
+const columns: GridColDefWithDisplay[] = [
+  { field: "Id", headerName: "ID", flex: 1, displayInForm: false, },
   {
-    field: "img",
+    field: "Img",
     headerName: "Avatar",
-    width: 100,
+    flex: 2,
     renderCell: (params) => {
       return <img src={params.row.img || "/noavatar.png"} alt="" />;
     },
+    displayInForm: false, 
   },
   {
-    field: "firstName",
+    field: "Name",
     type: "string",
-    headerName: "First name",
-    width: 150,
+    headerName: "Name",
+    flex: 5,
+    displayInForm: true,
   },
   {
-    field: "lastName",
+    field: "Birthday",
     type: "string",
-    headerName: "Last name",
-    width: 150,
+    headerName: "Birthday",
+    flex: 4,
+    displayInForm: true,
   },
   {
-    field: "email",
+    field: "Gender",
     type: "string",
-    headerName: "Email",
-    width: 200,
+    headerName: "Gender",
+    flex: 2,
+    displayInForm: true,
   },
   {
-    field: "phone",
+    field: "IdCardNumber",
+    type: "string",
+    headerName: "IdCard",
+    flex: 2,
+    displayInForm: true,
+  },
+  {
+    field: "JoinDate",
+    type: "string",
+    headerName: "Join Date",
+    flex: 4,
+    displayInForm: true,
+  },
+  {
+    field: "PhoneNumber",
     type: "string",
     headerName: "Phone",
-    width: 200,
+    flex: 3,
+    displayInForm: true,
   },
   {
-    field: "createdAt",
-    headerName: "Created At",
-    width: 200,
+    field: "Posistion",
+    headerName: "Posistion",
+    flex: 3,
     type: "string",
+    displayInForm: true,
   },
   {
-    field: "salary",
-    headerName: "Salary",
-    width: 150,
+    field: "Status",
+    headerName: "Status",
+    flex: 2,
     type: "string",
+    displayInForm: false,
   },
 ];
 
 const staffs = () => {
   const [open,setOpen] = useState(false)
+
+  const dataTableColumns = columns.filter(
+    (column) => ( column.field !== "Birthday" && column.field !== "IdCardNumber" )
+  );
+
+  const addStaffColumns = columns.filter(
+    (column) => column.displayInForm 
+  )
+
   return (
     <div className='staffs'>
       <div className="info">
         <h1>Users</h1>
         <button onClick={() => setOpen(true)}>Add New Staff</button>
       </div>
-      <DataTable columns={columns} rows={userRows} slug='staffs'/>
-      {open && <AddStaff slug='staffs' columns={columns} setOpen={setOpen}/>}
+      <DataTable columns={dataTableColumns} rows={userRows} slug='staffs'/>
+      {open && <AddStaff slug='staffs' columns={addStaffColumns} setOpen={setOpen}/>}
     </div>
   )
 }

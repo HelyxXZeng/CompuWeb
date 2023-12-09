@@ -26,6 +26,7 @@ import SpecificationSingle from "../../components/singles/specificationSingle/Sp
 import specificationApi from "../../api/specificationApi";
 import PriceSingle from "../../components/singles/priceSingle/PriceSingle";
 import priceApi from "../../api/priceApi";
+import ProductTable from "../../components/tables/productTable/ProductTable";
 
 interface Props {
     type: string,
@@ -90,7 +91,7 @@ const Single = ({ type, isNew }: Props) => {
 
 
             setEditRow(data)
-            // console.log("This is data: ", data)
+            console.log("This is data: ", data)
             setIsDoneFetch(true)
         }
         if (isNew === 'update') {
@@ -105,7 +106,7 @@ const Single = ({ type, isNew }: Props) => {
             case 'category':
                 return <CategorySingle category={editRow!} />;
             case 'product':
-            // return <ProductTable rows={rows} />;
+                return <ProductTable rows={editRow!} />;
             case 'customer':
                 return <CustomerSingle customer={editRow!} />
             case 'order':

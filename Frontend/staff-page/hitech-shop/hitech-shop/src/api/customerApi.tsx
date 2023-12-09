@@ -15,7 +15,7 @@ const customerApi = {
         return axiosClient.get(url);
     },
     get: (id: any) => {
-        const url = '/customers/GetCustomerById?id=' + id;
+        const url = '/customers/GetCustomerById/' + id;
         return axiosClient.get(url);
     },
 
@@ -39,7 +39,7 @@ const customerApi = {
 
     remove: async (id: number) => {
         try {
-            const response = await axiosClient.delete(`/customers/Delete?id=${id}`);
+            const response = await axiosClient.delete(`/customers/Delete/${id}`);
             return response.data;
         } catch (error) {
             throw error;

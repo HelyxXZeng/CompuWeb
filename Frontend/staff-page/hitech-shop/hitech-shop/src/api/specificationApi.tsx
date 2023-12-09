@@ -12,7 +12,7 @@ const specificationApi = {
         return axiosClient.get(url);
     },
     get: (id: any) => {
-        const url = '/specifications/GetSpecificationById?id=' + id;
+        const url = '/specifications/GetSpecificationById/' + id;
         return axiosClient.get(url);
     },
 
@@ -37,7 +37,7 @@ const specificationApi = {
 
     remove: async (id: number) => {
         try {
-            const response = await axiosClient.delete(`/specifications/Delete?id=${id}`);
+            const response = await axiosClient.delete(`/specifications/Delete/${id}`);
             return response.data;
         } catch (error) {
             throw error;

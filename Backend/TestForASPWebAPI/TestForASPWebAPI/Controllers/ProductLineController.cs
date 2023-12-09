@@ -64,6 +64,7 @@ namespace TestForASPWebAPI.Controllers
                 {
                     foreach (DataRow row in data.Rows)
                     {
+
                         var ProductImage = new ProductImage()
                         {
                             Id = (int)row["Id"],

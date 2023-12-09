@@ -1,25 +1,23 @@
-import './productTable.scss'
-import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
-import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
-import { useState, useEffect } from 'react';
-import actionColumn from '../datatable/DataTable';
+import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
+import { useEffect, useState } from 'react';
+import '../datatable/datatable.scss'
 // import { handleDelete, handleView, actionColumn } from '../datatable/DataTable';
 
 const ALL = "All"
 
 const columns: GridColDef[] = [
     {
-        field: 'id', headerName: 'ID'
+        field: 'id', headerName: 'ID', width: 60
     },
     {
-        field: 'categoryName', headerName: 'Category', width: 150
+        field: 'categoryName', headerName: 'Category', flex: 2
     },
     {
-        field: 'name', headerName: 'Name', width: 300
+        field: 'name', headerName: 'Name', flex: 4,
     },
     {
-        field: 'numberInStock', headerName: 'Quantity',
+        field: 'numberInStock', headerName: 'Quantity', flex: 1,
         renderCell: (params) => {
             return (
                 <div className="quantityCell">
@@ -29,7 +27,7 @@ const columns: GridColDef[] = [
         },
     },
     {
-        field: 'price', headerName: 'Price',
+        field: 'price', headerName: 'Price', flex: 2,
         renderCell: (params) => {
             return (
                 <div className="priceCell">
@@ -55,18 +53,6 @@ const ProductTable: React.FC<ProductTableProps> = ({ rows }) => {
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
     const [selectedCategory, setSelectedCategory] = useState(ALL);
-
-    const handleDelete = (rowId: number) => {
-        const isConfirmed = window.confirm('Are you sure you want to delete this row?');
-        if (isConfirmed) {
-            // Perform the deletion action here
-            console.log('Deleting row with ID:', rowId);
-        }
-    };
-
-    const handleView = (rowId: number) => {
-        console.log('Viewing row with ID:', rowId);
-    };
 
     const handleInput = (event: any) => {
         setQuery(event.target.value);
@@ -98,16 +84,13 @@ const ProductTable: React.FC<ProductTableProps> = ({ rows }) => {
     }, [query, selectedCategory, rows]);
 
     return (
-        <div className='product-datatable'>
+        <div className='datatable'>
             <div className="datatableTitle">
-                Products
+                Product Overview
                 <div className="search">
                     <input type='text' placeholder='Search...' value={query} onChange={(e) => handleInput(e)} />
                     <SearchIcon />
                 </div>
-                {/* <Link to="/products/new" className='link'>
-                    Add New
-                </Link> */}
                 <div style={{ width: 10 }}></div>
             </div>
 
@@ -123,7 +106,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ rows }) => {
             <DataGrid
                 className='datagrid'
                 rows={displayedRows}
-                columns={columns.concat(actionColumn(handleDelete, handleView))}
+                columns={columns}
                 initialState={{
                     pagination: {
                         paginationModel: { page: 0, pageSize: 5 },

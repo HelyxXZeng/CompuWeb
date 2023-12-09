@@ -1,0 +1,105 @@
+.wrapper {
+    padding: 50px 0 30px;
+    border-bottom: 1px solid #eee;
+
+    .inner {
+        display: grid;
+        grid-template-columns: 2fr 4fr;
+        gap: 20px;
+        position: relative;
+
+        .remove-cartItem-btn {
+            position: absolute;
+            top: -37px;
+            right: -5px;
+            background: transparent;
+            .remove-icon {
+                font-size: 2.7rem;
+                color: #222222;
+            }
+        }
+        .prod-image {
+            img {
+                width: 100%;
+            }
+
+            .quantity {
+                margin-top: 15px;
+                text-align: center;
+
+                .number-span {
+                    border: 1px solid #ededed;
+                    border-radius: 3px;
+                    background: #fff;
+                    display: inline-flex;
+                    appearance: textfield;
+                    .minus-btn,
+                    .plus-btn {
+                        width: 30px;
+                        height: 30px;
+                        cursor: pointer;
+                        background: #fff;
+                        text-align: center;
+
+                        &:hover {
+                            .icon-btn {
+                                color: #f9920f;
+                            }
+                        }
+                    }
+                    .number-input {
+                        font-family: bold;
+                        border-right: 1px solid #ededed;
+                        border-left: 1px solid #ededed;
+                        width: 30px;
+                        height: 30px;
+                        color: #747474;
+                        font-size: 15px;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+
+        .prod-detail {
+            .title {
+                margin-bottom: 10px;
+                font-family: bold;
+                font-size: 15px;
+                color: #595959;
+                line-height: 1.8rem;
+                display: block;
+                text-align: justify;
+
+                &:hover {
+                    color: #f9920f;
+                }
+            }
+            .price {
+                display: flex;
+
+                p {
+                    margin: 0;
+                }
+
+                .price-new {
+                    color: #ff6700;
+                    font-family: bold;
+                    margin-right: 10px;
+                    font-size: 15px;
+                    display: flex;
+                    align-items: center;
+                }
+                .price-old {
+                    text-decoration: line-through;
+                    font-family: medium;
+                    color: #bbb;
+                    font-size: 10px;
+                    display: flex;
+                    align-items: center;
+                    //line-height: 24px;
+                }
+            }
+        }
+    }
+}

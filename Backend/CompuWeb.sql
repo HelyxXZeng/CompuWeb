@@ -1,7 +1,7 @@
 ﻿create database CompuWeb
-
+go
 use CompuWeb
-
+go
 -- Create the Sản phẩm table
 CREATE TABLE Category (
    Id INT IDENTITY(1,1) PRIMARY KEY,
@@ -269,5 +269,8 @@ join Orders o on o.CustomerId = c.Id
 join OrderItem oi on oi.OrderId = o.Id
 join Rating r on r.OrderItemId = oi.Id
 where r.Id = 1
+<<<<<<< HEAD
 
 select * from Specification where SpecificationTypeId = 1
+=======
+>>>>>>> 9268a8b26712f6bd15524eac20cbb00c116f8c78
