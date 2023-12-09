@@ -18,7 +18,8 @@ const initProductLine = {
     brandId: 0,
     releaseDate: '2020-01-01',
     warranty: 0,
-    description: ''
+    description: '',
+    images: []
 }
 
 const fetchBrands = async () => {
@@ -40,8 +41,7 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
     const [productLine, setProductLine] = useState<ProductLine>(initProductLine);
     const [brands, setBrands] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [imageFiles, setImageFiles] = useState<File[]>([]);
-
+    const [imageFiles, setImageFiles] = useState<string[]>([]);
 
     useEffect(() => {
         if (para.productLine !== null) {
@@ -51,6 +51,11 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
                 releaseDate: para.productLine.releaseDate.split('T')[0]
             }
             setProductLine(updateProductLine);
+            // setImageFiles(para.productLine.images)
+            const imageArray = para.productLine.images.map((item: any) => item.image);
+
+            // console.log('Here are full images', imageArray)
+            setImageFiles(imageArray)
         }
     }, [para.productLine]);
 
@@ -72,7 +77,7 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
         if (newValue) {
             setProductLine((prevProductLine) => ({ ...prevProductLine, brandId: newValue.id }));
         }
-        console.log('New Value: ', newValue)
+        // console.log('New Value: ', newValue)
     };
 
     const handleCategoryChange = (
@@ -89,9 +94,28 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
 
         if (files) {
             const fileList = Array.from(files);
-            setImageFiles(fileList);
+
+            // Using Promise.all to handle asynchronous operations
+            Promise.all(
+                fileList.map((file) => {
+                    return new Promise<string>((resolve) => {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            // 'event.target.result' contains the base64 encoded string
+                            if (event.target && event.target.result) {
+                                resolve(event.target.result.toString());
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                })
+            ).then((base64Strings) => {
+                // Now 'base64Strings' is an array of base64 encoded strings
+                setImageFiles(base64Strings);
+            });
         }
     };
+
 
     const handleRemoveImage = (index: number) => {
         const updatedImages = [...imageFiles];
@@ -107,11 +131,12 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
         const { name, value } = e.target;
         // console.log('This is input name', name)
         // console.log('This is input value', value)
+        if (name === 'warranty') {
+            setProductLine((prevProductLine) => ({ ...prevProductLine, [name]: Number.parseInt(value) }));
+        } else {
+            setProductLine((prevProductLine) => ({ ...prevProductLine, [name]: value }));
+        }
 
-        if (name === 'releaseDate')
-            console.log('this is value from product line', value)
-        setProductLine((prevProductLine) => ({ ...prevProductLine, [name]: value }));
-        // console.log('Product Line: ', productLine)
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -119,13 +144,27 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
 
         try {
             if (para.productLine === null) {
-                await productLineApi.add(productLine);
+                const imageList = imageFiles.map((image: any) => ({
+                    id: 0,
+                    image: image,
+                    name: 'Image Name',
+                    productLineId: 0,
+                }))
+
+                const imageData = {
+                    ...productLine,
+                    images: imageList
+                }
+                console.log('ImageData', imageData)
+                productLineApi.add(imageData);
             } else {
-                await productLineApi.update(productLine.id, productLine);
+                const data = await productLineApi.update(productLine.id, productLine);
+                console.log('Data returned', data)
             }
 
             // Reset the form
             setProductLine(initProductLine);
+            setImageFiles([])
 
             alert("Successfully Uploaded!");
         } catch (error) {
@@ -205,22 +244,15 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
                         required
                     />
                 </label>
-                {/* Display the placeholder image */}
+
                 <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                     {imageFiles.map((file, index) => (
                         <div key={index} style={{ marginRight: '10px', marginBottom: '10px', position: 'relative' }}>
                             <img
-                                src={URL.createObjectURL(file)}
+                                src={file}
                                 alt={`Image ${index + 1}`}
                                 style={{ width: '100px', height: '100px', objectFit: 'cover' }}
                             />
-                            {/* <button
-                                type="button"
-                                onClick={() => handleRemoveImage(index)}
-                                style={{ position: 'absolute', top: '5px', right: '5px', background: 'none', border: 'none', cursor: 'pointer' }}
-                            >
-                                Remove
-                            </button> */}
 
                             <Button variant="outlined" startIcon={<DeleteIcon />}
                                 onClick={() => handleRemoveImage(index)}
@@ -230,7 +262,6 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
                         </div>
                     ))}
                 </div>
-
 
 
                 <label htmlFor="description">Description:</label>

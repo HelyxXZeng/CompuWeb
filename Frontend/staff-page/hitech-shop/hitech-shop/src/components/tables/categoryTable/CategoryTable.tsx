@@ -12,10 +12,10 @@ interface CategoryTableProps {
 
 const columns: GridColDef[] = [
     {
-        field: 'id', headerName: 'ID'
+        field: 'id', headerName: 'ID', width: 60
     },
     {
-        field: 'name', headerName: 'Name', width: 400
+        field: 'name', headerName: 'Name', flex: 5
     }
 ]
 

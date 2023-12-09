@@ -12,21 +12,21 @@ export type Status = 'checking' | 'authenticated' | 'no-authenticated'
 
 export const AppRouter = () => {
 
-    const phoneExists = (phoneNumber: any) => {
-        return staffApi
-            .getAll({ _page: 1, _limit: 100000 })
-            .then(({ data }) => {
-                if (data) {
-                    const filteredRows = data.filter((row: any) => {
-                        return row.phoneNumber === phoneNumber
-                    }
-                    );
-                    return filteredRows.length > 0;
-                }
-                return false;
-            })
-            .catch((error) => false);
-    };
+    // const phoneExists = (phoneNumber: any) => {
+    //     return staffApi
+    //         .getAll({ _page: 1, _limit: 100000 })
+    //         .then(({ data }) => {
+    //             if (data) {
+    //                 const filteredRows = data.filter((row: any) => {
+    //                     return row.phoneNumber === phoneNumber
+    //                 }
+    //                 );
+    //                 return filteredRows.length > 0;
+    //             }
+    //             return false;
+    //         })
+    //         .catch((error) => false);
+    // };
 
     const [status, setStatus] = useState<Status>('no-authenticated');
     const updateAuthenticationStatus = (newStatus: Status) => {
@@ -39,7 +39,7 @@ export const AppRouter = () => {
     useEffect(() => {
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                phoneExists(user.phoneNumber).then((exists) => {
+                staffApi.authenticate(user.phoneNumber).then((exists) => {
                     if (exists) {
                         // console.log('Will be authenticated')
                         updateAuthenticationStatus('authenticated');
@@ -48,6 +48,15 @@ export const AppRouter = () => {
                         updateAuthenticationStatus('no-authenticated');
                     }
                 });
+                // phoneExists(user.phoneNumber).then((exists) => {
+                //     if (exists) {
+                //         // console.log('Will be authenticated')
+                //         updateAuthenticationStatus('authenticated');
+                //     } else {
+                //         // console.log('Will be no-authenticated (user exist, not phone)')
+                //         updateAuthenticationStatus('no-authenticated');
+                //     }
+                // });
             } else {
                 // console.log('Will be no-authenticated')
                 updateAuthenticationStatus('no-authenticated');

@@ -11,7 +11,7 @@ const staffApi = {
         return axiosClient.get(url);
     },
     get: (id: any) => {
-        const url = '/staffs/GetStaff' + id;
+        const url = '/staffs/GetStaff/' + id;
         return axiosClient.get(url);
     },
 
@@ -35,12 +35,22 @@ const staffApi = {
 
     remove: async (id: number) => {
         try {
-            const response = await axiosClient.delete(`/staffs/Delete?id=/${id}`);
+            const response = await axiosClient.delete(`/staffs/Delete/${id}`);
             return response.data;
         } catch (error) {
             throw error;
         }
-    }
+    },
+
+    authenticate: (phoneNumber: any) => {
+        const url = '/DTOController/AuthenticateStaff/' + phoneNumber;
+        return axiosClient.get(url);
+    },
+
+    getAvatar: (phoneNumber: any) => {
+        const url = '/DTOController/GetStaffAvatar/' + phoneNumber;
+        return axiosClient.get(url);
+    },
 }
 
 export default staffApi;

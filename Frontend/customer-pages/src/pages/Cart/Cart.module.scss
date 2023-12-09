@@ -1,0 +1,382 @@
+.wrapper {
+    margin-top: 20px;
+    display: flex;
+    gap: 2.5%;
+    margin-bottom: 30px;
+
+    //Information order
+    .infor-form {
+        width: 63.5%;
+
+        //collapse button
+        .customer-infor,
+        .payment-method-infor {
+            .collapse-btn {
+                display: flex;
+                background-color: transparent;
+                width: 100%;
+                font-size: 16px;
+                font-family: bold;
+                color: #3a3a3a;
+                position: relative;
+                padding: 16px 0;
+                line-height: 100%;
+                .icon {
+                    font-size: 3rem;
+                    position: absolute;
+                    top: 10px;
+                    right: -30px;
+                }
+            }
+        }
+
+        .customer-infor {
+            box-shadow: 0 0 10px 0 #ddd;
+            background: #fff;
+            padding: 0 45px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+
+            .input-list {
+                padding-bottom: 20px;
+                //
+                display: none;
+                visibility: hidden;
+                transition: all 0.3s ease-in-out;
+                transition-delay: 0.1s;
+
+                &.open {
+                    display: block;
+                    visibility: visible;
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+
+                label {
+                    cursor: pointer;
+                    display: inline-flex;
+                    align-items: center;
+                    margin-right: 25px;
+                    margin-bottom: 5px;
+                    input {
+                        height: 15px;
+                        width: 15px;
+                    }
+                    span {
+                        margin-left: 5px;
+                    }
+                    &:hover {
+                        color: #2e6ed5;
+                    }
+                }
+                .purchase-method {
+                    margin-top: 11px;
+                    h3 {
+                        color: #7f7f7f;
+                        margin-bottom: 10px;
+                        font-size: 15px;
+                        font-family: bold;
+                    }
+                    .type-receive {
+                        input {
+                            display: none;
+                        }
+                        .btn-type {
+                            //active
+                            border: 1px solid #0079f2;
+                            //
+                            margin-left: 0;
+                            border-radius: 10px;
+                            padding: 15px 20px;
+                            background: #f8fafc;
+                            font-family: bold;
+                            color: #3a3a3a;
+                            font-size: 15px;
+                            line-height: 0;
+                            display: flex;
+                            align-items: center;
+                            .btn-type-icon {
+                                font-size: 2rem;
+                                margin-right: 10px;
+                            }
+                        }
+                    }
+                }
+
+                .gender {
+                    margin-top: 15px;
+                    span {
+                        font-size: 15px;
+                        font-family: bold;
+                    }
+                }
+                .main-infor {
+                    margin-top: 15px;
+                    display: flex;
+                    gap: 20px;
+
+                    .mi-col {
+                        flex: 50%;
+                        .mi-row {
+                            margin-bottom: 20px;
+                            position: relative;
+                            p {
+                                color: #7f7f7f;
+                                font-family: bold;
+                                margin-bottom: 8px;
+                                font-size: 15px;
+                            }
+                            .form-control {
+                                font-size: 16px;
+                                font-family: medium;
+                                height: 52px;
+                                border: 1px solid #ddd;
+                                border-radius: 5px;
+                                padding: 5px 20px;
+                                width: 100%;
+                                color: #555;
+
+                                &:focus {
+                                    border-color: #66afe9;
+                                    outline: 0;
+                                    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
+                                        0 0 8px rgba(102, 175, 233, 0.6);
+                                    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+                                }
+                            }
+                        }
+                    }
+
+                    .mi-col {
+                        .col-l {
+                            .row-l-2 {
+                                select {
+                                    font-size: 16px;
+                                    font-family: medium;
+                                    height: 52px;
+                                    border: 1px solid #ddd;
+                                    border-radius: 5px;
+                                    padding: 5px 20px;
+                                    width: 100%;
+                                    color: #999;
+                                }
+                            }
+
+                            .row-l-3 {
+                            }
+                        }
+                        .col-r {
+                        }
+                    }
+                }
+                .type-address {
+                    margin-bottom: 20px;
+                    p {
+                        color: #7f7f7f;
+                        font-family: bold;
+                        margin-bottom: 10px;
+                        font-size: 15px;
+                    }
+                    span {
+                        font-family: bold;
+                        font-size: 14px;
+                    }
+                }
+                .request-other {
+                    margin-bottom: 20px;
+                    .note {
+                        font-family: medium;
+                        font-size: 14px;
+                        height: 60px;
+                        background-color: #fff;
+                        border: 1px solid #ddd;
+                        border-radius: 5px;
+                        padding: 5px 20px;
+                        width: 100%;
+                        color: #555;
+
+                        &:focus {
+                            border-color: #66afe9;
+                            outline: 0;
+                            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+                            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+                        }
+                    }
+                }
+            }
+        }
+
+        .payment-method-infor {
+            box-shadow: 0 0 10px 0 #ddd;
+            background: #fff;
+            padding: 0 45px;
+            border-radius: 10px;
+
+            .pMethod-content {
+                margin-top: 15px;
+                padding-bottom: 20px;
+
+                //
+                display: none;
+                visibility: hidden;
+                transition: all 0.3s ease-in-out;
+                transition-delay: 0.1s;
+
+                &.open {
+                    display: block;
+                    visibility: visible;
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+
+                .pMethod-list {
+                    display: flex;
+                    gap: 20px;
+                    .pmList-col {
+                        flex: 50%;
+                        .pml-row {
+                            label {
+                                //active
+                                border: 1px solid #0079f2;
+                                //
+                                border: 1px solid #979797;
+                                margin-bottom: 20px;
+                                padding: 15px 10px;
+                                border-radius: 10px;
+
+                                display: flex;
+                                align-items: center;
+
+                                &:hover {
+                                    color: #2e6ed5;
+                                }
+
+                                input {
+                                    height: 15px;
+                                    width: 15px;
+                                }
+
+                                span {
+                                    font-family: bold;
+                                    font-size: 14px;
+                                    margin-left: 5px;
+
+                                    .pMethod-icon {
+                                        font-size: 2.5rem;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //CartItem
+    .products-col {
+        width: 34%;
+        position: relative;
+        .cartItem-content {
+            box-shadow: 0 0 10px 0 #ddd;
+            border-radius: 10px;
+            padding: 0px 20px;
+            background: #fff;
+
+            //
+            // position: sticky;
+            // left: 0;
+            // top: 90px;
+            // height: 100vh;
+            h3 {
+                font-family: bold;
+                font-size: 16px;
+                padding: 16px 0;
+                color: #3a3a3a;
+                line-height: 100%;
+                padding-left: 20px;
+                border-bottom: 1px solid #eee;
+            }
+            .cartItem-list {
+            }
+
+            .calculate-price {
+                padding: 20px 0;
+                border-bottom: 1px solid #ccc;
+                p {
+                    display: flex;
+                    color: #7f7f7f;
+                    font-family: medium;
+                    justify-content: space-between;
+                    font-size: 14px;
+                    span {
+                        font-size: 16px;
+                        color: #606060;
+                        font-family: bold;
+                    }
+                }
+            }
+
+            .payment {
+                .p-total-final {
+                    display: flex;
+                    justify-content: space-between;
+                    color: #3a3a3a;
+                    font-family: bold;
+                    padding: 25px 0;
+                    font-size: 20px;
+                    text-transform: uppercase;
+                    line-height: 20px;
+                    .total-final {
+                        color: #ff6700;
+                    }
+                }
+                .btn-confirm-order {
+                    padding: 0 40px 40px;
+
+                    .btn-a {
+                        padding: 12px 10px;
+                        font-size: 20px;
+                        font-family: bold;
+                        border-radius: 10px;
+                        flex-wrap: wrap;
+                        text-transform: uppercase;
+                        text-align: center;
+                        color: #fff;
+                        background: -webkit-linear-gradient(left, #098bf6, #3298ec);
+                        display: flex;
+                        justify-content: center;
+
+                        //tại sao lại display flex mới rộng ra
+                    }
+
+                    .p-text-term {
+                        position: relative;
+                        margin-top: 20px;
+                        padding-left: 20px;
+                        .span-check {
+                            position: absolute;
+                            top: 2px;
+                            left: 0;
+                            input {
+                                cursor: pointer;
+                                width: 16px;
+                                height: 16px;
+                            }
+                        }
+
+                        .span-term {
+                            font-family: medium;
+                            color: #7f7f7f;
+                            font-size: 14px;
+                            a {
+                                text-decoration: revert;
+                                color: #098bf6;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

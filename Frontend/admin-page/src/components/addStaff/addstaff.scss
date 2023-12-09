@@ -35,6 +35,15 @@
         flex-wrap: wrap;
         max-width: 500px;
         justify-content: space-between;
+
+        .invalid{
+          label{
+            color: red;
+          }
+           input{
+            border-color: red;
+           }
+        }
   
         .item {
           width: 40%;
@@ -42,7 +51,7 @@
           flex-direction: column;
           gap: 10px;
           margin-bottom: 20px;
-  
+          
           label {
             font-size: 14px;
           }
@@ -54,6 +63,29 @@
             outline: none;
             border: 1px solid $soft-color;
             border-radius: 3px;
+            &:not(.invalid) + label {
+              color: white;
+            }
+          }
+        }
+
+        .datepicker{
+          background-color: $main-bg;
+          color: white;
+        }
+
+        .image-upload {
+          width: 100%; // Set width to 100% to take the full width of the form
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          
+          .preview-container {
+            margin-top: 10px;
+            img {
+              width: 100px; // Adjust the width of the preview image as needed
+              height: auto;
+            }
           }
         }
         button {

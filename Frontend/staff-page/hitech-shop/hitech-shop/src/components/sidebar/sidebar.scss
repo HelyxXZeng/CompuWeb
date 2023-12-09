@@ -47,7 +47,7 @@
             display: flex;
             align-items: center;
             margin-top: 15px;
-            padding: 0;
+            padding: 5px;
             cursor: pointer;
 
             &:hover {
@@ -100,4 +100,31 @@
     margin-top: 15px;
     margin-left: 15px;
     margin-right: 0;
+}
+
+
+@media (max-width: 768px) {
+
+    /* Styles for tablets and smaller screens */
+    .sidebar {
+        width: 100%;
+    }
+
+    .icon {
+        font-size: 20px;
+    }
+
+    span {
+        font-size: 14px;
+    }
+}
+
+
+
+@media (max-width: 480px) {
+
+    /* Styles for mobile devices */
+    .sidebar {
+        padding-right: 5px;
+    }
 }

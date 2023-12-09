@@ -1,4 +1,5 @@
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import BusinessIcon from '@mui/icons-material/Business';
 import CategoryIcon from '@mui/icons-material/Category';
 import DevicesIcon from '@mui/icons-material/Devices';
@@ -8,9 +9,7 @@ import LooksOneIcon from '@mui/icons-material/LooksOne';
 import MemoryIcon from '@mui/icons-material/Memory';
 import PaymentIcon from '@mui/icons-material/Payment';
 import PeopleIcon from '@mui/icons-material/People';
-import ReorderIcon from '@mui/icons-material/Reorder';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DarkModeContext } from '../../context/darkModeContext';
 import './sidebar.scss';
@@ -25,12 +24,25 @@ const Sidebar = () => {
     };
 
 
+
+    useEffect(() => {
+        const checkScreenSize = () => {
+            setIsSidebarOpen(!(window.innerWidth <= 768));
+        };
+        setIsSidebarOpen(!(window.innerWidth <= 768));
+
+        window.addEventListener('resize', checkScreenSize);
+
+        return () => window.removeEventListener('resize', checkScreenSize);
+    }, []);
+
     return (
         <>
             {isSidebarOpen &&
                 (
                     <>
                         <div className="sidebar">
+
                             <div className="top">
                                 <Link to='/' style={{ textDecoration: 'none' }}>
                                     <span className="logo">
@@ -53,7 +65,7 @@ const Sidebar = () => {
                                         <Link to='/products' style={{ textDecoration: 'none' }}>
                                             <li>
                                                 <LaptopIcon className='icon' />
-                                                <span>Products</span>
+                                                <span>Product Overview</span>
                                             </li>
                                         </Link>
                                         <Link to='/productLines' style={{ textDecoration: 'none' }}>
@@ -128,9 +140,11 @@ const Sidebar = () => {
 
                     </>
                 )}
-            <ReorderIcon className="toggle-button" onClick={toggleSidebar}>
-                Toggle Sidebar
-            </ReorderIcon>
+
+            <div className="toggle-button" onClick={toggleSidebar}>
+                &#9776; {/* Hamburger menu icon */}
+            </div>
+
         </>
 
     )

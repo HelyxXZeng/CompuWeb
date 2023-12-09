@@ -1,7 +1,7 @@
 ﻿create database CompuWeb
-
+go
 use CompuWeb
-
+go
 -- Create the Sản phẩm table
 CREATE TABLE Category (
    Id INT IDENTITY(1,1) PRIMARY KEY,
