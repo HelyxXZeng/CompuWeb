@@ -1,6 +1,6 @@
 import { GridColDef } from "@mui/x-data-grid";
 import "./addPromotion.scss"
-import { TextareaAutosize, ThemeProvider, createTheme } from "@mui/material";
+import { MenuItem, Select, TextareaAutosize, ThemeProvider, createTheme } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useState } from "react";
@@ -29,6 +29,7 @@ const AddPromotion = (props: Props) => {
   const [SValue, setSValue] = useState<Dayjs | null>(dayjs('2023-11-27'));
   const [validation, setValidation] = useState<Record<string, boolean>>({});
   const [EValue, setEValue] = useState<Dayjs | null>(dayjs('2023-11-27'));
+  const [StatusValue, setStatusValue] = useState('');
 
     const handleValidation = () => {
         const newValidation: Record<string, boolean> = {};
@@ -40,10 +41,10 @@ const AddPromotion = (props: Props) => {
             } 
                 
             const inputValue = document.querySelector(`input[name="${column.field}"], select[name="${column.field}"]`)?.value || '';
-            /* if (column.field === 'Gender') {
-                newValidation[column.field] = genderValue.trim() !== '';
+            if (column.field === 'Status') {
+                newValidation[column.field] = StatusValue.trim() !== '';
             } 
-            else */  newValidation[column.field] = inputValue.trim() !== '';
+            else newValidation[column.field] = inputValue.trim() !== '';
         });
         
         setValidation(newValidation);
@@ -107,8 +108,7 @@ const AddPromotion = (props: Props) => {
                                     className={`item ${
                                       validation[column.field] === false ? "invalid" : ""
                                     } ${column.field === "Name" ? "name-content-row" : ""}
-                                    ${column.field === "Content" ? "name-content-row" : ""}
-                                    ${column.field === "Value" ? "value-row" : ""}`}
+                                    ${column.field === "Content" ? "name-content-row" : ""}`}
                                     key={column.field}
                                   >
                                         <label>{column.headerName}</label>
@@ -125,6 +125,19 @@ const AddPromotion = (props: Props) => {
                                                   onChange={(newValue) => setEValue(newValue)}
                                               />
                                           )}
+                                          {column.field === 'Status' && (
+                                            <Select
+                                            value={StatusValue}
+                                            onChange={(event) => setStatusValue(event.target.value as string)}
+                                            sx={{ width: '100%', height: '40px' }}
+                                            >
+                                            <MenuItem value="ACTIVE">ACTIVE</MenuItem>
+                                            <MenuItem value="CANCELED">CANCELED</MenuItem>
+                                            <MenuItem value="OUTOFSTOCK">OUTOFSTOCK</MenuItem>
+                                            <MenuItem value="OUTDATED">OUTDATED</MenuItem>
+                                            <MenuItem value="NOTREADY">NOTREADY</MenuItem>
+                                            </Select>
+                                        )}
                                           {column.field === "Content" && (
                                             <TextareaAutosize
                                                 placeholder={column.field}
@@ -135,7 +148,7 @@ const AddPromotion = (props: Props) => {
                                             />
                                           )}
                                         {column.field !== 'StartDate' && column.field !== 'EndDate' &&
-                                          column.field !== 'Content' && (
+                                          column.field !== 'Content' && column.field != 'Status' && (
                                             <input type={column.type} placeholder={column.field} name={column.field} />
                                         )}
                                         

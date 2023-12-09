@@ -46,16 +46,16 @@ const columns: GridColDef[] = [
     type: "string",
   },
   {
-    field: "Content",
-    type: "string",
-    headerName: "Content",
-    flex: 3,
-  },
-  {
     field: "Status",
     headerName: "Status",
     flex: 2,
     type: "string",
+  },
+  {
+    field: "Content",
+    type: "string",
+    headerName: "Content",
+    flex: 3,
   },
 ];
 
@@ -67,7 +67,7 @@ const Promotions = () => {
   );
 
   const addPromotionColumns = columns.filter(
-    (column) => ( column.field != "Id" && column.field !== "Status" )
+    (column) => ( column.field != "Id" )
   )
 
   
