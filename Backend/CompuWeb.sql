@@ -239,3 +239,33 @@ select * from OrderItem
 drop database CompuWeb
 
 select MAX(Id) from Orders
+
+select * from ProductVariant
+ 
+select * from Specification
+
+SELECT r.*
+FROM Rating r
+JOIN OrderItem oi ON r.OrderItemId = oi.Id
+JOIN ProductInstance pi ON oi.ProductInstanceId = pi.Id
+JOIN ProductVariant pv ON pi.ProductVariantId = pv.Id
+WHERE pv.Id = 1;
+
+select i.*
+from ProductImage i
+join ProductLine pl on i.ProductLineId = pl.Id
+join ProductVariant pv on pv.ProductLineId = pl.Id
+where pv.Id = 1
+
+select pv1.*
+from ProductVariant pv1 
+join ProductLine pl on pv1.ProductLineId = pl.Id
+join ProductVariant pv2 on pv2.ProductLineId = pl.Id
+where pv2.Id = 1 and pv1.Id <> 1
+
+select Name
+from Customer c
+join Orders o on o.CustomerId = c.Id
+join OrderItem oi on oi.OrderId = o.Id
+join Rating r on r.OrderItemId = oi.Id
+where r.Id = 1
