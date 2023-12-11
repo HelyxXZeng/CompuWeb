@@ -6,4 +6,4 @@ const PromotionInfo = () => {
   )
 }
 
-export default PromotionInfo
+export default PromotionInfo 
