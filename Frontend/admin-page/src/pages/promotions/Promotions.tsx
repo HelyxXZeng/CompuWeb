@@ -28,22 +28,16 @@ const columns: GridColDef[] = [
     flex: 4,
   },
   {
-    field: "PVP",
+    field: "Purchase",
     type: "string",
     headerName: "Product Variant Purchase",
     flex: 5,
   },
   {
-    field: "PVPr",
+    field: "Promotion",
     type: "string",
     headerName: "Product Variant Promotion",
     flex: 5,
-  },
-  {
-    field: "Content",
-    type: "string",
-    headerName: "Content",
-    flex: 3,
   },
   {
     field: "Value",
@@ -57,6 +51,12 @@ const columns: GridColDef[] = [
     flex: 2,
     type: "string",
   },
+  {
+    field: "Content",
+    type: "string",
+    headerName: "Content",
+    flex: 3,
+  },
 ];
 
 const Promotions = () => {
@@ -67,7 +67,7 @@ const Promotions = () => {
   );
 
   const addPromotionColumns = columns.filter(
-    (column) => column.field != "Id"
+    (column) => ( column.field != "Id" )
   )
 
   
