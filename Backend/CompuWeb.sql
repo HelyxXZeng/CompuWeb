@@ -225,18 +225,52 @@ alter table ProductImage
 alter column Url NVARCHAR(MAX)
 ---
 
---use CompuWeb
---ALTER TABLE Customer ALTER COLUMN Name NVARCHAR(50) COLLATE Vietnamese_CI_AS;
---select * from Customer
---insert into Customer (Name, PhoneNumber, Birthdate, JoinDate) VALUES (N'Nguyễn Văn A', '0123456789', '2000-11-26', '2023-11-16')
---alter table ProductInstance
---alter column Status NVARCHAR(150)
---select count(*) as ColumnCount from Category where Id = 1 and Name = 'Hi'
---select Id, Name from Category
---select * from Price where Status = 'ACTIVE' and ProductVariantId = 1
+use CompuWeb
+ALTER TABLE Customer ALTER COLUMN Name NVARCHAR(50) COLLATE Vietnamese_CI_AS;
+select * from Customer
+insert into Customer (Name, PhoneNumber, Birthdate, JoinDate) VALUES (N'Nguyễn Văn A', '0123456789', '2000-11-26', '2023-11-16')
+alter table ProductInstance
+alter column Status NVARCHAR(150)
+select count(*) as ColumnCount from Category where Id = 1 and Name = 'Hi'
+select Id, Name from Category
+select * from Price where Status = 'ACTIVE' and ProductVariantId = 1
 
---select * from OrderItem
---drop database CompuWeb
+select * from OrderItem
+drop database CompuWeb
 
---select MAX(Id) from Orders
+select MAX(Id) from Orders
 
+select * from ProductVariant
+ 
+select * from Specification
+
+SELECT r.*
+FROM Rating r
+JOIN OrderItem oi ON r.OrderItemId = oi.Id
+JOIN ProductInstance pi ON oi.ProductInstanceId = pi.Id
+JOIN ProductVariant pv ON pi.ProductVariantId = pv.Id
+WHERE pv.Id = 1;
+
+select i.*
+from ProductImage i
+join ProductLine pl on i.ProductLineId = pl.Id
+join ProductVariant pv on pv.ProductLineId = pl.Id
+where pv.Id = 1
+
+select pv1.*
+from ProductVariant pv1 
+join ProductLine pl on pv1.ProductLineId = pl.Id
+join ProductVariant pv2 on pv2.ProductLineId = pl.Id
+where pv2.Id = 1 and pv1.Id <> 1
+
+select Name
+from Customer c
+join Orders o on o.CustomerId = c.Id
+join OrderItem oi on oi.OrderId = o.Id
+join Rating r on r.OrderItemId = oi.Id
+where r.Id = 1
+<<<<<<< HEAD
+
+select * from Specification where SpecificationTypeId = 1
+=======
+>>>>>>> 9268a8b26712f6bd15524eac20cbb00c116f8c78
