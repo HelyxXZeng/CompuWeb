@@ -158,7 +158,21 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
                 console.log('ImageData', imageData)
                 productLineApi.add(imageData);
             } else {
+
+                const imageList = imageFiles.map((image: any) => ({
+                    id: 0,
+                    image: image,
+                    name: 'Image Name',
+                    productLineId: productLine.id,
+                }))
+
+                console.log('productLine wil be uploaded', productLine)
+
+
                 const data = await productLineApi.update(productLine.id, productLine);
+                // const data2 = await productLineApi.updateImages(imageList);
+
+
                 console.log('Data returned', data)
             }
 

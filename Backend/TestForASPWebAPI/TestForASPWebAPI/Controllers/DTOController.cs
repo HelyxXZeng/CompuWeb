@@ -320,7 +320,7 @@ namespace TestForASPWebAPI.Controllers
                 string command = $"INSERT INTO ProductSpecification (ProductVariantId, SpecificationId) VALUES ({thisPVId}, {specification.SpecificationId})";
                 dbController.UpdateData(command);
             }
-            
+
             string CreatePriceCommand = $"INSERT INTO Price (ProductVariantId, StartDate, EndDate, Status, Value) VALUES ({thisPVId}, '{DateTime.Now.ToString("yyyy-MM-dd")}', '2030-12-31', 'ACTIVE', {Price.ToString("0.00")})";
             dbController.UpdateData(CreatePriceCommand);
 

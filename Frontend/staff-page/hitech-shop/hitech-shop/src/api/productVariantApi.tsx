@@ -4,7 +4,13 @@ export interface ProductVariant {
     id: number,
     productLineId: number,
     name: string,
-    specifications: any
+    productSpecifications: any
+}
+
+export interface ProductSpecification {
+    id: number,
+    productVariantId: number,
+    specificationId: number
 }
 
 
@@ -19,9 +25,9 @@ const productVariantApi = {
         return axiosClient.get(url);
     },
 
-    add: async (productVariant: ProductVariant) => {
+    add: async (productVariant: ProductVariant, price: number) => {
         try {
-            const response = await axiosClient.post('/productVariants/Insert', productVariant);
+            const response = await axiosClient.post('/DTOController/CreateProductVariant', { productVariant, price });
             return response.data;
         } catch (error) {
             throw error;
@@ -31,6 +37,15 @@ const productVariantApi = {
     update: async (id: number, updatedProductVariant: ProductVariant) => {
         try {
             const response = await axiosClient.put(`/productVariants/Update?id=${id}`, updatedProductVariant);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    updateSpecifications: async (updatedSpecificationList: ProductSpecification) => {
+        try {
+            const response = await axiosClient.put(`.....`, updatedSpecificationList);
             return response.data;
         } catch (error) {
             throw error;

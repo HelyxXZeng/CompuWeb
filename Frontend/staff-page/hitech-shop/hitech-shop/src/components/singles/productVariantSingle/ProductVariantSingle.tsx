@@ -16,7 +16,7 @@ const initProductVariant: ProductVariant = {
     id: 0,
     productLineId: 0,
     name: '',
-    specifications: [
+    productSpecifications: [
         {
             id: 0,
             productVariantId: 0,
@@ -48,7 +48,7 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
         if (para.productVariant !== null) {
             // console.log('para productVariant', para.productVariant)
             setProductVariant(para.productVariant);
-            setSpecList(para.productVariant.specifications)
+            setSpecList(para.productVariant.productSpecifications)
         }
     }, [para.productVariant]);
 
@@ -106,7 +106,7 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
     const addSpecificationsAutocomplete = () => {
         const newSpecificationAutocompletes = [
             ...specList,
-            { id: 0, productVariantId: 0, specificationId: '' }, // Initial state for the new ProductSpecificationAutocomplete
+            { id: 0, productVariantId: 0, specificationId: 0 }, // Initial state for the new ProductSpecificationAutocomplete
         ];
         setSpecList(newSpecificationAutocompletes);
 
@@ -126,6 +126,7 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
         newData[index] = updatedData;
         setSpecList(newData)
 
+
         console.log('Here are updatedData', updatedData);
         console.log('Here are newValue.id', newValue?.id);
         console.log('Here are specifications', specifications);
@@ -137,9 +138,15 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
 
         try {
             if (para.productVariant === null) {
-                console.log('This is variant will be added', productVariant)
+                let data = { ...productVariant };
+                data.productSpecifications = specList
+                console.log('This is variant will be added', data)
                 console.log('this is specifications', specList)
-                // await productVariantApi.add(productVariant);
+
+                // 1. upload productVariant and get Id returned
+                // 2. Upload price
+
+                await productVariantApi.add(data, price.value);
                 // console.log('Add successfully!', data)
             } else {
                 await productVariantApi.update(productVariant.id, productVariant);
@@ -170,8 +177,10 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
                     getOptionLabel={(option: any) => option.name}
                     value={productLines.find((productLine: any) => productLine.id === productVariant.productLineId) || null}
                     onChange={handleProductLineChange}
-                    renderInput={(params) => <TextField {...params} label="" />}
+                    renderInput={(params) => <TextField {...params} label=""
+                    />}
                 />
+
 
                 <label htmlFor="name">Name:</label>
                 <input
@@ -193,7 +202,7 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
                     required
                 />
 
-                {specList.map((specAutocomplete: any, index: any) => (
+                {specList && specList.map((specAutocomplete: any, index: any) => (
                     <div key={index}>
                         <label>Specifications: {index + 1}</label>
 
@@ -205,21 +214,18 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
                             getOptionLabel={(option: any) => option.value}
                             value={specifications.find((spec: any) => spec.id === specAutocomplete.specificationId) || null}
                             onChange={(event, newValue) => handleSpecificationChange(index, newValue)}
-                            renderInput={(params) => <TextField {...params} label="" />}
+                            renderInput={(params) => <TextField {...params}
+                            />}
                         />
                     </div>
                 ))}
 
 
-
                 <AddIcon onClick={addSpecificationsAutocomplete} className="add-button">
-
                 </AddIcon>
-                {/* <button type="button" onClick={addSpecificationsAutocomplete} className="button">
-                    Add Specifications
-                </button> */}
-
-                <button type="submit" className='button'>Submit</button>
+                <button type="submit" className='button'>
+                    Submit
+                </button>
             </form>
         </div>
     );
