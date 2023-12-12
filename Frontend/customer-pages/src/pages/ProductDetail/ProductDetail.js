@@ -574,12 +574,12 @@ function ProductDetail() {
                         <div className={cx('content-list')}>
                             <div className={cx('content-user')}>
                                 <div className={cx('avartar')}>
-                                    <span>img/icon</span>
+                                    <span>VDP</span>
                                 </div>
 
                                 <div className={cx('infor-user')}>
                                     <div className={cx('name-user')}>
-                                        <p> Vũ đại phong</p>
+                                        <p> Vũ Đại Phong</p>
                                     </div>
                                     <div className={cx('rate-user')}>
                                         <ThemeProvider theme={customTheme}>
@@ -594,13 +594,114 @@ function ProductDetail() {
                                     </div>
                                 </div>
                             </div>
+
+                            <div className={cx('content-user')}>
+                                <div className={cx('avartar')}>
+                                    <span>VDP</span>
+                                </div>
+
+                                <div className={cx('infor-user')}>
+                                    <div className={cx('name-user')}>
+                                        <p> Vũ Đại Phong</p>
+                                    </div>
+                                    <div className={cx('rate-user')}>
+                                        <ThemeProvider theme={customTheme}>
+                                            <Rating name="read-only" value={value} readOnly />
+                                        </ThemeProvider>
+                                    </div>
+                                    <div className={cx('comment-user')}>
+                                        <p>máy có dung lượng RAM lớn 16GB, SSD tốc độ cao, xử lý hình ảnh 3D khá tốt</p>
+                                    </div>
+                                    <div className={cx('time-user')}>
+                                        <div className={cx('time-text')}>9 ngày trước</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={cx('content-user')}>
+                                <div className={cx('avartar')}>
+                                    <span>VP</span>
+                                </div>
+
+                                <div className={cx('infor-user')}>
+                                    <div className={cx('name-user')}>
+                                        <p> Vũ Phong</p>
+                                    </div>
+                                    <div className={cx('rate-user')}>
+                                        <ThemeProvider theme={customTheme}>
+                                            <Rating name="read-only" value={value} readOnly />
+                                        </ThemeProvider>
+                                    </div>
+                                    <div className={cx('comment-user')}>
+                                        <p>
+                                            Máy cài đầy đủ phần mềm cần thiết, quạt có thể điều chỉnh được tốc độ tản
+                                            nhiệt giúp máy máy mát nhanh, Độ bền đạt chuẩn quân đội
+                                        </p>
+                                    </div>
+                                    <div className={cx('time-user')}>
+                                        <div className={cx('time-text')}>9 ngày trước</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={cx('content-user')}>
+                                <div className={cx('avartar')}>
+                                    <span>P</span>
+                                </div>
+
+                                <div className={cx('infor-user')}>
+                                    <div className={cx('name-user')}>
+                                        <p> Vũ Đại Phong</p>
+                                    </div>
+                                    <div className={cx('rate-user')}>
+                                        <ThemeProvider theme={customTheme}>
+                                            <Rating name="read-only" value={value} readOnly />
+                                        </ThemeProvider>
+                                    </div>
+                                    <div className={cx('comment-user')}>
+                                        <p>
+                                            laptop có màn hình chơi game&nbsp;chuyên dụng tầng số quét cao , bàn phím có
+                                            tốc độ phản hồi nhanh, Card đồ hoạ mới chơi tốt các game trung bình và game
+                                            nặng
+                                        </p>
+                                    </div>
+                                    <div className={cx('time-user')}>
+                                        <div className={cx('time-text')}>9 ngày trước</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={cx('content-user')}>
+                                <div className={cx('avartar')}>
+                                    <span>D</span>
+                                </div>
+
+                                <div className={cx('infor-user')}>
+                                    <div className={cx('name-user')}>
+                                        <p> Vũ Đại </p>
+                                    </div>
+                                    <div className={cx('rate-user')}>
+                                        <ThemeProvider theme={customTheme}>
+                                            <Rating name="read-only" value={value} readOnly />
+                                        </ThemeProvider>
+                                    </div>
+                                    <div className={cx('comment-user')}>
+                                        <p>Giao hàng nhanh, cảm ơn shop. con này chiến game cực đỉnh</p>
+                                    </div>
+                                    <div className={cx('time-user')}>
+                                        <div className={cx('time-text')}>9 ngày trước</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div className={cx('content-pagination')}></div>
                     </div>
                 </div>
             </div>
 
-            <div className={cx('product-related')}></div>
+            {/* <div className={cx('product-related')}>
+
+            </div> */}
         </>
     );
 }

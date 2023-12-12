@@ -1,10 +1,14 @@
 ﻿using CompuWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Validations;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Data;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using System.Xml.Linq;
 using TestForASPWebAPI.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,11 +19,14 @@ namespace TestForASPWebAPI.Controllers
     public class DTOController : ControllerBase
     {
         private readonly ILogger<DTOController> _logger;
+        private readonly HttpClient _httpClient;
         public DTOController(ILogger<DTOController> logger)
         {
             _logger = logger;
+            _httpClient = new HttpClient();
+            _httpClient.BaseAddress = new Uri("https://localhost:44333/");
         }
-        // GET: api/<ValuesController>
+        
         [HttpGet("GetProductTable")]
         public async Task<IActionResult> GetProductVariantDTO()
         {
@@ -164,9 +171,7 @@ namespace TestForASPWebAPI.Controllers
             }
         }
 
-
-        // GET api/<ValuesController>/5
-        [HttpPut("CreateOrder")]
+        [HttpPost("CreateOrder")]
         public async Task<IActionResult> CreateOrder(int PromotionId, OrderDTO order)
         {
             DBController dbController = DBController.GetInstance();
@@ -299,7 +304,7 @@ namespace TestForASPWebAPI.Controllers
         }
 
         [HttpPost("CreateProductVariant")]
-        public async Task<IActionResult> CreateProductVariant(ProductVariant variants, int Price)
+        public async Task<IActionResult> CreateProductVariant(ProductVariantForCreator variants, int Price)
         {
             DBController dbController = DBController.GetInstance();
 
@@ -308,6 +313,7 @@ namespace TestForASPWebAPI.Controllers
 
             string getThisPVIdCommand = $"select MAX(Id) from ProductVariant where ProductLineId = {variants.ProductLineId} and Name = N'{variants.Name}'";
             int thisPVId = await dbController.GetCount(getThisPVIdCommand);
+            variants.Id = thisPVId;
 
             foreach (var specification in variants.ProductSpecifications)
             {
@@ -317,8 +323,10 @@ namespace TestForASPWebAPI.Controllers
 
             string CreatePriceCommand = $"INSERT INTO Price (ProductVariantId, StartDate, EndDate, Status, Value) VALUES ({thisPVId}, '{DateTime.Now.ToString("yyyy-MM-dd")}', '2030-12-31', 'ACTIVE', {Price.ToString("0.00")})";
             dbController.UpdateData(CreatePriceCommand);
-            return Ok();
+
+            return Ok(thisPVId);
         }
+        
         [HttpPost("CreateProductLine")]
         public async Task<IActionResult> CreateProductLine(ProductLine productLine)
         {
@@ -338,30 +346,291 @@ namespace TestForASPWebAPI.Controllers
             return Ok();
         }
 
-
-
-
-
-
-
-
-
-        // POST api/<ValuesController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpGet("GetLaptopProductTable")]
+        public async Task<IActionResult> GetLaptopProductTable()
         {
+            HttpResponseMessage response = await _httpClient.GetAsync($"api/DTOController/GetProductTable");
+            List<ProductVariantDTO> productVariants;
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest();
+            }
+
+            string jsonResponse = await response.Content.ReadAsStringAsync();
+            productVariants = JsonConvert.DeserializeObject<List<ProductVariantDTO>>(jsonResponse);
+            DBController dBController = DBController.GetInstance();
+
+            foreach (var productVariant in productVariants)
+            {
+                string GetProductVariant = $"select ProductLineId from ProductVariant where Id = {productVariant.Id}";
+                int thisPLid = await dBController.GetCount(GetProductVariant);
+
+                productVariant.Images = new List<ProductImage>();
+                string GetImages = $"select * from ProductImage where ProductLineId = {thisPLid}";
+                using (var dataTable = await dBController.GetData(GetImages))
+                {
+                    foreach (DataRow dataRow in dataTable.Rows)
+                    {
+                        var image = new ProductImage()
+                        {
+                            Id = (int)dataRow["Id"],
+                            Name = (string)dataRow["Name"],
+                            ProductLineId = (int)dataRow["ProductLineId"],
+                            Image = (string)dataRow["Url"],
+                        };
+                        productVariant.Images.Add(image);
+                    }
+                }
+                productVariant.Specifications = new List<Tuple<ProductSpecification, Specification, SpecificationType>>();
+                string GetSpecifications = $"select * from ProductSpecification where ProductVariantId = {productVariant.Id}";
+                using (var dataTable = await dBController.GetData(GetSpecifications))
+                {
+                    foreach (DataRow dataRow in dataTable.Rows)
+                    {
+                        var productSpecification = new ProductSpecification()
+                        {
+                            Id = (int)dataRow["Id"],
+                            ProductVariantId = (int)dataRow["ProductVariantId"],
+                            SpecificationId = (int)dataRow["SpecificationId"],
+                        };
+                        Specification specification;
+                        string GetSpecification = $"select * from Specification where Id = {(int)dataRow["SpecificationId"]}";
+                        using (var SpecData = await dBController.GetData(GetSpecification))
+                        {
+                            if (SpecData.Rows.Count is 0)
+                            {
+                                continue;
+                            }
+                            specification = new Specification()
+                            {
+                                Id = (int)SpecData.Rows[0]["Id"],
+                                SpecificationTypeId = (int)SpecData.Rows[0]["SpecificationTypeId"],
+                                Value = (string)SpecData.Rows[0]["Value"],
+                            };
+                        }
+                        SpecificationType specificationType;
+                        string GetSpecificationType = $"select * from SpecificationType where Id = {specification.SpecificationTypeId}";
+                        using (var SpecData = await dBController.GetData(GetSpecificationType))
+                        {
+                            if (SpecData.Rows.Count is 0)
+                            {
+                                continue;
+                            }
+                            specificationType = new SpecificationType()
+                            {
+                                Id = (int)SpecData.Rows[0]["Id"],
+                                Name = (string)SpecData.Rows[0]["Name"],
+                            };
+                        }
+                        productVariant.Specifications.Add(new Tuple<ProductSpecification, Specification, SpecificationType>(productSpecification, specification, specificationType));
+                    }
+                }
+            }
+            return Ok(productVariants);
         }
 
-        // PUT api/<ValuesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpGet("Search/{keyword}")]
+        public async Task<IActionResult> Search (string keyword)
         {
+            HttpResponseMessage response = await _httpClient.GetAsync($"api/DTOController/GetLaptopProductTable");
+            List<ProductVariantDTO> productVariants;
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest();
+            }
+            string jsonResponse = await response.Content.ReadAsStringAsync();
+            productVariants = JsonConvert.DeserializeObject<List<ProductVariantDTO>>(jsonResponse);
+
+            // search functions
+            // handling search
+
+            return Ok();
         }
 
-        // DELETE api/<ValuesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpGet("GetProductVariantDetail")]
+        public async Task<IActionResult> GetProductVariantDetail(int ProductVariantId)
         {
+            await PriceController.UpdatePriceStatus();
+            ProductVariantDetailDTO product = new ProductVariantDetailDTO();
+            product.Id = ProductVariantId;
+
+            string GetName = $"select Name from ProductVariant where Id = {ProductVariantId}";
+            using (var dataTable = await DBController.GetInstance().GetData(GetName))
+            {
+                if (dataTable.Rows.Count != 0)
+                {
+                    product.Name = (string)dataTable.Rows[0]["Name"];
+                }
+                else { return BadRequest(); }
+            }
+
+            string GetPriceCommand = @$"select * from Price where Status = 'ACTIVE' and ProductVariantId = {product.Id}";
+            using (DataTable data = await DBController.GetInstance().GetData(GetPriceCommand))
+            {
+                if (data.Rows.Count is not 0)
+                {
+                    product.Price = (decimal)data.Rows[0]["Value"];
+                }
+                else { return BadRequest(); }
+            }
+
+            product.Images = new List<ProductImage>();
+            string GetImages = $"select i.*\r\nfrom ProductImage i\r\njoin ProductLine pl on i.ProductLineId = pl.Id\r\njoin ProductVariant pv on pv.ProductLineId = pl.Id\r\nwhere pv.Id = {product.Id}";
+            using (var dataTable = await DBController.GetInstance().GetData(GetImages))
+            {
+                foreach (DataRow dataRow in dataTable.Rows)
+                {
+                    var image = new ProductImage()
+                    {
+                        Id = (int)dataRow["Id"],
+                        Name = (string)dataRow["Name"],
+                        ProductLineId = (int)dataRow["ProductLineId"],
+                        Image = (string)dataRow["Url"],
+                    };
+                    product.Images.Add(image);
+                }
+            }
+
+            product.Specifications = new List<Tuple<ProductSpecification, Specification, SpecificationType>>();
+            string GetSpecifications = $"select * from ProductSpecification where ProductVariantId = {product.Id}";
+            using (var dataTable = await DBController.GetInstance().GetData(GetSpecifications))
+            {
+                foreach (DataRow dataRow in dataTable.Rows)
+                {
+                    var productSpecification = new ProductSpecification()
+                    {
+                        Id = (int)dataRow["Id"],
+                        ProductVariantId = (int)dataRow["ProductVariantId"],
+                        SpecificationId = (int)dataRow["SpecificationId"],
+                    };
+                    Specification specification;
+                    string GetSpecification = $"select * from Specification where Id = {(int)dataRow["SpecificationId"]}";
+                    using (var SpecData = await DBController.GetInstance().GetData(GetSpecification))
+                    {
+                        if (SpecData.Rows.Count is 0)
+                        {
+                            continue;
+                        }
+                        specification = new Specification()
+                        {
+                            Id = (int)SpecData.Rows[0]["Id"],
+                            SpecificationTypeId = (int)SpecData.Rows[0]["SpecificationTypeId"],
+                            Value = (string)SpecData.Rows[0]["Value"],
+                        };
+                    }
+                    SpecificationType specificationType;
+                    string GetSpecificationType = $"select * from SpecificationType where Id = {specification.SpecificationTypeId}";
+                    using (var SpecData = await DBController.GetInstance().GetData(GetSpecificationType))
+                    {
+                        if (SpecData.Rows.Count is 0)
+                        {
+                            continue;
+                        }
+                        specificationType = new SpecificationType()
+                        {
+                            Id = (int)SpecData.Rows[0]["Id"],
+                            Name = (string)SpecData.Rows[0]["Name"],
+                        };
+                    }
+                    product.Specifications.Add(new Tuple<ProductSpecification, Specification, SpecificationType>(productSpecification, specification, specificationType));
+                }
+            }
+
+            product.ProductVariants = new List<ProductVariant>();
+            string GetVariants = $"select pv1.*\r\nfrom ProductVariant pv1 \r\njoin ProductLine pl on pv1.ProductLineId = pl.Id\r\njoin ProductVariant pv2 on pv2.ProductLineId = pl.Id\r\nwhere pv2.Id = {product.Id} and pv1.Id <> {product.Id}";
+            using (var ProductData = await DBController.GetInstance().GetData(GetVariants))
+            {
+                foreach (DataRow dataRow in ProductData.Rows)
+                {
+                    var ProductVariant = new ProductVariant()
+                    {
+                        Id = (int)dataRow["Id"],
+                        ProductLineId = (int)dataRow["ProductLineId"],
+                        Name = (string)dataRow["Name"],
+                    };
+                    product.ProductVariants.Add(ProductVariant);
+                }
+            }
+
+            product.Ratings = new List<RatingDTO>();
+            string GetOrderItemsRating = $"SELECT r.*\r\nFROM Rating r\r\nJOIN OrderItem oi ON r.OrderItemId = oi.Id\r\nJOIN ProductInstance pi ON oi.ProductInstanceId = pi.Id\r\nJOIN ProductVariant pv ON pi.ProductVariantId = pv.Id\r\nWHERE pv.Id = {ProductVariantId}";
+            using (var dataTable = await DBController.GetInstance().GetData(GetOrderItemsRating))
+            {
+                if (dataTable.Rows.Count == 0)
+                {
+                    product.AverageRating = 0;
+                    product.RatingCount = 0;
+                }
+                else
+                {
+                    product.RatingCount = dataTable.Rows.Count;
+                    decimal RatingSum = 0;
+                    foreach (DataRow dataRow in dataTable.Rows)
+                    {
+                        var Rating = new Rating()
+                        {
+                            Id = (int)dataRow["Id"],
+                            OrderItemId = (int)dataRow["OrderItemId"],
+                            Date = (DateTime)dataRow["Date"],
+                            Rate = (int)dataRow["Rate"],
+                            Comment = (string)dataRow["Comment"],
+                        };
+                        RatingSum += Rating.Rate;
+
+                        var productRate = new RatingDTO(Rating);
+                        productRate.Name = string.Empty;
+                        string GetCustomerName = $"select Name\r\nfrom Customer c\r\njoin Orders o on o.CustomerId = c.Id\r\njoin OrderItem oi on oi.OrderId = o.Id\r\njoin Rating r on r.OrderItemId = oi.Id\r\nwhere r.Id = {Rating.Id}";
+                        using (var SpecData = await DBController.GetInstance().GetData(GetCustomerName))
+                        {
+                            if (SpecData.Rows.Count is 0)
+                            {
+                                continue;
+                            }
+                            productRate.Name = (string)SpecData.Rows[0]["Name"];
+                        }
+                        product.Ratings.Add(productRate);
+                    }
+                    product.AverageRating = RatingSum / product.RatingCount;
+                }
+            }
+            return Ok(product);
+        }
+
+        [HttpGet("GetSpecificationList")]
+        public async Task<IActionResult> GetSpecificationList()
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync($"api/specificationtypes/GetSpecificationTypes");
+            List<SpecificationType> SpecTypes;
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest();
+            }
+            string jsonResponse = await response.Content.ReadAsStringAsync();
+            SpecTypes = JsonConvert.DeserializeObject<List<SpecificationType>>(jsonResponse);
+
+            List<SpecificationTypeDTO> Types = new List<SpecificationTypeDTO>();
+            foreach (var type in SpecTypes)
+            {
+                SpecificationTypeDTO Type = new SpecificationTypeDTO(type);
+                Type.Specifications = new List<Specification>();
+
+                string GetSpecs = $"select * from Specification where SpecificationTypeId = {Type.Id}";
+                using (DataTable dataTable = await DBController.GetInstance().GetData(GetSpecs))
+                {
+                    foreach (DataRow dataRow in dataTable.Rows)
+                    {
+                        var Specification = new Specification()
+                        {
+                            Id = (int)dataRow["Id"],
+                            SpecificationTypeId = (int)dataRow["SpecificationTypeId"],
+                            Value = (string)dataRow["Value"],
+                        };
+                        Type.Specifications.Add(Specification);
+                    }
+                }
+                Types.Add(Type);
+            }
+            return Ok(Types);
         }
     }
 }

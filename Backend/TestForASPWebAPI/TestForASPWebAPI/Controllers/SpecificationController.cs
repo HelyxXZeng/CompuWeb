@@ -37,7 +37,36 @@ namespace TestForASPWebAPI.Controllers
                 };
                 Specifications.Add(Specification);
             }
+            return Ok(Specifications);
+        }
 
+        [HttpGet("GetSpecificationTable")]
+        public async Task<IActionResult> GetSpecificationTable()
+        {
+            DBController dbController = DBController.GetInstance();
+            //var dataTable = new DataTable();
+
+            string command = @$"select * from Specification";
+            var dataTable = await dbController.GetData(command);
+
+            var Specifications = new List<Specification>();
+
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                var Specification = new Specification()
+                {
+                    Id = (int)dataRow["Id"],
+                    SpecificationTypeId = (int)dataRow["SpecificationTypeId"],
+                    Value = (string)dataRow["Value"],
+                };
+                string Name = string.Empty;
+                string GetSpecTypeNameCommand = $"select Name from SpecificationType where Id = {(int)dataRow["SpecificationTypeId"]}";
+                using (DataTable data = await dbController.GetData(GetSpecTypeNameCommand))
+                {
+                    Name = (string)data.Rows[0]["Name"];
+                }
+                Specifications.Add(Specification);
+            }
             return Ok(Specifications);
         }
 

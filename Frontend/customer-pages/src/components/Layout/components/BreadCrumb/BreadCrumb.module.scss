@@ -1,0 +1,16 @@
+.crumb {
+    font-size: 14px;
+    font-weight: 400;
+    font-family: bold;
+    .link {
+        color: #606060;
+        &:hover {
+            color: #12409a;
+        }
+    }
+}
+
+.breadcrumb {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
