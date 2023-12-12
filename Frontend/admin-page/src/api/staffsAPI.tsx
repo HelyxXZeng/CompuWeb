@@ -1,6 +1,6 @@
 import axiosClient from "./axiosClient";
 
-export interface Staff {
+export interface StaffDef {
     Id: number,
     Img:ImageBitmap,
     Name: string,
@@ -29,7 +29,7 @@ const staffApi = {
         return axiosClient.get(url);
     },
 
-    add: async (staff: Staff) => {
+    add: async (staff: StaffDef) => {
         try {
             const response = await axiosClient.post('/staffs/Insert', staff);
             return response.data;
@@ -38,7 +38,7 @@ const staffApi = {
         }
     },
 
-    update: async (id: number, updatedStaff: Staff) => {
+    update: async (id: number, updatedStaff: StaffDef) => {
         try {
             const response = await axiosClient.put(`/staffs/Update/${id}`, updatedStaff);
             return response.data;
