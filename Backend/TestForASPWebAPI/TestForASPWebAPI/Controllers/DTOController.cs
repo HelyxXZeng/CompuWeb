@@ -298,7 +298,7 @@ namespace TestForASPWebAPI.Controllers
             return Ok(promoList);
         }
 
-        [HttpPut("CreateProductVariant")]
+        [HttpPost("CreateProductVariant")]
         public async Task<IActionResult> CreateProductVariant(ProductVariant variants, int Price)
         {
             DBController dbController = DBController.GetInstance();
@@ -315,7 +315,7 @@ namespace TestForASPWebAPI.Controllers
                 dbController.UpdateData(command);
             }
 
-            string CreatePriceCommand = $"INSERT INTO Price (ProductVariantId, StartDate, EndDate, Status, Value) VALUES ({thisPVId}, '{DateTime.Now.ToString("yyyy-MM-dd")}', '2030-12-31', 'ACTIVE', '{Price.ToString("0.00")}')";
+            string CreatePriceCommand = $"INSERT INTO Price (ProductVariantId, StartDate, EndDate, Status, Value) VALUES ({thisPVId}, '{DateTime.Now.ToString("yyyy-MM-dd")}', '2030-12-31', 'ACTIVE', {Price.ToString("0.00")})";
             dbController.UpdateData(CreatePriceCommand);
             return Ok();
         }

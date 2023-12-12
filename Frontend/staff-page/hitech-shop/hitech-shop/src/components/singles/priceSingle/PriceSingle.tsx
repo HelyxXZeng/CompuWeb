@@ -26,6 +26,8 @@ const fetchProductVariants = async () => {
     return data;
 };
 
+const statusList = ['NOTREADY', 'ACTIVE', 'CANCELED', 'OUTDATED']
+
 const PriceSingle: React.FC<Props> = (para: Props) => {
 
     // console.log('This is para: ', para)
@@ -61,6 +63,15 @@ const PriceSingle: React.FC<Props> = (para: Props) => {
             setPrice((prevPrice) => ({ ...prevPrice, productVariantId: newValue.id }));
         }
         console.log('New Value: ', newValue)
+    };
+
+    const handleStatusChange = (
+        _event: React.ChangeEvent<unknown>,
+        newValue: string | null
+    ) => {
+        if (newValue !== null) {
+            setPrice((prevPrice) => ({ ...prevPrice, status: newValue }));
+        }
     };
 
     const handleInputChange = (
@@ -143,13 +154,22 @@ const PriceSingle: React.FC<Props> = (para: Props) => {
                 />
 
                 <label htmlFor="status">Status:</label>
-                <input
+                {/* <input
                     type="text"
                     id="status"
                     name="status"
                     value={price.status}
                     onChange={handleInputChange}
                     required
+                /> */}
+                <Autocomplete
+                    className='autocomplete'
+                    disablePortal
+                    id="Status"
+                    options={statusList}
+                    value={price.status}
+                    onChange={handleStatusChange}
+                    renderInput={(params) => <TextField {...params} label="" />}
                 />
 
                 <button type="submit" className='button'>Submit</button>

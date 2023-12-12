@@ -1,15 +1,5 @@
 import axiosClient from "./axiosClient";
 
-// export interface ProductLine {
-//     id: number,
-//     name: string,
-//     categoryId: number,
-//     brandId: number,
-//     releaseDate: string,
-//     warranty: number,
-//     description: string
-// }
-
 export interface ProductLine {
     id: number,
     name: string,
@@ -64,6 +54,15 @@ const productLineApi = {
     update: async (id: number, updatedProductLine: ProductLine) => {
         try {
             const response = await axiosClient.put(`/productLines/Update?id=${id}`, updatedProductLine);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    updateImages: async (imageList: ProductImage[]) => {
+        try {
+            const response = await axiosClient.put(`...........`, imageList);
             return response.data;
         } catch (error) {
             throw error;
