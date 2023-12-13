@@ -1,5 +1,11 @@
 import axiosClient from "./axiosClient";
 
+export interface ProductVariant {
+    id: number,
+    productLineId: number,
+    name: string,
+}
+
 const productsVariantAPI = {
     getAll: (params: any) =>{
         const url = '/productVariants/GetProductVariants';
