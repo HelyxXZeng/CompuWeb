@@ -146,16 +146,18 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
                 // 1. upload productVariant and get Id returned
                 // 2. Upload price
 
-                await productVariantApi.add(data, price.value);
-                // console.log('Add successfully!', data)
+                const response = await productVariantApi.add(data, price.value);
+                console.log('Add successfully!', response)
             } else {
+
                 await productVariantApi.update(productVariant.id, productVariant);
+                // await productVariantApi.updateSpecifications(specList);
             }
 
             // Reset the form
             setProductVariant(initProductVariant);
             setPrice(initPrice)
-
+            setSpecList([])
             alert("Successfully Uploaded!");
         } catch (error) {
             const action = para.productVariant === null ? 'adding' : 'updating';
