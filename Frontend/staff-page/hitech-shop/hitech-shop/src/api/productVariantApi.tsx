@@ -27,7 +27,7 @@ const productVariantApi = {
 
     add: async (productVariant: ProductVariant, price: number) => {
         try {
-            const response = await axiosClient.post('/DTOController/CreateProductVariant', { productVariant, price });
+            const response = await axiosClient.post('/DTOController/CreateProductVariant?Price=' + price.toString(), productVariant);
             return response.data;
         } catch (error) {
             throw error;
