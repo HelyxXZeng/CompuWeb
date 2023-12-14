@@ -1,15 +1,10 @@
 ﻿using CompuWeb.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Validations;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Data;
-using System.Globalization;
-using System.Runtime.InteropServices;
-using System.Xml.Linq;
 using TestForASPWebAPI.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
+using FuzzySharp;
+using System.Linq;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace TestForASPWebAPI.Controllers
@@ -304,7 +299,7 @@ namespace TestForASPWebAPI.Controllers
         }
 
         [HttpPost("CreateProductVariant")]
-        public async Task<IActionResult> CreateProductVariant(ProductVariantForCreator variants, int Price)
+        public async Task<IActionResult> CreateProductVariant(int Price, ProductVariantForCreator variants)
         {
             DBController dbController = DBController.GetInstance();
 
@@ -441,10 +436,13 @@ namespace TestForASPWebAPI.Controllers
             string jsonResponse = await response.Content.ReadAsStringAsync();
             productVariants = JsonConvert.DeserializeObject<List<ProductVariantDTO>>(jsonResponse);
 
-            // search functions
-            // handling search
-
-            return Ok();
+            List<Tuple<ProductVariantDTO, int>> SearchResults = productVariants
+                .Select(result => new Tuple<ProductVariantDTO, int>(result, Fuzz.PartialRatio(result.Name.ToLower(), keyword.ToLower())))
+                .Where(result => result.Item2 >= 40) // Adjust accuracy threshold here
+                .OrderByDescending(result => result.Item2)
+                .ToList();
+            
+            return Ok(SearchResults);
         }
 
         [HttpGet("GetProductVariantDetail")]
@@ -631,6 +629,91 @@ namespace TestForASPWebAPI.Controllers
                 Types.Add(Type);
             }
             return Ok(Types);
+        }
+
+        [HttpGet("GetOrderTable")]
+        public async Task<IActionResult> GetOrderTable()
+        {
+            List<OrderDetailDTO> Orders = new List<OrderDetailDTO>();
+            string GetOrder = $"select Id, CustomerId, Total, Status, Address from Orders";
+            using (DataTable dataTable = await DBController.GetInstance().GetData(GetOrder))
+            {
+                foreach (DataRow dataRow in dataTable.Rows)
+                {
+                    string GetCustomerInfo = $"select Name, PhoneNumber from Customer where Id = {(int)dataRow["CustomerId"]}";
+                    using (DataTable data = await DBController.GetInstance().GetData(GetCustomerInfo))
+                    {
+                        var order = new OrderDetailDTO()
+                        {
+                            Id = (int)dataRow["Id"],
+                            Total = (decimal)dataRow["Total"],
+                            Status = (string)dataRow["Status"],
+                            Address = (string)dataRow["Address"],
+                            CustomerName = (string)data.Rows[0]["Name"],
+                            CustomerPhoneNumber = (string)data.Rows[0]["PhoneNumber"],
+                        };
+                        Orders.Add(order);
+                    }
+                }
+            }
+            return Ok(Orders);
+        }
+
+        [HttpGet("GetOrderDetail")]
+        public async Task<IActionResult> GetOrderDetail(int OrderId)
+        {
+            OrderDetailDTO Order;
+            string GetOrderDetail = $"select * from Orders where Id = {OrderId}";
+            using (DataTable dataTable = await DBController.GetInstance().GetData(GetOrderDetail))
+            {
+                if (dataTable.Rows.Count == 0) { return BadRequest("Not Exists!"); }
+                Order = new OrderDetailDTO()
+                {
+                    Id = OrderId,
+                    Total = (decimal)dataTable.Rows[0]["Total"],
+                    Note = (string)dataTable.Rows[0]["Note"],
+                    Date = (DateTime)dataTable.Rows[0]["Date"],
+                    Address = (string)dataTable.Rows[0]["Address"],
+                    Status = (string)dataTable.Rows[0]["Status"],
+                };
+                string GetCustomerInfo = $"select Name, PhoneNumber from Customer where Id = {dataTable.Rows[0]["CustomerId"]}";
+                using (DataTable data = await DBController.GetInstance().GetData(GetCustomerInfo))
+                {
+                    Order.CustomerPhoneNumber = (string)data.Rows[0]["PhoneNumber"];
+                    Order.CustomerName = (string)data.Rows[0]["Name"];
+                }
+                Order.orderItems = new List<OrderItemDTO>();
+                string GetOrderItems = $"select * from OrderItem where OrderId = {OrderId}";
+                using (DataTable data = await DBController.GetInstance().GetData(GetOrderItems))
+                {
+                    foreach (DataRow row in dataTable.Rows)
+                    {
+                        var orderitem = new OrderItemDTO()
+                        {
+                            Id = (int)row["Id"],
+                        };
+                        int PVid;
+                        string GetPVName = $"select Id, Name\r\nfrom ProductVariant pv\r\njoin ProductInstance pi on pi.ProductVariantId = pv.Id\r\njoin OrderItem oi on oi.ProductInstanceId = pi.Id\r\nwhere oi.Id = {(int)row["Id"]}";
+                        using (DataTable d = await DBController.GetInstance().GetData(GetPVName))
+                        {
+                            orderitem.ProductVariantName = (string)d.Rows[0]["Name"];
+                            PVid = (int)d.Rows[0]["Id"];
+                        }
+                        string GetSerialNumber = $"select SerialNumber from ProductInstance where Id = {(int)row["ProductInstanceId"]}";
+                        using (DataTable d = await DBController.GetInstance().GetData(GetSerialNumber))
+                        {
+                            orderitem.SerialNumber = (string)d.Rows[0]["SerialNumber"];
+                        }
+                        string GetPrice = $"select p.ProductVariantId, Value\r\nfrom Price p\r\njoin ProductVariant pv on pv.Id = p.ProductVariantId\r\njoin ProductInstance pi on pi.ProductVariantId = pv.Id\r\njoin OrderItem oi on oi.ProductInstanceId = pi.Id\r\nwhere oi.Id = {(int)row["Id"]}";
+                        using (DataTable d = await DBController.GetInstance().GetData(GetSerialNumber))
+                        {
+                            orderitem.Price = (decimal)d.Rows[0]["Value"];
+                        }
+                        Order.orderItems.Add(orderitem);
+                    }
+                }
+            }
+            return Ok(Order);
         }
     }
 }

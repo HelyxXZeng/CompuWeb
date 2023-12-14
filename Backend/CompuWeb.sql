@@ -269,8 +269,18 @@ join Orders o on o.CustomerId = c.Id
 join OrderItem oi on oi.OrderId = o.Id
 join Rating r on r.OrderItemId = oi.Id
 where r.Id = 1
-<<<<<<< HEAD
 
 select * from Specification where SpecificationTypeId = 1
-=======
->>>>>>> 9268a8b26712f6bd15524eac20cbb00c116f8c78
+
+select Name
+from ProductVariant pv
+join ProductInstance pi on pi.ProductVariantId = pv.Id
+join OrderItem oi on oi.ProductInstanceId = pi.Id
+where oi.Id = 1
+
+select p.ProductVariantId, Value
+from Price p
+join ProductVariant pv on pv.Id = p.ProductVariantId
+join ProductInstance pi on pi.ProductVariantId = pv.Id
+join OrderItem oi on oi.ProductInstanceId = pi.Id
+where oi.Id = 1
