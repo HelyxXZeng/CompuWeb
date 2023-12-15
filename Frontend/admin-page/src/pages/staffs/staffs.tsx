@@ -87,7 +87,7 @@ const staffs = () => {
   const [open,setOpen] = useState(false)
 
   const dataTableColumns = columns.filter(
-    (column) => ( column.field !== "Birthday" && column.field !== "IdCardNumber" &&
+    (column) => ( column.field !== "Birthdate" && column.field !== "IdCardNumber" &&
                     column.field != "Address")
   );
 
