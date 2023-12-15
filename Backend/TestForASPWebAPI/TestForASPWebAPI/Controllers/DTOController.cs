@@ -374,6 +374,7 @@ namespace TestForASPWebAPI.Controllers
                             Image = (string)dataRow["Url"],
                         };
                         productVariant.Images.Add(image);
+                        break;
                     }
                 }
                 productVariant.Specifications = new List<Tuple<ProductSpecification, Specification, SpecificationType>>();
@@ -424,8 +425,8 @@ namespace TestForASPWebAPI.Controllers
             return Ok(productVariants);
         }
 
-        [HttpGet("Search/{keyword}")]
-        public async Task<IActionResult> Search (string keyword)
+        [HttpGet("Search/{keyword}/{start}+{count}")]
+        public async Task<IActionResult> Search (string keyword, int start, int count)
         {
             HttpResponseMessage response = await _httpClient.GetAsync($"api/DTOController/GetLaptopProductTable");
             List<ProductVariantDTO> productVariants;
@@ -440,6 +441,7 @@ namespace TestForASPWebAPI.Controllers
                 .Select(result => new Tuple<ProductVariantDTO, int>(result, Fuzz.PartialRatio(result.Name.ToLower(), keyword.ToLower())))
                 .Where(result => result.Item2 >= 40) // Adjust accuracy threshold here
                 .OrderByDescending(result => result.Item2)
+                .Skip(start).Take(count)
                 .ToList();
             
             return Ok(SearchResults);
@@ -714,6 +716,25 @@ namespace TestForASPWebAPI.Controllers
                 }
             }
             return Ok(Order);
+        }
+
+        [HttpGet("GetCurrentPrice/{PVId}")]
+        public async Task<IActionResult> GetCurrentPrice(int PVId)
+        {
+            string GetCurrentPrice = $"select * from Price where ProductVariantId = {PVId}";
+            using (DataTable data = await DBController.GetInstance().GetData(GetCurrentPrice))
+            {
+                var Price = new Price()
+                {
+                    Id = (int)data.Rows[0]["Id"],
+                    ProductVariantId = (int)data.Rows[0]["ProductVariantId"],
+                    StartDate = (DateTime)data.Rows[0]["StartDate"],
+                    EndDate = (DateTime)data.Rows[0]["EndDate"],
+                    Status = (string)data.Rows[0]["Status"],
+                    Value = (decimal)data.Rows[0]["Value"],
+                };
+                return Ok(Price);
+            }
         }
     }
 }
