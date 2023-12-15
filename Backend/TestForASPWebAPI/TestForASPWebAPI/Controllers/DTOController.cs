@@ -441,7 +441,7 @@ namespace TestForASPWebAPI.Controllers
                 .Select(result => new Tuple<ProductVariantDTO, int>(result, Fuzz.PartialRatio(result.Name.ToLower(), keyword.ToLower())))
                 .Where(result => result.Item2 >= 40) // Adjust accuracy threshold here
                 .OrderByDescending(result => result.Item2)
-                .Skip(start).Take(count)
+                .Skip(start - 1).Take(count)
                 .ToList();
             
             return Ok(SearchResults);
