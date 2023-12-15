@@ -12,5 +12,10 @@
         public string Content { get; set; }
         public decimal Value { get; set; }
         public string Status { get; set; }
-    }
+    }/*
+    public class PromotionTableDTO
+    {
+        public PromotionTableDTO() { }
+
+    }*/
 }
