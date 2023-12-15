@@ -39,7 +39,8 @@ namespace TestForASPWebAPI.Controllers
 
                     using (var sqlCommand = new SqlCommand(command, sqlConnection))
                     {
-                        count = (int)sqlCommand.ExecuteScalar();
+                        var num = await sqlCommand.ExecuteScalarAsync();
+                        count = (int)num;
                     }
                 }
                 catch (Exception ex)
@@ -62,9 +63,9 @@ namespace TestForASPWebAPI.Controllers
 
                     using (var sqlCommand = new SqlCommand(command, sqlConnection))
                     {
-                        using (var sqlReader = sqlCommand.ExecuteReader())
+                        using (var sqlReader = sqlCommand.ExecuteReaderAsync())
                         {
-                            dataTable.Load(sqlReader);
+                            dataTable.Load(await sqlReader);
                         }
                     }
                 }
@@ -86,7 +87,7 @@ namespace TestForASPWebAPI.Controllers
 
                     using (SqlCommand cmd = new SqlCommand(command, sqlConnection))
                     {
-                        cmd.ExecuteNonQuery();
+                        cmd.ExecuteNonQueryAsync();
                     }
                 }
                 catch (Exception ex)
@@ -106,7 +107,7 @@ namespace TestForASPWebAPI.Controllers
 
                     using (SqlCommand cmd = new SqlCommand(command, sqlConnection))
                     {
-                        cmd.ExecuteNonQuery();
+                        cmd.ExecuteNonQueryAsync();
                     }
                 }
                 catch (Exception ex)
@@ -126,7 +127,7 @@ namespace TestForASPWebAPI.Controllers
 
                     using (SqlCommand cmd = new SqlCommand(command, sqlConnection))
                     {
-                        cmd.ExecuteNonQuery();
+                        cmd.ExecuteNonQueryAsync();
                     }
                 }
                 catch (Exception ex)

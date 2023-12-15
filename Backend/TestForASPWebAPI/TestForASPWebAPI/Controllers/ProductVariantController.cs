@@ -87,6 +87,24 @@ namespace TestForASPWebAPI.Controllers
                     Name = (string)dataRow["Name"],
                     Specifications = Specifications,
                 };
+
+                string GetPriceCommand = $"select * from Price where ProductVariantId = {(int)dataRow["Id"]} and Status = 'ACTIVE'";
+                using (var data = await dbController.GetData(GetPriceCommand))
+                {
+                    if (data.Rows.Count is not 0)
+                    {
+                        ProductVariant.Price = new Price()
+                        {
+                            Id = (int)data.Rows[0]["Id"],
+                            ProductVariantId = (int)data.Rows[0]["ProductVariantId"],
+                            StartDate = (DateTime)data.Rows[0]["StartDate"],
+                            EndDate = (DateTime)data.Rows[0]["EndDate"],
+                            Status = (string)data.Rows[0]["Status"],
+                            Value = (decimal)data.Rows[0]["Value"],
+                        };
+                    }
+                }
+
                 return Ok(ProductVariant);
             }
             return NotFound("Not Exists!");
