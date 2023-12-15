@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import classNames from 'classnames/bind';
 import styles from './Cart.module.scss';
@@ -17,9 +17,55 @@ import CartItem from './CartItem';
 import CustomeSelect from './CustomSelect';
 import { Link } from 'react-router-dom';
 
+import { useShoppingCart } from '~/context/ShoppingCartContext';
+
+import * as ProvinceOpenApi from './ApiCountry/getProvinceService';
+
 const cx = classNames.bind(styles);
 
+// const cartFromLocalStorage = JSON.parse(localStorage.getItem('cart')) || [];
+
 function Cart() {
+    const [filteredProvinces, setFilteredProvinces] = useState([]);
+    const [filteredDistricts, setFilteredDistricts] = useState([]);
+    const [filteredWards, setFilteredWards] = useState([]);
+    //
+    useEffect(() => {
+        const fetchApi = async () => {
+            const result = await ProvinceOpenApi.getProvinces();
+            console.log('province', result);
+            setFilteredProvinces(result);
+        };
+
+        fetchApi();
+    }, []);
+
+    useEffect(() => {
+        const fetchApi = async () => {
+            const result = await ProvinceOpenApi.getDistricts(79);
+            setFilteredDistricts(result);
+        };
+
+        fetchApi();
+    }, []);
+
+    useEffect(() => {
+        const fetchApi = async () => {
+            const result = await ProvinceOpenApi.getWards(769);
+            setFilteredWards(result);
+        };
+
+        fetchApi();
+    }, []);
+    //
+    // const [cart, setCart] = useState(cartFromLocalStorage);
+
+    // useEffect(() => {
+    //     localStorage.setItem('cart', JSON.stringify(cart));
+    // }, [cart]);
+
+    const { cartItems, cartQuantity } = useShoppingCart();
+
     const [isOpenCustomerForm, setIsOpenCustomerForm] = useState(true);
     const toggleOpenCustomerForm = () => {
         setIsOpenCustomerForm(!isOpenCustomerForm);
@@ -87,12 +133,12 @@ function Cart() {
                                 </div>
                                 <div className={cx('mi-row', 'row-l-2')}>
                                     <p class="p-text-form">Tỉnh/ Thành phố *</p>
-                                    <CustomeSelect />
+                                    <CustomeSelect apiData={filteredProvinces} />
                                 </div>
 
                                 <div className={cx('mi-row', 'row-l-3')}>
                                     <p class="p-text-form">Phường/ Xã *</p>
-                                    <CustomeSelect />
+                                    <CustomeSelect apiData={filteredWards.wards} />
                                 </div>
                             </div>
                             <div className={cx('mi-col', 'col-r')}>
@@ -108,7 +154,7 @@ function Cart() {
                                 </div>
                                 <div className={cx('mi-row', 'row-r-2')}>
                                     <p class="p-text-form">Quận/ Huyện *</p>
-                                    <CustomeSelect />
+                                    <CustomeSelect apiData={filteredDistricts.districts} />
                                 </div>
                                 <div className={cx('mi-row', 'row-r-3')}>
                                     <p class="p-text-form">Số nhà, tên đường *</p>
@@ -196,11 +242,9 @@ function Cart() {
                 <div className={cx('cartItem-content')}>
                     <h3>SẢN PHẨM ĐÃ CHỌN</h3>
                     <div className={cx('cartItem-list')}>
-                        <CartItem />
-                        <CartItem />
-                        <CartItem />
-                        <CartItem />
-                        <CartItem />
+                        {cartItems.map((cartItem, index) => (
+                            <CartItem key={index} cartItem={cartItem} />
+                        ))}
                     </div>
                     <div className={cx('calculate-price')}>
                         <p>

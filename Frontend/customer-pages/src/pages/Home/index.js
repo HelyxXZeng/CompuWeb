@@ -6,6 +6,7 @@ import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
 
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 
@@ -27,7 +28,42 @@ function Home() {
 
     return (
         <>
-            <InfiSwiper />
+            <div className={cx('top-div')}>
+                <div className={cx('banner')}>
+                    <InfiSwiper />
+                </div>
+                <div className={cx('news')}>
+                    <div className={cx('bg-list-new')}>
+                        <a
+                            href="https://trungtran.vn/laptop-core-i3-gia-bao-nhieu/"
+                            className={cx('item-new', 'item-new1', 'active')}
+                        >
+                            <p className={cx('p-title')}>Laptop Core i3 giá bao nhiêu?</p>
+                            <p className={cx('p-time')}>04/12/2023 - 8 views</p>
+                        </a>
+                        <a
+                            href="https://trungtran.vn/cach-mo-den-ban-phim-laptop-dell-core-i3/"
+                            className={cx('item-new', 'item-new2')}
+                        >
+                            <p className={cx('p-title')}>Cách mở đèn bàn phím laptop Dell Core i3</p>
+                            <p className={cx('p-time')}>01/12/2023 - 30 views</p>
+                        </a>
+                        <a
+                            href="https://trungtran.vn/sac-pin-laptop-gaming-dung-cach/"
+                            className={cx('item-new', 'item-new3')}
+                        >
+                            <p className={cx('p-title')}>Sạc pin laptop gaming đúng cách giúp tăng tuổi thọ pin</p>
+                            <p className={cx('p-time')}>29/11/2023 - 56 views</p>
+                        </a>
+                        <div className={cx('div-more')}>
+                            <a className={cx('a-more')} href="https://trungtran.vn/tin-tuc/">
+                                Tất cả tin tức
+                                <KeyboardArrowRightIcon className={cx('icon-arrow-right')} />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <Frame>
                 <ProductItem />
                 <ProductItem />
