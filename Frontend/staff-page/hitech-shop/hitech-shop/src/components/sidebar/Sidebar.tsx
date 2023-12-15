@@ -10,6 +10,7 @@ import MemoryIcon from '@mui/icons-material/Memory';
 import PaymentIcon from '@mui/icons-material/Payment';
 import PeopleIcon from '@mui/icons-material/People';
 import AssignmentReturnIcon from '@mui/icons-material/AssignmentReturn';
+import StarIcon from '@mui/icons-material/Star';
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DarkModeContext } from '../../context/darkModeContext';
@@ -122,6 +123,12 @@ const Sidebar = () => {
                                             <li>
                                                 <PaymentIcon className='icon' />
                                                 <span>Orders</span>
+                                            </li>
+                                        </Link>
+                                        <Link to='/rating' style={{ textDecoration: 'none' }}>
+                                            <li>
+                                                <StarIcon className='icon' />
+                                                <span>Rating</span>
                                             </li>
                                         </Link>
                                         <Link to='/return' style={{ textDecoration: 'none' }}>

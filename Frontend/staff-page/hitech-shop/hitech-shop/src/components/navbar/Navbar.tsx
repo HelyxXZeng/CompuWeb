@@ -53,16 +53,13 @@ const Navbar = () => {
     return (
         <div className='navbar'>
             <div className="wrapper">
-
-                {/* <div className="search">
-                    <input type='text' placeholder='Search...' />
-                    <SearchIcon />
-                </div> */}
                 <div className="items">
-                    {/* <div className="item">
-                        <LanguageIcon className='icon' />
-                        Language
-                    </div> */}
+                    <Link to='/' style={{ textDecoration: 'none' }}>
+                        <div className="item">
+                            <img alt='' className='avatar'
+                                src={logo} />
+                        </div>
+                    </Link>
                     <div className="item" onClick={() => {
                         dispatch({ type: 'TOGGLE' })
                     }}>
@@ -71,32 +68,16 @@ const Navbar = () => {
                     <div className="item" onClick={handleFullscreenToggle}>
                         <FullscreenExitIcon className='icon' />
                     </div>
-                    <div className="item" onClick={handleLogout}>
-                        <LogoutIcon className='icon' />
-                    </div>
-                    {/* <div className="item">
-                        <NotificationsNoneIcon className='icon' />
-                        <div className="counter">1</div>
-                    </div>
-                    <div className="item">
-                        <MessageIcon className='icon' />
-                        <div className="counter">2</div>
-                    </div> */}
-                    {/* <div className="item">
-                        <ListIcon className='icon' />
-                    </div> */}
-                    <Link to='/' style={{ textDecoration: 'none' }}>
-                        <div className="item">
-                            <img alt='' className='avatar'
-                                src={logo} />
-                        </div>
-                    </Link>
+
                     <Link to='/' style={{ textDecoration: 'none' }}>
                         <div className="item">
                             <img alt='' className='avatar'
                                 src={avatar} />
                         </div>
                     </Link>
+                    <div className="item" onClick={handleLogout}>
+                        <LogoutIcon className='icon' />
+                    </div>
                 </div>
             </div>
         </div>
