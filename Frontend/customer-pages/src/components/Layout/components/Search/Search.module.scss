@@ -13,7 +13,7 @@
         color: var(--black);
         height: 100%;
         background: transparent;
-        font-size: 1.6rem;
+        font-size: 1.4rem;
         caret-color: var(--primary);
     }
 
@@ -38,7 +38,7 @@
 
 .search,
 .search-result {
-    width: 315px;
+    width: 310px;
 }
 
 .search-title {
@@ -75,7 +75,7 @@
     height: 100%;
     border-top-right-radius: var(--search-border-radius);
     border-bottom-right-radius: var(--search-border-radius);
-    font-size: 1.8rem;
+    font-size: 1.5rem;
 
     &:hover {
         cursor: pointer;

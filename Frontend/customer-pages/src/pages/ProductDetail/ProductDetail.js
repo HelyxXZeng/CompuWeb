@@ -11,6 +11,8 @@ import StarIcon from '@mui/icons-material/Star';
 
 import { useState } from 'react';
 
+import { useShoppingCart } from '~/context/ShoppingCartContext';
+
 const customTheme = createTheme({
     components: {
         MuiRating: {
@@ -128,6 +130,39 @@ function ProductDetail() {
     };
 
     const [value, setValue] = useState(2);
+
+    // const handleAddToCart = () => {
+    //     // Assuming you have some product data, replace this with your actual product data
+    //     const productData = {
+    //         id: 20,
+    //         title: 'Alienware X15 R2 i9 12900H RAM 32GB SSD 1TB + 1TB RTX 3070Ti 8GB 15.6inch QHD IPS 240Hz',
+    //         price: 45000000,
+    //         image: 'https://trungtran.vn/upload_images/images/products/lenovo-legion/large/legion_5_15arp8_thumbnail.jpg',
+    //         quantity: 2,
+    //     };
+
+    //     // Retrieve existing cart items from localStorage
+    //     const existingCartItems = JSON.parse(localStorage.getItem('cart')) || [];
+
+    //     // Check if the product is already in the cart
+    //     const isProductInCart = existingCartItems.some((item) => item.id === productData.id);
+
+    //     if (!isProductInCart) {
+    //         // If the product is not in the cart, add it
+    //         const updatedCart = [...existingCartItems, productData];
+
+    //         // Update the localStorage with the updated cart
+    //         localStorage.setItem('cart', JSON.stringify(updatedCart));
+    //         console.log(localStorage.getItem('cart'));
+
+    //         alert('Product added to cart!');
+    //     } else {
+    //         alert('Product is already in the cart!');
+    //         console.log(localStorage.getItem('cart'));
+    //     }
+    // };
+
+    const { increaseCartQuantity } = useShoppingCart();
 
     return (
         <>
@@ -286,7 +321,7 @@ function ProductDetail() {
                         </div>
 
                         <div className={cx('addCart')}>
-                            <button type="submit" name="submit_add_products">
+                            <button type="button" onClick={() => increaseCartQuantity(3)} name="submit_add_products">
                                 Thêm vào giỏ hàng{' '}
                             </button>
                         </div>
@@ -297,7 +332,7 @@ function ProductDetail() {
                         <div className={cx('prodList')}>
                             <div className={cx('frame')}>
                                 <div className={cx('check-input')}>
-                                    <input type="checkbox" checked="true" name="checkbuy" />
+                                    <input type="checkbox" defaultChecked={true} name="checkbuy" />
                                 </div>
                                 <a href="/#">
                                     <div className={cx('prod-img')}>
@@ -318,7 +353,7 @@ function ProductDetail() {
 
                             <div className={cx('frame')}>
                                 <div className={cx('check-input')}>
-                                    <input type="checkbox" checked="true" name="checkbuy" />
+                                    <input type="checkbox" defaultChecked={true} name="checkbuy" />
                                 </div>
                                 <a href="/#">
                                     <div className={cx('prod-img')}>
@@ -339,7 +374,7 @@ function ProductDetail() {
 
                             <div className={cx('frame')}>
                                 <div className={cx('check-input')}>
-                                    <input type="checkbox" checked="true" name="checkbuy" />
+                                    <input type="checkbox" defaultChecked={true} name="checkbuy" />
                                 </div>
                                 <a href="/#">
                                     <div className={cx('prod-img')}>
@@ -360,7 +395,7 @@ function ProductDetail() {
 
                             <div className={cx('frame')}>
                                 <div className={cx('check-input')}>
-                                    <input type="checkbox" checked="true" name="checkbuy" />
+                                    <input type="checkbox" defaultChecked={true} name="checkbuy" />
                                 </div>
                                 <a href="/#">
                                     <div className={cx('prod-img')}>
@@ -380,7 +415,7 @@ function ProductDetail() {
                             </div>
                             <div className={cx('frame')}>
                                 <div className={cx('check-input')}>
-                                    <input type="checkbox" checked="true" name="checkbuy" />
+                                    <input type="checkbox" defaultChecked={true} name="checkbuy" />
                                 </div>
                                 <a href="/#">
                                     <div className={cx('prod-img')}>
