@@ -136,7 +136,8 @@ const AddPromotion = (props: Props) => {
                                     className={`item ${
                                       validation[column.field] === false ? "invalid" : ""
                                     } ${column.field === "Name" ? "name-content-row" : ""}
-                                    ${column.field === "Content" ? "name-content-row" : ""}`}
+                                    ${column.field === "Content" ? "name-content-row" : ""}
+                                    ${(column.field === "Purchase" || column.field === "Promotion") ? "name-content-row" : ""}`}
                                     key={column.field}
                                   >
                                         <label>{column.headerName}</label>
