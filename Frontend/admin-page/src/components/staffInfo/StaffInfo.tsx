@@ -1,5 +1,8 @@
 import { Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import "./staffInfo.scss"
+import { useState } from "react";
+import UpdateStaff from "../updateStaff/UpdateStaff";
+import { GridColDef } from "@mui/x-data-grid";
 
 type Props = {
   id: number;
@@ -12,8 +15,65 @@ type Props = {
   };
   activities?: { time: string; text: string }[];
 };
-
+const columns: GridColDef[] = [
+  {
+    field: "Name",
+    type: "string",
+    headerName: "Name",
+    flex: 5,
+  },
+  {
+    field: "Birthdate",
+    type: "string",
+    headerName: "Birthdate",
+    flex: 4,
+  },
+  {
+    field: "Gender",
+    type: "string",
+    headerName: "Gender",
+    flex: 2,
+  },
+  {
+    field: "IdCardNumber",
+    type: "string",
+    headerName: "IdCard",
+    flex: 2,
+  },
+  {
+    field: "Address",
+    type: "string",
+    headerName: "Address",
+    flex: 2,
+  },
+  {
+    field: "JoinDate",
+    type: "string",
+    headerName: "Join Date",
+    flex: 4,
+  },
+  {
+    field: "PhoneNumber",
+    type: "string",
+    headerName: "Phone",
+    flex: 3,
+  },
+  {
+    field: "Position",
+    headerName: "Position",
+    flex: 3,
+    type: "string",
+  },
+  {
+    field: "Other",
+    headerName: "Status",
+    flex: 2,
+    type: "string",
+  },
+];
 const StaffInfo = (props:Props) => {
+  const [open,setOpen] = useState(false)
+
   return (
     <div className="staffinfo">
       <div className="view">
@@ -21,12 +81,12 @@ const StaffInfo = (props:Props) => {
           <div className="topInfo">
             {props.img && <img src={props.img} alt="" />}
             <h1>{props.title}</h1>
-            <button>Update</button>
+            <button onClick={() => setOpen(true)}>Update</button>
           </div>
           <div className="details">
             {Object.entries(props.info).map((item) => (
               <div className="item" key={item[0]}>
-                <span className="itemTitle">{item[0]}</span>
+                <span className="itemTitle">{item[0]}:</span>
                 <span className="itemValue">{item[1]}</span>
               </div>
             ))}
@@ -77,6 +137,7 @@ const StaffInfo = (props:Props) => {
           </ul>
         )}
       </div>
+      {open && <UpdateStaff slug='staffs' columns={columns} setOpen={setOpen} staffData={props.info} />}
     </div>
   )
 }
