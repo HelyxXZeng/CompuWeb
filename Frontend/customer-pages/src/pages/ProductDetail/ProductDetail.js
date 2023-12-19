@@ -13,6 +13,8 @@ import { useState } from 'react';
 
 import { useShoppingCart } from '~/context/ShoppingCartContext';
 
+import config from '~/config';
+
 const customTheme = createTheme({
     components: {
         MuiRating: {
@@ -299,7 +301,7 @@ function ProductDetail() {
 
                     <div className={cx('buynow-installment')}>
                         <div className={cx('buynow')}>
-                            <a href="/#">
+                            <a href={config.routes.cart}>
                                 Mua ngay
                                 <span>( Giao tận nơi hoặc nhận tại cửa hàng )</span>
                             </a>
@@ -321,7 +323,7 @@ function ProductDetail() {
                         </div>
 
                         <div className={cx('addCart')}>
-                            <button type="button" onClick={() => increaseCartQuantity(3)} name="submit_add_products">
+                            <button type="button" onClick={() => increaseCartQuantity(1)} name="submit_add_products">
                                 Thêm vào giỏ hàng{' '}
                             </button>
                         </div>

@@ -119,7 +119,7 @@ function order() {
                 </div>
             </div>
             <div className={cx('back-home')}>
-                <a href="https://trungtran.vn/">Mua thêm sản phẩm khác</a>
+                <a href="/#">Mua thêm sản phẩm khác</a>
             </div>
         </section>
     );

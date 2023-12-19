@@ -19,7 +19,7 @@ const publicRoutes = [
     { path: config.routes.home, component: Home },
     { path: config.routes.introduce, component: Introduce },
     { path: config.routes.laptop, component: Laptop },
-    { path: config.routes.promotion, component: Promotion, layout: HeaderOnly },
+    { path: config.routes.promotion, component: Home },
     { path: config.routes.accessory, component: Accessory, layout: null },
     { path: config.routes.productDetail, component: ProductDetail },
     { path: config.routes.cart, component: Cart },
