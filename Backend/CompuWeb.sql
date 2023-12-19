@@ -284,3 +284,7 @@ join ProductVariant pv on pv.Id = p.ProductVariantId
 join ProductInstance pi on pi.ProductVariantId = pv.Id
 join OrderItem oi on oi.ProductInstanceId = pi.Id
 where oi.Id = 1
+
+select * from Price
+
+INSERT INTO Price (ProductVariantId, StartDate, EndDate, Status, Value) VALUES (1, '2023-12-15', '2026-12-31', 'CANCELED', 9999999.00)
