@@ -11,10 +11,11 @@ const removeDiacritics = (str) => {
     return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 };
 
-function CustomeSelect({ apiData }) {
+function CustomeSelect({ apiData, onFocus, handleSelectApi, placeHolderType, selectedValue, setSelectedValue }) {
     // Sample array of country names
-    console.log('apiDta', apiData);
-    const [apData, setApiData] = useState(apiData);
+    // console.log('apiDta', apiData);
+    // console.log('onFocus', onFocus);
+    // const [apData, setApiData] = useState(apiData);
     // const countryNames = [
     //     { name: 'Thành Phố Hồ Chí Minh' },
     //     { name: 'Thành Phố Hà Nội' },
@@ -82,7 +83,7 @@ function CustomeSelect({ apiData }) {
     // ];
 
     const [isActiveMenu, setIsActiveMenu] = useState(false);
-    const [selectedValue, setSelectedValue] = useState('Hồ Chí Minh'); // Initial selected value
+    // const [selectedValue, setSelectedValue] = useState(null); // Initial selected value
     const [searchInput, setSearchInput] = useState('');
 
     const inputRef = useRef(null);
@@ -112,13 +113,23 @@ function CustomeSelect({ apiData }) {
     }, []);
 
     const openMenu = () => {
-        setIsActiveMenu(!isActiveMenu);
+        setIsActiveMenu((prevIsActiveMenu) => {
+            if (!prevIsActiveMenu) {
+                console.log('goi api', prevIsActiveMenu);
+                onFocus();
+            }
+            return !prevIsActiveMenu;
+        });
     };
 
-    const handleSelect = (value) => {
-        setSelectedValue(value);
+    const handleSelect = (item) => {
+        setSelectedValue(item);
         setIsActiveMenu(false); // Close the menu after selection
         setSearchInput('');
+        //
+        handleSelectApi(item);
+
+        //
     };
 
     const handleSearchInput = (event) => {
@@ -165,9 +176,9 @@ function CustomeSelect({ apiData }) {
                             type="text"
                             name="dropdown-value"
                             readonly=""
-                            placeholder="Chọn Tỉnh/Thành phố"
+                            placeholder={placeHolderType}
                             title="Đà Nẵng"
-                            value={selectedValue}
+                            value={selectedValue ? selectedValue.name : ''}
                         />
                     </div>
 
@@ -191,8 +202,8 @@ function CustomeSelect({ apiData }) {
                             {filterData.map((item) => (
                                 <span
                                     key={item.name}
-                                    className={cx({ active: item.name === selectedValue })}
-                                    onClick={() => handleSelect(item.name)}
+                                    className={cx({ active: item === selectedValue })}
+                                    onClick={() => handleSelect(item)}
                                 >
                                     {item.name}
                                 </span>

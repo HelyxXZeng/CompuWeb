@@ -26,38 +26,74 @@ const cx = classNames.bind(styles);
 // const cartFromLocalStorage = JSON.parse(localStorage.getItem('cart')) || [];
 
 function Cart() {
+    //
     const [filteredProvinces, setFilteredProvinces] = useState([]);
     const [filteredDistricts, setFilteredDistricts] = useState([]);
     const [filteredWards, setFilteredWards] = useState([]);
+    const [selectedProvince, setSelectedProvince] = useState(null);
+    const [selectedDistrict, setSelectedDistrict] = useState(null);
+    const [selectedWard, setSelectedWard] = useState(null);
     //
-    useEffect(() => {
-        const fetchApi = async () => {
-            const result = await ProvinceOpenApi.getProvinces();
-            console.log('province', result);
-            setFilteredProvinces(result);
-        };
+    const fetchProvinces = async () => {
+        const result = await ProvinceOpenApi.getProvinces();
+        setFilteredProvinces(result);
+    };
 
-        fetchApi();
-    }, []);
+    const fetchDistricts = async (provinceCode) => {
+        const result = await ProvinceOpenApi.getDistricts(provinceCode);
+        setFilteredDistricts(result.districts);
+    };
 
-    useEffect(() => {
-        const fetchApi = async () => {
-            const result = await ProvinceOpenApi.getDistricts(79);
-            setFilteredDistricts(result);
-        };
+    const fetchWards = async (districtCode) => {
+        const result = await ProvinceOpenApi.getWards(districtCode);
+        setFilteredWards(result.wards);
+    };
 
-        fetchApi();
-    }, []);
+    const loadProvinceList = async () => {
+        if (!filteredProvinces.length) {
+            await fetchProvinces();
+        }
+    };
 
-    useEffect(() => {
-        const fetchApi = async () => {
-            const result = await ProvinceOpenApi.getWards(769);
-            setFilteredWards(result);
-        };
+    const loadDistrictList = async () => {
+        if (filteredDistricts.length || !selectedProvince) {
+            return;
+        }
+        await fetchDistricts(selectedProvince.code);
+    };
 
-        fetchApi();
-    }, []);
-    //
+    const loadWardList = async () => {
+        if (filteredWards.length || !selectedDistrict) {
+            return;
+        }
+        await fetchWards(selectedDistrict.code);
+    };
+
+    const selectProvince = (province) => {
+        setSelectedProvince(province);
+        resetDistrict();
+        resetWard();
+    };
+
+    const selectDistrict = (district) => {
+        setSelectedDistrict(district);
+        resetWard();
+    };
+
+    const selectWard = (ward) => {
+        setSelectedWard(ward);
+    };
+
+    const resetDistrict = () => {
+        setSelectedDistrict(null);
+        setFilteredDistricts([]);
+    };
+
+    const resetWard = () => {
+        setSelectedWard(null);
+        setFilteredWards([]);
+    };
+
     // const [cart, setCart] = useState(cartFromLocalStorage);
 
     // useEffect(() => {
@@ -133,12 +169,26 @@ function Cart() {
                                 </div>
                                 <div className={cx('mi-row', 'row-l-2')}>
                                     <p class="p-text-form">Tỉnh/ Thành phố *</p>
-                                    <CustomeSelect apiData={filteredProvinces} />
+                                    <CustomeSelect
+                                        apiData={filteredProvinces}
+                                        onFocus={loadProvinceList}
+                                        handleSelectApi={selectProvince}
+                                        placeHolderType="Chọn Tỉnh/ Thành phố"
+                                        selectedValue={selectedProvince}
+                                        setSelectedValue={setSelectedProvince}
+                                    />
                                 </div>
 
                                 <div className={cx('mi-row', 'row-l-3')}>
                                     <p class="p-text-form">Phường/ Xã *</p>
-                                    <CustomeSelect apiData={filteredWards.wards} />
+                                    <CustomeSelect
+                                        apiData={filteredWards}
+                                        onFocus={loadWardList}
+                                        handleSelectApi={selectWard}
+                                        placeHolderType="Chọn Phường/ Xã"
+                                        selectedValue={selectedWard}
+                                        setSelectedValue={setSelectedWard}
+                                    />
                                 </div>
                             </div>
                             <div className={cx('mi-col', 'col-r')}>
@@ -154,7 +204,14 @@ function Cart() {
                                 </div>
                                 <div className={cx('mi-row', 'row-r-2')}>
                                     <p class="p-text-form">Quận/ Huyện *</p>
-                                    <CustomeSelect apiData={filteredDistricts.districts} />
+                                    <CustomeSelect
+                                        apiData={filteredDistricts}
+                                        onFocus={loadDistrictList}
+                                        handleSelectApi={selectDistrict}
+                                        placeHolderType="Chọn Quận/ Huyện"
+                                        selectedValue={selectedDistrict}
+                                        setSelectedValue={setSelectedDistrict}
+                                    />
                                 </div>
                                 <div className={cx('mi-row', 'row-r-3')}>
                                     <p class="p-text-form">Số nhà, tên đường *</p>

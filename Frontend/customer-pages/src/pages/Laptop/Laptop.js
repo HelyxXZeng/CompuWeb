@@ -3,12 +3,14 @@ import styles from './Laptop.module.scss';
 import Dropdown from './Dropdown';
 import ProducItem from './ProductItem';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material/styles';
+
+import * as productServices from '~/apiServices/productServices';
 
 const cx = classNames.bind(styles);
 
@@ -25,11 +27,41 @@ const theme = createTheme({
 });
 
 function Laptop() {
+    //
+
+    const [specList, setSpecList] = useState([]);
+    const [brandList, setBrandList] = useState([]);
+    const [cateList, setCateList] = useState([]);
+
+    useEffect(() => {
+        const fetchSpecList = async () => {
+            const result = await productServices.getSpecList();
+            setSpecList(result);
+        };
+
+        const fetchBrands = async () => {
+            const result = await productServices.getBrands();
+            setBrandList(result);
+            console.log('Brands', brandList);
+        };
+
+        const fetchCategories = async () => {
+            const result = await productServices.getCategories();
+            setCateList(result);
+            console.log('Categories', cateList);
+        };
+
+        fetchSpecList();
+        fetchBrands();
+        fetchCategories();
+    }, []);
+    //
+
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 7; // Adjust the number of items per page as needed
+    const itemsPerPage = 24; // Adjust the number of items per page as needed
 
     // Your product data
-    const productList = Array(68).fill(null);
+    const productList = Array(150).fill(null);
 
     // Calculate the index range for the current page
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -55,16 +87,14 @@ function Laptop() {
                 <div className={cx('categories-col')}>
                     <div className={cx('cate-bg')}>
                         <div className={cx('cate-filter')}>
-                            <Dropdown />
-                            <Dropdown />
-                            <Dropdown />
-                            <Dropdown />
-                            <Dropdown />
-                            <Dropdown />
-                            <Dropdown />
-                            <Dropdown />
-                            <Dropdown />
-                            <Dropdown />
+                            {/* <Dropdown /> */}
+                            <Dropdown title="Brand" itemList={brandList} />
+                            <Dropdown title="Category" itemList={cateList} />
+                            {specList.map((item, index) => {
+                                return item.specifications.length > 0 ? (
+                                    <Dropdown key={index} title={item.name} itemList={item.specifications} />
+                                ) : null;
+                            })}
                         </div>
                     </div>
                 </div>

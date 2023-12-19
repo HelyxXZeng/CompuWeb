@@ -24,36 +24,44 @@ function InfiSwiper() {
             >
                 <swiper-slide>
                     <img
-                        src="https://trungtran.vn/images/slideshow/2023/02/22/slideshow_large/dell-xps-13_1677050031.webp"
-                        alt="Dell XPS 13"
+                        class="img-responsive"
+                        src="https://trungtran.vn/images/slideshow/2023/12/09/slideshow_large/slide-web-dai-le-sale-mung-nam-moi-2024_1702136682.webp"
+                        alt="ĐẠI TIỆC SALE MỪNG NĂM MỚI 2024"
+                        naptha_cursor="region"
                     ></img>
                 </swiper-slide>
                 <swiper-slide>
                     <img
-                        class="img-responsive"
-                        src="https://trungtran.vn/images/slideshow/2023/02/22/slideshow_large/slide-laptop-gaming-790x315px_1677049997.webp"
-                        alt="Laptop Gaming"
+                        src="https://lh3.googleusercontent.com/vkMMX2cvl_1ii0c_vw5TGy4ixhRc-l7OlMWnmx4-oxquqHo_A9aET_lWxDmxbh-GMZTr3O5JS4kGNa0Ka7hcctxo2lj0xoUR=w1920-rw"
+                        alt="Intel Gen 12"
                     ></img>
                 </swiper-slide>
                 <swiper-slide>
                     <img
-                        class="img-responsive"
-                        src="https://trungtran.vn/images/slideshow/2023/02/22/slideshow_large/slide-dinh-vi--790x315px_1677049738.webp"
-                        alt="Giới thiệu dịch vụ Trung Trần"
+                        src="https://lh3.googleusercontent.com/sE7rCkO33ULe3i5tIElLXuCKKLncKif7dlo1uRCNSFdb2TVuqm0kNYZXmjEJ4Dk2pzcP01xDizuFBtfhUxSfsoNhcCxOomcv=w1920-rw"
+                        loading="eager"
+                        decoding="async"
+                        alt="Giảm thêm 1 triệu dành cho laptop HP victus"
+                        fetchpriority="high"
                     ></img>
                 </swiper-slide>
                 <swiper-slide>
                     <img
-                        class="img-responsive"
-                        src="https://trungtran.vn/images/slideshow/2023/05/18/slideshow_large/slide-so-sanh-laptop-nhap-my-vs-trung-quoc_1684377408.webp"
-                        alt="Laptop nhập Mỹ có tốt hơn Laptop nhập Trung Quốc? Nguồn gốc Laptop cũ"
+                        src="https://lh3.googleusercontent.com/NEyGqAS4HkBmVGWbdLxRCJ7v4n7Xz-Xcfs6ffoxCNZMHBg0txwJk7L0FVyBvjZ9mwdFsV915-uAWlcX_JPHD1yJSq2EYfeV6=w1920-rw"
+                        loading="lazy"
+                        decoding="async"
+                        alt="Intel Evo"
+                        fetchpriority="low"
                     ></img>
                 </swiper-slide>
+
                 <swiper-slide>
                     <img
-                        class="img-responsive"
-                        src="https://trungtran.vn/images/slideshow/2023/02/22/slideshow_large/slide-macbook-pro-790x315px_1677049827.webp"
-                        alt="Macbook Pro"
+                        src="https://lh3.googleusercontent.com/Cc34HiLI1cUfHm_bBPh6-EngJMmEEZL-QuWvKxRkZVOmzojMSs-Fke4kOz9Wm37XJf1HTtVjpUCxxKEb0vD5yIIvVQshdsXdhA=w1920-rw"
+                        loading="lazy"
+                        decoding="async"
+                        alt="Lenovo Slim 3i"
+                        fetchpriority="low"
                     ></img>
                 </swiper-slide>
             </swiper-container>
