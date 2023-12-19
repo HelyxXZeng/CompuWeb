@@ -5,6 +5,7 @@ using System.Data;
 using TestForASPWebAPI.Models;
 using FuzzySharp;
 using System.Linq;
+using System.Collections.Generic;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace TestForASPWebAPI.Controllers
@@ -15,6 +16,7 @@ namespace TestForASPWebAPI.Controllers
     {
         private readonly ILogger<DTOController> _logger;
         private readonly HttpClient _httpClient;
+        private List<ProductVariantDTO> productVariantsTable;
         public DTOController(ILogger<DTOController> logger)
         {
             _logger = logger;
@@ -341,9 +343,11 @@ namespace TestForASPWebAPI.Controllers
             return Ok();
         }
 
-        [HttpGet("GetLaptopProductTable")]
-        public async Task<IActionResult> GetLaptopProductTable()
+        [HttpGet("GetLaptopProductPage")]
+        public async Task<IActionResult> GetLaptopProductPage()
         {
+            if (productVariantsTable is not null) return Ok(productVariantsTable);
+
             HttpResponseMessage response = await _httpClient.GetAsync($"api/DTOController/GetProductTable");
             List<ProductVariantDTO> productVariants;
             if (!response.IsSuccessStatusCode)
@@ -422,13 +426,33 @@ namespace TestForASPWebAPI.Controllers
                     }
                 }
             }
+            productVariantsTable = productVariants;
             return Ok(productVariants);
         }
 
-        [HttpGet("Search/{keyword}/{start}+{count}")]
+        [HttpGet("GetLaptopProductTable/{start}-{count}")]
+        public async Task<IActionResult> GetLaptopProductTable(int start, int count)
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync($"api/DTOController/GetLaptopProductPage");
+            List<ProductVariantDTO> productVariants;
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest();
+            }
+            string jsonResponse = await response.Content.ReadAsStringAsync();
+            productVariants = JsonConvert.DeserializeObject<List<ProductVariantDTO>>(jsonResponse);
+
+            List<ProductVariantDTO> Results = productVariants.Skip(start - 1).Take(count).ToList();
+
+            Tuple<List<ProductVariantDTO>, int> products = new Tuple<List<ProductVariantDTO>, int>(Results, productVariants.Count());
+
+            return Ok(products);
+        }
+
+        [HttpGet("Search/{keyword}/{start}-{count}")]
         public async Task<IActionResult> Search (string keyword, int start, int count)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync($"api/DTOController/GetLaptopProductTable");
+            HttpResponseMessage response = await _httpClient.GetAsync($"api/DTOController/GetLaptopProductPage");
             List<ProductVariantDTO> productVariants;
             if (!response.IsSuccessStatusCode)
             {
@@ -443,8 +467,14 @@ namespace TestForASPWebAPI.Controllers
                 .OrderByDescending(result => result.Item2)
                 .Skip(start - 1).Take(count)
                 .ToList();
-            
-            return Ok(SearchResults);
+            int countResults = productVariants
+                .Select(result => new Tuple<ProductVariantDTO, int>(result, Fuzz.PartialRatio(result.Name.ToLower(), keyword.ToLower())))
+                .Where(result => result.Item2 >= 40) // Adjust accuracy threshold here
+                .ToList().Count();
+
+            Tuple<List<Tuple<ProductVariantDTO, int>>, int> result = new Tuple<List<Tuple<ProductVariantDTO, int>>, int>(SearchResults, countResults);
+
+            return Ok(result);
         }
 
         [HttpGet("GetProductVariantDetail")]

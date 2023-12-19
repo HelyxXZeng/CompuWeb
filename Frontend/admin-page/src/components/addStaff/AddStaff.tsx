@@ -119,7 +119,7 @@ const AddStaff = (props: Props) => {
     const [selectedFile, setSelectedFile] = useState<File | undefined>();
 
     const [Jvalue, setJValue] = React.useState<Dayjs | null>(dayjs('2023-11-27'));
-    const [DoBvalue, setDoBValue] = React.useState<Dayjs | null>(dayjs('2023-11-27'));
+    const [DoBvalue, setDoBValue] = React.useState<Dayjs | null>(dayjs('2000-01-01'));
 
     const [genderValue, setGenderValue] = useState('');
     const [validation, setValidation] = useState<Record<string, boolean>>({});
@@ -134,7 +134,7 @@ const AddStaff = (props: Props) => {
 
         props.columns
         .forEach((column) => {
-            if (column.field === 'JoinDate' || column.field === 'Birthday') {
+            if (column.field === 'JoinDate' || column.field === 'Birthdate') {
                 return;
             } 
                 
@@ -197,7 +197,7 @@ const AddStaff = (props: Props) => {
                 .forEach((column) => {
                 if (column.field === 'JoinDate') {
                     formData[column.field] = Jvalue?.format('YYYY-MM-DD') || null;
-                } else if (column.field === 'Birthday') {
+                } else if (column.field === 'Birthdate') {
                     formData[column.field] = DoBvalue?.format('YYYY-MM-DD') || null;
                 } else if (column.field === 'Gender') {
                     formData[column.field] = genderValue;
@@ -250,7 +250,7 @@ const AddStaff = (props: Props) => {
                                                 onChange={(newValue) => setJValue(newValue)}
                                             />
                                         )}
-                                        {column.field === 'Birthday' && (
+                                        {column.field === 'Birthdate' && (
                                             <DatePicker
                                                 value={DoBvalue}
                                                 onChange={(newValue) => setDoBValue(newValue)}
@@ -267,7 +267,7 @@ const AddStaff = (props: Props) => {
                                             <MenuItem value="Nonbinary">Nonbinary</MenuItem>
                                             </Select>
                                         )}
-                                        {column.field !== 'JoinDate' && column.field !== 'Birthday' &&
+                                        {column.field !== 'JoinDate' && column.field !== 'Birthdate' &&
                                             column.field !== 'Gender' && (
                                             <input type={column.type} placeholder={column.field} name={column.field} />
                                         )}

@@ -74,7 +74,7 @@ namespace TestForASPWebAPI.Controllers
         [HttpPost("Insert")]
         public void Insert([FromBody] Price value)
         {
-            string command = $"INSERT INTO Price (ProductVariantId, StartDate, EndDate, Status, Value) VALUES ({value.ProductVariantId}, '{value.StartDate.ToString("yyyy-MM-dd")}', '{value.EndDate.ToString("yyyy-MM-dd")}', '{value.Status}', '{value.Value.ToString("0.00")}')";
+            string command = $"INSERT INTO Price (ProductVariantId, StartDate, EndDate, Status, Value) VALUES ({value.ProductVariantId}, '{value.StartDate.ToString("yyyy-MM-dd")}', '{value.EndDate.ToString("yyyy-MM-dd")}', '{value.Status}', {value.Value.ToString("0.00")})";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
