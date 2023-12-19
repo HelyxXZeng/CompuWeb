@@ -425,7 +425,7 @@ namespace TestForASPWebAPI.Controllers
             return Ok(productVariants);
         }
 
-        [HttpGet("Search/{keyword}/{start}-{count}")]
+        [HttpGet("Search/{keyword}/{start}+{count}")]
         public async Task<IActionResult> Search (string keyword, int start, int count)
         {
             HttpResponseMessage response = await _httpClient.GetAsync($"api/DTOController/GetLaptopProductTable");
