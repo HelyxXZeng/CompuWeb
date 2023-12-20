@@ -19,6 +19,11 @@ const PriceApi = {
         return axiosClient.get(url);
     },
 
+    getCurrentPrice: (productVariantId: number) => {
+        const url = '/DTOController/GetCurrentPrice/' + productVariantId;
+        return axiosClient.get(url);
+    },
+
     add: async (Price: Price) => {
         try {
             const response = await axiosClient.post('/Prices/Insert', Price);

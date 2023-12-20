@@ -80,7 +80,13 @@ const PriceSingle: React.FC<Props> = (para: Props) => {
         const { name, value } = e.target;
         // console.log('This is input name', name)
         // console.log('This is input value', value)
-        setPrice((prevPrice) => ({ ...prevPrice, [name]: value }));
+        if (name === 'value') {
+
+            setPrice((prevPrice) => ({ ...prevPrice, [name]: Number.parseInt(value) }));
+        } else {
+
+            setPrice((prevPrice) => ({ ...prevPrice, [name]: value }));
+        }
         // console.log('Product Variant: ', price)
     };
 

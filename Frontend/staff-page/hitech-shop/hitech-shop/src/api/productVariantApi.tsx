@@ -7,6 +7,13 @@ export interface ProductVariant {
     productSpecifications: any
 }
 
+export interface ProductVariantWithSpecifications {
+    id: number,
+    productLineId: number,
+    name: string,
+    specifications: any
+}
+
 export interface ProductSpecification {
     id: number,
     productVariantId: number,
