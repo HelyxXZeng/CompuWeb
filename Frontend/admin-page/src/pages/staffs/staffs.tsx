@@ -68,14 +68,14 @@ const columns: GridColDefWithDisplay[] = [
     displayInForm: true,
   },
   {
-    field: "Posistion",
-    headerName: "Posistion",
+    field: "Position",
+    headerName: "Position",
     flex: 3,
     type: "string",
     displayInForm: true,
   },
   {
-    field: "Status",
+    field: "Other",
     headerName: "Status",
     flex: 2,
     type: "string",
@@ -88,8 +88,7 @@ const staffs = () => {
 
   const dataTableColumns = columns.filter(
     (column) => ( column.field !== "Birthdate" && column.field !== "IdCardNumber" &&
-                    column.field != "Address")
-  );
+                    column.field != "Address"));
 
   const addStaffColumns = columns.filter(
     (column) => column.displayInForm 

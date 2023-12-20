@@ -2,7 +2,7 @@ import axiosClient from "./axiosClient";
 
 export interface StaffDef {
     Id: number,
-    Img:ImageBitmap,
+    Img: string,
     Name: string,
     Birthday: Date,
     Gender: string,
