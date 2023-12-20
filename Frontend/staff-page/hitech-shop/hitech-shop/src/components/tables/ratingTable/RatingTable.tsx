@@ -5,10 +5,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useRef, useState } from 'react';
 // import actionColumn from '../datatable/DataTable';
 import actionColumn from '../datatable/DataTable';
-import priceApi from '../../../api/priceApi';
+import ratingApi from '../../../api/ratingApi';
 import productVariantApi from '../../../api/productVariantApi';
+import Rating from '@mui/material/Rating';
 // import ConfirmationDialog from '../confirmationDialog/ConfirmationDialog';
-interface PriceTableProps {
+interface RatingTableProps {
     rows: any[]; // Define the type of your rows here
 }
 
@@ -20,47 +21,35 @@ const columns: GridColDef[] = [
         field: 'productVariant', headerName: 'Variant', flex: 7
     },
     {
-        field: 'value', headerName: 'Value', flex: 3
+        field: 'date', headerName: 'Date', flex: 3
     },
     {
-        field: 'startDate', headerName: 'Start Date', flex: 3,
+        field: 'rating', headerName: 'Rating', flex: 3,
         renderCell: (params) => {
             return (
-                <div className={"date" + " " + params.row.startDate}>
-                    {params.row.startDate}
-                </div>
+                <Rating name="read-only" value={params.row.rating} readOnly />
             );
         },
     },
     {
-        field: 'endDate', headerName: 'End Date', flex: 3,
-        renderCell: (params) => {
-            return (
-                <div className={"date" + " " + params.row.endDate}>
-                    {params.row.endDate}
-                    {/* {params.row.endDate.split['T'][0]} */}
-                </div>
-            );
-        },
+        field: 'comment', headerName: 'Comment', flex: 7
     },
     {
-        field: 'status', headerName: 'Status'
+        field: 'status', headerName: 'Status', flex: 3
     }
 ]
 
-const PriceTable: React.FC<PriceTableProps> = ({ rows }) => {
+const RatingTable: React.FC<RatingTableProps> = ({ rows }) => {
 
-    // console.log('Price rows: ', rows)
+    // console.log('Rating rows: ', rows)
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
-    const [productVariants, setProductVariants] = useState<any[]>([]);
-    const [productVariantsFetched, setProductVariantsFetched] = useState(false);
 
     const handleDelete = (rowId: number) => {
         const isConfirmed = window.confirm('Are you sure you want to delete this row?');
         if (isConfirmed) {
             // Perform the deletion action here
-            priceApi.remove(rowId);
+            ratingApi.remove(rowId);
             console.log('Deleting row with ID:', rowId);
 
             // Update displayedRows after the item has been deleted
@@ -74,7 +63,7 @@ const PriceTable: React.FC<PriceTableProps> = ({ rows }) => {
 
     const handleView = (rowId: number) => {
         console.log('Viewing row with ID:', rowId);
-        navigate(`/prices/GetPriceById?id=${rowId}`);
+        navigate(`/ratings/GetRatingById?id=${rowId}`);
     };
 
     const handleInput = (event: any) => {
@@ -82,23 +71,12 @@ const PriceTable: React.FC<PriceTableProps> = ({ rows }) => {
     }
 
     useEffect(() => {
-        const fetchProductVariants = async () => {
-            try {
-                const productVariantsData = (await productVariantApi.getAll({ _page: 1, _limit: 100000 })).data;
-                await setProductVariants(productVariantsData);
-                setProductVariantsFetched(true);
-            } catch (error) {
-                console.log('Failed to fetch ProductVariant data:', error);
-            }
-        };
-
         const formatDate = async () => {
             rows.forEach(
                 row => {
                     try {
                         // console.log('Split date', row.startDate.substring(0, 10))
-                        row.startDate = row.startDate.substring(0, 10)
-                        row.endDate = row.endDate.substring(0, 10)
+                        row.startDate = row.date.substring(0, 10)
                     }
                     catch (error) {
 
@@ -107,39 +85,31 @@ const PriceTable: React.FC<PriceTableProps> = ({ rows }) => {
             )
         }
 
-        fetchProductVariants();
         formatDate();
     }, []);
 
     useEffect(() => {
-        if (productVariantsFetched) {
-            // Update rows with product variants
-            rows.forEach((row) => {
-                row.productVariant = productVariants.find((item) => item.id === row.productVariantId)?.name || 'N/A';
-            });
-
-            // Update displayedRows with filtered rows
-            try {
-                const filteredRows = rows.filter((row) =>
-                    row.id.toString().includes(query) || // Check Id (assuming Id is a number)
-                    row.productVariant.includes(query)
-                );
-                setDisplayedRows(filteredRows);
-            } catch (error) {
-                // Handle error if needed
-            }
+        // Update displayedRows with filtered rows
+        try {
+            const filteredRows = rows.filter((row) =>
+                row.id.toString().includes(query) || // Check Id (assuming Id is a number)
+                row.productVariant.includes(query)
+            );
+            setDisplayedRows(filteredRows);
+        } catch (error) {
+            // Handle error if needed
         }
-    }, [productVariantsFetched, productVariants, rows, query]);
+    }, [rows, query]);
 
     return (
         <div className='datatable'>
             <div className="datatableTitle">
-                Price
+                Rating
                 <div className="search">
                     <input type='text' placeholder='Search...' onChange={(e) => handleInput(e)} />
                     <SearchIcon />
                 </div>
-                <Link to="/prices/new" className='link'>
+                <Link to="/ratings/new" className='link'>
                     Add New
                 </Link>
             </div>
@@ -163,4 +133,4 @@ const PriceTable: React.FC<PriceTableProps> = ({ rows }) => {
     )
 }
 
-export default PriceTable
+export default RatingTable

@@ -26,6 +26,8 @@ import SpecificationTypeTable from "../../components/tables/specificationTypeTab
 import "./list.scss"
 import priceApi from "../../api/priceApi"
 import PriceTable from "../../components/tables/priceTable/PriceTable"
+import ratingApi from "../../api/ratingApi"
+import RatingTable from "../../components/tables/ratingTable/RatingTable"
 
 
 
@@ -77,6 +79,9 @@ const List = ({ type }: { type: string }) => {
                         break;
                     case 'price':
                         data = (await priceApi.getAll({ _page: 1, _limit: 100000 })).data;
+                        break;
+                    case 'rating':
+                        data = (await ratingApi.getAll({ _page: 1, _limit: 100000 })).data;
                         break;
                     default:
                         break;
@@ -133,6 +138,8 @@ const List = ({ type }: { type: string }) => {
                 return <SpecificationTable rows={rows} />;
             case 'price':
                 return <PriceTable rows={rows} />;
+            case 'rating':
+                return <RatingTable rows={rows} />;
             default:
                 return null;
         }
