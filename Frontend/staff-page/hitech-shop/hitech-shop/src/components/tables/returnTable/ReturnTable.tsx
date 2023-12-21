@@ -9,8 +9,14 @@ import returnApi from '../../../api/returnApi';
 
 
 // import ConfirmationDialog from '../confirmationDialog/ConfirmationDialog';
-interface ReturnTableProps {
-    rows: any[]; // Define the type of your rows here
+interface Row {
+    id: number;
+    name: string;
+    productVariantName: string,
+    customerName: string,
+    price: number,
+    date: string,
+    status: string
 }
 
 const columns: GridColDef[] = [
@@ -18,7 +24,7 @@ const columns: GridColDef[] = [
         field: 'id', headerName: 'ID', width: 60
     },
     {
-        field: 'productVariant', headerName: 'Variant', flex: 7
+        field: 'productVariantName', headerName: 'Variant', flex: 7
     },
     {
         field: 'customerName', headerName: 'Customer', flex: 7
@@ -34,9 +40,8 @@ const columns: GridColDef[] = [
     }
 ]
 
-const ReturnTable: React.FC<ReturnTableProps> = ({ rows }) => {
-
-    // console.log('Return rows: ', rows)
+const ReturnTable = () => {
+    const [rows, setRows] = useState<Row[]>([]);
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
 
@@ -66,12 +71,23 @@ const ReturnTable: React.FC<ReturnTableProps> = ({ rows }) => {
     }
 
     useEffect(() => {
+        const fetchRows = async () => {
+            const data = (await returnApi.getAll({ _page: 1, _limit: 100000 })).data;
+            setRows(data)
+            // console.log('This is rows in fetch', data)
+        }
+
+        fetchRows();
+    }, [])
+
+
+    useEffect(() => {
         const formatDate = async () => {
             rows.forEach(
                 row => {
                     try {
                         // console.log('Split date', row.startDate.substring(0, 10))
-                        row.startDate = row.date.substring(0, 10)
+                        row.date = row.date.substring(0, 10)
                     }
                     catch (error) {
 
@@ -81,14 +97,14 @@ const ReturnTable: React.FC<ReturnTableProps> = ({ rows }) => {
         }
 
         formatDate();
-    }, []);
+    }, [rows]);
 
     useEffect(() => {
         // Update displayedRows with filtered rows
         try {
             const filteredRows = rows.filter((row) =>
                 row.id.toString().includes(query) || // Check Id (assuming Id is a number)
-                row.productVariant.includes(query) ||
+                row.productVariantName.includes(query) ||
                 row.customerName.includes(query)
             );
             setDisplayedRows(filteredRows);

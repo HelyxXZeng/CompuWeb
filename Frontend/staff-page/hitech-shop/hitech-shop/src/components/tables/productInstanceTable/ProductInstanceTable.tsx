@@ -8,8 +8,11 @@ import actionColumn from '../datatable/DataTable';
 import productInstanceApi from '../../../api/productInstanceApi';
 import productVariantApi from '../../../api/productVariantApi';
 // import ConfirmationDialog from '../confirmationDialog/ConfirmationDialog';
-interface ProductInstanceTableProps {
-    rows: any[]; // Define the type of your rows here
+interface Row {
+    id: number,
+    productVariantName: string,
+    serialNumber: string,
+    available: string
 }
 
 const columns: GridColDef[] = [
@@ -17,39 +20,35 @@ const columns: GridColDef[] = [
         field: 'id', headerName: 'ID', width: 60
     },
     {
-        field: 'productVariant', headerName: 'Product Variant Name', flex: 4
+        field: 'productVariantName', headerName: 'Product Variant Name', flex: 4
     },
     {
         field: 'serialNumber', headerName: 'Serial Number', flex: 3
     },
-    // {
-    //     field: 'status', headerName: 'Status', flex: 2
-    // },
     {
         field: 'available', headerName: 'Available', flex: 2
     },
 
 ]
 
-const ProductInstanceTable: React.FC<ProductInstanceTableProps> = ({ rows }) => {
-
-    // console.log('ProductInstance rows: ', rows)
+const ProductInstanceTable = () => {
+    const [rows, setRows] = useState<Row[]>([]);
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
-    const [productVariants, setProductVariants] = useState<any[]>([]);
+    // const [productVariants, setProductVariants] = useState<any[]>([]);
     const previousRowsRef = useRef<any[]>([]);
-    useEffect(() => {
-        const fetchProductVariants = async () => {
-            try {
-                const productVariantsData = (await productVariantApi.getAll({ _page: 1, _limit: 100000 })).data;
-                setProductVariants(productVariantsData);
-            } catch (error) {
-                console.log('Failed to fetch ProductVariant data:', error);
-            }
-        };
+    // useEffect(() => {
+    //     const fetchProductVariants = async () => {
+    //         try {
+    //             const productVariantsData = (await productVariantApi.getAll({ _page: 1, _limit: 100000 })).data;
+    //             setProductVariants(productVariantsData);
+    //         } catch (error) {
+    //             console.log('Failed to fetch ProductVariant data:', error);
+    //         }
+    //     };
 
-        fetchProductVariants();
-    }, []);
+    //     fetchProductVariants();
+    // }, []);
 
     const handleDelete = (rowId: number) => {
         const isConfirmed = window.confirm('Are you sure you want to delete this row?');
@@ -77,15 +76,25 @@ const ProductInstanceTable: React.FC<ProductInstanceTableProps> = ({ rows }) => 
     }
 
     useEffect(() => {
-        // Check if the rows have actually changed
-        if (previousRowsRef.current !== rows && productVariants.length > 0) {
-            // Update rows directly to include productVariant name
-            // console.log('Product Variants in Instance', productVariants)
-            rows.forEach(row => {
-                row.productVariant = productVariants.find(pl => pl.id === row.productVariantId)?.name || 'N/A';
-            });
-
+        const fetchRows = async () => {
+            const data = (await productInstanceApi.getAll({ _page: 1, _limit: 100000 })).data;
+            setRows(data)
+            console.log('This is rows in fetch', data)
         }
+
+        fetchRows();
+    }, [])
+
+    useEffect(() => {
+        // Check if the rows have actually changed
+        // if (previousRowsRef.current !== rows && productVariants.length > 0) {
+        //     // Update rows directly to include productVariant name
+        //     // console.log('Product Variants in Instance', productVariants)
+        //     rows.forEach(row => {
+        //         row.productVariant = productVariants.find(pl => pl.id === row.productVariant)?.name || 'N/A';
+        //     });
+
+        // }
 
         // Use the filter method to create a new array with rows that match the query in either Name or Id
         // console.log('Rows in Instances:', rows)
@@ -93,7 +102,7 @@ const ProductInstanceTable: React.FC<ProductInstanceTableProps> = ({ rows }) => 
             const filteredRows = rows.filter(row =>
                 (row.serialNumber && row.serialNumber.toLowerCase().includes(query.toLowerCase()))
                 || (row.id && row.id.toString().includes(query))
-                || (row.productVariant && row.productVariant.toLowerCase().includes(query.toLowerCase()))
+                || (row.productVariantName && row.productVariantName.toLowerCase().includes(query.toLowerCase()))
             );
             setDisplayedRows(filteredRows);
         }
@@ -103,7 +112,7 @@ const ProductInstanceTable: React.FC<ProductInstanceTableProps> = ({ rows }) => 
 
         // Update the previousRowsRef with the current rows
         previousRowsRef.current = rows.slice(); // Copy the array to avoid reference issues
-    }, [query, rows, productVariants]);
+    }, [query, rows]);
 
     return (
         <div className='datatable'>

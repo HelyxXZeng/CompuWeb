@@ -9,8 +9,13 @@ import ratingApi from '../../../api/ratingApi';
 import productVariantApi from '../../../api/productVariantApi';
 import Rating from '@mui/material/Rating';
 // import ConfirmationDialog from '../confirmationDialog/ConfirmationDialog';
-interface RatingTableProps {
-    rows: any[]; // Define the type of your rows here
+interface Row {
+    id: number;
+    productVariantName: string;
+    date: string,
+    rating: number,
+    comment: string,
+    status: string
 }
 
 const columns: GridColDef[] = [
@@ -18,7 +23,7 @@ const columns: GridColDef[] = [
         field: 'id', headerName: 'ID', width: 60
     },
     {
-        field: 'productVariant', headerName: 'Variant', flex: 7
+        field: 'productVariantName', headerName: 'Variant', flex: 7
     },
     {
         field: 'date', headerName: 'Date', flex: 3
@@ -39,9 +44,8 @@ const columns: GridColDef[] = [
     }
 ]
 
-const RatingTable: React.FC<RatingTableProps> = ({ rows }) => {
-
-    // console.log('Rating rows: ', rows)
+const RatingTable = () => {
+    const [rows, setRows] = useState<Row[]>([]);
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
 
@@ -69,6 +73,15 @@ const RatingTable: React.FC<RatingTableProps> = ({ rows }) => {
     const handleInput = (event: any) => {
         setQuery(event.target.value);
     }
+    useEffect(() => {
+        const fetchRows = async () => {
+            const data = (await ratingApi.getAll({ _page: 1, _limit: 100000 })).data;
+            setRows(data)
+            // console.log('This is rows in fetch', data)
+        }
+
+        fetchRows();
+    }, [])
 
     useEffect(() => {
         const formatDate = async () => {
@@ -76,7 +89,7 @@ const RatingTable: React.FC<RatingTableProps> = ({ rows }) => {
                 row => {
                     try {
                         // console.log('Split date', row.startDate.substring(0, 10))
-                        row.startDate = row.date.substring(0, 10)
+                        row.date = row.date.substring(0, 10)
                     }
                     catch (error) {
 
@@ -86,14 +99,14 @@ const RatingTable: React.FC<RatingTableProps> = ({ rows }) => {
         }
 
         formatDate();
-    }, []);
+    }, [rows]);
 
     useEffect(() => {
         // Update displayedRows with filtered rows
         try {
             const filteredRows = rows.filter((row) =>
                 row.id.toString().includes(query) || // Check Id (assuming Id is a number)
-                row.productVariant.includes(query)
+                row.productVariantName.includes(query)
             );
             setDisplayedRows(filteredRows);
         } catch (error) {

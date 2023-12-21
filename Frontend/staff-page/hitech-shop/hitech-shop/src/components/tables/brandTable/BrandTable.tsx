@@ -7,8 +7,10 @@ import { useEffect, useState } from 'react';
 import actionColumn from '../datatable/DataTable';
 import brandApi from '../../../api/brandApi';
 // import ConfirmationDialog from '../confirmationDialog/ConfirmationDialog';
-interface BrandTableProps {
-    rows: any[]; // Define the type of your rows here
+interface Row {
+    id: number;
+    name: string;
+    description: string;
 }
 
 const columns: GridColDef[] = [
@@ -23,9 +25,8 @@ const columns: GridColDef[] = [
     }
 ]
 
-const BrandTable: React.FC<BrandTableProps> = ({ rows }) => {
-
-    // console.log('Brand rows: ', rows)
+const BrandTable = () => {
+    const [rows, setRows] = useState<Row[]>([]);
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
 
@@ -53,6 +54,15 @@ const BrandTable: React.FC<BrandTableProps> = ({ rows }) => {
     const handleInput = (event: any) => {
         setQuery(event.target.value);
     }
+    useEffect(() => {
+        const fetchRows = async () => {
+            const data = (await brandApi.getAll({ _page: 1, _limit: 100000 })).data;
+            setRows(data)
+            // console.log('This is rows in fetch', rows)
+        }
+
+        fetchRows();
+    }, [])
 
     useEffect(() => {
         // console.log('This is rows in brand table:', rows)
