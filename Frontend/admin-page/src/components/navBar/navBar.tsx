@@ -19,7 +19,7 @@ const navBar = () => {
           <img src="https://www.prydwen.gg/static/73f6d7fc42e7e996457057f529ad2038/60b4d/red_icon.webp" alt="" />
           <span>ADMIN</span>
         </div>
-        <img src="settings.svg" alt="" className='icon'/>
+        <img src="/settings.svg" alt="" className='icon'/>
       </div>
     </div>
   )
