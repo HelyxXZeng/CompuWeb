@@ -5,14 +5,17 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useRef, useState } from 'react';
 // import actionColumn from '../datatable/DataTable';
 import actionColumn from '../datatable/DataTable';
-import productInstanceApi from '../../../api/productInstanceApi';
+import ratingApi from '../../../api/ratingApi';
 import productVariantApi from '../../../api/productVariantApi';
+import Rating from '@mui/material/Rating';
 // import ConfirmationDialog from '../confirmationDialog/ConfirmationDialog';
 interface Row {
-    id: number,
-    productVariantName: string,
-    serialNumber: string,
-    available: string
+    id: number;
+    productVariantName: string;
+    date: string,
+    rating: number,
+    comment: string,
+    status: string
 }
 
 const columns: GridColDef[] = [
@@ -20,41 +23,37 @@ const columns: GridColDef[] = [
         field: 'id', headerName: 'ID', width: 60
     },
     {
-        field: 'productVariantName', headerName: 'Product Variant Name', flex: 4
+        field: 'productVariantName', headerName: 'Variant', flex: 7
     },
     {
-        field: 'serialNumber', headerName: 'Serial Number', flex: 3
+        field: 'date', headerName: 'Date', flex: 3
     },
     {
-        field: 'available', headerName: 'Available', flex: 2
+        field: 'rating', headerName: 'Rating', flex: 3,
+        renderCell: (params) => {
+            return (
+                <Rating name="read-only" value={params.row.rating} readOnly />
+            );
+        },
     },
-
+    {
+        field: 'comment', headerName: 'Comment', flex: 7
+    },
+    {
+        field: 'status', headerName: 'Status', flex: 3
+    }
 ]
 
-const ProductInstanceTable = () => {
+const RatingTable = () => {
     const [rows, setRows] = useState<Row[]>([]);
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
-    // const [productVariants, setProductVariants] = useState<any[]>([]);
-    const previousRowsRef = useRef<any[]>([]);
-    // useEffect(() => {
-    //     const fetchProductVariants = async () => {
-    //         try {
-    //             const productVariantsData = (await productVariantApi.getAll({ _page: 1, _limit: 100000 })).data;
-    //             setProductVariants(productVariantsData);
-    //         } catch (error) {
-    //             console.log('Failed to fetch ProductVariant data:', error);
-    //         }
-    //     };
-
-    //     fetchProductVariants();
-    // }, []);
 
     const handleDelete = (rowId: number) => {
         const isConfirmed = window.confirm('Are you sure you want to delete this row?');
         if (isConfirmed) {
             // Perform the deletion action here
-            productInstanceApi.remove(rowId);
+            ratingApi.remove(rowId);
             console.log('Deleting row with ID:', rowId);
 
             // Update displayedRows after the item has been deleted
@@ -68,61 +67,62 @@ const ProductInstanceTable = () => {
 
     const handleView = (rowId: number) => {
         console.log('Viewing row with ID:', rowId);
-        navigate(`/productInstances/GetProductInstanceById?id=${rowId}`);
+        navigate(`/ratings/GetRatingById?id=${rowId}`);
     };
 
     const handleInput = (event: any) => {
         setQuery(event.target.value);
     }
-
     useEffect(() => {
         const fetchRows = async () => {
-            const data = (await productInstanceApi.getAll({ _page: 1, _limit: 100000 })).data;
+            const data = (await ratingApi.getAll({ _page: 1, _limit: 100000 })).data;
             setRows(data)
-            console.log('This is rows in fetch', data)
+            // console.log('This is rows in fetch', data)
         }
 
         fetchRows();
     }, [])
 
     useEffect(() => {
-        // Check if the rows have actually changed
-        // if (previousRowsRef.current !== rows && productVariants.length > 0) {
-        //     // Update rows directly to include productVariant name
-        //     // console.log('Product Variants in Instance', productVariants)
-        //     rows.forEach(row => {
-        //         row.productVariant = productVariants.find(pl => pl.id === row.productVariant)?.name || 'N/A';
-        //     });
+        const formatDate = async () => {
+            rows.forEach(
+                row => {
+                    try {
+                        // console.log('Split date', row.startDate.substring(0, 10))
+                        row.date = row.date.substring(0, 10)
+                    }
+                    catch (error) {
 
-        // }
+                    }
+                }
+            )
+        }
 
-        // Use the filter method to create a new array with rows that match the query in either Name or Id
-        // console.log('Rows in Instances:', rows)
+        formatDate();
+    }, [rows]);
+
+    useEffect(() => {
+        // Update displayedRows with filtered rows
         try {
-            const filteredRows = rows.filter(row =>
-                (row.serialNumber && row.serialNumber.toLowerCase().includes(query.toLowerCase()))
-                || (row.id && row.id.toString().includes(query))
-                || (row.productVariantName && row.productVariantName.toLowerCase().includes(query.toLowerCase()))
+            const filteredRows = rows.filter((row) =>
+                row.id.toString().includes(query) || // Check Id (assuming Id is a number)
+                row.productVariantName.includes(query)
             );
             setDisplayedRows(filteredRows);
+        } catch (error) {
+            // Handle error if needed
         }
-        catch (error) {
-            // console.log('Error in Instance Table', error)
-        }
-
-        // Update the previousRowsRef with the current rows
-        previousRowsRef.current = rows.slice(); // Copy the array to avoid reference issues
-    }, [query, rows]);
+    }, [rows, query]);
 
     return (
         <div className='datatable'>
             <div className="datatableTitle">
-                Product Instances
+                Rating
                 <div className="search">
                     <input type='text' placeholder='Search...' onChange={(e) => handleInput(e)} />
                     <SearchIcon />
                 </div>
-                <Link to="/productInstances/new" className='link'>
+                <Link to="/ratings/new" className='link'>
                     Add New
                 </Link>
             </div>
@@ -146,4 +146,4 @@ const ProductInstanceTable = () => {
     )
 }
 
-export default ProductInstanceTable
+export default RatingTable

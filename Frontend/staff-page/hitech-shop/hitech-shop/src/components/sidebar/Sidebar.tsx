@@ -125,13 +125,13 @@ const Sidebar = () => {
                                                 <span>Orders</span>
                                             </li>
                                         </Link>
-                                        <Link to='/rating' style={{ textDecoration: 'none' }}>
+                                        <Link to='/ratings' style={{ textDecoration: 'none' }}>
                                             <li>
                                                 <StarIcon className='icon' />
                                                 <span>Rating</span>
                                             </li>
                                         </Link>
-                                        <Link to='/return' style={{ textDecoration: 'none' }}>
+                                        <Link to='/returns' style={{ textDecoration: 'none' }}>
                                             <li>
                                                 <AssignmentReturnIcon className='icon' />
                                                 <span>Return</span>

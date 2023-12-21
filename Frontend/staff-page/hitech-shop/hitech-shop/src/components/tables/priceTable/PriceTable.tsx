@@ -8,8 +8,13 @@ import actionColumn from '../datatable/DataTable';
 import priceApi from '../../../api/priceApi';
 import productVariantApi from '../../../api/productVariantApi';
 // import ConfirmationDialog from '../confirmationDialog/ConfirmationDialog';
-interface PriceTableProps {
-    rows: any[]; // Define the type of your rows here
+interface Row {
+    id: number;
+    productVariantName: string;
+    value: number,
+    startDate: string,
+    endDate: string,
+    status: string
 }
 
 const columns: GridColDef[] = [
@@ -17,7 +22,7 @@ const columns: GridColDef[] = [
         field: 'id', headerName: 'ID', width: 60
     },
     {
-        field: 'productVariant', headerName: 'Variant', flex: 7
+        field: 'productVariantName', headerName: 'Variant', flex: 7
     },
     {
         field: 'value', headerName: 'Value', flex: 3
@@ -48,9 +53,8 @@ const columns: GridColDef[] = [
     }
 ]
 
-const PriceTable: React.FC<PriceTableProps> = ({ rows }) => {
-
-    // console.log('Price rows: ', rows)
+const PriceTable = () => {
+    const [rows, setRows] = useState<Row[]>([]);
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
     const [productVariants, setProductVariants] = useState<any[]>([]);
@@ -82,16 +86,20 @@ const PriceTable: React.FC<PriceTableProps> = ({ rows }) => {
     }
 
     useEffect(() => {
-        const fetchProductVariants = async () => {
-            try {
-                const productVariantsData = (await productVariantApi.getAll({ _page: 1, _limit: 100000 })).data;
-                await setProductVariants(productVariantsData);
-                setProductVariantsFetched(true);
-            } catch (error) {
-                console.log('Failed to fetch ProductVariant data:', error);
-            }
-        };
+        const fetchRows = async () => {
+            const data = (await priceApi.getAll({ _page: 1, _limit: 100000 })).data;
+            setRows(data)
+            console.log('This is rows in fetch', data)
+        }
 
+
+
+        fetchRows();
+
+
+    }, [])
+
+    useEffect(() => {
         const formatDate = async () => {
             rows.forEach(
                 row => {
@@ -106,22 +114,52 @@ const PriceTable: React.FC<PriceTableProps> = ({ rows }) => {
                 }
             )
         }
-
-        fetchProductVariants();
         formatDate();
-    }, []);
+    }, [rows])
+
+
+    // useEffect(() => {
+    //     const fetchProductVariants = async () => {
+    //         try {
+    //             const productVariantsData = (await productVariantApi.getAll({ _page: 1, _limit: 100000 })).data;
+    //             await setProductVariants(productVariantsData);
+    //             setProductVariantsFetched(true);
+    //         } catch (error) {
+    //             console.log('Failed to fetch ProductVariant data:', error);
+    //         }
+    //     };
+
+    //     const formatDate = async () => {
+    //         rows.forEach(
+    //             row => {
+    //                 try {
+    //                     // console.log('Split date', row.startDate.substring(0, 10))
+    //                     row.startDate = row.startDate.substring(0, 10)
+    //                     row.endDate = row.endDate.substring(0, 10)
+    //                 }
+    //                 catch (error) {
+
+    //                 }
+    //             }
+    //         )
+    //     }
+
+    //     // fetchProductVariants();
+    //     formatDate();
+    // }, []);
 
     useEffect(() => {
         if (productVariantsFetched) {
             // Update rows with product variants
-            rows.forEach((row) => {
-                row.productVariant = productVariants.find((item) => item.id === row.productVariantId)?.name || 'N/A';
-            });
+            // rows.forEach((row) => {
+            //     row.productVariant = productVariants.find((item) => item.id === row.productVariantId)?.name || 'N/A';
+            // });
 
             // Update displayedRows with filtered rows
             try {
                 const filteredRows = rows.filter((row) =>
-                    row.id.toString().includes(query) // Check Id (assuming Id is a number)
+                    row.id.toString().includes(query) || // Check Id (assuming Id is a number)
+                    row.productVariantName.includes(query)
                 );
                 setDisplayedRows(filteredRows);
             } catch (error) {

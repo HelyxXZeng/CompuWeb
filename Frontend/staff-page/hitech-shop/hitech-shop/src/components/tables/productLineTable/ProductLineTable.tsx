@@ -7,8 +7,11 @@ import { useEffect, useState } from 'react';
 import actionColumn from '../datatable/DataTable';
 import productLineApi from '../../../api/productLineApi';
 // import ConfirmationDialog from '../confirmationDialog/ConfirmationDialog';
-interface ProductLineTableProps {
-    rows: any[]; // Define the type of your rows here
+interface Row {
+    id: number;
+    name: string;
+    categoryName: string,
+    releaseDate: string
 }
 
 const columns: GridColDef[] = [
@@ -34,9 +37,8 @@ const columns: GridColDef[] = [
     }
 ]
 
-const ProductLineTable: React.FC<ProductLineTableProps> = ({ rows }) => {
-
-    // console.log('ProductLine rows: ', rows)
+const ProductLineTable = () => {
+    const [rows, setRows] = useState<Row[]>([]);
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
 
@@ -64,6 +66,16 @@ const ProductLineTable: React.FC<ProductLineTableProps> = ({ rows }) => {
     const handleInput = (event: any) => {
         setQuery(event.target.value);
     }
+
+    useEffect(() => {
+        const fetchRows = async () => {
+            const data = (await productLineApi.getTable({ _page: 1, _limit: 100000 })).data;
+            setRows(data)
+            console.log('This is rows in fetch', data)
+        }
+
+        fetchRows();
+    }, [])
 
     useEffect(() => {
         // console.log('This is rows in productLine table:', rows)

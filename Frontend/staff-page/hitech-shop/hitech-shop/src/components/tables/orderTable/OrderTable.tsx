@@ -4,9 +4,14 @@ import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
 import actionColumn from '../datatable/DataTable';
+import orderApi from '../../../api/orderApi';
 // import { handleDelete, handleView, actionColumn } from '../datatable/DataTable';
-interface OrderTableProps {
-    rows: any[]; // Define the type of your rows here
+interface Row {
+    id: number;
+    name: string;
+    phoneNumber: string,
+    total: number,
+    status: string
 }
 
 
@@ -44,9 +49,8 @@ const columns: GridColDef[] = [
     }
 ]
 
-const OrderTable: React.FC<OrderTableProps> = ({ rows }) => {
-
-    // console.log('Order rows: ', rows)
+const OrderTable = () => {
+    const [rows, setRows] = useState<Row[]>([]);
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
     const [currentStatus, setCurrentStatus] = useState("ALL")
@@ -68,10 +72,21 @@ const OrderTable: React.FC<OrderTableProps> = ({ rows }) => {
     }
 
     useEffect(() => {
+        const fetchRows = async () => {
+            const data = (await orderApi.getAll({ _page: 1, _limit: 100000 })).data;
+            setRows(data)
+            // console.log('This is rows in fetch', data)
+        }
+
+        fetchRows();
+    }, [])
+
+
+    useEffect(() => {
         // Use the filter method to create a new array with rows that match the query in either Name or Id
         let filteredRows = rows;
         if (currentStatus !== "ALL") {
-            filteredRows = filteredRows.filter(row => row.Status === currentStatus);
+            filteredRows = filteredRows.filter(row => row.status === currentStatus);
         }
         filteredRows = filteredRows.filter(row =>
             row.name.toLowerCase().includes(query.toLowerCase()) || // Check Name
