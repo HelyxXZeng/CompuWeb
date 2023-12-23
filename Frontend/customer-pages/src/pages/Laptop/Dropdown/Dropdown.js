@@ -69,7 +69,7 @@ function Dropdown({ title, itemList }) {
                 </ul> */}
 
                 <ul className={cx('ul-list')}>
-                    {itemList.map((item, index) => (
+                    {itemList?.map((item, index) => (
                         <label key={index} className={cx('check-box')}>
                             <input type="checkbox" />
                             <span className={cx('checkmark')}>{item.value ? item.value : item.name} </span>

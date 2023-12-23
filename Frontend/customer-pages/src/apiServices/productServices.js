@@ -15,6 +15,16 @@ export const getProduct = async (q, type = 'less') => {
     }
 };
 
+export const getLaptopTable = async (start, count) => {
+    try {
+        const res = await request.get(`DTOController/GetLaptopProductTable/${start}-${count}`);
+
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 export const getSpecList = async () => {
     try {
         const res = await request.get('DTOController/GetSpecificationList');
@@ -39,6 +49,29 @@ export const getCategories = async () => {
     try {
         const res = await request.get('categories/GetCategories');
 
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const getProductVariantDetail = async (ProductVariantId) => {
+    try {
+        const res = await request.get('DTOController/GetProductVariantDetail', {
+            params: {
+                ProductVariantId,
+            },
+        });
+
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const getCartItemById = async (CartItemId) => {
+    try {
+        const res = await request.get(`productvariants/GetProductVariantById/${CartItemId}`);
         return res;
     } catch (error) {
         console.log(error);

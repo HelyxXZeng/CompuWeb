@@ -32,41 +32,53 @@ function Laptop() {
     const [specList, setSpecList] = useState([]);
     const [brandList, setBrandList] = useState([]);
     const [cateList, setCateList] = useState([]);
-
-    useEffect(() => {
-        const fetchSpecList = async () => {
-            const result = await productServices.getSpecList();
-            setSpecList(result);
-        };
-
-        const fetchBrands = async () => {
-            const result = await productServices.getBrands();
-            setBrandList(result);
-            console.log('Brands', brandList);
-        };
-
-        const fetchCategories = async () => {
-            const result = await productServices.getCategories();
-            setCateList(result);
-            console.log('Categories', cateList);
-        };
-
-        fetchSpecList();
-        fetchBrands();
-        fetchCategories();
-    }, []);
-    //
+    const [currentLaptopList, setCurrentLaptopList] = useState([]);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 24; // Adjust the number of items per page as needed
+    const itemsPerPage = 24;
+    const [laptopQuantity, setLaptopQuantity] = useState(0);
 
-    // Your product data
-    const productList = Array(150).fill(null);
+    useEffect(() => {
+        const fetchLaptopList = async () => {
+            try {
+                const start = (currentPage - 1) * itemsPerPage + 1;
+                const result = await productServices.getLaptopTable(start, itemsPerPage);
 
-    // Calculate the index range for the current page
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = productList.slice(indexOfFirstItem, indexOfLastItem);
+                if (result && result.item1) {
+                    console.log('setCurrentLaptopList', result.item1);
+                    setCurrentLaptopList(result.item1);
+                    setLaptopQuantity(result.item2);
+                } else {
+                    console.error('Invalid response format:', result);
+                }
+            } catch (error) {
+                console.error('Error fetching laptop list:', error);
+            }
+        };
+
+        fetchLaptopList();
+    }, [currentPage]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Use Promise.all to fetch data concurrently
+                const [specListResult, brandListResult, cateListResult] = await Promise.all([
+                    productServices.getSpecList(),
+                    productServices.getBrands(),
+                    productServices.getCategories(),
+                ]);
+
+                setSpecList(specListResult);
+                setBrandList(brandListResult);
+                setCateList(cateListResult);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     // Logic to handle page change
     const handlePageChange = (pageNumber) => {
@@ -99,37 +111,11 @@ function Laptop() {
                     </div>
                 </div>
 
-                {/* <div className={cx('products-list-col')}>
-                    <div className={cx('box')}>
-                        <div className={cx('row-list')}>
-                            <ProducItem />
-                            <ProducItem />
-                            <ProducItem />
-                            <ProducItem />
-                            <ProducItem />
-                            <ProducItem />
-                            <ProducItem />
-                            <ProducItem />
-                            <ProducItem />
-                            <ProducItem />
-                            <ProducItem />
-                            <ProducItem />
-                            <ProducItem />
-                            <ProducItem />
-                            <ProducItem />
-                            <ProducItem />
-                        </div>
-                    </div>
-                    <div className={cx('pagination')}>
-                        <Pagination count={10} color="primary" />
-                    </div>
-                </div> */}
-
                 <div className={cx('products-list-col')}>
                     <div className={cx('box')}>
                         <div className={cx('row-list')}>
-                            {currentItems.map((product, index) => (
-                                <ProducItem key={index} /* Pass product data as props */ />
+                            {currentLaptopList.map((product, index) => (
+                                <ProducItem key={index} item={product} />
                             ))}
                         </div>
                     </div>
@@ -137,7 +123,7 @@ function Laptop() {
                         <Pagination
                             className={cx('pagination')}
                             shape="rounded"
-                            count={Math.ceil(productList.length / itemsPerPage)}
+                            count={Math.ceil(laptopQuantity / itemsPerPage)}
                             page={currentPage}
                             onChange={(event, page) => handlePageChange(page)}
                             renderItem={(item) => {

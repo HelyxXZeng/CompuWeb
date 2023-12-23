@@ -21,7 +21,7 @@ const publicRoutes = [
     { path: config.routes.laptop, component: Laptop },
     { path: config.routes.promotion, component: Home },
     { path: config.routes.accessory, component: Accessory, layout: null },
-    { path: config.routes.productDetail, component: ProductDetail },
+    { path: `${config.routes.productDetail}/:id`, component: ProductDetail },
     { path: config.routes.cart, component: Cart },
     { path: config.routes.order, component: Order },
     { path: config.routes.account, component: Account },

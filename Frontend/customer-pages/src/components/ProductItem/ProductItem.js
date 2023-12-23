@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import React from 'react';
 import styles from './ProductItem.module.scss';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
@@ -6,12 +7,14 @@ import config from '~/config';
 
 const cx = classNames.bind(styles);
 
-function ProductItem() {
+function ProductItem({ item }) {
     const [isLoveActive, setLoveActive] = useState(false);
 
     const handleLoveClick = () => {
         setLoveActive(!isLoveActive);
     };
+
+    const formattedPrice = new Intl.NumberFormat('en-US').format(item.price).replace(/,/g, '.');
 
     return (
         <div className={cx('wrapper')}>
@@ -20,23 +23,27 @@ function ProductItem() {
                 <p className={cx('discount-p')}>
                     -21<span>%</span>
                 </p>
-                <Link to={config.routes.productDetail} className={cx('a-img')}>
+                <a href={`${config.routes.productDetail}/${item.id}`} className={cx('a-img')}>
                     <img
-                        src="https://trungtran.vn/images/products/2023/resized/lenovo_legion_5_pro_2023_y9000p_12-copy-copy.webp"
-                        alt="Lenovo Legion 5 Pro 2023 Ryzen 9 7945HX 16GB 1TB 4060 2.5K 240Hz"
+                        src={
+                            item.images[0]
+                                ? item.images[0].image
+                                : 'https://trungtran.vn/images/products/2023/resized/lenovo_legion_5_pro_2023_y9000p_12-copy-copy.webp'
+                        }
+                        alt="front view of laptop"
                     ></img>
-                </Link>
+                </a>
                 <p className={cx('status-text')}></p>
 
                 <a href="/#" className={cx('a-title')}>
-                    Lenovo Legion 5 Pro 2023 Ryzen 9 7945HX 16GB 1TB 4060 2.5K 240Hz{' '}
+                    {item.name}
                 </a>
                 <p className={cx('price')}>
-                    33.500.000
+                    {formattedPrice}
                     <span className={cx('price-old')}>42.500.000</span>
                 </p>
                 <div className={cx('love-same')}>
-                    <p className={cx('p-version')}>1 phiên bản</p>
+                    <p className={cx('p-version')}>{item.numberInStock} sản phẩm</p>
                     <p className={cx('p-love')}>
                         <a href="/#" onClick={handleLoveClick}>
                             <svg
@@ -60,13 +67,21 @@ function ProductItem() {
 
                 <div className={cx('specification')}>
                     <p>
-                        CPU: AMD Ryzen 7 7745HX
+                        {/* CPU: AMD Ryzen 7 7745HX
                         <br />
                         RAM: 16GB DDR5 5200MHz
                         <br />
                         Màn hình: 16.0 inch WQXGA (2560x1600) IPS, 240Hz
                         <br />
-                        Đồ họa: NVIDIA®GeForce® RTX™ 4060 8GB VRAM
+                        Đồ họa: NVIDIA®GeForce® RTX™ 4060 8GB VRAM */}
+                        {item.specifications.slice(0, 4).map((spec, index) => {
+                            return (
+                                <React.Fragment key={index}>
+                                    {spec.item3.name}: {spec.item2.value}
+                                    <br />
+                                </React.Fragment>
+                            );
+                        })}
                     </p>
                 </div>
                 <div className={cx('btn-product')}>

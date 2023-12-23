@@ -9,7 +9,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AddIcon from '@mui/icons-material/Add';
 import StarIcon from '@mui/icons-material/Star';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import * as productServices from '~/apiServices/productServices';
 
 import { useShoppingCart } from '~/context/ShoppingCartContext';
 
@@ -54,7 +56,7 @@ const TruncatedTable = ({ data, displayedRows }) => {
     return (
         <table className={cx('spec-table')}>
             <tbody>
-                {data.slice(0, displayedRows).map((row, index) => (
+                {data?.slice(0, displayedRows).map((row, index) => (
                     <tr className={cx(index % 2 === 0 ? 'tr-0' : 'tr-1')} key={index}>
                         <td className={cx('title_charactestic')}>{row.title}</td>
                         <td className={cx('content_charactestic')}>{row.content}</td>
@@ -68,7 +70,29 @@ const TruncatedTable = ({ data, displayedRows }) => {
 const cx = classNames.bind(styles);
 
 function ProductDetail() {
-    const tableData = [
+    const { id } = useParams();
+    const [productDetail, setProductDetail] = useState({});
+    useEffect(() => {
+        const fetchProductDetail = async () => {
+            try {
+                const result = await productServices.getProductVariantDetail(id);
+                setProductDetail(result);
+            } catch (error) {
+                console.error('Error fetching product details:', error);
+            }
+        };
+
+        fetchProductDetail();
+    }, [id]);
+
+    const formattedPrice = new Intl.NumberFormat('en-US').format(productDetail?.price).replace(/,/g, '.');
+    const tableData = productDetail?.specifications?.map((item) => {
+        return {
+            title: item.item3.name,
+            content: item.item2.value,
+        };
+    });
+    const tableData1 = [
         {
             title: 'CPU (Bộ vi xử lý)',
             content:
@@ -122,47 +146,16 @@ function ProductDetail() {
         },
     ];
 
-    const maxRowsToShow = tableData.length - 5; // Set the number of rows to show initially
+    const maxRowsToShow = tableData?.length - 5; // Set the number of rows to show initially
 
     const [isTableExpanded, setIsTableExpanded] = useState(false);
-    const display = isTableExpanded ? tableData.length : maxRowsToShow;
+    const display = isTableExpanded ? tableData?.length : maxRowsToShow;
 
     const toggleTable = () => {
         setIsTableExpanded(!isTableExpanded);
     };
 
-    const [value, setValue] = useState(2);
-
-    // const handleAddToCart = () => {
-    //     // Assuming you have some product data, replace this with your actual product data
-    //     const productData = {
-    //         id: 20,
-    //         title: 'Alienware X15 R2 i9 12900H RAM 32GB SSD 1TB + 1TB RTX 3070Ti 8GB 15.6inch QHD IPS 240Hz',
-    //         price: 45000000,
-    //         image: 'https://trungtran.vn/upload_images/images/products/lenovo-legion/large/legion_5_15arp8_thumbnail.jpg',
-    //         quantity: 2,
-    //     };
-
-    //     // Retrieve existing cart items from localStorage
-    //     const existingCartItems = JSON.parse(localStorage.getItem('cart')) || [];
-
-    //     // Check if the product is already in the cart
-    //     const isProductInCart = existingCartItems.some((item) => item.id === productData.id);
-
-    //     if (!isProductInCart) {
-    //         // If the product is not in the cart, add it
-    //         const updatedCart = [...existingCartItems, productData];
-
-    //         // Update the localStorage with the updated cart
-    //         localStorage.setItem('cart', JSON.stringify(updatedCart));
-    //         console.log(localStorage.getItem('cart'));
-
-    //         alert('Product added to cart!');
-    //     } else {
-    //         alert('Product is already in the cart!');
-    //         console.log(localStorage.getItem('cart'));
-    //     }
-    // };
+    const [value, setValue] = useState(3);
 
     const { increaseCartQuantity } = useShoppingCart();
 
@@ -171,49 +164,58 @@ function ProductDetail() {
             <div className={cx('top-detail')}>
                 <div className={cx('product-images')}>
                     <div className={cx('prod-intro')}>
-                        <h1>Alienware X15 R2 i9 12900H RAM 32GB SSD 1TB RTX 3070Ti 8GB 15.6inch QHD IPS 240Hz</h1>
-                        <span className={cx('subtitle')}>Dell Outlet Fullbox - Bảo Hành 12 tháng tại Trung Trần</span>
+                        <h1> {productDetail ? productDetail.name : 'name'} </h1>
+                        <span className={cx('subtitle')}>Fullbox - Bảo Hành 12 tháng tại Hitech</span>
                         <div className={cx('rating')}>
                             <div className={cx('stars')}>
                                 <ThemeProvider theme={customTheme}>
-                                    <Rating name="read-only" value={value} readOnly />
+                                    <Rating
+                                        name="read-only"
+                                        value={productDetail?.averageRating}
+                                        readOnly
+                                        precision={0.1}
+                                    />
                                 </ThemeProvider>
                             </div>
                             <div className={cx('total-rate')}>
-                                <span>0 ( 0 đánh giá)</span>
+                                <span>
+                                    {productDetail?.averageRating} ( {productDetail?.ratingCount} đánh giá)
+                                </span>
                             </div>
                         </div>
                     </div>
 
                     <div className={cx('images-list')}>
-                        <InfiSwiper />
+                        <InfiSwiper imageList={productDetail?.images} />
                     </div>
                 </div>
                 <div className={cx('product-action')}>
                     <div className={cx('detail-top')}>
                         <p className={cx('price')}>
-                            <span className={cx('price-new')}>18.800.000đ </span>
+                            <span className={cx('price-new')}>{formattedPrice}đ </span>
                             <span className={cx('price-old')}>19.500.000đ </span>
                         </p>
                         <div className={cx('variant-action')}>
                             <h2>Chọn cấu hình:</h2>
                             <div className={cx('variant-list')}>
-                                <a href="/#" className={cx('variant-item')}>
-                                    <div className={cx('title')}>
-                                        <p className={cx('main-title')}>
-                                            Alienware X15 R2 i9 12900H RAM 32GB SSD 1TB + 1TB RTX 3070Ti 8GB 15.6inch
-                                            QHD IPS 240Hz
-                                        </p>
-                                        <p className={cx('sub-title')}>
-                                            Dell Outlet Fullbox - Bảo Hành 12 tháng tại Trung Trần
-                                        </p>
-                                    </div>
-                                    <div className={cx('price-variant')}>
-                                        <span className={cx('price-top')}>45.000.000đ</span>
-                                        <span className={cx('price-bottom')}>57.000.000đ</span>
-                                    </div>
-                                </a>
+                                {productDetail?.productVariants?.map((item, index) => (
+                                    <a
+                                        key={index}
+                                        href={`${config.routes.productDetail}/${item.id}`}
+                                        className={cx('variant-item')}
+                                    >
+                                        <div className={cx('title')}>
+                                            <p className={cx('main-title')}>{item.name}</p>
+                                            <p className={cx('sub-title')}>Fullbox - Bảo Hành 12 tháng tại Hitech</p>
+                                        </div>
+                                        <div className={cx('price-variant')}>
+                                            <span className={cx('price-top')}>45.000.000đ</span>
+                                            <span className={cx('price-bottom')}>57.000.000đ</span>
+                                        </div>
+                                    </a>
+                                ))}
 
+                                {/* 
                                 <a href="/#" className={cx('variant-item')}>
                                     <div className={cx('title')}>
                                         <p className={cx('main-title')}>
@@ -228,23 +230,7 @@ function ProductDetail() {
                                         <span className={cx('price-top')}>45.000.000đ</span>
                                         <span className={cx('price-bottom')}>57.000.000đ</span>
                                     </div>
-                                </a>
-
-                                <a href="/#" className={cx('variant-item')}>
-                                    <div className={cx('title')}>
-                                        <p className={cx('main-title')}>
-                                            Alienware X15 R2 i9 12900H RAM 32GB SSD 1TB + 1TB RTX 3070Ti 8GB 15.6inch
-                                            QHD IPS 240Hz
-                                        </p>
-                                        <p className={cx('sub-title')}>
-                                            Dell Outlet Fullbox - Bảo Hành 12 tháng tại Trung Trần
-                                        </p>
-                                    </div>
-                                    <div className={cx('price-variant')}>
-                                        <span className={cx('price-top')}>45.000.000đ</span>
-                                        <span className={cx('price-bottom')}>57.000.000đ</span>
-                                    </div>
-                                </a>
+                                </a> */}
                             </div>
                         </div>
                     </div>
@@ -279,7 +265,7 @@ function ProductDetail() {
                                 <br />
                                 Khi mua SSD nâng cấp thêm.
                                 <br />
-                                Khi nâng cấp RAM tại các Showroom của Trung Trần.
+                                Khi nâng cấp RAM tại các Showroom của Hitech.
                             </p>
                         </div>
                     </div>
@@ -301,7 +287,7 @@ function ProductDetail() {
 
                     <div className={cx('buynow-installment')}>
                         <div className={cx('buynow')}>
-                            <a href={config.routes.cart}>
+                            <a href={config.routes.cart} onClick={() => increaseCartQuantity(id)}>
                                 Mua ngay
                                 <span>( Giao tận nơi hoặc nhận tại cửa hàng )</span>
                             </a>
@@ -323,13 +309,13 @@ function ProductDetail() {
                         </div>
 
                         <div className={cx('addCart')}>
-                            <button type="button" onClick={() => increaseCartQuantity(1)} name="submit_add_products">
+                            <button type="button" onClick={() => increaseCartQuantity(id)} name="submit_add_products">
                                 Thêm vào giỏ hàng{' '}
                             </button>
                         </div>
                     </div>
 
-                    <div className={cx('discount-prodList')}>
+                    {/* <div className={cx('discount-prodList')}>
                         <h2>Khuyến mãi</h2>
                         <div className={cx('prodList')}>
                             <div className={cx('frame')}>
@@ -436,7 +422,7 @@ function ProductDetail() {
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 
@@ -523,13 +509,22 @@ function ProductDetail() {
                     <div className={cx('reviews-rate-box')}>
                         <div className={cx('rate-stars')}>
                             <div className={cx('text-1')}>Đánh Giá Trung Bình</div>
-                            <div className={cx('text-2')}>5/5</div>
+                            {productDetail?.averageRating > 0 ? (
+                                <div className={cx('text-2')}>{productDetail?.averageRating}/5</div>
+                            ) : (
+                                <div className={cx('text-2')}>NaN/5</div>
+                            )}
                             <div className={cx('star-list')}>
                                 <ThemeProvider theme={customTheme}>
-                                    <Rating name="read-only" value={value} readOnly />
+                                    <Rating
+                                        name="read-only"
+                                        value={productDetail?.averageRating}
+                                        readOnly
+                                        precision={0.1}
+                                    />
                                 </ThemeProvider>
                             </div>
-                            <div className={cx('text-3')}>15 đánh giá</div>
+                            <div className={cx('text-3')}>{productDetail?.ratingCount} đánh giá</div>
                         </div>
                         <div className={cx('rate-progress')}>
                             <div className={cx('five-star')}>
