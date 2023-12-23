@@ -290,4 +290,14 @@ where oi.Id = 1
 
 select * from Price
 
+select Id from ProductInstance where ProductVariantId = 1 and Available = 1
+
+select * from ProductInstance
+
+select * from OrderItem
+
+select * from Customer
+
+select * from Staff
+
 INSERT INTO Price (ProductVariantId, StartDate, EndDate, Status, Value) VALUES (1, '2023-12-15', '2026-12-31', 'CANCELED', 9999999.00)
