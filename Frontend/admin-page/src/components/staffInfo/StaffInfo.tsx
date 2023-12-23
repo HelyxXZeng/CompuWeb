@@ -3,6 +3,7 @@ import "./staffInfo.scss"
 import { useState } from "react";
 import UpdateStaff from "../updateStaff/UpdateStaff";
 import { GridColDef } from "@mui/x-data-grid";
+import { useParams } from "react-router-dom";
 
 type Props = {
   id: number;
@@ -73,7 +74,8 @@ const columns: GridColDef[] = [
 ];
 const StaffInfo = (props:Props) => {
   const [open,setOpen] = useState(false)
-
+  const { id } = useParams();
+  console.log(id);
   return (
     <div className="staffinfo">
       <div className="view">
