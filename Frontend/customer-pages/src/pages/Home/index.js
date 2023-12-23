@@ -8,11 +8,36 @@ import styles from './Home.module.scss';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import CloseIcon from '@mui/icons-material/Close';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+import * as productServices from '~/apiServices/productServices';
 
 const cx = classNames.bind(styles);
 
 function Home() {
+    //
+    const [currentLaptopList, setCurrentLaptopList] = useState([]);
+
+    useEffect(() => {
+        const fetchLaptopList = async () => {
+            try {
+                const result = await productServices.getLaptopTable(1, 5);
+
+                if (result && result.item1) {
+                    console.log('setCurrentLaptopList', result.item1);
+                    setCurrentLaptopList(result.item1);
+                } else {
+                    console.error('Invalid response format:', result);
+                }
+            } catch (error) {
+                console.error('Error fetching laptop list:', error);
+            }
+        };
+
+        fetchLaptopList();
+    }, []);
+
+    //
     const [isShowCompareBox, setIsShowCompareBox] = useState(false);
     const [isShowCompareBtn, setIsShowCompareBtn] = useState(true);
 
@@ -58,32 +83,30 @@ function Home() {
             <div className={cx('frame-div')}>
                 <p className={cx('title-hotsale')}>HOT SALE</p>
                 <Frame>
-                    <ProductItem />
-                    <ProductItem />
-                    <ProductItem />
-                    <ProductItem />
-                    <ProductItem />
+                    {currentLaptopList.map((product, index) => (
+                        <ProductItem key={index} item={product} />
+                    ))}
                 </Frame>
             </div>
 
             <div className={cx('frame-div')}>
                 <p className={cx('title-hotsale')}>Apple</p>
                 <Frame>
+                    {/* <ProductItem />
                     <ProductItem />
                     <ProductItem />
-                    <ProductItem />
-                    <ProductItem />
+                    <ProductItem /> */}
                 </Frame>
             </div>
 
             <div className={cx('frame-div')}>
                 <p className={cx('title-hotsale')}>Gaming</p>
                 <Frame>
+                    {/* <ProductItem />
                     <ProductItem />
                     <ProductItem />
                     <ProductItem />
-                    <ProductItem />
-                    <ProductItem />
+                    <ProductItem /> */}
                 </Frame>
             </div>
             <div className={cx('btn-compare', { 'btn-active': isShowCompareBtn })}>
