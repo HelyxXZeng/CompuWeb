@@ -188,7 +188,13 @@ namespace TestForASPWebAPI.Controllers
             string GetPromotionCommand = $"select * from Promotion where Id = {PromotionId} and Status = 'ACTIVE'";
             using (DataTable data = await DBController.GetInstance().GetData(GetPromotionCommand))
             {
-                thisOrderPromotion = new Promotion()
+                if(data.Rows.Count is 0) 
+                    thisOrderPromotion = new Promotion()
+                {
+                    Id = 0,
+                };
+                else 
+                    thisOrderPromotion = new Promotion()
                 {
                     Id = (int)data.Rows[0]["Id"],
                     Name = (string)data.Rows[0]["Name"],
