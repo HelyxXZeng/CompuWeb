@@ -212,9 +212,7 @@ const AddPromotion = (props: Props) => {
                                                 )}
                                             />
                                         )}
-                                        {column.field !== 'StartDate' && column.field !== 'EndDate' &&
-                                          column.field !== 'Content' && column.field != 'Status' &&
-                                          column.field !== 'Purchase' && column.field !== 'Promotion' && (
+                                        { (column.field === "Name" || column.field === "Value") && (
                                             <input type={column.type} placeholder={column.field} name={column.field} />
                                         )}
                                         
