@@ -315,8 +315,8 @@ function Cart() {
 
         const address = showTabReceive ? selectedShopAddress : customerAddress;
         const data = {
-            customerId: 0,
-            staffId: 0,
+            customerId: 1,
+            staffId: 1,
             date: formattedDate,
             note: formData.note,
             status: 'pending',
@@ -492,6 +492,7 @@ function Cart() {
                                 <div className={cx('mi-row', 'row-r-3')}>
                                     <p>Số nhà, tên đường *</p>
                                     <input
+                                        className={cx('form-control')}
                                         type="text"
                                         name="street_address"
                                         id="street_address"
