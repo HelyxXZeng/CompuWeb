@@ -175,6 +175,8 @@ namespace TestForASPWebAPI.Controllers
         {
             DBController dbController = DBController.GetInstance();
 
+            if (order.StaffId == 0 || order.CustomerId == 0) { return BadRequest("Invalid Data!"); }
+
             string CreateOrderCommand = $"INSERT INTO Orders (CustomerId, StaffId, Date, Note, Status, Address, Total) VALUES ({order.CustomerId}, {order.StaffId}, '{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}', N'{order.Note}', '{order.Status}', N'{order.Address}', 0.00)";
             dbController.UpdateData(CreateOrderCommand);
 
@@ -188,13 +190,13 @@ namespace TestForASPWebAPI.Controllers
             string GetPromotionCommand = $"select * from Promotion where Id = {PromotionId} and Status = 'ACTIVE'";
             using (DataTable data = await DBController.GetInstance().GetData(GetPromotionCommand))
             {
-                if(data.Rows.Count is 0) 
-                    thisOrderPromotion = new Promotion()
+                if(data.Rows.Count is 0) thisOrderPromotion = new Promotion()
                 {
                     Id = 0,
+                    ProductVariantIdPromotion = 0,
+                    ProductVariantIdPurchase = 0,
                 };
-                else 
-                    thisOrderPromotion = new Promotion()
+                else thisOrderPromotion = new Promotion()
                 {
                     Id = (int)data.Rows[0]["Id"],
                     Name = (string)data.Rows[0]["Name"],
@@ -241,7 +243,7 @@ namespace TestForASPWebAPI.Controllers
                     {
                         for (int i = 0; i < item.Quantity; i++)
                         {
-                            string InsertOrderItem = $"insert into OrderItem (ProductInstaceId, OrderId, PriceId, PromotionId) values ({(int)data.Rows[i]["Id"]}, {thisOrderId}, {thisPrice.Id}, {thisOrderPromotion.Id})";
+                            string InsertOrderItem = $"insert into OrderItem (ProductInstanceId, OrderId, PriceId, PromotionId) values ({(int)data.Rows[i]["Id"]}, {thisOrderId}, {thisPrice.Id}, {thisOrderPromotion.Id})";
                             dbController.UpdateData(InsertOrderItem);
 
                             string UpdateInstance = $"update ProductInstance set Available = 0 where Id = {(int)data.Rows[i]["Id"]}";
@@ -257,7 +259,7 @@ namespace TestForASPWebAPI.Controllers
                     {
                         for (int i = 0; i < item.Quantity; i++)
                         {
-                            string InsertOrderItem = $"insert into OrderItem (ProductInstaceId, OrderId, PriceId) values ({(int)data.Rows[i]["Id"]}, {thisOrderId}, {thisPrice.Id})";
+                            string InsertOrderItem = $"insert into OrderItem (ProductInstanceId, OrderId, PriceId) values ({(int)data.Rows[i]["Id"]}, {thisOrderId}, {thisPrice.Id})";
                             dbController.UpdateData(InsertOrderItem);
 
                             string UpdateInstance = $"update ProductInstance set Available = 0 where Id = {(int)data.Rows[i]["Id"]}";
@@ -268,7 +270,7 @@ namespace TestForASPWebAPI.Controllers
             }
             string UpdateTotalforOrder = $"update Orders set Total = {total.ToString("0.00")} where Id = {thisOrderId}";
             dbController.UpdateData(UpdateTotalforOrder);
-            return Ok();
+            return Ok(thisOrderId);
         }
 
         [HttpGet("CheckPromotions")]

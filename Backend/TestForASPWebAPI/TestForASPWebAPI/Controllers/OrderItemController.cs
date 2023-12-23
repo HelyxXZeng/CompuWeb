@@ -32,11 +32,11 @@ namespace TestForASPWebAPI.Controllers
                 var OrderItem = new OrderItem()
                 {
                     Id = (int)dataRow["Id"],
-                    ProductInstanceId = (int)dataRow["Name"],
-                    OrderId = (int)dataRow["Description"],
-                    PromotionId = (int)dataRow["PromotionId"],
+                    ProductInstanceId = (int)dataRow["ProductInstanceId"],
+                    OrderId = (int)dataRow["OrderId"],
                     PriceId = (int)dataRow["PriceId"],
                 };
+                if (dataRow["PromotionId"] == null) OrderItem.PromotionId = 0;
                 OrderItems.Add(OrderItem);
             }
 
@@ -59,11 +59,11 @@ namespace TestForASPWebAPI.Controllers
                 var OrderItem = new OrderItem()
                 {
                     Id = (int)dataRow["Id"],
-                    ProductInstanceId = (int)dataRow["Name"],
-                    OrderId = (int)dataRow["Description"],
-                    PromotionId = (int)dataRow["PromotionId"],
+                    ProductInstanceId = (int)dataRow["ProductInstanceId"],
+                    OrderId = (int)dataRow["OrderId"],
                     PriceId = (int)dataRow["PriceId"],
                 };
+                if (dataRow["PromotionId"] == null) OrderItem.PromotionId = 0;
                 return Ok(OrderItem);
             }
             return NotFound("Not Exists!");
