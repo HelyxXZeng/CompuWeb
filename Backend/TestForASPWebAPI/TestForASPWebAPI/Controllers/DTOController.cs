@@ -367,6 +367,7 @@ namespace TestForASPWebAPI.Controllers
 
             string jsonResponse = await response.Content.ReadAsStringAsync();
             productVariants = JsonConvert.DeserializeObject<List<ProductVariantDTO>>(jsonResponse);
+
             DBController dBController = DBController.GetInstance();
 
             foreach (var productVariant in productVariants)
@@ -642,6 +643,40 @@ namespace TestForASPWebAPI.Controllers
                         product.Ratings.Add(productRate);
                     }
                     product.AverageRating = RatingSum / product.RatingCount;
+                }
+            }
+            return Ok(product);
+        }
+
+        [HttpGet("GetProductVariantInCart")]
+        public async Task<IActionResult> GetProductVariantInCart(int PVid)
+        {
+            var product = new ProductVariantDTO();
+            string GetProductVariant = $"select pv.Id, pv.Name, p.Value as Price\r\nfrom ProductVariant pv\r\njoin Price p on p.ProductVariantId = pv.Id\r\nwhere pv.Id = {PVid}";
+            using (DataTable data = await DBController.GetInstance().GetData(GetProductVariant))
+            {
+                if (data.Rows.Count is 0) return BadRequest("Not Exist!");
+                else
+                {
+                    product.Id = (int)data.Rows[0]["Id"];
+                    product.Name = (string)data.Rows[0]["Name"];
+                    product.Price = (decimal)data.Rows[0]["Price"];
+                }
+            }
+            string GetImage = $"select pi.Id, pi.Name, pi.Url as Image\r\nfrom ProductImage pi\r\njoin ProductLine pl on pi.ProductLineId = pl.Id\r\njoin ProductVariant pv on pv.ProductLineId = pl.Id\r\nwhere pv.Id = {PVid}";
+            using (DataTable data = await DBController.GetInstance().GetData(GetImage))
+            {
+                if (data.Rows.Count is 0) return BadRequest("Not Exist!");
+                else
+                {
+                    product.Images = new List<ProductImage>();
+                    var image = new ProductImage()
+                    {
+                        Id = (int)data.Rows[0]["Id"],
+                        Name = (string)data.Rows[0]["Name"],
+                        Image = (string)data.Rows[0]["Image"],
+                    };
+                    product.Images.Add(image);
                 }
             }
             return Ok(product);

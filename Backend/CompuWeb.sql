@@ -288,16 +288,15 @@ join ProductInstance pi on pi.ProductVariantId = pv.Id
 join OrderItem oi on oi.ProductInstanceId = pi.Id
 where oi.Id = 1
 
-select * from Price
+select pv.Id, pv.Name, p.Value as Price
+from ProductVariant pv
+join Price p on p.ProductVariantId = pv.Id
+where pv.Id = 1
 
-select Id from ProductInstance where ProductVariantId = 1 and Available = 1
-
-select * from ProductInstance
-
-select * from OrderItem
-
-select * from Customer
-
-select * from Staff
+select pi.Id, pi.Name, pi.Url as Image
+from ProductImage pi
+join ProductLine pl on pi.ProductLineId = pl.Id
+join ProductVariant pv on pv.ProductLineId = pl.Id
+where pv.Id = 1
 
 INSERT INTO Price (ProductVariantId, StartDate, EndDate, Status, Value) VALUES (1, '2023-12-15', '2026-12-31', 'CANCELED', 9999999.00)
