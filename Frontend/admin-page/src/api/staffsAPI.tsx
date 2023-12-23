@@ -4,7 +4,7 @@ export interface StaffDef {
     Id: number,
     Img: string,
     Name: string,
-    Birthday: Date,
+    Birthdate: Date,
     Gender: string,
     IdCardNumber: number,
     Address: string,

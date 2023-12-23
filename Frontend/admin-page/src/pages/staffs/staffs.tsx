@@ -8,7 +8,7 @@ import AddStaff from '../../components/addStaff/AddStaff';
 type GridColDefWithDisplay = GridColDef & { displayInForm: boolean };
 
 const columns: GridColDefWithDisplay[] = [
-  { field: "Id", headerName: "ID", flex: 1, displayInForm: false, },
+  { field: "id", headerName: "ID", flex: 1, displayInForm: false, },
   {
     field: "Img",
     headerName: "Avatar",
