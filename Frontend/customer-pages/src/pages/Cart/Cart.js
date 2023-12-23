@@ -329,7 +329,7 @@ function Cart() {
             // Assuming orderServices.createOrder takes a data parameter
             await orderServices.createOrder(data);
             // If everything is valid, navigate to the order route
-            //navigate(config.routes.order);
+            navigate(config.routes.order);
         } catch (error) {
             console.error('Error creating order:', error);
         }
