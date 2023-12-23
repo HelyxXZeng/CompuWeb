@@ -223,6 +223,9 @@ alter column Url NVARCHAR(MAX)
 
 alter table ProductImage
 alter column Url NVARCHAR(MAX)
+
+alter table Orders
+add column ReceiveMethod NVARCHAR(50)
 ---
 
 use CompuWeb

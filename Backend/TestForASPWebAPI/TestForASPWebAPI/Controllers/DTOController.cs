@@ -6,6 +6,8 @@ using TestForASPWebAPI.Models;
 using FuzzySharp;
 using System.Linq;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
+using System.Collections;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace TestForASPWebAPI.Controllers
@@ -186,7 +188,13 @@ namespace TestForASPWebAPI.Controllers
             string GetPromotionCommand = $"select * from Promotion where Id = {PromotionId} and Status = 'ACTIVE'";
             using (DataTable data = await DBController.GetInstance().GetData(GetPromotionCommand))
             {
-                thisOrderPromotion = new Promotion()
+                if(data.Rows.Count is 0) 
+                    thisOrderPromotion = new Promotion()
+                {
+                    Id = 0,
+                };
+                else 
+                    thisOrderPromotion = new Promotion()
                 {
                     Id = (int)data.Rows[0]["Id"],
                     Name = (string)data.Rows[0]["Name"],
@@ -494,7 +502,7 @@ namespace TestForASPWebAPI.Controllers
                 else { return BadRequest(); }
             }
 
-            string GetPriceCommand = @$"select * from Price where Status = 'ACTIVE' and ProductVariantId = {product.Id}";
+            string GetPriceCommand = @$"select Value from Price where Status = 'ACTIVE' and ProductVariantId = {product.Id}";
             using (DataTable data = await DBController.GetInstance().GetData(GetPriceCommand))
             {
                 if (data.Rows.Count is not 0)
@@ -577,7 +585,18 @@ namespace TestForASPWebAPI.Controllers
                         Id = (int)dataRow["Id"],
                         ProductLineId = (int)dataRow["ProductLineId"],
                         Name = (string)dataRow["Name"],
-                    };
+                    }; 
+                    
+                    string GetPrice = @$"select * from Price where Status = 'ACTIVE' and ProductVariantId = {ProductVariant.Id}";
+                    using (DataTable data = await DBController.GetInstance().GetData(GetPrice))
+                    {
+                        if (data.Rows.Count is not 0)
+                        {
+                            ProductVariant.Price = new Price();
+                            ProductVariant.Price.Value = (decimal)data.Rows[0]["Value"];
+                        }
+                        else { return BadRequest(); }
+                    }
                     product.ProductVariants.Add(ProductVariant);
                 }
             }
@@ -751,7 +770,7 @@ namespace TestForASPWebAPI.Controllers
         [HttpGet("GetCurrentPrice/{PVId}")]
         public async Task<IActionResult> GetCurrentPrice(int PVId)
         {
-            string GetCurrentPrice = $"select * from Price where ProductVariantId = {PVId}";
+            string GetCurrentPrice = $"select * from Price where ProductVariantId = {PVId} and Status = 'ACTIVE'";
             using (DataTable data = await DBController.GetInstance().GetData(GetCurrentPrice))
             {
                 var Price = new Price()
@@ -765,6 +784,80 @@ namespace TestForASPWebAPI.Controllers
                 };
                 return Ok(Price);
             }
+        }
+
+        [HttpPost("UpdateProductImage")]
+        public async Task<IActionResult> UpdateProductImage(List<ProductImage> ProductImages)
+        {
+            string GetImageId = $"select Id from ProductImage where ProductLineId = {ProductImages[0].ProductLineId}";
+            List<int> Ids = new List<int>();
+            using (DataTable data = await DBController.GetInstance().GetData(GetImageId))
+            {
+                foreach (DataRow dataRow in data.Rows)
+                {
+                    Ids.Add((int)dataRow["Id"]);
+                }
+            }
+            int minLength = Math.Min(ProductImages.Count(), Ids.Count());
+
+            for (int i = 0; i < minLength; i++)
+            {
+                string UpdateProductImage = $"UPDATE ProductImage SET ProductLineId = {ProductImages[i].ProductLineId}, Name = N'{ProductImages[i].ProductLineId}', Url = '{ProductImages[i].Image}' WHERE Id = {Ids[i]}";
+                DBController dbController = DBController.GetInstance();
+                dbController.UpdateData(UpdateProductImage);
+            }
+
+            for (int i = minLength; i < ProductImages.Count(); i++)
+            {
+                string InsertImage = $"INSERT INTO ProductImage (ProductLineId, Name, Url) VALUES ({ProductImages[i].ProductLineId}, N'{ProductImages[i].Name}', '{ProductImages[i].Image}')";
+                DBController dbController = DBController.GetInstance();
+                dbController.UpdateData(InsertImage);
+            }
+
+            for (int i = minLength; i < Ids.Count(); i++)
+            {
+                string command = $"DELETE FROM ProductImage WHERE Id = {Ids[i]}";
+                DBController dbController = DBController.GetInstance();
+                dbController.DeleteData(command);
+            }
+            return Ok();
+        }
+
+        [HttpPost("UpdateProductSpecification")]
+        public async Task<IActionResult> UpdateProductSpecification(List<ProductSpecification> ProductSpecifications)
+        {
+            string GetImageId = $"select Id from ProductSpecification where ProductLineId = {ProductSpecifications[0].ProductVariantId}";
+            List<int> Ids = new List<int>();
+            using (DataTable data = await DBController.GetInstance().GetData(GetImageId))
+            {
+                foreach (DataRow dataRow in data.Rows)
+                {
+                    Ids.Add((int)dataRow["Id"]);
+                }
+            }
+            int minLength = Math.Min(ProductSpecifications.Count(), Ids.Count());
+
+            for (int i = 0; i < minLength; i++)
+            {
+                string UpdateProductImage = $"UPDATE ProductSpecification SET ProductVariantId = {ProductSpecifications[i].ProductVariantId}, SpecificationId = {ProductSpecifications[i].SpecificationId} WHERE Id = {Ids[i]}";
+                DBController dbController = DBController.GetInstance();
+                dbController.UpdateData(UpdateProductImage);
+            }
+
+            for (int i = minLength; i < ProductSpecifications.Count(); i++)
+            {
+                string InsertImage = $"INSERT INTO ProductSpecification (ProductVariantId, SpecificationId) VALUES ({ProductSpecifications[i].ProductVariantId}, {ProductSpecifications[i].SpecificationId})";
+                DBController dbController = DBController.GetInstance();
+                dbController.UpdateData(InsertImage);
+            }
+
+            for (int i = minLength; i < Ids.Count(); i++)
+            {
+                string command = $"DELETE FROM ProductSpecification WHERE Id = {Ids[i]}";
+                DBController dbController = DBController.GetInstance();
+                dbController.DeleteData(command);
+            }
+            return Ok();
         }
     }
 }
