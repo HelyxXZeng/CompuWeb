@@ -1,19 +1,15 @@
-import { GridColDef } from "@mui/x-data-grid";
-import "./addPromotion.scss"
-import { Autocomplete, MenuItem, Select, TextField, TextareaAutosize, ThemeProvider, createTheme } from "@mui/material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { useEffect, useState } from "react";
-import dayjs, { Dayjs } from "dayjs";
-import productsVariantAPI, {ProductVariant} from "../../api/productsVariantAPI";
-import { products } from "../../data";
-
+import { Autocomplete, MenuItem, Select, TextField, TextareaAutosize, ThemeProvider, createTheme } from '@mui/material';
+import { GridColDef } from '@mui/x-data-grid';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs, { Dayjs } from 'dayjs';
+import React, { useState } from 'react'
 type Props = {
-  slug: string;
-  columns: GridColDef[];
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    slug: string;
+    columns: GridColDef[];
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    promotionData: any;
 };
-
 const theme = createTheme({
   palette: {
       background: {
@@ -27,8 +23,7 @@ const theme = createTheme({
   }
 });
 
-
-const AddPromotion = (props: Props) => {
+const UpdatePromotion = (props :Props) => {
   const [SValue, setSValue] = useState<Dayjs | null>(dayjs('2023-11-27'));
   const [validation, setValidation] = useState<Record<string, boolean>>({});
   const [EValue, setEValue] = useState<Dayjs | null>(dayjs('2023-11-27'));
@@ -37,107 +32,99 @@ const AddPromotion = (props: Props) => {
   const [purchaseValue, setPurchaseValue] = useState<any>(null);
   const [productVariant, setProductVariant] = useState<any>([]);
   const [textValue, setTextValue] = useState('');
+  const [nameValue, setNameValue] = useState('');
+  const [discountValue, setDiscountValue] = useState('');
 
-  useEffect(() => {
-        const fetchData = async () => {
-            const productVariantData = products;//await fetchProductVariant();
-            setProductVariant(productVariantData);
-        };
+  const handleTextChange = (event: any) => {
+    setTextValue(event.target.value);
+  };
 
-        fetchData();
-    }, []);  
+const handleValidation = () => {
+    const newValidation: Record<string, boolean> = {};
 
-    const handleTextChange = (event: any) => {
-        setTextValue(event.target.value);
-      };
+    props.columns
+    .forEach((column) => {
+        if (column.field === 'StartDate' || column.field === 'EndDate') {
+            return;
+        } 
+            
+        const inputValue = document.querySelector(`input[name="${column.field}"], select[name="${column.field}"]`)?.value || '';
+        if (column.field === 'Status') {
+            newValidation[column.field] = StatusValue.trim() !== '';
+        }
+        else if (column.field === 'Content') {
+            newValidation[column.field] = textValue.trim() !== '';
+        } else newValidation[column.field] = inputValue.trim() !== '';
+    });
+    
+    setValidation(newValidation);
+    
+    return Object.values(newValidation).every((valid) => valid);
+};
 
-    const handleValidation = () => {
-        const newValidation: Record<string, boolean> = {};
+const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+
+    const isValid = handleValidation();
+    //add new item
+    // axios.post('/api/${slug}s')
+    if (isValid) {
+        //debug
+        const formData: Record<string, any> = {};
 
         props.columns
-        .forEach((column) => {
-            if (column.field === 'StartDate' || column.field === 'EndDate') {
-                return;
-            } 
-                
-            const inputValue = document.querySelector(`input[name="${column.field}"], select[name="${column.field}"]`)?.value || '';
-            if (column.field === 'Status') {
-                newValidation[column.field] = StatusValue.trim() !== '';
+            .forEach((column) => {
+            if (column.field === 'StartDate') {
+                formData[column.field] = SValue?.format('YYYY-MM-DD') || null;
+            } else if (column.field === 'EndDate') {
+                formData[column.field] = EValue?.format('YYYY-MM-DD') || null;
+            } else if (column.field === 'Status') {
+                formData[column.field] = StatusValue;
+            } else if (column.field === "Content") {
+                formData[column.field] = textValue;
+            } else if (column.field === "Promotion") {
+                formData[column.field] = productPromotionValue.id;
+            }  else if (column.field === "Purchase") {
+                formData[column.field] = purchaseValue.id;
+            } else {
+                const inputElement = document.querySelector(`input[name="${column.field}"], select[name="${column.field}"]`) as HTMLInputElement;
+                formData[column.field] = inputElement?.value || null;
             }
-            else if (column.field === 'Content') {
-                newValidation[column.field] = textValue.trim() !== '';
-            } else newValidation[column.field] = inputValue.trim() !== '';
-        });
-        
-        setValidation(newValidation);
-        
-        return Object.values(newValidation).every((valid) => valid);
-    };
-    
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
- 
+            });
 
-        const isValid = handleValidation();
-        //add new item
+        console.log('Form Data:', formData);
+        //end debug
+
+        // Perform your form submission logic
         // axios.post('/api/${slug}s')
-        if (isValid) {
-            //debug
-            const formData: Record<string, any> = {};
-
-            props.columns
-                .forEach((column) => {
-                if (column.field === 'StartDate') {
-                    formData[column.field] = SValue?.format('YYYY-MM-DD') || null;
-                } else if (column.field === 'EndDate') {
-                    formData[column.field] = EValue?.format('YYYY-MM-DD') || null;
-                } else if (column.field === 'Status') {
-                    formData[column.field] = StatusValue;
-                } else if (column.field === "Content") {
-                    formData[column.field] = textValue;
-                } else if (column.field === "Promotion") {
-                    formData[column.field] = productPromotionValue.id;
-                }  else if (column.field === "Purchase") {
-                    formData[column.field] = purchaseValue.id;
-                } else {
-                    const inputElement = document.querySelector(`input[name="${column.field}"], select[name="${column.field}"]`) as HTMLInputElement;
-                    formData[column.field] = inputElement?.value || null;
-                }
-                });
-
-            console.log('Form Data:', formData);
-            //end debug
-
-            // Perform your form submission logic
-            // axios.post('/api/${slug}s')
-            props.setOpen(false);
-          }
-          else {
-            console.error('Form validation failed');
-          }
+        props.setOpen(false);
+      }
+      else {
+        console.error('Form validation failed');
+      }
     };
-
 
   return (
     <ThemeProvider theme={theme}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
 
-                <div className="addpromotion">
+                <div className="updatepromotion">
                     <div className="modal">
                         <span className="close" onClick={() => props.setOpen(false)}>
                             X
                         </span>
-                        <h1>Add New Promotion</h1>
+                        <h1>Update Promotion</h1>
                         <form onSubmit={handleSubmit}>
                             {props.columns
-                                .filter((item) => item.field !== "id")
+                                .filter((item) => item.field !== "Id")
                                 .map((column) => (
                                   <div
                                     className={`item ${
                                       validation[column.field] === false ? "invalid" : ""
                                     } ${column.field === "Name" ? "name-content-row" : ""}
                                     ${column.field === "Content" ? "name-content-row" : ""}
-                                    ${(column.field === "Purchase" || column.field === "Promotion") ? "name-content-row" : ""}`}
+                                    ${(column.field === "ProductVariantPurchaseName" || column.field === "ProductVariantPromotionName") ? "name-content-row" : ""}`}
                                     key={column.field}
                                   >
                                         <label>{column.headerName}</label>
@@ -178,7 +165,7 @@ const AddPromotion = (props: Props) => {
                                                 style={{ background: theme.palette.background.paper, color: theme.palette.text.primary, borderRadius: 5 }}
                                             />
                                         )}
-                                        {column.field === "Promotion" && (
+                                        {column.field === "ProductVariantPromotionName" && (
                                             <Autocomplete
                                                 options={productVariant}
                                                 getOptionLabel={(option: any) => option.name}
@@ -195,7 +182,7 @@ const AddPromotion = (props: Props) => {
                                                 )}
                                             />
                                         )}
-                                        {column.field === "Purchase" && (
+                                        {column.field === "ProductVariantPurchaseName" && (
                                             <Autocomplete
                                                 options={productVariant}
                                                 getOptionLabel={(option: any) => option.name}
@@ -224,7 +211,7 @@ const AddPromotion = (props: Props) => {
                 </div>
             </LocalizationProvider>
         </ThemeProvider>
-  )
+      )
 }
 
-export default AddPromotion
+export default UpdatePromotion

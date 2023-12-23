@@ -2,11 +2,12 @@ import { GridColDef } from "@mui/x-data-grid";
 import { PromotionDef } from "../../api/promotionAPI"
 import PromotionInfo from "../../components/promotioninfo/PromotionInfo"
 import "./promotion.scss"
-import { useState } from "react";
-import { singleUser } from "../../data";
+import { useEffect, useState } from "react";
+import { promotionExample } from "../../data";
 import { useParams } from "react-router-dom";
 import { Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import UpdatePromotion from "../../components/updatePromotion/updatePromotion";
+import { TextareaAutosize } from "@mui/material";
 
 interface Props {
   promotion: PromotionDef;
@@ -32,13 +33,13 @@ const columns: GridColDef[] = [
     flex: 4,
   },
   {
-    field: "Purchase",
+    field: "ProductVariantPurchaseName",
     type: "string",
     headerName: "Product Variant Purchase",
     flex: 5,
   },
   {
-    field: "Promotion",
+    field: "ProductVariantPromotionName",
     type: "string",
     headerName: "Product Variant Promotion",
     flex: 5,
@@ -63,25 +64,48 @@ const columns: GridColDef[] = [
   },
 ];
 
+
 const Promotion = () => {
-  const [open,setOpen] = useState(false)
+  const [open,setOpen] = useState(false);
+  const [data,setData] = useState([]);
+  useEffect (() => {
+    const fetchDataAndSetState = async () => {
+      try {
+        //const result = await fetchData();
+        //setData(result);
+      } catch (error) {
+        // Xử lý lỗi nếu cần thiết
+      }
+    };
+  })
   const { id } = useParams();
-  var props = singleUser;
-  console.log(id);
+  const props = promotionExample;
+  console.log(id,props.Id);
   return (
     <div className="promotion">
       <div className="view">
         <div className="info">
           <div className="topInfo">
-            {props.img && <img src={props.img} alt="" />}
-            <h1>{props.title}</h1>
+            <h1>{props.Name}</h1>
             <button onClick={() => setOpen(true)}>Update</button>
           </div>
           <div className="details">
-            {Object.entries(props.info).map((item) => (
-              <div className="item" key={item[0]}>
+            {Object.entries(props).map((item) => (
+              <div className={` ${(item[0] === "Name" || item[0] === "Id"
+               || item[0] === "StartDate" || item[0] === "EndDate") ? "item2row" : "item"}`} key={item[0]}>
                 <span className="itemTitle">{item[0]}:</span>
-                <span className="itemValue">{item[1]}</span>
+                {item[0] === "Content" ? (
+                  <TextareaAutosize  
+                    className="itemValue"
+                    value={item[1]}
+                    disabled
+                    minRows={2} // Adjust the number of rows as needed
+                    maxRows={4}
+                    // Thêm các thuộc tính khác tùy thuộc vào nhu cầu
+                  />
+                ) : (
+                  <span className="itemValue">{item[1]}</span>
+                )}
               </div>
             ))}
           </div>
@@ -116,7 +140,7 @@ const Promotion = () => {
           </div>
         )}
       </div>
-      {open && <UpdatePromotion slug='promotions' columns={columns} setOpen={setOpen} staffData={props.info} />}
+      {open && <UpdatePromotion slug='promotions' columns={columns} setOpen={setOpen} promotionData={props} />}
     </div>
   )
 }

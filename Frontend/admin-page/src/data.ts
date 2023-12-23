@@ -596,6 +596,17 @@ export const singleUser = {
     },
   ],
 };
+export const promotionExample = {
+  Id: 1,
+  Name: "Khuyến mãi laptop Asus TUF F15 SF560A nhân dịp tết đến",
+  StartDate: "11/15/2023",
+  EndDate: "1/15/2024",
+  ProductVariantPurchaseName: "Product 1",
+  ProductVariantPromotionName: "Product 2",
+  Value: "100.000",
+  Stauts: "ACTIVE",
+  Content: "ABCXYZ",
+}
 export const singleProduct = {
   id: 1,
   title: "Playstation 5 Digital Edition",
