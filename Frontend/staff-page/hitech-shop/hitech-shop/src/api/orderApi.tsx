@@ -23,11 +23,15 @@ interface PromotionUsage {
 
 const orderApi = {
     getAll: (params: any) => {
-        const url = '/orders/GetOrders';
+        const url = '/DTOController/GetOrderTable';
         return axiosClient.get(url);
     },
     get: (id: any) => {
         const url = '/orders/GetOrderById?id=' + id;
+        return axiosClient.get(url);
+    },
+    getTemp: () => {
+        const url = '/DTOController/GetLaptopProductTable/1-5';
         return axiosClient.get(url);
     },
     // add: async (brand: Brand) => {
