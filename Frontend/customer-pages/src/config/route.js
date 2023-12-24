@@ -9,6 +9,7 @@ const routes = {
     cart: '/cart',
     order: '/order',
     account: '/account',
+    manageOrder: '/manageOrder',
 };
 
 export default routes;

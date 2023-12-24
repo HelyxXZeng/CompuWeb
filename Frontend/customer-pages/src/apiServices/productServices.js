@@ -69,9 +69,13 @@ export const getProductVariantDetail = async (ProductVariantId) => {
     }
 };
 
-export const getCartItemById = async (CartItemId) => {
+export const getCartItemById = async (PVid) => {
     try {
-        const res = await request.get(`productvariants/GetProductVariantById/${CartItemId}`);
+        const res = await request.get('DTOController/GetProductVariantInCart', {
+            params: {
+                PVid,
+            },
+        });
         return res;
     } catch (error) {
         console.log(error);
