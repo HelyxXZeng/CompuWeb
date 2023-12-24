@@ -128,7 +128,7 @@ function Cart() {
                     cartItems.map(async (item) => {
                         const itemId = item.id;
                         const result = await productServices.getCartItemById(itemId);
-                        const price = result?.price?.value || 0;
+                        const price = result?.price || 0;
 
                         return { itemId, price };
                     }),
@@ -153,7 +153,7 @@ function Cart() {
             for (const item of cartItems) {
                 const itemId = item.id;
                 const result = await productServices.getCartItemById(itemId);
-                sum += result?.price?.value * item?.quantity;
+                sum += result?.price * item?.quantity;
             }
             const formattedSum = new Intl.NumberFormat('en-US').format(sum).replace(/,/g, '.');
             setSumOrder(formattedSum);
@@ -177,7 +177,11 @@ function Cart() {
         payment: '1',
         receive: '1',
         shop_address: '',
+        total: '',
+        customer_address: '',
     });
+
+    formData.total = formattedFirstSum;
     const [selectedShopAddress, setSelectedShopAddress] = useState('');
     const [showTabReceive, setShowTabReceive] = useState(false);
 
@@ -252,35 +256,38 @@ function Cart() {
             return;
         }
 
-        // Validation for "Tỉnh/ Thành phố"
-        if (!selectedProvince) {
-            setErrors((prevErrors) => ({ ...prevErrors, province: 'Bạn phải chọn Tỉnh/ Thành phố' }));
+        //Validation customerAddress
+        if (!showTabReceive) {
+            // Validation for "Tỉnh/ Thành phố"
+            if (!selectedProvince) {
+                setErrors((prevErrors) => ({ ...prevErrors, province: 'Bạn phải chọn Tỉnh/ Thành phố' }));
 
-            // Focus on the input if the "Quận/ Huyện" field is not selected
-            console.log('proviceInputRef', proviceInputRef);
-            //proviceInputRef.current.focus();
-            if (proviceInputRef.current) {
-                proviceInputRef.current.focus();
+                // Focus on the input if the "Quận/ Huyện" field is not selected
+                console.log('proviceInputRef', proviceInputRef);
+                //proviceInputRef.current.focus();
+                if (proviceInputRef.current) {
+                    proviceInputRef.current.focus();
+                }
+                return;
             }
-            return;
-        }
 
-        // Validation for "Quận/ Huyện"
-        if (!selectedDistrict) {
-            setErrors((prevErrors) => ({ ...prevErrors, district: 'Bạn phải chọn Quận/ Huyện' }));
+            // Validation for "Quận/ Huyện"
+            if (!selectedDistrict) {
+                setErrors((prevErrors) => ({ ...prevErrors, district: 'Bạn phải chọn Quận/ Huyện' }));
 
-            // Focus on the input if the "Quận/ Huyện" field is not selected
-            //districtInputRef.current.focus();
-            return;
-        }
+                // Focus on the input if the "Quận/ Huyện" field is not selected
+                //districtInputRef.current.focus();
+                return;
+            }
 
-        // Validation for "Xã/ Phường"
-        if (!selectedWard) {
-            setErrors((prevErrors) => ({ ...prevErrors, ward: 'Bạn phải chọn Xã/ Phường' }));
+            // Validation for "Xã/ Phường"
+            if (!selectedWard) {
+                setErrors((prevErrors) => ({ ...prevErrors, ward: 'Bạn phải chọn Xã/ Phường' }));
 
-            // Focus on the input if the "Quận/ Huyện" field is not selected
-            //districtInputRef.current.focus();
-            return;
+                // Focus on the input if the "Quận/ Huyện" field is not selected
+                //districtInputRef.current.focus();
+                return;
+            }
         }
 
         // Validation for "Số nhà, tên đường"
@@ -290,8 +297,6 @@ function Cart() {
             streetAddressInputRef.current.focus();
             return;
         }
-
-        console.log('formData', formData);
 
         // At this point, all validations have passed, and you can proceed to create the data object
         const currentDate = new Date(); // Create a new Date object with the current date and time
@@ -304,26 +309,36 @@ function Cart() {
         }));
 
         //
-        const customerAddress =
-            formData.street_address +
-            ', ' +
-            selectedWard.name +
-            ', ' +
-            selectedDistrict.name +
-            ', ' +
-            selectedProvince.name;
+        const customerAddress = showTabReceive
+            ? ''
+            : formData.street_address +
+              ', ' +
+              selectedWard.name +
+              ', ' +
+              selectedDistrict.name +
+              ', ' +
+              selectedProvince.name;
+
+        formData.customer_address = customerAddress;
 
         const address = showTabReceive ? selectedShopAddress : customerAddress;
+
+        formData.shop_address = selectedShopAddress;
+
+        console.log('formData', formData);
+
+        localStorage.setItem('formData', JSON.stringify(formData));
+
         const data = {
             customerId: 1,
             staffId: 1,
             date: formattedDate,
             note: formData.note,
-            status: 'pending',
+            status: 'PENDING',
             address: address,
             orderItems: orderItems,
         };
-        console.log('data', data);
+
         // Now, you can use the data object to send the request or perform any other necessary actions
         try {
             // Assuming orderServices.createOrder takes a data parameter
@@ -514,7 +529,7 @@ function Cart() {
                                     name="type_address"
                                     id="type_address0"
                                     value="1"
-                                    checked={formData.gender === '1'}
+                                    checked={formData.type_address === '1'}
                                     onChange={handleInputChange}
                                 />
                                 <span>NHÀ RIÊNG ( giao hàng tất cả thời gian )</span>
@@ -525,7 +540,7 @@ function Cart() {
                                     name="type_address"
                                     id="type_address1"
                                     value="2"
-                                    checked={formData.gender === '2'}
+                                    checked={formData.type_address === '2'}
                                     onChange={handleInputChange}
                                 />
                                 <span>CƠ QUAN ( giao hàng giờ hành chính )</span>
@@ -563,7 +578,7 @@ function Cart() {
                                             name="payment"
                                             id="payment1"
                                             value="1"
-                                            checked={formData.gender === '1'}
+                                            checked={formData.payment === '1'}
                                             onChange={handleInputChange}
                                         />
                                         <span>
@@ -579,7 +594,7 @@ function Cart() {
                                             name="payment"
                                             id="payment2"
                                             value="2"
-                                            checked={formData.gender === '2'}
+                                            checked={formData.payment === '2'}
                                             onChange={handleInputChange}
                                         />
                                         <span>
@@ -597,7 +612,7 @@ function Cart() {
                                             name="payment"
                                             id="payment3"
                                             value="3"
-                                            checked={formData.gender === '3'}
+                                            checked={formData.payment === '3'}
                                             onChange={handleInputChange}
                                         />
                                         <span>

@@ -13,6 +13,7 @@ import ProductDetail from '~/pages/ProductDetail';
 import Cart from '~/pages/Cart';
 import Order from '~/pages/Order';
 import Account from '~/pages/Account';
+import ManageOrder from '~/pages/ManageOrder';
 
 //Public routes
 const publicRoutes = [
@@ -25,6 +26,7 @@ const publicRoutes = [
     { path: config.routes.cart, component: Cart },
     { path: config.routes.order, component: Order },
     { path: config.routes.account, component: Account },
+    { path: config.routes.manageOrder, component: ManageOrder },
 ];
 
 const privateRoutes = [];

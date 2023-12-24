@@ -10,6 +10,8 @@ import { useEffect, useState } from 'react';
 
 import * as productServices from '~/apiServices/productServices';
 
+import config from '~/config';
+
 const cx = classNames.bind(styles);
 
 function CartItem({ cartItem }) {
@@ -26,15 +28,15 @@ function CartItem({ cartItem }) {
     }, []);
 
     const { increaseCartQuantity, decreaseCartQuantity, removeFromCart } = useShoppingCart();
-    const productData = {
-        title: 'Alienware X15 R2 i9 12900H RAM 32GB SSD 1TB + 1TB RTX 3070Ti 8GB 15.6inch QHD IPS 240Hz',
-        price: 45000000,
-        image: 'https://trungtran.vn/upload_images/images/products/lenovo-legion/large/legion_5_15arp8_thumbnail.jpg',
-    };
+    // const productData = {
+    //     title: 'Alienware X15 R2 i9 12900H RAM 32GB SSD 1TB + 1TB RTX 3070Ti 8GB 15.6inch QHD IPS 240Hz',
+    //     price: 45000000,
+    //     image: 'https://trungtran.vn/upload_images/images/products/lenovo-legion/large/legion_5_15arp8_thumbnail.jpg',
+    // };
 
     console.log('cartItem', cartItem);
 
-    const formattedPrice = new Intl.NumberFormat('en-US').format(fetchedData?.price?.value).replace(/,/g, '.');
+    const formattedPrice = new Intl.NumberFormat('en-US').format(fetchedData?.price).replace(/,/g, '.');
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -43,10 +45,10 @@ function CartItem({ cartItem }) {
                 </button>
 
                 <div className={cx('prod-image')}>
-                    <a href="/#" title={cartItem?.result?.name}>
+                    <a href={`${config.routes.productDetail}/${cartItem.id}`} title={cartItem?.result?.name}>
                         <img
-                            src={productData.image}
-                            alt="lenovo-legion-5-pro-2023-i9-rtx-4050"
+                            src={fetchedData?.images ? fetchedData?.images[0].image : ''}
+                            alt="product-front-view-img"
                             class="img-responsive"
                         />
                     </a>
@@ -62,7 +64,6 @@ function CartItem({ cartItem }) {
                                 id="quantity_973"
                                 className={cx('number-input')}
                                 maxlength="5"
-                                onblur="if (!window.__cfRLUnblockHandlers) return false; change_quantity(973)"
                                 value={cartItem.quantity}
                             ></input>
                             <button className={cx('plus-btn')} onClick={() => decreaseCartQuantity(cartItem.id)}>
@@ -72,12 +73,12 @@ function CartItem({ cartItem }) {
                     </div>
                 </div>
                 <div className={cx('prod-detail')}>
-                    <a className={cx('title')} href="/#">
+                    <a className={cx('title')} href={`${config.routes.productDetail}/${cartItem.id}`}>
                         {fetchedData?.name}
                     </a>
 
                     <div className={cx('price')}>
-                        <p className={cx('price-new')}> {formattedPrice} </p>
+                        <p className={cx('price-new')}> {formattedPrice}đ </p>
                         <p className={cx('price-old')}>39.500.000đ</p>
                     </div>
                 </div>

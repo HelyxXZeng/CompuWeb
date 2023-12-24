@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const request = axios.create({
     // baseURL: 'https://tiktok.fullstack.edu.vn/api/',
-    baseURL: 'https://localhost:44333/api/',
+    baseURL: 'https://localhost:44333/api',
     headers: {
         'Content-Type': 'application/json',
         // Add any other headers you need
