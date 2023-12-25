@@ -156,6 +156,7 @@ const List = ({ type }: { type: string }) => {
                 {/* <Navbar />
                 {doneFetch ? getElement() : <div className="loader"></div>
                 } */}
+                <Navbar />
                 {getElement()}
             </div>
         </div>
