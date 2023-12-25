@@ -37,7 +37,7 @@
                     margin: 15px 0px;
                     display: flex;
                     align-items: center;
-                    flex-basis: 99%;
+                    flex-basis: 99%;    
                     .itemTitle {
                         font-weight: 600;
                         margin-right: 10px;
@@ -57,9 +57,7 @@
                       text-transform: capitalize;
                     }
           
-                    .itemValue {
-                      // Thêm kiểu dáng tùy ý cho itemValue
-                    }
+                    
                 }
             }
         }

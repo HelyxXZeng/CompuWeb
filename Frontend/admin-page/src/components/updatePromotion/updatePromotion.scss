@@ -52,6 +52,12 @@
           gap: 10px;
           margin-bottom: 20px;
           
+          &.name-content-row {
+            width: 100%; // Set width to 100% for "Name" and "Content" fields
+            flex-direction: column;
+            gap: 16px; // Adjust the gap as needed
+          }
+
           label {
             font-size: 14px;
           }
@@ -74,20 +80,7 @@
           color: white;
         }
 
-        .image-upload {
-          width: 100%; // Set width to 100% to take the full width of the form
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          
-          .preview-container {
-            margin-top: 10px;
-            img {
-              width: 100px; // Adjust the width of the preview image as needed
-              height: auto;
-            }
-          }
-        }
+        
         button {
           width: 100%;
           padding: 10px;
