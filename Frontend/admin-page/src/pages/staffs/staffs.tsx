@@ -97,7 +97,7 @@ const staffs = () => {
   return (
     <div className='staffs'>
       <div className="info">
-        <h1>Users</h1>
+        <h1>Staffs</h1>
         <button onClick={() => setOpen(true)}>Add New Staff</button>
       </div>
       <DataTable columns={dataTableColumns} rows={userRows} slug='staffs'/>

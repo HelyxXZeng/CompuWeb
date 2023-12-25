@@ -1,4 +1,5 @@
 @import "../../styles/responsive.scss";
+@import "../../styles/global-styles.scss";
 
 .promotion{
     display: flex;
@@ -26,6 +27,25 @@
 
                 h1 {
                     font-weight: 500;
+                }
+                button {
+                    padding: 5px;
+                    cursor: pointer;
+                    background-color: rgb(115, 202, 115);
+                    color: $main-color;
+                    border-radius: 10%;
+                    transition: background-color 0.3s, color 0.3s; // Add transition for smooth effect
+                
+                    &:hover {
+                        background-color: darken(rgb(115, 202, 115), 10%); // Darken the color on hover
+                        color: lighten($main-color, 10%); // Lighten the text color on hover
+                    }
+                
+                    &:active {
+                        background-color: darken(rgb(115, 202, 115), 20%); // Darken the color more on click
+                        color: lighten($main-color, 20%); // Lighten the text color more on click
+                        transform: scale(0.95); // Add a slight scale effect on click
+                    }
                 }
             }
 
