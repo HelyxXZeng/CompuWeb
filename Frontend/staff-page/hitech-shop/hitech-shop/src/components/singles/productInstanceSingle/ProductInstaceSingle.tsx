@@ -93,12 +93,13 @@ const ProductInstanceSingle: React.FC<Props> = (para: Props) => {
             if (para.productInstance === null) {
                 console.log('This is variant will be added', productInstance)
                 await productInstanceApi.add(productInstance);
+                // Reset the form
+                setProductInstance(initProductInstance);
             } else {
                 await productInstanceApi.update(productInstance.id, productInstance);
             }
 
-            // Reset the form
-            setProductInstance(initProductInstance);
+
 
             alert("Successfully Uploaded!");
         } catch (error) {

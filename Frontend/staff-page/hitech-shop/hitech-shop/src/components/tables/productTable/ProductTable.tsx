@@ -15,7 +15,7 @@ const columns: GridColDef[] = [
         field: 'categoryName', headerName: 'Category', width: 150
     },
     {
-        field: 'name', headerName: 'Name', width: 200,
+        field: 'name', headerName: 'Name', width: 300,
     },
     {
         field: 'numberInStock', headerName: 'Quantity', width: 80,

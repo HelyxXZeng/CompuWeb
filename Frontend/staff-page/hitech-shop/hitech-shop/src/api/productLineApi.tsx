@@ -62,7 +62,7 @@ const productLineApi = {
 
     updateImages: async (imageList: ProductImage[]) => {
         try {
-            const response = await axiosClient.put(`...........`, imageList);
+            const response = await axiosClient.put(`/DTOController/UpdateProductImage`, imageList);
             return response.data;
         } catch (error) {
             throw error;
