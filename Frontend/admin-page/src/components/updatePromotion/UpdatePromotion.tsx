@@ -3,7 +3,9 @@ import { GridColDef } from '@mui/x-data-grid';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { products } from '../../data';
+import './updatePromotion.scss'
 type Props = {
     slug: string;
     columns: GridColDef[];
@@ -24,23 +26,41 @@ const theme = createTheme({
 });
 
 const UpdatePromotion = (props :Props) => {
-  const [SValue, setSValue] = useState<Dayjs | null>(dayjs('2023-11-27'));
+  const [SValue, setSValue] = useState<Dayjs | null>(
+    props.promotionData ? dayjs(props.promotionData.startdate) : dayjs('2023-11-27'));
   const [validation, setValidation] = useState<Record<string, boolean>>({});
-  const [EValue, setEValue] = useState<Dayjs | null>(dayjs('2023-11-27'));
-  const [StatusValue, setStatusValue] = useState('');
+  const [EValue, setEValue] = useState<Dayjs | null>(
+    props.promotionData ? dayjs(props.promotionData.EndDate) : dayjs('2023-11-27'));
+  const [StatusValue, setStatusValue] = useState<string>(
+    props.promotionData ? props.promotionData.Status : '');
   const [productPromotionValue, setProductPromotionValue] = useState<any>(null);
   const [purchaseValue, setPurchaseValue] = useState<any>(null);
   const [productVariant, setProductVariant] = useState<any>([]);
-  const [textValue, setTextValue] = useState('');
-  const [nameValue, setNameValue] = useState('');
-  const [discountValue, setDiscountValue] = useState('');
+  const [textValue, setTextValue] = useState(props.promotionData ? props.promotionData.Content : '');
+  const [nameValue, setNameValue] = useState(
+    props.promotionData ? props.promotionData.Name : '');
+  const [discountValue, setDiscountValue] = useState(
+    props.promotionData ? props.promotionData.Value : '');
+  useEffect(() => {
+    const fetchData = async () => {
+        const productVariantData = products;//await fetchProductVariant();
+        setProductVariant(productVariantData);
+
+        const purchaseProduct = productVariantData.find((product) => product.name === props.promotionData.ProductVariantPurchaseName);
+      setPurchaseValue(purchaseProduct);
+
+      const promotionProduct = productVariantData.find((product) => product.name === props.promotionData.ProductVariantPromotionName);
+      setProductPromotionValue(promotionProduct);
+    };
+
+    fetchData();
+    }, []);  
 
   const handleTextChange = (event: any) => {
     setTextValue(event.target.value);
   };
-
-const handleValidation = () => {
-    const newValidation: Record<string, boolean> = {};
+  const handleValidation = () => {
+  const newValidation: Record<string, boolean> = {};
 
     props.columns
     .forEach((column) => {
@@ -128,7 +148,25 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
                                     key={column.field}
                                   >
                                         <label>{column.headerName}</label>
-                                        {/* Use DatePicker for the "Join Date" column */}
+                                        
+                                          {column.field === 'Name' && (
+                                            <input
+                                            type="text"
+                                            placeholder={column.field}
+                                            name={column.field}
+                                            value={nameValue}
+                                            onChange={(e) => setNameValue(e.target.value)}
+                                            />
+                                          )}
+                                           {column.field === 'Value' && (
+                                            <input
+                                            type="text"
+                                            placeholder={column.field}
+                                            name={column.field}
+                                            value={discountValue}
+                                            onChange={(e) => setNameValue(e.target.value)}
+                                            />
+                                          )}
                                           {column.field === 'StartDate' && (
                                               <DatePicker
                                                   value={SValue}
@@ -168,8 +206,9 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
                                         {column.field === "ProductVariantPromotionName" && (
                                             <Autocomplete
                                                 options={productVariant}
-                                                getOptionLabel={(option: any) => option.name}
+                                                getOptionLabel={(option: any) =>  option.name || ''}
                                                 disablePortal
+                                                disabled
                                                 value={productPromotionValue}
                                                 onChange={(_, newValue) => setProductPromotionValue(newValue)}
                                                 renderInput={(params) => (
@@ -185,10 +224,11 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
                                         {column.field === "ProductVariantPurchaseName" && (
                                             <Autocomplete
                                                 options={productVariant}
-                                                getOptionLabel={(option: any) => option.name}
+                                                getOptionLabel={(option: any) =>  option.name || ''}
                                                 disablePortal
+                                                disabled
                                                 value={purchaseValue}
-                                                onChange={(_, newValue) => setPurchaseValue(newValue)}
+                                                //onChange={(_, newValue) => setPurchaseValue(newValue)}
                                                 renderInput={(params) => (
                                                 <TextField
                                                     {...params}
@@ -199,9 +239,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
                                                 )}
                                             />
                                         )}
-                                        { (column.field === "Name" || column.field === "Value") && (
-                                            <input type={column.type} placeholder={column.field} name={column.field} />
-                                        )}
+                                        
                                         
                                     </div>
                                 ))}

@@ -468,42 +468,42 @@ export const userRows = [
 export const products = [
   {
     id: 1,
-    name: "product 1",
+    name: "Product 1",
     productLineId: 1,
   },
   {
     id: 2,
-    name: "product 2",
+    name: "Product 2",
     productLineId: 2,
   },
   {
     id: 3,
-    name: "product 3",
+    name: "Product 3",
     productLineId: 3,
   },
   {
     id: 4,
-    name: "product 4",
+    name: "Product 4",
     productLineId: 4,
   },
   {
     id: 5,
-    name: "product 5",
+    name: "Product 5",
     productLineId: 5,
   },
   {
     id: 6,
-    name: "product 6",
+    name: "Product 6",
     productLineId: 6,
   },
   {
     id: 7,
-    name: "product 7",
+    name: "Product 7",
     productLineId: 7,
   },
   {
     id: 8,
-    name: "product 8",
+    name: "Product 8",
     productLineId: 8,
   },
 
@@ -597,16 +597,29 @@ export const singleUser = {
   ],
 };
 export const promotionExample = {
-  Id: 1,
+  id: 1,
   Name: "Khuyến mãi laptop Asus TUF F15 SF560A nhân dịp tết đến",
   StartDate: "11/15/2023",
   EndDate: "1/15/2024",
   ProductVariantPurchaseName: "Product 1",
   ProductVariantPromotionName: "Product 2",
   Value: "100.000",
-  Stauts: "ACTIVE",
+  Status: "ACTIVE",
   Content: "ABCXYZ",
+  
 }
+
+export const promotionExamples = [{
+  id: 1,
+  Name: "Khuyến mãi laptop Asus TUF F15 SF560A nhân dịp tết đến",
+  StartDate: "11/15/2023",
+  EndDate: "1/15/2024",
+  ProductVariantPurchaseName: "Product 1",
+  ProductVariantPromotionName: "Product 2",
+  Value: "100.000",
+  Status: "ACTIVE",
+  Content: "ABCXYZ",
+}]
 export const singleProduct = {
   id: 1,
   title: "Playstation 5 Digital Edition",
