@@ -195,11 +195,11 @@ const AddStaff = (props: Props) => {
 
             props.columns
                 .forEach((column) => {
-                if (column.field === 'JoinDate') {
+                if (column.field === 'joinDate') {
                     formData[column.field] = Jvalue?.format('YYYY-MM-DD') || null;
-                } else if (column.field === 'Birthdate') {
+                } else if (column.field === 'birthdate') {
                     formData[column.field] = DoBvalue?.format('YYYY-MM-DD') || null;
-                } else if (column.field === 'Gender') {
+                } else if (column.field === 'gender') {
                     formData[column.field] = genderValue;
                 } else {
                     const inputElement = document.querySelector(`input[name="${column.field}"], select[name="${column.field}"]`) as HTMLInputElement;
@@ -241,22 +241,23 @@ const AddStaff = (props: Props) => {
                             {props.columns
                                 .filter((item) => item.field !== "id" && item.field !== "img")
                                 .map((column) => (
-                                    <div className={`item ${validation[column.field] === false ? 'invalid' : ''}`} key={column.field}>
+                                    <div className={`item ${validation[column.field] === false ? 'invalid' : ''} 
+                                    ${column.field === "address" ? "address" : ""}`} key={column.field}>
                                         <label>{column.headerName}</label>
                                         {/* Use DatePicker for the "Join Date" column */}
-                                        {column.field === 'JoinDate' && (
+                                        {column.field === 'joinDate' && (
                                             <DatePicker
                                                 value={Jvalue}
                                                 onChange={(newValue) => setJValue(newValue)}
                                             />
                                         )}
-                                        {column.field === 'Birthdate' && (
+                                        {column.field === 'birthdate' && (
                                             <DatePicker
                                                 value={DoBvalue}
                                                 onChange={(newValue) => setDoBValue(newValue)}
                                             />
                                         )}
-                                        {column.field === 'Gender' && (
+                                        {column.field === 'gender' && (
                                             <Select
                                             value={genderValue}
                                             onChange={(event) => setGenderValue(event.target.value as string)}
@@ -267,8 +268,8 @@ const AddStaff = (props: Props) => {
                                             <MenuItem value="Nonbinary">Nonbinary</MenuItem>
                                             </Select>
                                         )}
-                                        {column.field !== 'JoinDate' && column.field !== 'Birthdate' &&
-                                            column.field !== 'Gender' && (
+                                        {column.field !== 'joinDate' && column.field !== 'birthdate' &&
+                                            column.field !== 'gender' && (
                                             <input type={column.type} placeholder={column.field} name={column.field} />
                                         )}
                                     </div>
