@@ -224,7 +224,6 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
 
 
     const getSpecificationsBlock = () => {
-        // console.log('New specList', specList)
         return (
             <>
                 {specList && specList.map((specAutocomplete: any, index: any) => (
@@ -288,29 +287,6 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
                     onChange={handleInputChange}
                     required
                 />
-
-                {/* {specList && specList.map((specAutocomplete: any, index: any) => (
-                    <div key={index}>
-                        <label>Specifications: {index + 1}</label>
-                        <p>
-                            {specAutocomplete.id}
-                            {specAutocomplete.value}
-                            {specAutocomplete.specificationTypeId}
-                        </p>
-                        <Autocomplete
-                            className="autocomplete"
-                            disablePortal
-
-                            id={`specificationsId-${index}`}
-                            options={specifications}
-                            getOptionLabel={(option: any) => option.value}
-                            value={specAutocomplete}
-                            onChange={(event, newValue) => handleSpecificationChange(index, newValue)}
-                            renderInput={(params) => <TextField {...params}
-                            />}
-                        />
-                    </div>
-                ))} */}
 
                 {
                     getSpecificationsBlock()
