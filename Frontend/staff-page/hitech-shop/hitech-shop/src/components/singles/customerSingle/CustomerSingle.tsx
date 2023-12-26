@@ -52,6 +52,14 @@ const CustomerSingle: React.FC<Props> = (para: Props) => {
             if (para.customer === null) {
                 console.log('this is customer', customer)
                 await customerApi.add(customer);
+                // Reset the form
+                setCustomer({
+                    id: 0,
+                    name: '',
+                    birthdate: '2000-01-01',
+                    joinDate: new Date().toISOString().split('T')[0],
+                    phoneNumber: '+84'
+                });
             } else {
                 console.log('this is customer', customer)
                 await customerApi.update(customer.id, customer);
@@ -59,14 +67,7 @@ const CustomerSingle: React.FC<Props> = (para: Props) => {
 
             alert('Successfully Uploaded!');
 
-            // Reset the form
-            setCustomer({
-                id: 0,
-                name: '',
-                birthdate: '2000-01-01',
-                joinDate: new Date().toISOString().split('T')[0],
-                phoneNumber: '+84'
-            });
+
         } catch (error) {
             console.error('Error:', error);
             alert('Error! ' + error);

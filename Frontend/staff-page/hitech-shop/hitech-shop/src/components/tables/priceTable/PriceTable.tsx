@@ -22,13 +22,13 @@ const columns: GridColDef[] = [
         field: 'id', headerName: 'ID', width: 60
     },
     {
-        field: 'productVariantName', headerName: 'Variant', flex: 7
+        field: 'productVariantName', headerName: 'Variant', width: 400
     },
     {
-        field: 'value', headerName: 'Value', flex: 3
+        field: 'value', headerName: 'Value', width: 200
     },
     {
-        field: 'startDate', headerName: 'Start Date', flex: 3,
+        field: 'startDate', headerName: 'Start Date', width: 150,
         renderCell: (params) => {
             return (
                 <div className={"date" + " " + params.row.startDate}>
@@ -38,7 +38,7 @@ const columns: GridColDef[] = [
         },
     },
     {
-        field: 'endDate', headerName: 'End Date', flex: 3,
+        field: 'endDate', headerName: 'End Date', width: 150,
         renderCell: (params) => {
             return (
                 <div className={"date" + " " + params.row.endDate}>
@@ -88,6 +88,7 @@ const PriceTable = () => {
     useEffect(() => {
         const fetchRows = async () => {
             const data = (await priceApi.getAll({ _page: 1, _limit: 100000 })).data;
+
             setRows(data)
             console.log('This is rows in fetch', data)
         }
@@ -95,8 +96,6 @@ const PriceTable = () => {
 
 
         fetchRows();
-
-
     }, [])
 
     useEffect(() => {

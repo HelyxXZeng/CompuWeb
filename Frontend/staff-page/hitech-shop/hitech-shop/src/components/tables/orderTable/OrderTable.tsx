@@ -1,7 +1,7 @@
 import './orderTable.scss'
 // import '../datatable/datatable.scss'
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
 import actionColumn from '../datatable/DataTable';
@@ -60,16 +60,25 @@ const OrderTable = () => {
     const [displayedRows, setDisplayedRows] = useState(rows);
     const [currentStatus, setCurrentStatus] = useState("ALL")
 
+    const navigate = useNavigate();
+
     const handleDelete = (rowId: number) => {
         const isConfirmed = window.confirm('Are you sure you want to delete this row?');
         if (isConfirmed) {
             // Perform the deletion action here
+            orderApi.remove(rowId);
             console.log('Deleting row with ID:', rowId);
+
+            // Update displayedRows after the item has been deleted
+            const updatedRows = displayedRows.filter(row => row.id !== rowId); // It should be row.Id later
+            setDisplayedRows(updatedRows);
+            rows.filter(row => row.id !== rowId); // It should be row.Id later
         }
     };
 
     const handleView = (rowId: number) => {
-        console.log('Viewing row with ID:', rowId);
+        // console.log('Viewing row with ID:', rowId);
+        navigate(`/orders/GetOrderById/${rowId}`);
     };
 
     const handleInput = (event: any) => {
@@ -136,8 +145,8 @@ const OrderTable = () => {
             }
         }
 
-        console.log('this is rows', rows)
-        console.log('this is filter rows', filteredRows)
+        // console.log('this is rows', rows)
+        // console.log('this is filter rows', filteredRows)
         setDisplayedRows(filteredRows);
     }, [rows, query, currentStatus]);
 

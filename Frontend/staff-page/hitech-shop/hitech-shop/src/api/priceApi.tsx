@@ -35,7 +35,9 @@ const PriceApi = {
 
     update: async (id: number, updatedPrice: Price) => {
         try {
-            const response = await axiosClient.put(`/Prices/Update?id=${id}`, updatedPrice);
+            // console.log('this is id from priceApi', id)
+            const response = await axiosClient.put(`/prices/Update?id=${id}`, updatedPrice);
+            // console.log('this is updatedPrice', updatedPrice)
             return response.data;
         } catch (error) {
             throw error;

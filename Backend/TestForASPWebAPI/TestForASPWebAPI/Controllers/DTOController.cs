@@ -823,7 +823,7 @@ namespace TestForASPWebAPI.Controllers
             }
         }
 
-        [HttpPost("UpdateProductImage")]
+        [HttpPut("UpdateProductImage")]
         public async Task<IActionResult> UpdateProductImage(List<ProductImage> ProductImages)
         {
             string GetImageId = $"select Id from ProductImage where ProductLineId = {ProductImages[0].ProductLineId}";
@@ -860,10 +860,10 @@ namespace TestForASPWebAPI.Controllers
             return Ok();
         }
 
-        [HttpPost("UpdateProductSpecification")]
+        [HttpPut("UpdateProductSpecification")]
         public async Task<IActionResult> UpdateProductSpecification(List<ProductSpecification> ProductSpecifications)
         {
-            string GetImageId = $"select Id from ProductSpecification where ProductLineId = {ProductSpecifications[0].ProductVariantId}";
+            string GetImageId = $"select Id from ProductSpecification where ProductVariantId = {ProductSpecifications[0].ProductVariantId}";
             List<int> Ids = new List<int>();
             using (DataTable data = await DBController.GetInstance().GetData(GetImageId))
             {
