@@ -9,6 +9,9 @@ import '../commonSingle/commonSingle.scss'
 import AddIcon from '@mui/icons-material/Add';
 import PriceApi, { Price } from '../../../api/priceApi';
 import priceApi from '../../../api/priceApi';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
+import { red } from '@mui/material/colors';
 interface Props {
     productVariant: ProductVariantWithSpecifications
 }
@@ -149,6 +152,13 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
         });
     };
 
+    const handleDeleteSpecification = (index: number) => {
+        setSpecList((prevSpecList: any) => {
+            const updatedSpecList = [...prevSpecList];
+            updatedSpecList.splice(index, 1); // Remove the specAutocomplete at the specified index
+            return updatedSpecList;
+        });
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -211,9 +221,6 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
         }
     };
 
-    // useEffect(() => {
-    //     console.log('just come here for rerender only')
-    // }, [specList])
 
 
     const getSpecificationsBlock = () => {
@@ -223,6 +230,9 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
                 {specList && specList.map((specAutocomplete: any, index: any) => (
                     <div key={index}>
                         <label>Specifications {index + 1}:</label>
+                        <IconButton aria-label="delete" onClick={() => handleDeleteSpecification(index)}>
+                            <DeleteIcon className='button-icon' />
+                        </IconButton>
                         <Autocomplete
                             className="autocomplete"
                             disablePortal
@@ -233,6 +243,8 @@ const ProductVariantSingle: React.FC<Props> = (para: Props) => {
                             onChange={(event, newValue) => handleSpecificationChange(index, newValue)}
                             renderInput={(params) => <TextField {...params} />}
                         />
+
+
                     </div>
                 ))}
             </>
