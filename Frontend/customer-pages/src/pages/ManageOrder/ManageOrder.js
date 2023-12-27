@@ -4,9 +4,29 @@ import config from '~/config';
 
 import React, { useState, useEffect } from 'react';
 
+import useAuth from '~/hooks/useAuth';
+
+import { useNavigate } from 'react-router-dom';
+
 const cx = classNames.bind(styles);
 
 function ManageOrder() {
+    const { logout } = useAuth(); // Replace with your actual authentication hook
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        try {
+            // Perform the logout operation
+            await logout(); // This is your logout function from the authentication library
+            console.log('Logout successful');
+
+            // Navigate to the /account page after successful logout
+            navigate('/account');
+        } catch (error) {
+            console.error('Logout error:', error);
+        }
+    };
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -16,7 +36,9 @@ function ManageOrder() {
                             <span>Đơn hàng gần đây</span>
                         </p>
                     </div>
-                    <div className={cx('logout')}>Đăng xuất</div>
+                    <div className={cx('logout')} onClick={handleLogout}>
+                        Đăng xuất
+                    </div>
                 </div>
 
                 <div className={cx('order-list')}>
@@ -93,7 +115,7 @@ function ManageOrder() {
                                     </p>
                                 </div>
 
-                                <a className={cx('click-detail')} href="#">
+                                <a className={cx('click-detail')} href={config.routes.orderDetail}>
                                     Xem chi tiết
                                 </a>
                             </div>
@@ -133,7 +155,7 @@ function ManageOrder() {
                                     </p>
                                 </div>
 
-                                <a className={cx('click-detail')} href="#">
+                                <a className={cx('click-detail')} href={config.routes.orderDetail}>
                                     Xem chi tiết
                                 </a>
                             </div>
