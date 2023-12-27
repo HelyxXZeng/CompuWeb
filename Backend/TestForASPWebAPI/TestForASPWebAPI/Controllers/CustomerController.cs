@@ -70,12 +70,14 @@ namespace TestForASPWebAPI.Controllers
         }
 
         [HttpPost("Insert")]
-        public void Insert([FromBody] Customer value)
+        public async Task<IActionResult> Insert([FromBody] Customer value)
         {
             string command = $"INSERT INTO Customer (Name, PhoneNumber, Birthdate, JoinDate) VALUES (N'{value.Name}', '{value.PhoneNumber}', '{value.Birthdate.ToString("yyyy-MM-dd")}', '{DateTime.Now.ToString("yyyy-MM-dd")}')";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
-            return;
+            string GetCreatedCus = $"select MaxId from Customer where PhoneNumber = '{value.PhoneNumber}'";
+            int Id = await dbController.GetCount(GetCreatedCus);
+            return Ok(Id);
         }
 
         // PUT api/<ValuesController>/5

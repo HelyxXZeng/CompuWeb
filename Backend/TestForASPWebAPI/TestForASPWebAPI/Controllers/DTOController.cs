@@ -158,6 +158,18 @@ namespace TestForASPWebAPI.Controllers
             return Ok(true);
         }
 
+        [HttpGet("AuthenticateCustomer/{phoneNumber}")]
+        public async Task<IActionResult> AuthenticateCustomer(string phoneNumber)
+        {
+            DBController dbController = DBController.GetInstance();
+            string GetStaffAuthetication = $"select Id from Customer where PhoneNumber = '{phoneNumber}'";
+            using (DataTable data = await dbController.GetData(GetStaffAuthetication))
+            {
+                if (data.Rows.Count is not 0) return Ok((int)data.Rows[0]["Id"]);
+            }
+            return Ok(false);
+        }
+
         [HttpGet("GetStaffAvatar/{phoneNumber}")]
         public async Task<IActionResult> GetStaffAvatar(string phoneNumber)
         {
@@ -605,7 +617,7 @@ namespace TestForASPWebAPI.Controllers
             }
 
             product.Ratings = new List<RatingDTO>();
-            string GetOrderItemsRating = $"SELECT r.*\r\nFROM Rating r\r\nJOIN OrderItem oi ON r.OrderItemId = oi.Id\r\nJOIN ProductInstance pi ON oi.ProductInstanceId = pi.Id\r\nJOIN ProductVariant pv ON pi.ProductVariantId = pv.Id\r\nWHERE pv.Id = {ProductVariantId}";
+            string GetOrderItemsRating = $"SELECT r.*\r\nFROM Rating r\r\nJOIN OrderItem oi ON r.OrderItemId = oi.Id\r\nJOIN ProductInstance pi ON oi.ProductInstanceId = pi.Id\r\nJOIN ProductVariant pv ON pi.ProductVariantId = pv.Id\r\nWHERE pv.Id = {ProductVariantId} and Status = 'APPROVED'";
             using (var dataTable = await DBController.GetInstance().GetData(GetOrderItemsRating))
             {
                 if (dataTable.Rows.Count == 0)
@@ -626,6 +638,7 @@ namespace TestForASPWebAPI.Controllers
                             Date = (DateTime)dataRow["Date"],
                             Rate = (int)dataRow["Rate"],
                             Comment = (string)dataRow["Comment"],
+                            Status = (string)dataRow["Status"]
                         };
                         RatingSum += Rating.Rate;
 
