@@ -73,7 +73,7 @@ function Dropdown({ title, itemList }) {
                         <label key={index} className={cx('check-box')}>
                             <input type="checkbox" />
                             <span className={cx('checkmark')}>{item.value ? item.value : item.name} </span>
-                            <span className={cx('span-count')}>(12)</span>
+                            {/* <span className={cx('span-count')}>(12)</span> */}
                         </label>
                     ))}
                 </ul>

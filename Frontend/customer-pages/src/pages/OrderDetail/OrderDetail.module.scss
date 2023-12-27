@@ -1,0 +1,149 @@
+.wrapper {
+    position: relative;
+    .inner {
+        background: #fff;
+        border-radius: 5px;
+        width: 800px;
+        margin: 30px auto;
+        border: 1px solid #ddd;
+        box-shadow: 0 0 10px 1px #ddd;
+        padding: 20px;
+        .title-top {
+            padding: 18px;
+            text-align: center;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 10px;
+
+            p {
+                margin-bottom: 0;
+                span {
+                    font-size: 18px;
+                    line-height: 21px;
+                    font-family: bold;
+                    text-transform: uppercase;
+                    color: #0079f2;
+                    margin-left: 12px;
+                }
+            }
+        }
+
+        .box {
+            padding: 20px;
+            background-color: #f8f8f8;
+            border-radius: 7px;
+            margin-bottom: 15px;
+        }
+
+        .box-order {
+            padding: 20px;
+            background-color: #f8f8f8;
+            border-radius: 7px;
+            p {
+                font-size: 14px;
+                color: #333;
+                font-family: medium;
+                line-height: 20px;
+            }
+        }
+
+        .title-infor-order {
+            p {
+                font-family: bold;
+                margin-bottom: 5px;
+                font-size: 14px;
+            }
+        }
+
+        .order-list {
+            .order1 {
+                padding: 20px;
+                background-color: #f8f8f8;
+                border-radius: 7px;
+                margin-bottom: 15px;
+                // border-bottom: 1px solid #eee;
+                //padding: 5px 10px 20px;
+                .order-title {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 18px;
+                    text-align: center;
+                    align-items: center;
+                    .order-id {
+                        font-size: 16px;
+                        font-family: medium;
+                        span {
+                            color: #0079f2;
+                        }
+                    }
+                    .order-status {
+                        font-size: 16px;
+                        color: #20863d;
+                        font-family: medium;
+                    }
+                }
+
+                .order-infor {
+                    display: grid;
+                    grid-template-columns: 2fr 4fr;
+                    gap: 20px;
+                    position: relative;
+                    .order-image {
+                        img {
+                            width: 75%;
+                            display: block;
+                            margin-left: auto;
+                            margin-right: auto;
+                        }
+                    }
+
+                    .order-detail {
+                        .prod-title {
+                            margin-bottom: 10px;
+                            font-family: bold;
+                            font-size: 16px;
+                            color: #595959;
+                            line-height: 1.8rem;
+                            display: block;
+                            text-align: justify;
+                        }
+
+                        .price,
+                        .quantity {
+                            font-family: medium;
+                            p {
+                                margin-bottom: 5px;
+                            }
+                            span {
+                                margin: 0;
+                                color: #ff6700;
+                                font-family: bold;
+                                margin-right: 10px;
+                                font-size: 15px;
+                                align-items: center;
+                            }
+                        }
+
+                        .rating {
+                            &:hover {
+                                background: #f96f3a;
+                                color: #fff;
+                            }
+                            margin-top: 15px;
+                            width: fit-content;
+                            border-radius: 5px;
+                            font-weight: 700;
+                            font-size: 15px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            padding: 5px 25px;
+                            color: #f96f3a;
+                            border: 1px solid #f96f3a;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

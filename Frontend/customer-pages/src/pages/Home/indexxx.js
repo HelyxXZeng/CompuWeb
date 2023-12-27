@@ -11,26 +11,31 @@ import * as productServices from '~/apiServices/productServices';
 const cx = classNames.bind(styles);
 
 function Home() {
-    //
     const [currentLaptopList, setCurrentLaptopList] = useState([]);
 
     useEffect(() => {
-        const fetchLaptopList = async () => {
+        const fetchData = async () => {
             try {
-                const result = await productServices.getLaptopTable(1, 5);
+                // Use Promise.all to make multiple requests concurrently
+                const [laptopListResult, otherDataResult] = await Promise.all([
+                    productServices.getLaptopTable(1, 5),
+                    // Add other API calls as needed
+                ]);
 
-                if (result && result.item1) {
-                    console.log('setCurrentLaptopList', result.item1);
-                    setCurrentLaptopList(result.item1);
+                if (laptopListResult && laptopListResult.item1) {
+                    console.log('setCurrentLaptopList', laptopListResult.item1);
+                    setCurrentLaptopList(laptopListResult.item1);
                 } else {
-                    console.error('Invalid response format:', result);
+                    console.error('Invalid response format for laptopList:', laptopListResult);
                 }
+
+                // Process other data as needed
             } catch (error) {
-                console.error('Error fetching laptop list:', error);
+                console.error('Error fetching data:', error);
             }
         };
 
-        fetchLaptopList();
+        fetchData();
     }, []);
 
     return (

@@ -198,22 +198,29 @@ function ProductDetail() {
                         <div className={cx('variant-action')}>
                             <h2>Chọn cấu hình:</h2>
                             <div className={cx('variant-list')}>
-                                {productDetail?.productVariants?.map((item, index) => (
-                                    <a
-                                        key={index}
-                                        href={`${config.routes.productDetail}/${item.id}`}
-                                        className={cx('variant-item')}
-                                    >
-                                        <div className={cx('title')}>
-                                            <p className={cx('main-title')}>{item.name}</p>
-                                            <p className={cx('sub-title')}>Fullbox - Bảo Hành 12 tháng tại Hitech</p>
-                                        </div>
-                                        <div className={cx('price-variant')}>
-                                            <span className={cx('price-top')}>45.000.000đ</span>
-                                            <span className={cx('price-bottom')}>57.000.000đ</span>
-                                        </div>
-                                    </a>
-                                ))}
+                                {productDetail?.productVariants?.map((item, index) => {
+                                    const formattedPrice = new Intl.NumberFormat('en-US')
+                                        .format(item.price?.value)
+                                        .replace(/,/g, '.');
+                                    return (
+                                        <a
+                                            key={index}
+                                            href={`${config.routes.productDetail}/${item.id}`}
+                                            className={cx('variant-item')}
+                                        >
+                                            <div className={cx('title')}>
+                                                <p className={cx('main-title')}>{item.name}</p>
+                                                <p className={cx('sub-title')}>
+                                                    Fullbox - Bảo Hành 12 tháng tại Hitech
+                                                </p>
+                                            </div>
+                                            <div className={cx('price-variant')}>
+                                                <span className={cx('price-top')}>{formattedPrice}</span>
+                                                <span className={cx('price-bottom')}>57.000.000đ</span>
+                                            </div>
+                                        </a>
+                                    );
+                                })}
 
                                 {/* 
                                 <a href="/#" className={cx('variant-item')}>

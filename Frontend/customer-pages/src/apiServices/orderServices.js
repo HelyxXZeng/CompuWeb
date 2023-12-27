@@ -9,3 +9,13 @@ export const createOrder = async (data) => {
         console.log(error);
     }
 };
+
+export const createCustomer = async (data) => {
+    try {
+        const res = await request.post('customers/Insert', data);
+        console.log('res', res);
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+};
