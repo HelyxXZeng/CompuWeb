@@ -1,17 +1,18 @@
 import axiosClient from "./axiosClient";
 
 export interface StaffDef {
-    Id: number,
-    Img: string,
-    Name: string,
-    Birthdate: Date,
-    Gender: string,
-    IdCardNumber: number,
-    Address: string,
-    JoinDate: Date,
-    PhoneNumber: string,
-    Position: string,
-    Other: string, //Status: ACTIVE, NONACTIVE, FIRED
+    id: 0,
+    avatar: string,
+    name: string,
+    birthdate: Date,
+    gender: string,
+    idcardNumber: number,
+    address: string,
+    joinDate: Date,
+    phoneNumber: string,
+    position: string,
+    salary: number,
+    other: string, //Status: ACTIVE, NONACTIVE, FIRED
 }
 
 const staffApi = {
@@ -20,12 +21,12 @@ const staffApi = {
         return axiosClient.get(url, {params});
     },
     getID: (id: any) => {
-        const url = `/staffs/GetStaffById?id=${id}`;
+        const url = `/staffs/GetStaffById/${id}`;
         return axiosClient.get(url);
     },
 
     getName: (Name:string) => {
-        const url = `/staffs/GetStaffByName?id=${Name}`;
+        const url = `/staffs/GetStaffByName/${Name}`;
         return axiosClient.get(url);
     },
 
@@ -38,9 +39,9 @@ const staffApi = {
         }
     },
 
-    update: async (id: number, updatedStaff: StaffDef) => {
+    update: async (updatedStaff: StaffDef) => {
         try {
-            const response = await axiosClient.put(`/staffs/Update/${id}`, updatedStaff);
+            const response = await axiosClient.put(`/staffs/Update/${updatedStaff.id}`, updatedStaff);
             return response.data;
         } catch (error) {
             throw error;

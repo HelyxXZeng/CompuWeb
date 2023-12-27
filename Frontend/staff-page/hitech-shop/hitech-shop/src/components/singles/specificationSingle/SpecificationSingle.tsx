@@ -73,12 +73,12 @@ const SpecificationSingle: React.FC<Props> = (para: Props) => {
             if (para.specification === null) {
                 console.log('This is variant will be added', specification)
                 await specificationApi.add(specification);
+
+                // Reset the form
+                setSpecification(initSpecification);
             } else {
                 await specificationApi.update(specification.id, specification);
             }
-
-            // Reset the form
-            setSpecification(initSpecification);
 
             alert("Successfully Uploaded!");
         } catch (error) {

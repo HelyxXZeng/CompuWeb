@@ -1,18 +1,39 @@
-import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid"
+import { DataGrid, GridColDef, GridSortModel, GridToolbar } from "@mui/x-data-grid"
 import "./dataTable.scss";
 import { Link } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material";
+import { useState } from "react";
 
 type Props = {
   columns: GridColDef[];
   rows: object[];
   slug: string;
+  defaultSortField?: string; // New prop for default sorting field
+  defaultSortOrder?: "asc" | "desc"; // New prop for default sorting order
 };
 const theme = createTheme({
   palette: {
     mode: "dark",
   },
 });
+const useDataTableSorting = (
+  defaultSortField?: string,
+  defaultSortOrder?: "asc" | "desc"
+) => {
+  const [sortModel, setSortModel] = useState<GridSortModel>([
+    {
+      field: defaultSortField || "",
+      sort: defaultSortOrder || "asc",
+    },
+  ]);
+
+  const handleSortModelChange = (newModel: GridSortModel) => {
+    setSortModel(newModel);
+  };
+
+  return { sortModel, handleSortModelChange };
+};
+
 const DataTable = (props: Props) => {
 
   const handleDelete = (id: number) => {
@@ -20,7 +41,11 @@ const DataTable = (props: Props) => {
     // axios.deleta('api/${sluf}/id')
     console.log(id + " has been deleted!")
   };
-
+  const { sortModel, handleSortModelChange } = useDataTableSorting(
+    props.defaultSortField,
+    props.defaultSortOrder
+  );
+  
 
   const actionColumn: GridColDef = {
     field: "action",
@@ -47,6 +72,9 @@ const DataTable = (props: Props) => {
           className="dataGrid"
           rows={props.rows}
           columns={[...props.columns, actionColumn]}
+          sortingMode="server"
+          sortModel={sortModel}
+          onSortModelChange={handleSortModelChange}
           initialState={{
             pagination: {
               paginationModel: {

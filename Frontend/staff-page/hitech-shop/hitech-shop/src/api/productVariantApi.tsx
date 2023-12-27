@@ -52,7 +52,8 @@ const productVariantApi = {
 
     updateSpecifications: async (updatedSpecificationList: ProductSpecification) => {
         try {
-            const response = await axiosClient.put(`.....`, updatedSpecificationList);
+            const response = await axiosClient.put(`/DTOController/UpdateProductSpecification`, updatedSpecificationList);
+            console.log('This is updatedSpecList in Api', updatedSpecificationList)
             return response.data;
         } catch (error) {
             throw error;

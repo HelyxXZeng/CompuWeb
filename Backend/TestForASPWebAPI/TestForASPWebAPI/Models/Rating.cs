@@ -8,5 +8,6 @@
         public DateTime Date { get; set; }
         public int Rate { get; set; }
         public string Comment { get; set; }
+        public string Status { get; set; }
     }
 }

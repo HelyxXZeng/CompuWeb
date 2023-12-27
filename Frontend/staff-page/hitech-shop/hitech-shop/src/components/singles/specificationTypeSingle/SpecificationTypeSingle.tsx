@@ -42,18 +42,18 @@ const SpecificationTypeSingle: React.FC<Props> = (para: Props) => {
                     id: specificationType.id,
                     name: specificationType.name
                 });
+
+                // Reset the form
+                setSpecificationType({
+                    id: 0,
+                    name: ''
+                });
             } else {
                 await specificationTypeApi.update(specificationType.id, {
                     id: specificationType.id,
                     name: specificationType.name
                 });
             }
-
-            // Reset the form
-            setSpecificationType({
-                id: 0,
-                name: ''
-            });
 
             alert("Successfully Uploaded!");
         } catch (error) {

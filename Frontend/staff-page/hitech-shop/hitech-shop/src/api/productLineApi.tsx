@@ -53,7 +53,9 @@ const productLineApi = {
 
     update: async (id: number, updatedProductLine: ProductLine) => {
         try {
-            const response = await axiosClient.put(`/productLines/Update?id=${id}`, updatedProductLine);
+            const response = await axiosClient.put(`/productlines/Update?id=${id}`, updatedProductLine);
+            console.log('this is updated ProductLine in api', updatedProductLine)
+            console.log('this is id in Api', id)
             return response.data;
         } catch (error) {
             throw error;
@@ -62,7 +64,7 @@ const productLineApi = {
 
     updateImages: async (imageList: ProductImage[]) => {
         try {
-            const response = await axiosClient.put(`...........`, imageList);
+            const response = await axiosClient.put(`/DTOController/UpdateProductImage`, imageList);
             return response.data;
         } catch (error) {
             throw error;

@@ -157,6 +157,10 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
                 }
                 console.log('ImageData', imageData)
                 productLineApi.add(imageData);
+
+                // Reset the form
+                setProductLine(initProductLine);
+                setImageFiles([])
             } else {
 
                 const imageList = imageFiles.map((image: any) => ({
@@ -166,19 +170,19 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
                     productLineId: productLine.id,
                 }))
 
-                console.log('productLine wil be uploaded', productLine)
+                let temp = productLine;
+                temp.images = imageList;
+                // console.log('imageFiles will be uploaded', imageFiles)
+                // console.log('imageList will be uploaded', imageList)
+                // console.log('productLine wil be uploaded', productLine)
 
 
                 const data = await productLineApi.update(productLine.id, productLine);
-                // const data2 = await productLineApi.updateImages(imageList);
+                const data2 = await productLineApi.updateImages(imageList);
 
 
-                console.log('Data returned', data)
+                // console.log('Data returned', data)
             }
-
-            // Reset the form
-            setProductLine(initProductLine);
-            setImageFiles([])
 
             alert("Successfully Uploaded!");
         } catch (error) {
@@ -255,7 +259,6 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
                         onChange={handleImageUpload}
                         className='custom-file-input'
                         multiple
-                        required
                     />
                 </label>
 

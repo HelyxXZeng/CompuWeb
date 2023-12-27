@@ -1,17 +1,37 @@
 import { GridColDef } from "@mui/x-data-grid";
 import { PromotionDef } from "../../api/promotionAPI"
-import PromotionInfo from "../../components/promotioninfo/PromotionInfo"
 import "./promotion.scss"
 import { useEffect, useState } from "react";
 import { promotionExample } from "../../data";
 import { useParams } from "react-router-dom";
 import { Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import UpdatePromotion from "../../components/updatePromotion/updatePromotion";
+import UpdatePromotion from "../../components/updatePromotion/UpdatePromotion";
 import { TextareaAutosize } from "@mui/material";
+import theme from "../../styles/theme";
 
 interface Props {
   promotion: PromotionDef;
 }
+export interface PromotionChart {
+  dataKeys: { name: string; color: string }[];
+  data: Array<{ [key: string]: string | number } & { name: string }>;
+}
+
+const promotionChartExample: PromotionChart = {
+  dataKeys: [
+    { name: "sells", color: "#82ca9d" },
+    { name: "checks", color: "#8884d8" },
+  ],
+  data: [
+    { name: "Sun", sells: 4000, checks: 2400 },
+    { name: "Mon", sells: 3000, checks: 1398 },
+    { name: "Tue", sells: 2000, checks: 3800 },
+    { name: "Wed", sells: 2780, checks: 3908 },
+    { name: "Thu", sells: 1890, checks: 4800 },
+    { name: "Fri", sells: 2390, checks: 3800 },
+    { name: "Sat", sells: 3490, checks: 4300 },
+  ],
+};
 const columns: GridColDef[] = [
   { field: "Id", headerName: "ID", width: 7, },
   {
@@ -80,8 +100,9 @@ const Promotion = () => {
   })
   const { id } = useParams();
   const props = promotionExample;
-  console.log(id,props.Id);
+  const chart = promotionChartExample;
   return (
+    
     <div className="promotion">
       <div className="view">
         <div className="info">
@@ -91,10 +112,10 @@ const Promotion = () => {
           </div>
           <div className="details">
             {Object.entries(props).map((item) => (
-              <div className={` ${(item[0] === "Name" || item[0] === "Id"
+              <div className={` ${(  item[0] === "Id"
                || item[0] === "StartDate" || item[0] === "EndDate") ? "item2row" : "item"}`} key={item[0]}>
                 <span className="itemTitle">{item[0]}:</span>
-                {item[0] === "Content" ? (
+                {item[0] === "Content" && (
                   <TextareaAutosize  
                     className="itemValue"
                     value={item[1]}
@@ -103,20 +124,22 @@ const Promotion = () => {
                     maxRows={4}
                     // Thêm các thuộc tính khác tùy thuộc vào nhu cầu
                   />
-                ) : (
+                )} 
+                { (item[0] !== "Content")
+                 && (
                   <span className="itemValue">{item[1]}</span>
                 )}
               </div>
             ))}
           </div>
         </div>
-        {props.chart && (
+        {chart && (
           <div className="chart">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
                 width={500}
                 height={300}
-                data={props.chart.data}
+                data={chart.data}
                 margin={{
                   top: 5,
                   right: 30,
@@ -128,7 +151,7 @@ const Promotion = () => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                {props.chart.dataKeys.map((dataKey) => (
+                {chart.dataKeys.map((dataKey) => (
                   <Line
                     type="monotone"
                     dataKey={dataKey.name}

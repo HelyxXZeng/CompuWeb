@@ -9,4 +9,11 @@
         public DateTime JoinDate { get; set; }
         public string PhoneNumber { get; set; }
     }
+    public class CustomerStats
+    {
+        public CustomerStats() { }
+        public string Name { get; set; }
+        public string PhoneNumber { get; set; }
+        public decimal Total { get; set; }
+    }
 }

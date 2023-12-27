@@ -98,12 +98,13 @@ const PriceSingle: React.FC<Props> = (para: Props) => {
             if (para.price === null) {
                 console.log('This is variant will be added', price)
                 await priceApi.add(price);
+
+                // Reset the form
+                setPrice(initPrice);
             } else {
                 await priceApi.update(price.id, price);
             }
 
-            // Reset the form
-            setPrice(initPrice);
 
             alert("Successfully Uploaded!");
         } catch (error) {

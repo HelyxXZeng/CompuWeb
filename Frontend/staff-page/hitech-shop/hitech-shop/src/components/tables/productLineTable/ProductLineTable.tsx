@@ -71,7 +71,7 @@ const ProductLineTable = () => {
         const fetchRows = async () => {
             const data = (await productLineApi.getTable({ _page: 1, _limit: 100000 })).data;
             setRows(data)
-            console.log('This is rows in fetch', data)
+            // console.log('This is rows in fetch', data)
         }
 
         fetchRows();
