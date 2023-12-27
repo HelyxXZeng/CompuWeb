@@ -178,7 +178,7 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
 
 
                 const data = await productLineApi.update(productLine.id, productLine);
-                // const data2 = await productLineApi.updateImages(imageList);
+                const data2 = await productLineApi.updateImages(imageList);
 
 
                 // console.log('Data returned', data)
@@ -259,7 +259,6 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
                         onChange={handleImageUpload}
                         className='custom-file-input'
                         multiple
-                        required
                     />
                 </label>
 
