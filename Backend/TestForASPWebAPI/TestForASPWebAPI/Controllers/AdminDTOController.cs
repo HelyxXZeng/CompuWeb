@@ -109,7 +109,7 @@ namespace TestForASPWebAPI.Controllers
         [HttpPut("SetDeletePromotion/{Id}")]
         public async Task<IActionResult> SetDeletePromotion(int Id)
         {
-            string UpdateInactive = $"update Staff set Status = 'INACTIVE' where Id = {Id}";
+            string UpdateInactive = $"update Staff set Status = 'CANCELED' where Id = {Id}";
             DBController.GetInstance().UpdateData(UpdateInactive);
             return Ok();
         }
