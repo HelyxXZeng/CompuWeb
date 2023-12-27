@@ -90,10 +90,8 @@ const PriceTable = () => {
             const data = (await priceApi.getAll({ _page: 1, _limit: 100000 })).data;
 
             setRows(data)
-            console.log('This is rows in fetch', data)
+            // console.log('This is rows in fetch', data)
         }
-
-
 
         fetchRows();
     }, [])
