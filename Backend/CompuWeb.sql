@@ -175,6 +175,7 @@ CREATE TABLE Rating (
    OrderItemId INT,
    Date DATE,
    Rating INT,
+   Status NVARCHAR(50),
    Comment NVARCHAR(255) COLLATE Vietnamese_CI_AS,
    FOREIGN KEY (OrderItemId) REFERENCES OrderItem(Id) ON DELETE CASCADE
 );
@@ -224,8 +225,16 @@ alter column Url NVARCHAR(MAX)
 alter table ProductImage
 alter column Url NVARCHAR(MAX)
 
+--- for Created Database
+
+--- add Status for Rating
+alter table Rating
+add Status NVARCHAR(50)
+
+---
 alter table Orders
-add column ReceiveMethod NVARCHAR(50)
+add ReceiveMethod NVARCHAR(50)
+
 ---
 
 use CompuWeb
@@ -298,5 +307,16 @@ from ProductImage pi
 join ProductLine pl on pi.ProductLineId = pl.Id
 join ProductVariant pv on pv.ProductLineId = pl.Id
 where pv.Id = 1
+
+select top 10 c.Id, c.Name, c.PhoneNumber, Sum(o.Total) as Total
+from Customer c
+join Orders o on o.CustomerId = c.Id
+where c.Id = 1
+group by c.Id, c.Name, c.PhoneNumber
+order by Total desc
+
+update Promotion set Status = 'INACTIVE' where Id = 1
+
+select count(*) from Customer where Month(JoinDate) = 11 and Year(JoinDate) = 2022
 
 INSERT INTO Price (ProductVariantId, StartDate, EndDate, Status, Value) VALUES (1, '2023-12-15', '2026-12-31', 'CANCELED', 9999999.00)
