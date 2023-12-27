@@ -172,12 +172,12 @@ const ProductLineSingle: React.FC<Props> = (para: Props) => {
 
                 let temp = productLine;
                 temp.images = imageList;
-                console.log('imageFiles will be uploaded', imageFiles)
-                console.log('imageList will be uploaded', imageList)
-                console.log('productLine wil be uploaded', productLine)
+                // console.log('imageFiles will be uploaded', imageFiles)
+                // console.log('imageList will be uploaded', imageList)
+                // console.log('productLine wil be uploaded', productLine)
 
 
-                // const data = await productLineApi.update(productLine.id, productLine);
+                const data = await productLineApi.update(productLine.id, productLine);
                 // const data2 = await productLineApi.updateImages(imageList);
 
 
