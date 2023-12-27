@@ -6,11 +6,13 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { MenuItem, Select, ThemeProvider, createTheme } from "@mui/material";
+import staffApi, { StaffDef } from "../../api/staffsAPI";
 
 type Props = {
     slug: string;
     columns: GridColDef[];
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    fetchData: () => Promise<void>;
 };
 
 const theme = createTheme({
@@ -118,7 +120,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onFileSelected }) => {
 const AddStaff = (props: Props) => {
     const [selectedFile, setSelectedFile] = useState<File | undefined>();
 
-    const [Jvalue, setJValue] = React.useState<Dayjs | null>(dayjs('2023-11-27'));
+    const [Jvalue, setJValue] = React.useState<Dayjs | null>(dayjs());
     const [DoBvalue, setDoBValue] = React.useState<Dayjs | null>(dayjs('2000-01-01'));
 
     const [genderValue, setGenderValue] = useState('');
@@ -134,12 +136,12 @@ const AddStaff = (props: Props) => {
 
         props.columns
         .forEach((column) => {
-            if (column.field === 'JoinDate' || column.field === 'Birthdate') {
+            if (column.field === 'joinDate' || column.field === 'birthdate') {
                 return;
             } 
                 
             const inputValue = document.querySelector(`input[name="${column.field}"], select[name="${column.field}"]`)?.value || '';
-            if (column.field === 'Gender') {
+            if (column.field === 'gender') {
                 newValidation[column.field] = genderValue.trim() !== '';
             } 
             else  newValidation[column.field] = inputValue.trim() !== '';
@@ -181,7 +183,7 @@ const AddStaff = (props: Props) => {
 
         img.src = URL.createObjectURL(file);
     };
-
+    
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
  
@@ -191,19 +193,22 @@ const AddStaff = (props: Props) => {
         // axios.post('/api/${slug}s')
         if (isValid) {
             //debug
-            const formData: Record<string, any> = {};
+            const formData: StaffDef = {};
 
             props.columns
                 .forEach((column) => {
                 if (column.field === 'joinDate') {
-                    formData[column.field] = Jvalue?.format('YYYY-MM-DD') || null;
+                    formData[column.field] = Jvalue ? Jvalue.toDate() : null;
                 } else if (column.field === 'birthdate') {
-                    formData[column.field] = DoBvalue?.format('YYYY-MM-DD') || null;
+                    formData[column.field] = DoBvalue ? DoBvalue.toDate() : null;
                 } else if (column.field === 'gender') {
-                    formData[column.field] = genderValue;
+                    formData[column.field] = genderValue ;
+                } else if (column.field === 'phoneNumber') {
+                    const inputElement = document.querySelector(`input[name="${column.field}"], select[name="${column.field}"]`) as HTMLInputElement;
+                    formData[column.field] = "+84" + (inputElement?.value || '')
                 } else {
                     const inputElement = document.querySelector(`input[name="${column.field}"], select[name="${column.field}"]`) as HTMLInputElement;
-                    formData[column.field] = inputElement?.value || null;
+                    (formData as any)[column.field] = inputElement?.value;
                 }
                 });
                 if (selectedFile) {
@@ -212,14 +217,25 @@ const AddStaff = (props: Props) => {
                         // Do something with the base64 data, if needed
                         console.log('Base64 Image:', base64);
                         // Continue with the rest of your form submission logic here
+                        formData['avatar'] = base64;
                     });
+                } else {
+                    formData['avatar'] = '';
                 }
+                formData['id'] = 0;
+                formData['other'] = "ACTIVE";
             console.log('Form Data:', formData);
             //end debug
-
+            
             // Perform your form submission logic
-            // axios.post('/api/${slug}s')
-            props.setOpen(false);
+            try {
+                const returnStaffData = await staffApi.add(formData)
+                props.fetchData();
+                props.setOpen(false);
+            }
+            catch(error){
+                console.error('Error inserting data:', error);
+            }
           }
           else {
             console.error('Form validation failed');

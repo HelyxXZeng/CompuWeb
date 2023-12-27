@@ -1,7 +1,7 @@
 import axiosClient from "./axiosClient";
 
 export interface StaffDef {
-    id: number,
+    id: 0,
     avatar: string,
     name: string,
     birthdate: Date,

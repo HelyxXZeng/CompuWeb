@@ -123,21 +123,19 @@ const staffs = () => {
     }
     return column;
   });
-
+  const fetchData = async () => {
+    try {
+      const response = await staffApi.getAll({ _page: 1, _limit: 100000 });
+      const formattedData = response.data.map((staff) => ({
+        ...staff,
+        joinDate: formatDate(staff.joinDate),
+      }));
+      setStaffsData(formattedData);
+    } catch (error) {
+      console.error('Error fetching staffs data:', error);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await staffApi.getAll({ _page: 1, _limit: 100000 });
-        const formattedData = response.data.map((staff) => ({
-          ...staff,
-          joinDate: formatDate(staff.joinDate),
-        }));
-        setStaffsData(formattedData);
-      } catch (error) {
-        console.error('Error fetching staffs data:', error);
-      }
-    };
-
     fetchData();
   }, []);
 
@@ -148,7 +146,7 @@ const staffs = () => {
         <button onClick={() => setOpen(true)}>Add New Staff</button>
       </div>
       <DataTable columns={dataTableColumnss} rows={staffsData} slug='staffs' defaultSortField='other' defaultSortOrder='asc'/>
-      {open && <AddStaff slug='staffs' columns={addStaffColumns} setOpen={setOpen}/>}
+      {open && <AddStaff slug='staffs' columns={addStaffColumns} setOpen={setOpen} fetchData={fetchData} />}
     </div>
   )
 }
