@@ -319,4 +319,24 @@ update Promotion set Status = 'INACTIVE' where Id = 1
 
 select count(*) from Customer where Month(JoinDate) = 11 and Year(JoinDate) = 2022
 
+select * from Specification where Value like '%8GB%'
+
+select ProductVariantId
+from ProductSpecification ps
+join Specification s on ps.SpecificationId = s.Id
+where (s.SpecificationTypeId = 1 and Value like '%8GB%') or (s.SpecificationTypeId = 2 and Value like '%256GB%')
+
+SELECT pv.Id
+FROM ProductVariant pv
+INNER JOIN ProductSpecification ps ON pv.Id = ps.ProductVariantId
+INNER JOIN Specification s ON ps.SpecificationId = s.Id
+WHERE 
+    (s.SpecificationTypeId = 1 AND s.Value like '%8GB%')
+    OR
+    (s.SpecificationTypeId = 2 AND s.Value like '%512GB%')
+	OR
+	(s.SpecificationTypeId = 3 AND s.Value like '%i5%')
+GROUP BY pv.Id
+HAVING COUNT(DISTINCT s.SpecificationTypeId) = 3;
+
 INSERT INTO Price (ProductVariantId, StartDate, EndDate, Status, Value) VALUES (1, '2023-12-15', '2026-12-31', 'CANCELED', 9999999.00)
