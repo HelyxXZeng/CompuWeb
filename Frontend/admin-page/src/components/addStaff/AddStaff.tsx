@@ -12,7 +12,6 @@ type Props = {
     slug: string;
     columns: GridColDef[];
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    fetchData: () => Promise<void>;
 };
 
 const theme = createTheme({
@@ -248,7 +247,6 @@ const AddStaff = (props: Props) => {
             // Perform your form submission logic
             try {
                 await staffApi.add(formData)
-                props.fetchData();
                 props.setOpen(false);
             }
             catch(error){

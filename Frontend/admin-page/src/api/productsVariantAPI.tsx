@@ -7,7 +7,7 @@ export interface ProductVariant {
 
 const productsVariantAPI = {
     getAll: (params: any) =>{
-        const url = '/productVariants/GetProductVariants';
+        const url = '/AdminDTOController/GetProductVariantWOLine';
         return axiosClient.get(url, {params});
     },
     getID: (id: any) => {

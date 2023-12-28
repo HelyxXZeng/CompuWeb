@@ -135,8 +135,7 @@ const staffs = () => {
   };
   useEffect(() => {
     fetchData();
-  }, []);
-
+  }, [staffsData]);
   return (
     <div className='staffs'>
       <div className="info">
