@@ -11,6 +11,5 @@
         public string Status { get; set; }
         public string Address { get; set; }
         public decimal Total { get; set; }
-        public List<OrderItem> Items { get; set; }
     }
 }
