@@ -8,6 +8,10 @@ const routes = {
     productDetail: '/productDetail',
     cart: '/cart',
     order: '/order',
+    account: '/account',
+    manageOrder: '/manageOrder',
+    orderDetail: '/orderDetail',
+    search: '/search',
 };
 
 export default routes;

@@ -3,7 +3,7 @@ import AddPromotion from '../../components/addPromotion/AddPromotion';
 import DataTable from '../../components/dataTable/DataTable';
 import './promotions.scss';
 import { useState } from 'react';
-import { products } from '../../data';
+import { promotionExamples } from '../../data';
 
 
 
@@ -28,22 +28,16 @@ const columns: GridColDef[] = [
     flex: 4,
   },
   {
-    field: "PVP",
+    field: "ProductVariantPurchaseName",
     type: "string",
     headerName: "Product Variant Purchase",
     flex: 5,
   },
   {
-    field: "PVPr",
+    field: "ProductVariantPromotionName",
     type: "string",
     headerName: "Product Variant Promotion",
     flex: 5,
-  },
-  {
-    field: "Content",
-    type: "string",
-    headerName: "Content",
-    flex: 3,
   },
   {
     field: "Value",
@@ -57,6 +51,12 @@ const columns: GridColDef[] = [
     flex: 2,
     type: "string",
   },
+  {
+    field: "Content",
+    type: "string",
+    headerName: "Content",
+    flex: 3,
+  },
 ];
 
 const Promotions = () => {
@@ -67,7 +67,7 @@ const Promotions = () => {
   );
 
   const addPromotionColumns = columns.filter(
-    (column) => column.field != "Id"
+    (column) => ( column.field != "Id" )
   )
 
   
@@ -77,7 +77,7 @@ const Promotions = () => {
         <h1>Promotions</h1>
         <button onClick={() => setOpen(true)}>Add New Promotion</button>
       </div>
-      <DataTable columns={dataTableColumns} rows={products} slug='promotions'/> 
+      <DataTable columns={dataTableColumns} rows={promotionExamples} slug='promotions'/> 
       {open && <AddPromotion slug="promotions" columns={addPromotionColumns} setOpen={setOpen}/>}
     </div>
   )

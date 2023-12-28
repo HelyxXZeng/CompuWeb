@@ -11,7 +11,7 @@ register();
 
 const cx = classNames.bind(styles);
 
-function InfiSwiper() {
+function InfiSwiper({ imageList }) {
     const swiperRef = useRef(null);
 
     useEffect(() => {
@@ -45,13 +45,13 @@ function InfiSwiper() {
                 pagination-clickable="true"
                 init="false"
             >
-                <swiper-slide>
-                    <img
-                        src="https://trungtran.vn/upload_images/images/products/lenovo-legion/large/legion_5_15arp8_thumbnail.jpg"
-                        alt="legion_5_15arp8_thumbnail.jpg"
-                    />
-                </swiper-slide>
-                <swiper-slide>
+                {imageList?.map((item, index) => (
+                    <swiper-slide key={index}>
+                        <img src={item.image} alt={item.name} />
+                    </swiper-slide>
+                ))}
+
+                {/* <swiper-slide>
                     <img
                         src="https://trungtran.vn/upload_images/images/products/lenovo-legion/large/Legion_5_15ARP8_CT1_01.png"
                         alt="Legion_5_15ARP8_CT1_01.png"
@@ -86,7 +86,7 @@ function InfiSwiper() {
                         src="https://trungtran.vn/upload_images/images/products/lenovo-legion/large/Legion_5_15ARP8_CT1_03.png"
                         alt="Legion_5_15ARP8_CT1_03.png"
                     />
-                </swiper-slide>
+                </swiper-slide> */}
             </swiper-container>
         </div>
     );

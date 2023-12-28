@@ -1,13 +1,16 @@
 import HeadlessTippy from '@tippyjs/react/headless';
 import { faCircleXmark, faMagnifyingGlass, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
-import AccountItem from '~/components/AccountItem';
+import SearchItem from '~/components/SearchItem';
 import styles from './Search.module.scss';
 import classNames from 'classnames/bind';
 import * as searchServices from '~/apiServices/searchServices';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, forwardRef } from 'react';
 import { useDebounce } from '~/hooks';
+import { useNavigate } from 'react-router-dom'; // Import the useHistory hook from React Router
+
+import config from '~/config';
 
 const cx = classNames.bind(styles);
 function Search() {
@@ -19,6 +22,24 @@ function Search() {
     const debounced = useDebounce(searchValue, 500);
 
     const inputRef = useRef();
+
+    const navigate = useNavigate(); // Get the history object from React Router
+    const handleSearchResult = () => {
+        // Set the search URL
+        const searchUrl = `${config.routes.search}/${debounced}`;
+
+        // Reload the page
+        window.location.href = searchUrl;
+        // window.location.reload();
+        // navigate(searchUrl);
+    };
+
+    const handleEnterKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            handleSearchResult();
+        }
+    };
+
     useEffect(() => {
         if (!debounced.trim()) {
             setSearchResult([]);
@@ -27,48 +48,25 @@ function Search() {
 
         setLoading(true);
 
-        // promise
-        // request
-        //     .get('users/search', {
-        //         params: {
-        //             q: debounced,
-        //             type: 'less',
-        //         },
-        //     })
-        //     .then((res) => {
-        //         setSearchResult(res.data);
-        //         setLoading(false);
-        //     })
-        //     .catch(() => {
-        //         setLoading(false);
-        //     });
-
-        //async await
-        // const fetchApi = async () => {
-        //     try {
-        //         const res = await request.get('users/search', {
-        //             params: {
-        //                 q: debounced,
-        //                 type: 'less',
-        //             },
-        //         });
-
-        //         setSearchResult(res.data);
-        //         setLoading(false);
-        //     } catch (error) {
-        //         setLoading(false);
-        //     }
-        // };
-
-        // fetchApi();
-
         const fetchApi = async () => {
             setLoading(true);
 
-            const result = await searchServices.search(debounced);
+            try {
+                // const result = await productServices.getLaptopTable(start, itemsPerPage);
+                const result = await searchServices.search(debounced, 1, 8);
 
-            setSearchResult(result);
-            setLoading(false);
+                if (result && result.item1) {
+                    setSearchResult(result.item1);
+                    console.log('searchResult', searchResult);
+                } else {
+                    console.error('Invalid response format:', result);
+                }
+            } catch (error) {
+                console.error('Error fetching laptop list:', error);
+            } finally {
+                // Set loading to false after fetching data
+                setLoading(false);
+            }
         };
 
         fetchApi();
@@ -92,9 +90,9 @@ function Search() {
             render={(attrs) => (
                 <div className={cx('search-result')} tabIndex="-1" {...attrs}>
                     <PopperWrapper>
-                        <h4 className={cx('search-title')}>Accounts</h4>
-                        {searchResult.map((result) => {
-                            return <AccountItem key={result.id} data={result} />;
+                        <h4 className={cx('search-title')}>Results</h4>
+                        {searchResult.map((result, index) => {
+                            return <SearchItem key={index} item={result?.item1} />;
                         })}
                     </PopperWrapper>
                 </div>
@@ -109,6 +107,7 @@ function Search() {
                     spellCheck={false}
                     onChange={(e) => setSearchValue(e.target.value)}
                     onFocus={() => setShowResult(true)}
+                    onKeyDown={handleEnterKeyDown}
                 />
                 {!!searchValue && !loading && (
                     <button className={cx('clear')} onClick={handleClear}>
@@ -117,7 +116,7 @@ function Search() {
                 )}
 
                 {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
-                <button className={cx('search-btn')}>
+                <button className={cx('search-btn')} onClick={handleSearchResult}>
                     <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </button>
             </div>

@@ -8,10 +8,11 @@ import actionColumn from '../datatable/DataTable';
 import specificationApi from '../../../api/specificationApi';
 import specificationTypeApi from '../../../api/specificationTypeApi';
 // import ConfirmationDialog from '../confirmationDialog/ConfirmationDialog';
-interface SpecificationTableProps {
-    rows: any[]; // Define the type of your rows here
+interface Row {
+    id: number;
+    specificationType: string;
+    value: string
 }
-
 const columns: GridColDef[] = [
     {
         field: 'id', headerName: 'ID', width: 60
@@ -25,25 +26,24 @@ const columns: GridColDef[] = [
 
 ]
 
-const SpecificationTable: React.FC<SpecificationTableProps> = ({ rows }) => {
-
-    // console.log('Specification rows: ', rows)
+const SpecificationTable = () => {
+    const [rows, setRows] = useState<Row[]>([]);
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
     const [specificationTypes, setSpecificationTypes] = useState<any[]>([]);
     // const previousRowsRef = useRef<any[]>([]);
-    useEffect(() => {
-        const fetchSpecificationTypes = async () => {
-            try {
-                const specificationTypesData = (await specificationTypeApi.getAll({ _page: 1, _limit: 100000 })).data;
-                setSpecificationTypes(specificationTypesData);
-            } catch (error) {
-                console.log('Failed to fetch SpecificationType data:', error);
-            }
-        };
+    // useEffect(() => {
+    //     const fetchSpecificationTypes = async () => {
+    //         try {
+    //             const specificationTypesData = (await specificationTypeApi.getAll({ _page: 1, _limit: 100000 })).data;
+    //             setSpecificationTypes(specificationTypesData);
+    //         } catch (error) {
+    //             console.log('Failed to fetch SpecificationType data:', error);
+    //         }
+    //     };
 
-        fetchSpecificationTypes();
-    }, []);
+    //     fetchSpecificationTypes();
+    // }, []);
 
     const handleDelete = (rowId: number) => {
         const isConfirmed = window.confirm('Are you sure you want to delete this row?');
@@ -71,6 +71,17 @@ const SpecificationTable: React.FC<SpecificationTableProps> = ({ rows }) => {
     }
 
     useEffect(() => {
+        const fetchRows = async () => {
+            const data = (await specificationApi.getAll({ _page: 1, _limit: 100000 })).data;
+            setRows(data)
+            // console.log('This is rows in fetch', data)
+        }
+
+        fetchRows();
+    }, [])
+
+
+    useEffect(() => {
         // Check if the rows have actually changed
         // if (previousRowsRef.current !== rows && specificationTypes.length > 0) {
         //     // Update rows directly to include specificationType name
@@ -78,9 +89,9 @@ const SpecificationTable: React.FC<SpecificationTableProps> = ({ rows }) => {
 
         // }
 
-        rows.forEach(row => {
-            row.specificationType = specificationTypes.find(pl => pl.id === row.specificationTypeId)?.name || 'N/A';
-        });
+        // rows.forEach(row => {
+        //     row.specificationType = specificationTypes.find(pl => pl.id === row.specificationTypeId)?.name || 'N/A';
+        // });
         // Use the filter method to create a new array with rows that match the query in either Name or Id
         // console.log('Rows in Instances:', rows)
         try {

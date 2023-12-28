@@ -1,7 +1,11 @@
 .wrapper {
     swiper-container {
-        img {
+        border-radius: 15px;
+        img,
+        swiper-slide {
             border-radius: 15px;
+            width: 776px;
+            height: 308.43px;
         }
     }
 }

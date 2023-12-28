@@ -83,7 +83,10 @@
                         }
                         .btn-type {
                             //active
-                            border: 1px solid #0079f2;
+                            &.active {
+                                border: 1px solid #0079f2;
+                            }
+
                             //
                             margin-left: 0;
                             border-radius: 10px;
@@ -99,6 +102,49 @@
                                 font-size: 2rem;
                                 margin-right: 10px;
                             }
+                        }
+                    }
+
+                    .tab-receive {
+                        margin-top: 5px;
+                        border-radius: 3px;
+                        position: relative;
+                        .main-tab {
+                            padding: 20px;
+                            background: #f0f0f0;
+                            // height: 150px;
+
+                            // .shop-error-message {
+                            //     color: red;
+                            //     margin-bottom: 15px;
+                            //     padding: 10px 12px;
+                            //     background-color: #fdd;
+                            //     border-left: 6px solid #f44336;
+                            //     float: left;
+                            //     width: 100%;
+                            //     margin-top: 10px;
+                            // }
+                            &:before {
+                                content: '';
+                                position: absolute;
+                                top: -8px;
+                                left: 255px;
+                                width: 0;
+                                height: 0;
+                                border-left: 8px solid transparent;
+                                border-right: 8px solid transparent;
+                                border-bottom: 8px solid #f0f0f0;
+                            }
+                        }
+                        .shop-error-message {
+                            color: red;
+                            margin-bottom: 15px;
+                            padding: 10px 12px;
+                            background-color: #fdd;
+                            border-left: 6px solid #f44336;
+                            float: left;
+                            width: 100%;
+                            margin-top: 10px;
                         }
                     }
                 }
@@ -143,6 +189,20 @@
                                         0 0 8px rgba(102, 175, 233, 0.6);
                                     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
                                 }
+                            }
+
+                            .error-message {
+                                position: absolute;
+                                font-family: bold;
+                                font-size: 14px;
+                                bottom: -20px;
+                                color: red;
+                                margin-bottom: 0;
+                                padding: 0;
+                                background-color: unset;
+                                border-left: unset;
+                                float: left;
+                                width: 100%;
                             }
                         }
                     }

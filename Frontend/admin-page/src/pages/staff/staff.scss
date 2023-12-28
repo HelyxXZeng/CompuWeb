@@ -1,0 +1,136 @@
+@import "../../styles/responsive.scss";
+@import "../../styles/global-styles.scss";
+
+.staff{
+    display: flex;
+
+    @include xl {
+        flex-direction: column;
+        gap: 50px;
+    }
+
+    .view {
+        flex: 1;
+
+        .info {
+            .topInfo {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+
+                img {
+                    width: 100px;
+                    height: 100px;
+                    border-radius: 20px;
+                    object-fit: cover;
+                }
+
+                h1 {
+                    font-weight: 500;
+                }
+                button {
+                    padding: 5px;
+                    cursor: pointer;
+                    background-color: rgb(115, 202, 115);
+                    color: $main-color;
+                    border-radius: 10%;
+                    transition: background-color 0.3s, color 0.3s; // Add transition for smooth effect
+                
+                    &:hover {
+                        background-color: darken(rgb(115, 202, 115), 10%); // Darken the color on hover
+                        color: lighten($main-color, 10%); // Lighten the text color on hover
+                    }
+                
+                    &:active {
+                        background-color: darken(rgb(115, 202, 115), 20%); // Darken the color more on click
+                        color: lighten($main-color, 20%); // Lighten the text color more on click
+                        transform: scale(0.95); // Add a slight scale effect on click
+                    }
+                }
+            }
+
+            .details {
+                font-size: 18px;
+
+                .item {
+                    margin: 30px 0px;
+
+                    .itemTitle {
+                        font-weight: 600;
+                        margin-right: 10px;
+                        text-transform: capitalize;
+                    }
+                }
+            }
+        }
+
+        hr {
+            width: 90%;
+            height: 0;
+            border: 0.5px solid gray;
+            margin: 20px 0px;
+
+            @include md {
+                display: none;
+            }
+        }
+
+        .chart {
+            margin-top: 50px;
+            width: 80%;
+            height: 400px;
+
+            @include md {
+                display: none;
+            }
+        }
+    }
+
+    .activities {
+        flex: 1;
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        ul {
+            li {
+                list-style-type: none;
+                position: relative;
+                width: 1px;
+                padding-top: 50px;
+                background-color: #f45b69;
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    left: 50%;
+                    bottom: 0;
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    background-color: #f45b69;
+                    transform: translateX(-50%);
+                }
+
+                div {
+                    min-width: 480px;
+                    padding: 15px;
+                    background-color: #f45b6810;
+
+                    @include md {
+                        min-width: 250px;
+                    }
+
+                    p {
+                        margin-bottom: 5px;
+                    }
+
+                    time {
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+    }
+}

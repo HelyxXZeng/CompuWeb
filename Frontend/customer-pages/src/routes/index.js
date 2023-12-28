@@ -12,19 +12,30 @@ import Accessory from '../pages/Accessory';
 import ProductDetail from '~/pages/ProductDetail';
 import Cart from '~/pages/Cart';
 import Order from '~/pages/Order';
+import Account from '~/pages/Account';
+import ManageOrder from '~/pages/ManageOrder';
+import OrderDetail from '~/pages/OrderDetail';
+import SearchProducts from '~/pages/SearchProducts';
 
 //Public routes
 const publicRoutes = [
     { path: config.routes.home, component: Home },
     { path: config.routes.introduce, component: Introduce },
     { path: config.routes.laptop, component: Laptop },
-    { path: config.routes.promotion, component: Promotion, layout: HeaderOnly },
+    { path: config.routes.promotion, component: Home },
     { path: config.routes.accessory, component: Accessory, layout: null },
-    { path: config.routes.productDetail, component: ProductDetail },
+    { path: `${config.routes.productDetail}/:id`, component: ProductDetail },
     { path: config.routes.cart, component: Cart },
     { path: config.routes.order, component: Order },
+    { path: `${config.routes.search}/:keyword`, component: SearchProducts },
+    // { path: config.routes.account, component: Account },
+    // { path: config.routes.manageOrder, component: ManageOrder },
+    // { path: config.routes.orderDetail, component: OrderDetail },
 ];
 
-const privateRoutes = [];
+const privateRoutes = [
+    { path: config.routes.manageOrder, component: ManageOrder },
+    { path: config.routes.orderDetail, component: OrderDetail },
+];
 
 export { publicRoutes, privateRoutes };

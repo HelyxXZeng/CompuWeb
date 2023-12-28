@@ -1,0 +1,132 @@
+.wrapper {
+    width: 850px;
+    margin: 0 auto 50px;
+    display: grid;
+    grid-template-columns: 400px 450px;
+    border: 1px solid #ddd;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    margin-top: 40px;
+    .image {
+        background: #eee;
+        .img-responsive {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+        p {
+            padding: 0 20px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            font-size: 16px;
+            color: #0079f2;
+            text-transform: uppercase;
+        }
+        ul {
+            padding: 0 20px;
+            list-style: none;
+            margin: 0 0 15px;
+            li {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+                font-size: 14px;
+                svg {
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
+
+    .main {
+        padding: 30px;
+        .top-title {
+            display: flex;
+            margin-bottom: 26px;
+            a {
+                &:first-child {
+                    font-weight: 700;
+                    color: #0079f2;
+                    border-color: #0079f2;
+                }
+                text-align: center;
+                padding-bottom: 10px;
+                width: 100%;
+                text-transform: uppercase;
+                font-size: 18px;
+                color: #444;
+                border-bottom: 1px solid #ddd;
+                transition: 0.1s ease-in-out;
+            }
+        }
+
+        .box {
+            margin-bottom: 15px;
+            position: relative;
+            .phone-icon {
+                position: absolute;
+                top: 50%;
+                left: 20px;
+                transform: translate(0, -50%);
+                font-size: 1.8rem;
+            }
+            input {
+                padding: 5px 45px;
+                color: #333;
+                font-size: 14px;
+                height: 40px;
+                border: 1px solid #ddd;
+                box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+                border-radius: 5px;
+
+                &:focus {
+                    box-shadow: 0 0 8px rgba(252, 212, 51, 0.6);
+                    border-color: #faaf40;
+                }
+            }
+
+            &.box-center {
+                text-align: center;
+                .resend-sms {
+                    font-size: 14px;
+                    color: #f96f3a;
+                    font-weight: bold;
+                }
+                .btnChangeNum {
+                    font-size: 13px;
+                    color: #288ad6;
+                    font-weight: normal;
+                }
+            }
+            .submit-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 8px 20px;
+                background: #0079f2;
+                border-radius: 5px;
+                width: 100%;
+                color: #fff;
+                font-size: 16px;
+                font-weight: 700;
+                text-transform: uppercase;
+            }
+        }
+
+        .note {
+            margin-bottom: 0;
+            margin-top: 20px;
+            font-size: 14px;
+            line-height: 20px;
+            color: #333;
+        }
+
+        .error-message {
+            color: #f01;
+            margin-bottom: 15px;
+            font-family: medium;
+            font-size: 14px;
+            text-align: center;
+        }
+    }
+}

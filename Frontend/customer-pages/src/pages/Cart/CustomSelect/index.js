@@ -3,7 +3,7 @@ import styles from './CustomSelect.module.scss';
 
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, forwardRef } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -11,195 +11,235 @@ const removeDiacritics = (str) => {
     return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 };
 
-function CustomeSelect() {
-    // Sample array of country names
-    const countryNames = [
-        'Hồ Chí Minh',
-        'Hà Nội',
-        'Đà Nẵng',
-        'An Giang',
-        'Bà Rịa - Vũng Tàu',
-        'Bắc Giang',
-        'Bắc Kạn',
-        'Bạc Liêu',
-        'Bắc Ninh',
-        'Bến Tre',
-        'Bình Định',
-        'Bình Dương',
-        'Bình Phước',
-        'Bình Thuận',
-        'Cà Mau',
-        'Cần Thơ',
-        'Cao Bằng',
-        'Đắk Lắk',
-        'Đắk Nông',
-        'Điện Biên',
-        'Đồng Nai',
-        'Đồng Tháp',
-        'Gia Lai',
-        'Hà Giang',
-        'Hà Nam',
-        'Hà Tĩnh',
-        'Hải Dương',
-        'Hải Phòng',
-        'Hậu Giang',
-        'Hòa Bình',
-        'Hưng Yên',
-        'Khánh Hòa',
-        'Kiên Giang',
-        'Kon Tum',
-        'Lai Châu',
-        'Lâm Đồng',
-        'Lạng Sơn',
-        'Lào Cai',
-        'Long An',
-        'Nam Định',
-        'Nghệ An',
-        'Ninh Bình',
-        'Ninh Thuận',
-        'Phú Thọ',
-        'Phú Yên',
-        'Quảng Bình',
-        'Quảng Nam',
-        'Quảng Ngãi',
-        'Quảng Ninh',
-        'Quảng Trị',
-        'Sóc Trăng',
-        'Sơn La',
-        'Tây Ninh',
-        'Thái Bình',
-        'Thái Nguyên',
-        'Thanh Hóa',
-        'Thừa Thiên Huế',
-        'Tiền Giang',
-        'Trà Vinh',
-        'Tuyên Quang',
-        'Vĩnh Long',
-        'Vĩnh Phúc',
-        'Yên Bái',
-    ];
+const CustomeSelect = forwardRef(
+    ({ apiData, onFocus, handleSelectApi, placeHolderType, selectedValue, setSelectedValue }, outerRef) => {
+        // Sample array of country names
+        // console.log('apiDta', apiData);
+        // console.log('onFocus', onFocus);
+        // const [apData, setApiData] = useState(apiData);
+        // const countryNames = [
+        //     { name: 'Thành Phố Hồ Chí Minh' },
+        //     { name: 'Thành Phố Hà Nội' },
+        //     { name: 'Thành Phố Đà Nẵng' },
+        //     { name: 'Tỉnh An Giang' },
+        //     { name: 'Tỉnh Bà Rịa - Vũng Tàu' },
+        //     { name: 'Tỉnh Bắc Giang' },
+        //     { name: 'Tỉnh Bắc Kạn' },
+        //     { name: 'Tỉnh Bạc Liêu' },
+        //     { name: 'Tỉnh Bắc Ninh' },
+        //     { name: 'Tỉnh Bến Tre' },
+        //     { name: 'Tỉnh Bình Định' },
+        //     { name: 'Tỉnh Bình Dương' },
+        //     { name: 'Tỉnh Bình Phước' },
+        //     { name: 'Tỉnh Bình Thuận' },
+        //     { name: 'Tỉnh Cà Mau' },
+        //     { name: 'Thành Phố Cần Thơ' },
+        //     { name: 'Tỉnh Cao Bằng' },
+        //     { name: 'Tỉnh Đắk Lắk' },
+        //     { name: 'Tỉnh Đắk Nông' },
+        //     { name: 'Tỉnh Điện Biên' },
+        //     { name: 'Tỉnh Đồng Nai' },
+        //     { name: 'Tỉnh Đồng Tháp' },
+        //     { name: 'Tỉnh Gia Lai' },
+        //     { name: 'Tỉnh Hà Giang' },
+        //     { name: 'Tỉnh Hà Nam' },
+        //     { name: 'Tỉnh Hà Tĩnh' },
+        //     { name: 'Tỉnh Hải Dương' },
+        //     { name: 'Thành Phố Hải Phòng' },
+        //     { name: 'Tỉnh Hậu Giang' },
+        //     { name: 'Tỉnh Hòa Bình' },
+        //     { name: 'Tỉnh Hưng Yên' },
+        //     { name: 'Tỉnh Khánh Hòa' },
+        //     { name: 'Tỉnh Kiên Giang' },
+        //     { name: 'Tỉnh Kon Tum' },
+        //     { name: 'Tỉnh Lai Châu' },
+        //     { name: 'Tỉnh Lâm Đồng' },
+        //     { name: 'Tỉnh Lạng Sơn' },
+        //     { name: 'Tỉnh Lào Cai' },
+        //     { name: 'Tỉnh Long An' },
+        //     { name: 'Tỉnh Nam Định' },
+        //     { name: 'Tỉnh Nghệ An' },
+        //     { name: 'Tỉnh Ninh Bình' },
+        //     { name: 'Tỉnh Ninh Thuận' },
+        //     { name: 'Tỉnh Phú Thọ' },
+        //     { name: 'Tỉnh Phú Yên' },
+        //     { name: 'Tỉnh Quảng Bình' },
+        //     { name: 'Tỉnh Quảng Nam' },
+        //     { name: 'Tỉnh Quảng Ngãi' },
+        //     { name: 'Tỉnh Quảng Ninh' },
+        //     { name: 'Tỉnh Quảng Trị' },
+        //     { name: 'Tỉnh Sóc Trăng' },
+        //     { name: 'Tỉnh Sơn La' },
+        //     { name: 'Tỉnh Tây Ninh' },
+        //     { name: 'Tỉnh Thái Bình' },
+        //     { name: 'Tỉnh Thái Nguyên' },
+        //     { name: 'Tỉnh Thanh Hóa' },
+        //     { name: 'Tỉnh Thừa Thiên Huế' },
+        //     { name: 'Tỉnh Tiền Giang' },
+        //     { name: 'Tỉnh Trà Vinh' },
+        //     { name: 'Tỉnh Tuyên Quang' },
+        //     { name: 'Tỉnh Vĩnh Long' },
+        //     { name: 'Tỉnh Vĩnh Phúc' },
+        //     { name: 'Tỉnh Yên Bái' },
+        // ];
 
-    const [isActiveMenu, setIsActiveMenu] = useState(false);
-    const [selectedValue, setSelectedValue] = useState('Hồ Chí Minh'); // Initial selected value
-    const [searchInput, setSearchInput] = useState('');
+        const [isActiveMenu, setIsActiveMenu] = useState(false);
+        // const [selectedValue, setSelectedValue] = useState(null); // Initial selected value
+        const [searchInput, setSearchInput] = useState('');
 
-    const inputRef = useRef(null);
-    useEffect(() => {
-        // Focus on the search input when the menu is opened
-        if (isActiveMenu && inputRef.current) {
-            inputRef.current.focus();
-        }
-    }, [isActiveMenu]);
-
-    const wrapperRef = useRef(null);
-    useEffect(() => {
-        // Function to handle clicks outside of the select box
-        const handleClickOutside = (event) => {
-            if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-                setIsActiveMenu(false);
+        const inputRef = useRef(null);
+        useEffect(() => {
+            // Focus on the search input when the menu is opened
+            if (isActiveMenu && inputRef.current) {
+                inputRef.current.focus();
             }
+        }, [isActiveMenu]);
+
+        const wrapperRef = useRef(null);
+        useEffect(() => {
+            // Function to handle clicks outside of the select box
+            const handleClickOutside = (event) => {
+                if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+                    setIsActiveMenu(false);
+                }
+            };
+
+            // Attach the event listener when the component mounts
+            document.addEventListener('click', handleClickOutside);
+
+            // Detach the event listener when the component unmounts
+            return () => {
+                document.removeEventListener('click', handleClickOutside);
+            };
+        }, []);
+
+        const openMenu = () => {
+            setIsActiveMenu((prevIsActiveMenu) => {
+                if (!prevIsActiveMenu) {
+                    console.log('goi api', prevIsActiveMenu);
+                    onFocus();
+                }
+                return !prevIsActiveMenu;
+            });
         };
 
-        // Attach the event listener when the component mounts
-        document.addEventListener('click', handleClickOutside);
+        const handleSelect = (item) => {
+            setSelectedValue(item);
+            setIsActiveMenu(false); // Close the menu after selection
+            setSearchInput('');
+            //
+            handleSelectApi(item);
 
-        // Detach the event listener when the component unmounts
-        return () => {
-            document.removeEventListener('click', handleClickOutside);
+            //
         };
-    }, []);
 
-    const openMenu = () => {
-        setIsActiveMenu(!isActiveMenu);
-    };
+        const handleSearchInput = (event) => {
+            setSearchInput(event.target.value);
+        };
 
-    const handleSelect = (value) => {
-        setSelectedValue(value);
-        setIsActiveMenu(false); // Close the menu after selection
-        setSearchInput('');
-    };
+        const normalizedSearchInput = removeDiacritics(searchInput.toLowerCase());
 
-    const handleSearchInput = (event) => {
-        setSearchInput(event.target.value);
-    };
+        // const filterData = countryNames.filter((item) =>
+        //     removeDiacritics(item.toLowerCase()).includes(normalizedSearchInput),
+        // );
+        let filterData = [];
+        if (apiData && Array.isArray(apiData)) {
+            filterData = apiData.filter(
+                (item) =>
+                    item && item.name && removeDiacritics(item.name.toLowerCase()).includes(normalizedSearchInput),
+            );
 
-    const normalizedSearchInput = removeDiacritics(searchInput.toLowerCase());
+            // Use filterData as needed
+        } else {
+            console.error('apiData is not properly initialized or is not an array.');
+        }
 
-    const filterData = countryNames.filter((name) =>
-        removeDiacritics(name.toLowerCase()).includes(normalizedSearchInput),
-    );
+        //const filterData = countryNames.filter((name) => name.toLowerCase().includes(searchInput.toLowerCase()));
 
-    //const filterData = countryNames.filter((name) => name.toLowerCase().includes(searchInput.toLowerCase()));
+        // Now you can use the 'countries' array in your component
 
-    // Now you can use the 'countries' array in your component
+        // Calculate the midpoint to split the array into two parts
+        // const midpoint = Math.ceil(filterData.length / 2);
 
-    // Calculate the midpoint to split the array into two parts
-    const midpoint = Math.ceil(filterData.length / 2);
+        // Split the array into two parts
+        // const firstHalf = filterData.slice(0, midpoint);
+        // console.log('firstHalf', firstHalf);
 
-    // Split the array into two parts
-    const firstHalf = filterData.slice(0, midpoint);
-    const secondHalf = filterData.slice(midpoint);
+        // const secondHalf = filterData.slice(midpoint);
+        // console.log('secondHalf', secondHalf);
 
-    return (
-        <div className={cx('wrapper')} ref={wrapperRef}>
-            <div className={cx('inner')}>
-                <div className={cx('btn-click')} onClick={openMenu}>
-                    <div className={cx('value-selected')}>
-                        <input
-                            id="dropdown-value"
-                            type="text"
-                            name="dropdown-value"
-                            readonly=""
-                            placeholder="Chọn Tỉnh/Thành phố"
-                            title="Đà Nẵng"
-                            class="ant-input css-10ed4xt cursor-pointer border-0 p-0 text-base placeholder:text-base"
-                            value={selectedValue}
-                        />
+        return (
+            <div className={cx('wrapper')} ref={wrapperRef}>
+                <div className={cx('inner')}>
+                    <div className={cx('btn-click')} onClick={openMenu}>
+                        <div className={cx('value-selected')}>
+                            <input
+                                id="dropdown-value"
+                                type="text"
+                                name="dropdown-value"
+                                readonly=""
+                                placeholder={placeHolderType}
+                                title="Đà Nẵng"
+                                value={selectedValue ? selectedValue.name : ''}
+                                ref={outerRef}
+                            />
+                        </div>
+
+                        <KeyboardArrowDown className={cx('icon-down', { rotate: isActiveMenu })} />
                     </div>
 
-                    <KeyboardArrowDown className={cx('icon-down', { rotate: isActiveMenu })} />
-                </div>
-
-                <div className={cx('select-menu', { 'active-menu': isActiveMenu })}>
-                    <div className={cx('box-search')}>
-                        <input
-                            ref={inputRef}
-                            placeholder="Nhập tỉnh, thành để tìm nhanh"
-                            value={searchInput}
-                            onChange={handleSearchInput}
-                        />
-                        <a href="/#">
-                            <SearchOutlinedIcon className={cx('icon-search')} />
-                        </a>
-                    </div>
-                    <div className={cx('list-name')}>
-                        <aside>
-                            {firstHalf.map((name) => (
+                    <div className={cx('select-menu', { 'active-menu': isActiveMenu })}>
+                        <div className={cx('box-search')}>
+                            <input
+                                ref={inputRef}
+                                placeholder="Nhập tỉnh, thành để tìm nhanh"
+                                value={searchInput}
+                                onChange={handleSearchInput}
+                            />
+                            <a href="/#">
+                                <SearchOutlinedIcon className={cx('icon-search')} />
+                            </a>
+                        </div>
+                        <div className={cx('list-name')}>
+                            <aside>
+                                {filterData.map((item) => (
+                                    <span
+                                        key={item.name}
+                                        className={cx({ active: item === selectedValue })}
+                                        onClick={() => handleSelect(item)}
+                                    >
+                                        {item.name}
+                                    </span>
+                                ))}
+                            </aside>
+                            {/* <aside>
+                            {firstHalf.map((item) => (
                                 <span
-                                    key={name}
-                                    className={cx({ active: name === selectedValue })}
-                                    onClick={() => handleSelect(name)}
+                                    key={item.name}
+                                    className={cx({ active: item.name === selectedValue })}
+                                    onClick={() => handleSelect(item.name)}
                                 >
-                                    {name}
+                                    {item.name}
                                 </span>
                             ))}
                         </aside>
                         <aside>
-                            {secondHalf.map((name) => (
+                            {secondHalf.map((item) => (
                                 <span
-                                    key={name}
-                                    className={cx({ active: name === selectedValue })}
-                                    onClick={() => handleSelect(name)}
+                                    key={item.name}
+                                    className={cx({ active: item.name === selectedValue })}
+                                    onClick={() => handleSelect(item.name)}
                                 >
-                                    {name}
+                                    {item.name}
                                 </span>
                             ))}
-                        </aside>
+                        </aside> */}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    );
-}
+        );
+    },
+);
 
 export default CustomeSelect;

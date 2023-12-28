@@ -1,32 +1,30 @@
 
-import { useLocation, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import brandApi from "../../api/brandApi";
+import categoryApi from "../../api/categoryApi";
+import customerApi from "../../api/customerApi";
+import orderApi from "../../api/orderApi";
+import priceApi from "../../api/priceApi";
+import productApi from "../../api/productApi";
+import productInstanceApi from "../../api/productInstanceApi";
+import productLineApi from "../../api/productLineApi";
+import productVariantApi from "../../api/productVariantApi";
+import promotionApi from "../../api/promotionApi";
+import specificationApi from "../../api/specificationApi";
+import specificationTypeApi from "../../api/specificationTypeApi";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import BrandSingle from "../../components/singles/brandSingle/BrandSingle";
-import "./single.scss"
-import { useEffect, useState } from "react"
-import customerApi from "../../api/customerApi";
-import productApi from "../../api/productApi";
-import categoryApi from "../../api/categoryApi";
-import orderApi from "../../api/orderApi";
-import promotionApi from "../../api/promotionApi";
 import CategorySingle from "../../components/singles/categorySingle/CategorySingle";
-import PromotionSingle from "../../components/singles/promotionSingle/PromotionSingle";
 import CustomerSingle from "../../components/singles/customerSingle/CustomerSingle";
-import productLineApi from "../../api/productLineApi";
-import ProductLineSingle from "../../components/singles/productLineSingle/ProductLineSingle";
-import productVariantApi from "../../api/productVariantApi";
-import ProductVariantSingle from "../../components/singles/productVariantSingle/ProductVariantSingle";
-import productInstanceApi from "../../api/productInstanceApi";
-import ProductInstanceSingle from "../../components/singles/productInstanceSingle/ProductInstaceSingle";
-import specificationTypeApi from "../../api/specificationTypeApi";
-import SpecificationTypeSingle from "../../components/singles/specificationTypeSingle/SpecificationTypeSingle";
-import SpecificationSingle from "../../components/singles/specificationSingle/SpecificationSingle";
-import specificationApi from "../../api/specificationApi";
 import PriceSingle from "../../components/singles/priceSingle/PriceSingle";
-import priceApi from "../../api/priceApi";
-import ProductTable from "../../components/tables/productTable/ProductTable";
+import ProductInstanceSingle from "../../components/singles/productInstanceSingle/ProductInstaceSingle";
+import ProductLineSingle from "../../components/singles/productLineSingle/ProductLineSingle";
+import ProductVariantSingle from "../../components/singles/productVariantSingle/ProductVariantSingle";
+import SpecificationSingle from "../../components/singles/specificationSingle/SpecificationSingle";
+import SpecificationTypeSingle from "../../components/singles/specificationTypeSingle/SpecificationTypeSingle";
+import "./single.scss";
 
 interface Props {
     type: string,
@@ -84,6 +82,9 @@ const Single = ({ type, isNew }: Props) => {
                 case 'price':
                     data = (await priceApi.get(parseInt(id!))).data;
                     break;
+                case 'price':
+                    data = (await orderApi.get(parseInt(id!))).data;
+                    break;
                 default:
                     break;
                 // Handle the default case
@@ -105,16 +106,14 @@ const Single = ({ type, isNew }: Props) => {
         switch (type) {
             case 'category':
                 return <CategorySingle category={editRow!} />;
-            case 'product':
-                return <ProductTable rows={editRow!} />;
+            // case 'product':
+            //     return <ProductTable rows={editRow!} />;
             case 'customer':
                 return <CustomerSingle customer={editRow!} />
             case 'order':
             // return <OrderTable rows={rows} />;
             case 'brand':
                 return <BrandSingle brand={editRow!} />
-            case 'promotion':
-                return <PromotionSingle promotion={editRow!} />
             case 'productLine':
                 return <ProductLineSingle productLine={editRow!} />
             case 'productVariant':

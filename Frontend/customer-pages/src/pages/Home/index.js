@@ -6,12 +6,65 @@ import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
 
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import CloseIcon from '@mui/icons-material/Close';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+import * as productServices from '~/apiServices/productServices';
 
 const cx = classNames.bind(styles);
 
 function Home() {
+    //
+    // const [currentLaptopList, setCurrentLaptopList] = useState([]);
+
+    // useEffect(() => {
+    //     const fetchLaptopList = async () => {
+    //         try {
+    //             const result = await productServices.getLaptopTable(1, 5);
+
+    //             if (result && result.item1) {
+    //                 console.log('setCurrentLaptopList', result.item1);
+    //                 setCurrentLaptopList(result.item1);
+    //             } else {
+    //                 console.error('Invalid response format:', result);
+    //             }
+    //         } catch (error) {
+    //             console.error('Error fetching laptop list:', error);
+    //         }
+    //     };
+
+    //     fetchLaptopList();
+    // }, []);
+
+    const [currentLaptopList, setCurrentLaptopList] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Use Promise.all to make multiple requests concurrently
+                const [laptopListResult, otherDataResult] = await Promise.all([
+                    productServices.getLaptopTable(1, 5),
+                    // Add other API calls as needed
+                ]);
+
+                if (laptopListResult && laptopListResult.item1) {
+                    console.log('setCurrentLaptopList', laptopListResult.item1);
+                    setCurrentLaptopList(laptopListResult.item1);
+                } else {
+                    console.error('Invalid response format for laptopList:', laptopListResult);
+                }
+
+                // Process other data as needed
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    //
     const [isShowCompareBox, setIsShowCompareBox] = useState(false);
     const [isShowCompareBtn, setIsShowCompareBtn] = useState(true);
 
@@ -26,19 +79,124 @@ function Home() {
     };
 
     return (
-        <>
-            <InfiSwiper />
-            <Frame>
-                <ProductItem />
-                <ProductItem />
-                <ProductItem />
-                <ProductItem />
-                <ProductItem />
-                <ProductItem />
-                <ProductItem />
-                <ProductItem />
-                <ProductItem />
-            </Frame>
+        <div className={cx('wrapper')}>
+            <div className={cx('top-div')}>
+                <div className={cx('banner')}>
+                    <InfiSwiper />
+                </div>
+                <div className={cx('news')}>
+                    <div className={cx('bg-list-new')}>
+                        <a href="/#" className={cx('item-new', 'item-new1', 'active')}>
+                            <p className={cx('p-title')}>Laptop Core i3 giá bao nhiêu?</p>
+                            <p className={cx('p-time')}>04/12/2023 - 8 views</p>
+                        </a>
+                        <a href="/#" className={cx('item-new', 'item-new2')}>
+                            <p className={cx('p-title')}>Cách mở đèn bàn phím laptop Dell Core i3</p>
+                            <p className={cx('p-time')}>01/12/2023 - 30 views</p>
+                        </a>
+                        <a href="/#" className={cx('item-new', 'item-new3')}>
+                            <p className={cx('p-title')}>Sạc pin laptop gaming đúng cách giúp tăng tuổi thọ pin</p>
+                            <p className={cx('p-time')}>29/11/2023 - 56 views</p>
+                        </a>
+                        <div className={cx('div-more')}>
+                            <a className={cx('a-more')} href="/#">
+                                Tất cả tin tức
+                                <KeyboardArrowRightIcon className={cx('icon-arrow-right')} />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className={cx('frame-div')}>
+                <p className={cx('title-hotsale')}>HOT SALE</p>
+                <Frame>
+                    {currentLaptopList.map((product, index) => (
+                        <ProductItem key={index} item={product} />
+                    ))}
+                </Frame>
+            </div>
+
+            <div className={cx('frame-div')}>
+                <p className={cx('title-hotsale')}>Apple</p>
+                <Frame>
+                    {currentLaptopList.map((product, index) => (
+                        <ProductItem key={index} item={product} />
+                    ))}
+                </Frame>
+            </div>
+
+            <div className={cx('frame-div')}>
+                <p className={cx('title-hotsale')}>Gaming</p>
+                <Frame>
+                    {currentLaptopList.map((product, index) => (
+                        <ProductItem key={index} item={product} />
+                    ))}
+                </Frame>
+            </div>
+
+            <div className={cx('about-hitech')}>
+                <h2>Bạn Xứng Đáng Điều Tốt Nhất !</h2>
+                <p className={cx('p-hitech')}>Hitech Mong Muốn Đem Lại Trải Nghiệm Tốt Nhất</p>
+                <div className={cx('row-about')}>
+                    <div className={cx('col-about')}>
+                        <div className={cx('bao-col')}>
+                            <div className={cx('bao-img')}>
+                                <img alt="hitech" src="https://trungtran.vn/upload_images/images/1.png"></img>
+                            </div>
+                            <h3>Chất Lượng &amp; Giá Tốt</h3>
+                            <p>
+                                Đem đến những chiếc Laptop nhập khẩu chính hãng&nbsp;cao cấp với chất lượng dịch vụ
+                                không ngừng được nâng cao.
+                            </p>
+                        </div>
+                    </div>
+                    <div className={cx('col-about')}>
+                        <div className={cx('bao-col')}>
+                            <div className={cx('bao-img')}>
+                                <img alt="Hitech" src="https://trungtran.vn/upload_images/images/2.png"></img>
+                            </div>
+                            <h3>Đồng Hành</h3>
+                            <p>
+                                Hitech&nbsp;cung cấp dịch vụ bảo trì, bảo dưỡng tốt nhất với chi phí tối ưu cho toàn bộ
+                                khách hàng, luôn song hành cùng bạn.
+                            </p>
+                        </div>
+                    </div>
+                    <div className={cx('col-about')}>
+                        <div className={cx('bao-col')}>
+                            <div className={cx('bao-img')}>
+                                <img alt="Hitech" src="	https://trungtran.vn/upload_images/images/3.png"></img>
+                            </div>
+                            <h3>Thấu Hiểu &amp; Tận Tâm</h3>
+                            <p>
+                                Thấu hiểu được nhu cầu, nỗi bận tâm của bạn khi mua hàng công nghệ giá trị cao, Hitech
+                                luôn hướng tới&nbsp;trải nghiệm tốt nhất và được nâng cấp liên tục.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div className={cx('inline-number')}>
+                    <div className={cx('row-inline')}>
+                        <div className={cx('col-inline')}>
+                            <h3>1000+</h3>
+                            <p>Khách hàng tin tưởng</p>
+                        </div>
+                        <div className={cx('col-inline')}>
+                            <h3>3&nbsp;năm+</h3>
+                            <p>Trên thị trường từ 2020</p>
+                        </div>
+                        <div className={cx('col-inline')}>
+                            <h3>1500+</h3>
+                            <p>Máy đã bán</p>
+                        </div>
+                        <div className={cx('col-inline')}>
+                            <h3>20+</h3>
+                            <p>Đối tác</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div className={cx('btn-compare', { 'btn-active': isShowCompareBtn })}>
                 <a href="/#" title="So sánh" onClick={ShowCompare} class="btn-compare-a">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -175,10 +333,7 @@ function Home() {
 
                         <div className={cx('item')}>
                             <div className={cx('compare-div')}>
-                                <a
-                                    href="https://trungtran.vn/so-sanh/lenovo-legion-5-2023-ryzen-7-rtx-r7000-15arp8-vs-dell-inspiron-5420-i5-intel"
-                                    class={cx('compare-all', 'active')}
-                                >
+                                <a href="/#" class={cx('compare-all', 'active')}>
                                     So sánh ngay
                                 </a>
                                 <a href="/#" className={cx('remove-all-compare')}>
@@ -189,7 +344,7 @@ function Home() {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
 

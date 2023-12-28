@@ -26,6 +26,9 @@ import SpecificationTypeTable from "../../components/tables/specificationTypeTab
 import "./list.scss"
 import priceApi from "../../api/priceApi"
 import PriceTable from "../../components/tables/priceTable/PriceTable"
+import ratingApi from "../../api/ratingApi"
+import RatingTable from "../../components/tables/ratingTable/RatingTable"
+import ReturnTable from "../../components/tables/returnTable/ReturnTable"
 
 
 
@@ -34,118 +37,127 @@ const List = ({ type }: { type: string }) => {
     const [doneFetch, setDoneFetch] = useState(false)
     const typeRef = useRef(type); // Create a ref for the type
 
-    useEffect(() => {
-        setRows([])
-        typeRef.current = type; // Update the ref with the new type at the start of the effect
-        setDoneFetch(false)
-        const fetchData = async () => {
-            try {
-                let data: any[] = [];
-                switch (type) {
-                    case 'customer':
-                        data = (await customerApi.getAll({ _page: 1, _limit: 100000 })).data;
-                        break;
-                    case 'category':
-                        data = (await categoryApi.getAll({ _page: 1, _limit: 100000 })).data;
-                        break;
-                    case 'product':
-                        data = (await productApi.getAll({ _page: 1, _limit: 100000 })).data;
-                        break;
-                    case 'order':
-                        data = (await orderApi.getAll({ _page: 1, _limit: 100000 })).data;
-                        break;
-                    case 'brand':
-                        data = (await brandApi.getAll({ _page: 1, _limit: 100000 })).data;
-                        break;
-                    case 'promotion':
-                        data = (await promotionApi.getAll({ _page: 1, _limit: 100000 })).data;
-                        break;
-                    case 'productLine':
-                        data = (await productLineApi.getTable({ _page: 1, _limit: 100000 })).data;
-                        break;
-                    case 'productVariant':
-                        data = (await productVariantApi.getAll({ _page: 1, _limit: 100000 })).data;
-                        break;
-                    case 'productInstance':
-                        data = (await productInstanceApi.getAll({ _page: 1, _limit: 100000 })).data;
-                        break;
-                    case 'specificationType':
-                        data = (await specificationTypeApi.getAll({ _page: 1, _limit: 100000 })).data;
-                        break;
-                    case 'specification':
-                        data = (await specificationApi.getAll({ _page: 1, _limit: 100000 })).data;
-                        break;
-                    case 'price':
-                        data = (await priceApi.getAll({ _page: 1, _limit: 100000 })).data;
-                        break;
-                    default:
-                        break;
-                }
+    // useEffect(() => {
+    //     setRows([])
+    //     typeRef.current = type; // Update the ref with the new type at the start of the effect
+    //     setDoneFetch(false)
+    //     const fetchData = async () => {
+    //         try {
+    //             let data: any[] = [];
+    //             switch (type) {
+    //                 case 'customer':
+    //                     data = (await customerApi.getAll({ _page: 1, _limit: 100000 })).data;
+    //                     break;
+    //                 case 'category':
+    //                     data = (await categoryApi.getAll({ _page: 1, _limit: 100000 })).data;
+    //                     break;
+    //                 case 'product':
+    //                     data = (await productApi.getAll({ _page: 1, _limit: 100000 })).data;
+    //                     break;
+    //                 case 'order':
+    //                     data = (await orderApi.getAll({ _page: 1, _limit: 100000 })).data;
+    //                     break;
+    //                 case 'brand':
+    //                     data = (await brandApi.getAll({ _page: 1, _limit: 100000 })).data;
+    //                     break;
+    //                 case 'promotion':
+    //                     data = (await promotionApi.getAll({ _page: 1, _limit: 100000 })).data;
+    //                     break;
+    //                 case 'productLine':
+    //                     data = (await productLineApi.getTable({ _page: 1, _limit: 100000 })).data;
+    //                     break;
+    //                 case 'productVariant':
+    //                     data = (await productVariantApi.getAll({ _page: 1, _limit: 100000 })).data;
+    //                     break;
+    //                 case 'productInstance':
+    //                     data = (await productInstanceApi.getAll({ _page: 1, _limit: 100000 })).data;
+    //                     break;
+    //                 case 'specificationType':
+    //                     data = (await specificationTypeApi.getAll({ _page: 1, _limit: 100000 })).data;
+    //                     break;
+    //                 case 'specification':
+    //                     data = (await specificationApi.getAll({ _page: 1, _limit: 100000 })).data;
+    //                     break;
+    //                 case 'price':
+    //                     data = (await priceApi.getAll({ _page: 1, _limit: 100000 })).data;
+    //                     break;
+    //                 case 'rating':
+    //                     data = (await ratingApi.getAll({ _page: 1, _limit: 100000 })).data;
+    //                     break;
+    //                 default:
+    //                     break;
+    //             }
 
-                // Only update state if the type hasn't changed during the fetch operation
-                if (typeRef.current === type) {
-                    await setRows(data);
-                    let timer = new Promise((resolve) => setTimeout(resolve, 300));
-                    let checkRows = new Promise<void>((resolve) => {
-                        let interval = setInterval(() => {
-                            if (rows.length > 1) {
-                                clearInterval(interval);
-                                resolve();
-                            }
-                        }, 1000); // Check every 100ms
-                    });
-                    await Promise.race([timer, checkRows]);
-                    console.log(`This is ${type}:`, rows);
-                    setDoneFetch(true);
-                }
-            } catch (error) {
-                console.log(`Failed to fetch ${type} list:`, error);
-            }
-        };
+    //             // Only update state if the type hasn't changed during the fetch operation
+    //             if (typeRef.current === type) {
+    //                 await setRows(data);
+    //                 let timer = new Promise((resolve) => setTimeout(resolve, 300));
+    //                 let checkRows = new Promise<void>((resolve) => {
+    //                     let interval = setInterval(() => {
+    //                         if (rows.length > 1) {
+    //                             clearInterval(interval);
+    //                             resolve();
+    //                         }
+    //                     }, 1000); // Check every 100ms
+    //                 });
+    //                 await Promise.race([timer, checkRows]);
+    //                 console.log(`This is ${type}:`, rows);
+    //                 setDoneFetch(true);
+    //             }
+    //         } catch (error) {
+    //             console.log(`Failed to fetch ${type} list:`, error);
+    //         }
+    //     };
 
-        fetchData();
-    }, [type]);
+    //     fetchData();
+    // }, [type]);
 
     const getElement = () => {
-
         switch (type) {
             case 'category':
-                return <CategoryTable rows={rows} />;
+                return <CategoryTable />;
             case 'product':
-                return <ProductTable rows={rows} />;
+                return <ProductTable />;
             case 'customer':
-                return <CustomerTable rows={rows} />;
+                return <CustomerTable />;
             case 'order':
-                return <OrderTable rows={rows} />;
+                return <OrderTable />;
             case 'brand':
-                return <BrandTable rows={rows} />;
-            case 'promotion':
-                return <PromotionTable rows={rows} />;
+                return <BrandTable />;
             case 'productLine':
-                return <ProductLineTable rows={rows} />;
+                return <ProductLineTable />;
             case 'productVariant':
-                return <ProductVariantTable rows={rows} />;
+                return <ProductVariantTable />;
             case 'productInstance':
-                return <ProductInstanceTable rows={rows} />;
+                return <ProductInstanceTable />;
             case 'specificationType':
-                return <SpecificationTypeTable rows={rows} />;
+                return <SpecificationTypeTable />;
             case 'specification':
-                return <SpecificationTable rows={rows} />;
+                return <SpecificationTable />;
             case 'price':
-                return <PriceTable rows={rows} />;
+                return <PriceTable />;
+            case 'rating':
+                return <RatingTable />;
+            case 'return':
+                return <ReturnTable />;
             default:
                 return null;
         }
     }
 
+    useEffect(() => {
+        typeRef.current = type;
+    }, [type]);
+
     return (
         <div className="list">
             <Sidebar />
             <div className="listContainer">
-                <Navbar />
+                {/* <Navbar />
                 {doneFetch ? getElement() : <div className="loader"></div>
-                }
-
+                } */}
+                <Navbar />
+                {getElement()}
             </div>
         </div>
     )

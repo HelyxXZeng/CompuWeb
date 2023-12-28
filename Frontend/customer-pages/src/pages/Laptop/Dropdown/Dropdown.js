@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
-function Dropdown() {
+function Dropdown({ title, itemList }) {
     const [isOpen, setIsOpen] = useState(false);
     const toggleDropDown = () => {
         setIsOpen(!isOpen);
@@ -16,7 +16,7 @@ function Dropdown() {
     return (
         <div className={cx('wrapper')}>
             <button className={cx('collapse-btn')} onClick={toggleDropDown}>
-                Danh mục
+                {title ? title : 'Danh mục'}
                 {isOpen ? (
                     <KeyboardArrowUpIcon className={cx('icon')} />
                 ) : (
@@ -25,37 +25,6 @@ function Dropdown() {
             </button>
             <div className={cx('collapse-list', { open: isOpen })}>
                 {/* <ul className={cx('ul-list')}>
-                    <li>
-                        <a href="https://trungtran.vn/acer/">Acer </a>
-                        <span>(23)</span>
-                    </li>
-                    <li>
-                        <a href="https://trungtran.vn/acer/">Acer </a>
-                        <span>(23)</span>
-                    </li>
-                    <li>
-                        <a href="https://trungtran.vn/acer/">Acer </a>
-                        <span>(23)</span>
-                    </li>
-                    <li>
-                        <a href="https://trungtran.vn/acer/">Acer </a>
-                        <span>(23)</span>
-                    </li>
-                    <li>
-                        <a href="https://trungtran.vn/acer/">Acer </a>
-                        <span>(23)</span>
-                    </li>
-                    <li>
-                        <a href="https://trungtran.vn/acer/">Acer </a>
-                        <span>(23)</span>
-                    </li>
-                </ul> */}
-                <ul className={cx('ul-list')}>
-                    <lable className={cx('check-box')}>
-                        <input type="checkbox" />
-                        <span className={cx('checkmark')}>Dưới 10 triệu </span>
-                        <span className={cx('span-count')}>(12)</span>
-                    </lable>
                     <lable className={cx('check-box')}>
                         <input type="checkbox" />
                         <span className={cx('checkmark')}>10 - 15 triệu </span>
@@ -76,18 +45,37 @@ function Dropdown() {
                         <span className={cx('checkmark')}>25 - 30 triệu </span>
                         <span className={cx('span-count')}>(123)</span>
                     </lable>
-
                     <lable className={cx('check-box')}>
                         <input type="checkbox" />
                         <span className={cx('checkmark')}>30 - 40 triệu </span>
                         <span className={cx('span-count')}>(123)</span>
                     </lable>
-
                     <lable className={cx('check-box')}>
                         <input type="checkbox" />
                         <span className={cx('checkmark')}>Trên 40 triệu </span>
                         <span className={cx('span-count')}>(123)</span>
                     </lable>
+                </ul> */}
+                {/* <ul className={cx('ul-list')}>
+                    {itemList.map((item, index) => {
+                        return (
+                            <lable key={index} className={cx('check-box')}>
+                                <input type="checkbox" />
+                                <span className={cx('checkmark')}>{item.value ? item.value : item.name} </span>
+                                <span className={cx('span-count')}>(12)</span>
+                            </lable>
+                        );
+                    })}
+                </ul> */}
+
+                <ul className={cx('ul-list')}>
+                    {itemList?.map((item, index) => (
+                        <label key={index} className={cx('check-box')}>
+                            <input type="checkbox" />
+                            <span className={cx('checkmark')}>{item.value ? item.value : item.name} </span>
+                            {/* <span className={cx('span-count')}>(12)</span> */}
+                        </label>
+                    ))}
                 </ul>
             </div>
         </div>

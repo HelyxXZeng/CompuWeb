@@ -178,6 +178,16 @@ const BrandSingle: React.FC<Props> = (para: Props) => {
                     description: brand.description,
                     logo,
                 });
+
+
+                // Reset the form
+                setBrand({
+                    id: 0,
+                    name: '',
+                    description: '',
+                    logo: '',
+                });
+                setImageFile(null); // Reset the imageFile state
             } else {
                 await brandApi.update(brand.id, {
                     id: brand.id,
@@ -189,14 +199,6 @@ const BrandSingle: React.FC<Props> = (para: Props) => {
 
             alert("Successfully Uploaded!");
 
-            // Reset the form
-            setBrand({
-                id: 0,
-                name: '',
-                description: '',
-                logo: '',
-            });
-            setImageFile(null); // Reset the imageFile state
 
         } catch (error) {
             const action = para.brand === null ? 'adding' : 'updating';

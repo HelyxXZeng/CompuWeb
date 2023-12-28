@@ -51,6 +51,7 @@
             padding: 0 10px;
             z-index: 1;
             background: #fff;
+            // width: max-content;
             .box-search {
                 position: relative;
                 display: block;
@@ -82,16 +83,17 @@
                 max-height: 190px;
                 display: block;
                 aside {
+                    overflow: hidden;
                     min-width: 140px;
-                    width: fit-content;
-                    float: left;
+                    // width: fit-content;
+                    // float: left;
                     span {
                         display: block;
                         overflow: hidden;
                         padding: 6px;
                         color: #288ad6;
-                        margin: 0 5px 5px 0;
-                        max-width: 150px;
+                        margin-top: 5px;
+                        // max-width: 150px;
                         font-size: 14px;
 
                         &:hover {

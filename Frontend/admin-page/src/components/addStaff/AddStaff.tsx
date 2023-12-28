@@ -6,11 +6,13 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { MenuItem, Select, ThemeProvider, createTheme } from "@mui/material";
+import staffApi, { StaffDef } from "../../api/staffsAPI";
 
 type Props = {
     slug: string;
     columns: GridColDef[];
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    fetchData: () => Promise<void>;
 };
 
 const theme = createTheme({
@@ -25,8 +27,11 @@ const theme = createTheme({
         mode: "dark"
     }
 });
+type ImageUploadProps = {
+    onFileSelected: (file: File) => void;
+};
 
-export const ImageUpload = () => {
+export const ImageUpload: React.FC<ImageUploadProps> = ({ onFileSelected }) => {
     const [selectedFile, setSelectedFile] = useState();
     const [preview, setPreview] = useState();
 
@@ -56,6 +61,8 @@ export const ImageUpload = () => {
 
         // Use the first image instead of multiple
         setSelectedFile(e.target.files[0]);
+
+        onFileSelected(e.target.files[0]);
     };
 
     const resizeImage = (file: File, maxWidth: number, maxHeight: number, callback) => {
@@ -99,7 +106,7 @@ export const ImageUpload = () => {
 
     return (
         <div className="image-upload">
-            <input type="file" onChange={onSelectFile} />
+            <input type="file" accept="image/png, image/jpg, image/jpeg, image/webp" onChange={onSelectFile} />
             {selectedFile && (
                 <div className="preview-container">
                     <img src={preview} alt="Preview" />
@@ -111,24 +118,30 @@ export const ImageUpload = () => {
 };
 
 const AddStaff = (props: Props) => {
+    const [selectedFile, setSelectedFile] = useState<File | undefined>();
 
-    const [Jvalue, setJValue] = React.useState<Dayjs | null>(dayjs('2023-11-27'));
-    const [DoBvalue, setDoBValue] = React.useState<Dayjs | null>(dayjs('2023-11-27'));
+    const [Jvalue, setJValue] = React.useState<Dayjs | null>(dayjs());
+    const [DoBvalue, setDoBValue] = React.useState<Dayjs | null>(dayjs('2000-01-01'));
 
     const [genderValue, setGenderValue] = useState('');
     const [validation, setValidation] = useState<Record<string, boolean>>({});
     
+    const handleFileSelected = (file: File) => {
+        // Store the selected file in the component's state
+        setSelectedFile(file);
+    };
+
     const handleValidation = () => {
         const newValidation: Record<string, boolean> = {};
 
         props.columns
         .forEach((column) => {
-            if (column.field === 'JoinDate' || column.field === 'Birthday') {
+            if (column.field === 'joinDate' || column.field === 'birthdate') {
                 return;
             } 
                 
             const inputValue = document.querySelector(`input[name="${column.field}"], select[name="${column.field}"]`)?.value || '';
-            if (column.field === 'Gender') {
+            if (column.field === 'gender') {
                 newValidation[column.field] = genderValue.trim() !== '';
             } 
             else  newValidation[column.field] = inputValue.trim() !== '';
@@ -139,7 +152,39 @@ const AddStaff = (props: Props) => {
         return Object.values(newValidation).every((valid) => valid);
     };
     
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const convertToBase64 = (file, callback) => {
+        const img = new Image();
+
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            ctx.drawImage(img, 0, 0, img.width, img.height);
+
+            // Convert to base64
+            var base64 = canvas.toDataURL();
+
+            // Check size, if greater than 60kB then reduce quality
+            let originalBase64 = base64;
+            while (base64.length / 1.37 > 60000) {
+                base64 = canvas.toDataURL('image/jpeg', 0.5);
+            }
+
+            // If the original image was less than 60kB, use the original base64 string
+            if (originalBase64.length / 1.37 < 60000) {
+                base64 = originalBase64;
+            }
+
+            callback(base64);
+        };
+
+        img.src = URL.createObjectURL(file);
+    };
+    
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
  
 
@@ -148,28 +193,49 @@ const AddStaff = (props: Props) => {
         // axios.post('/api/${slug}s')
         if (isValid) {
             //debug
-            const formData: Record<string, any> = {};
+            const formData: StaffDef = {};
 
             props.columns
                 .forEach((column) => {
-                if (column.field === 'JoinDate') {
-                    formData[column.field] = Jvalue?.format('YYYY-MM-DD') || null;
-                } else if (column.field === 'Birthday') {
-                    formData[column.field] = DoBvalue?.format('YYYY-MM-DD') || null;
-                } else if (column.field === 'Gender') {
-                    formData[column.field] = genderValue;
+                if (column.field === 'joinDate') {
+                    formData[column.field] = Jvalue ? Jvalue.toDate() : null;
+                } else if (column.field === 'birthdate') {
+                    formData[column.field] = DoBvalue ? DoBvalue.toDate() : null;
+                } else if (column.field === 'gender') {
+                    formData[column.field] = genderValue ;
+                } else if (column.field === 'phoneNumber') {
+                    const inputElement = document.querySelector(`input[name="${column.field}"], select[name="${column.field}"]`) as HTMLInputElement;
+                    formData[column.field] = "+84" + (inputElement?.value || '')
                 } else {
                     const inputElement = document.querySelector(`input[name="${column.field}"], select[name="${column.field}"]`) as HTMLInputElement;
-                    formData[column.field] = inputElement?.value || null;
+                    (formData as any)[column.field] = inputElement?.value;
                 }
                 });
-
+                if (selectedFile) {
+                    // Convert the selected file to base64 or use it as needed
+                    await convertToBase64(selectedFile, (base64) => {
+                        // Do something with the base64 data, if needed
+                        console.log('Base64 Image:', base64);
+                        // Continue with the rest of your form submission logic here
+                        formData['avatar'] = base64;
+                    });
+                } else {
+                    formData['avatar'] = '';
+                }
+                formData['id'] = 0;
+                formData['other'] = "ACTIVE";
             console.log('Form Data:', formData);
             //end debug
-
+            
             // Perform your form submission logic
-            // axios.post('/api/${slug}s')
-            props.setOpen(false);
+            try {
+                const returnStaffData = await staffApi.add(formData)
+                props.fetchData();
+                props.setOpen(false);
+            }
+            catch(error){
+                console.error('Error inserting data:', error);
+            }
           }
           else {
             console.error('Form validation failed');
@@ -191,22 +257,23 @@ const AddStaff = (props: Props) => {
                             {props.columns
                                 .filter((item) => item.field !== "id" && item.field !== "img")
                                 .map((column) => (
-                                    <div className={`item ${validation[column.field] === false ? 'invalid' : ''}`} key={column.field}>
+                                    <div className={`item ${validation[column.field] === false ? 'invalid' : ''} 
+                                    ${column.field === "address" ? "address" : ""}`} key={column.field}>
                                         <label>{column.headerName}</label>
                                         {/* Use DatePicker for the "Join Date" column */}
-                                        {column.field === 'JoinDate' && (
+                                        {column.field === 'joinDate' && (
                                             <DatePicker
                                                 value={Jvalue}
                                                 onChange={(newValue) => setJValue(newValue)}
                                             />
                                         )}
-                                        {column.field === 'Birthday' && (
+                                        {column.field === 'birthdate' && (
                                             <DatePicker
                                                 value={DoBvalue}
                                                 onChange={(newValue) => setDoBValue(newValue)}
                                             />
                                         )}
-                                        {column.field === 'Gender' && (
+                                        {column.field === 'gender' && (
                                             <Select
                                             value={genderValue}
                                             onChange={(event) => setGenderValue(event.target.value as string)}
@@ -217,15 +284,15 @@ const AddStaff = (props: Props) => {
                                             <MenuItem value="Nonbinary">Nonbinary</MenuItem>
                                             </Select>
                                         )}
-                                        {column.field !== 'JoinDate' && column.field !== 'Birthday' &&
-                                            column.field !== 'Gender' && (
+                                        {column.field !== 'joinDate' && column.field !== 'birthdate' &&
+                                            column.field !== 'gender' && (
                                             <input type={column.type} placeholder={column.field} name={column.field} />
                                         )}
                                     </div>
                                 ))}
                             <div className="item image-upload">{/* image button */}
                                 <label>Upload an Image</label>
-                                <ImageUpload />
+                                {(ImageUpload as React.FC<{ onFileSelected: (file: File) => void }>)({ onFileSelected: handleFileSelected })}
                             </div>
                             <button type="submit">Send</button>
                         </form>

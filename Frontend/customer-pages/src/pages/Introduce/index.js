@@ -16,17 +16,12 @@ function Introduce() {
                         <strong>1. Lịch sử hình thành</strong>
                     </p>
                     <p>
-                        Hệ Thống bán lẻ máy tính toàn quốc Trung Trần&nbsp;là một trong những điểm đến tin cậy của người
+                        Hệ Thống bán lẻ máy tính toàn quốc Hitech&nbsp;là một trong những điểm đến tin cậy của người
                         tiêu dùng thông thái bắt nguồn từ diễn đàn mua bán www.vozforums.com – diễn đàn công nghệ lớn
-                        nhất Việt Nam. Trung Trần&nbsp;là thương hiệu đã được bảo hộ bởi Công Ty Cổ Phần Thương Mại Dịch
-                        Vụ Trung Trần.
+                        nhất Việt Nam. Hitech&nbsp;là thương hiệu đã được bảo hộ bởi Công Ty Cổ Phần Thương Mại Dịch Vụ
+                        Hitech.
                         <br />
                         Lick topic bán Thinkpad, HP Elitebook, Dell Precision, Apple:&nbsp;
-                        <strong>
-                            <a href="http://vozforums.com/showthread.php?t=625984">
-                                http://vozforums.com/showthread.php?t=625984
-                            </a>
-                        </strong>
                     </p>
                     <p>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; – Được sự ủng hộ của sân chơi công nghệ tinh tế nhất
@@ -81,10 +76,10 @@ function Introduce() {
                         <strong>3. Những Giá Trị Cốt Lõi&nbsp;</strong>
                     </p>
                     <p>
-                        Giá trị cốt lõi của Trung Trần&nbsp; là các giá trị bền vững làm nên thành công,&nbsp; là tôn
-                        chỉ toàn bộ hành động của công ty , được hình thành qua những ngày tháng gian khổ đầu tiên của
-                        công ty, được xây dựng từ những kinh nghiệm và học hỏi, tôi luyện qua những thử thách trong suốt
-                        quá trình phát triển.
+                        Giá trị cốt lõi của Hitech&nbsp; là các giá trị bền vững làm nên thành công,&nbsp; là tôn chỉ
+                        toàn bộ hành động của công ty , được hình thành qua những ngày tháng gian khổ đầu tiên của công
+                        ty, được xây dựng từ những kinh nghiệm và học hỏi, tôi luyện qua những thử thách trong suốt quá
+                        trình phát triển.
                     </p>
                     <p>
                         <strong>Tư duy hệ thống xã hội hóa:&nbsp;</strong>
@@ -92,14 +87,14 @@ function Introduce() {
                     <p>
                         Công ty được tổ chức như một hệ thống với những nhiệm vụ sứ mệnh rõ ràng, được tổ chức toàn vẹn
                         và hiệu quả, không ngừng nâng cấp để thay đổi về tầm ảnh hưởng, hệ thống sẽ được Xã Hội Hóa theo
-                        hướng là tài sản chung của toàn bộ cán bộ, nhân viên Trung Trần&nbsp;và đóng góp để trở thành 1
-                        phần hữu cơ của Xã Hội.&nbsp;
+                        hướng là tài sản chung của toàn bộ cán bộ, nhân viên Hitech&nbsp;và đóng góp để trở thành 1 phần
+                        hữu cơ của Xã Hội.&nbsp;
                     </p>
                     <p>
                         <strong>Thành công của con người là thành công của tổ chức.&nbsp;</strong>
                     </p>
                     <p>
-                        Công ty Trung Trần&nbsp;xây dựng đội ngũ nhân viên như những người đồng đội trên cùng một chiến
+                        Công ty Hitech&nbsp;xây dựng đội ngũ nhân viên như những người đồng đội trên cùng một chiến
                         thuyền, mỗi cá nhân được đánh thức nhân sinh quan và hướng dẫn cách nhận định, phấn đấu vì mục
                         tiêu sống, thành công của mỗi nhân viên là thành công của tổ chức. Hội tụ càng nhiều thành công
                         này, tổ chức đạt được mục tiêu. Trên cùng một chiến thuyền, giữa biển khơi bao la…đòi hỏi một
@@ -117,10 +112,8 @@ function Introduce() {
                         nhất.&nbsp;
                     </p>
                     <p>
-                        Lời kết:
-                        <strong>
-                            &nbsp;<a href="https://trungtran.vn/">http://trungtran.vn</a>&nbsp;
-                        </strong>
+                        Lời kết
+                        <strong> Hitech </strong>
                         xin gửi lời cám ơn chân thành nhất đến quý khách, mọi ý kiến góp ý dù là nhỏ nhất xin mời liên
                         hệ theo số phone: 094.2345.996
                     </p>

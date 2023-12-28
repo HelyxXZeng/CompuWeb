@@ -42,18 +42,18 @@ const CategorySingle: React.FC<Props> = (para: Props) => {
                     id: category.id,
                     name: category.name
                 });
+
+                // Reset the form
+                setCategory({
+                    id: 0,
+                    name: ''
+                });
             } else {
                 await categoryApi.update(category.id, {
                     id: category.id,
                     name: category.name
                 });
             }
-
-            // Reset the form
-            setCategory({
-                id: 0,
-                name: ''
-            });
 
             alert("Successfully Uploaded!");
         } catch (error) {

@@ -26,6 +26,8 @@ const fetchProductVariants = async () => {
     return data;
 };
 
+const statusList = ['NOTREADY', 'ACTIVE', 'CANCELED', 'OUTDATED']
+
 const PriceSingle: React.FC<Props> = (para: Props) => {
 
     // console.log('This is para: ', para)
@@ -63,13 +65,28 @@ const PriceSingle: React.FC<Props> = (para: Props) => {
         console.log('New Value: ', newValue)
     };
 
+    const handleStatusChange = (
+        _event: React.ChangeEvent<unknown>,
+        newValue: string | null
+    ) => {
+        if (newValue !== null) {
+            setPrice((prevPrice) => ({ ...prevPrice, status: newValue }));
+        }
+    };
+
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
         const { name, value } = e.target;
         // console.log('This is input name', name)
         // console.log('This is input value', value)
-        setPrice((prevPrice) => ({ ...prevPrice, [name]: value }));
+        if (name === 'value') {
+
+            setPrice((prevPrice) => ({ ...prevPrice, [name]: Number.parseInt(value) }));
+        } else {
+
+            setPrice((prevPrice) => ({ ...prevPrice, [name]: value }));
+        }
         // console.log('Product Variant: ', price)
     };
 
@@ -81,12 +98,13 @@ const PriceSingle: React.FC<Props> = (para: Props) => {
             if (para.price === null) {
                 console.log('This is variant will be added', price)
                 await priceApi.add(price);
+
+                // Reset the form
+                setPrice(initPrice);
             } else {
                 await priceApi.update(price.id, price);
             }
 
-            // Reset the form
-            setPrice(initPrice);
 
             alert("Successfully Uploaded!");
         } catch (error) {
@@ -143,13 +161,22 @@ const PriceSingle: React.FC<Props> = (para: Props) => {
                 />
 
                 <label htmlFor="status">Status:</label>
-                <input
+                {/* <input
                     type="text"
                     id="status"
                     name="status"
                     value={price.status}
                     onChange={handleInputChange}
                     required
+                /> */}
+                <Autocomplete
+                    className='autocomplete'
+                    disablePortal
+                    id="Status"
+                    options={statusList}
+                    value={price.status}
+                    onChange={handleStatusChange}
+                    renderInput={(params) => <TextField {...params} label="" />}
                 />
 
                 <button type="submit" className='button'>Submit</button>

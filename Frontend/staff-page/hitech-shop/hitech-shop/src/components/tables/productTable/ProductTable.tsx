@@ -2,6 +2,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 import '../datatable/datatable.scss'
+import productApi from '../../../api/productApi';
 // import { handleDelete, handleView, actionColumn } from '../datatable/DataTable';
 
 const ALL = "All"
@@ -11,13 +12,13 @@ const columns: GridColDef[] = [
         field: 'id', headerName: 'ID', width: 60
     },
     {
-        field: 'categoryName', headerName: 'Category', flex: 2
+        field: 'categoryName', headerName: 'Category', width: 150
     },
     {
-        field: 'name', headerName: 'Name', flex: 4,
+        field: 'name', headerName: 'Name', width: 300,
     },
     {
-        field: 'numberInStock', headerName: 'Quantity', flex: 1,
+        field: 'numberInStock', headerName: 'Quantity', width: 80,
         renderCell: (params) => {
             return (
                 <div className="quantityCell">
@@ -27,7 +28,7 @@ const columns: GridColDef[] = [
         },
     },
     {
-        field: 'price', headerName: 'Price', flex: 2,
+        field: 'price', headerName: 'Price', width: 500,
         renderCell: (params) => {
             return (
                 <div className="priceCell">
@@ -38,12 +39,16 @@ const columns: GridColDef[] = [
     }
 ]
 
-interface ProductTableProps {
-    rows: any[]; // Define the type of your rows here
+interface Row {
+    id: number;
+    categoryName: string;
+    name: string,
+    numberInStock: number,
+    price: number
 }
 
-const ProductTable: React.FC<ProductTableProps> = ({ rows }) => {
-
+const ProductTable = () => {
+    const [rows, setRows] = useState<Row[]>([]);
     // Use a Set to collect unique category values
     const categorySet = new Set(rows.map(row => row.categoryName));
 
@@ -65,6 +70,17 @@ const ProductTable: React.FC<ProductTableProps> = ({ rows }) => {
 
         setSelectedCategory(category);
     };
+
+    useEffect(() => {
+        const fetchRows = async () => {
+            const data = (await productApi.getAll({ _page: 1, _limit: 100000 })).data;
+            setRows(data)
+            // console.log('This is rows in fetch', data)
+        }
+
+        fetchRows();
+    }, [])
+
 
     useEffect(() => {
         setCategories([ALL, ...Array.from(categorySet)])

@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './ProductItem.module.scss';
@@ -7,12 +8,14 @@ import config from '~/config';
 
 const cx = classNames.bind(styles);
 
-function ProducItem() {
+function ProducItem({ item }) {
     const [isLoveActive, setLoveActive] = useState(false);
 
     const handleLoveClick = () => {
         setLoveActive(!isLoveActive);
     };
+
+    const formattedPrice = new Intl.NumberFormat('en-US').format(item.price).replace(/,/g, '.');
 
     return (
         <div className={cx('cell')}>
@@ -21,23 +24,27 @@ function ProducItem() {
                 <p className={cx('discount-p')}>
                     -21<span>%</span>
                 </p>
-                <Link to={config.routes.productDetail} className={cx('a-img')}>
+                <a href={`${config.routes.productDetail}/${item.id}`} className={cx('a-img')}>
                     <img
-                        src="https://trungtran.vn/images/products/2023/resized/lenovo_legion_5_pro_2023_y9000p_12-copy-copy.webp"
-                        alt="Lenovo Legion 5 Pro 2023 Ryzen 9 7945HX 16GB 1TB 4060 2.5K 240Hz"
+                        src={
+                            item.images[0]
+                                ? item.images[0].image
+                                : 'https://trungtran.vn/images/products/2023/resized/lenovo_legion_5_pro_2023_y9000p_12-copy-copy.webp'
+                        }
+                        alt="front view of laptop"
                     ></img>
-                </Link>
+                </a>
                 <p className={cx('status-text')}></p>
 
-                <a href="https://trungtran.vn/lenovo-legion-5-pro-2023-ryzen-9-rtx/" className={cx('a-title')}>
-                    Lenovo Legion 5 Pro 2023 Ryzen 9 7945HX 16GB 1TB 4060 2.5K 240Hz{' '}
+                <a href="/#" className={cx('a-title')}>
+                    {item.name}
                 </a>
                 <p className={cx('price')}>
-                    33.500.000
+                    {formattedPrice}
                     <span className={cx('price-old')}>42.500.000</span>
                 </p>
                 <div className={cx('love-same')}>
-                    <p className={cx('p-version')}>1 phiên bản</p>
+                    <p className={cx('p-version')}>{item.numberInStock} sản phẩm</p>
                     <p className={cx('p-love')}>
                         <a href="/#" onClick={handleLoveClick}>
                             <svg
@@ -61,17 +68,18 @@ function ProducItem() {
 
                 <div className={cx('specification')}>
                     <p>
-                        CPU: AMD Ryzen 7 7745HX
-                        <br />
-                        RAM: 16GB DDR5 5200MHz
-                        <br />
-                        Màn hình: 16.0 inch WQXGA (2560x1600) IPS, 240Hz
-                        <br />
-                        Đồ họa: NVIDIA®GeForce® RTX™ 4060 8GB VRAM
+                        {item.specifications.slice(0, 4).map((spec, index) => {
+                            return (
+                                <React.Fragment key={index}>
+                                    {spec.item3.name}: {spec.item2.value}
+                                    <br />
+                                </React.Fragment>
+                            );
+                        })}
                     </p>
                 </div>
                 <div className={cx('btn-product')}>
-                    <a className={cx('a-add-cart')} href="https://trungtran.vn/lenovo-legion-5-pro-2023-ryzen-9-rtx/">
+                    <a className={cx('a-add-cart')} href="/productDetail">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                             <path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96zM252 160c0 11 9 20 20 20h44v44c0 11 9 20 20 20s20-9 20-20V180h44c11 0 20-9 20-20s-9-20-20-20H356V96c0-11-9-20-20-20s-20 9-20 20v44H272c-11 0-20 9-20 20z"></path>
                         </svg>
