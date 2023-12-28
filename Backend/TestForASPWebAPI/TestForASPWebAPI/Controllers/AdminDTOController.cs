@@ -138,6 +138,12 @@ namespace TestForASPWebAPI.Controllers
             }
             return Ok(Customers);
         }
+
+        [HttpGet("Filter")]
+        public async Task<IActionResult> Filter(List<Tuple<int, string>> filter)
+        {
+            return Ok();
+        }
     }
     public class CusByMonth
     {
