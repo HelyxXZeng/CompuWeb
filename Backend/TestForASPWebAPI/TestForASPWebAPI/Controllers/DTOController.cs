@@ -939,6 +939,32 @@ namespace TestForASPWebAPI.Controllers
             return Ok(Order);
         }
 
+        [HttpGet("GetOrdersByPhoneNumber")]
+        public async Task<IActionResult> GetOrdersByPhoneNumber(string phoneNumber)
+        {
+            List<CustomerOrders> orders = new List<CustomerOrders>();
+            string GetOrders = $"SELECT\r\n    o.Id,\r\n    c.Name,\r\n    o.Date,\r\n    o.Status,\r\n    o.Total,\r\n    COUNT(oi.Id) as ItemCount,\r\n    (\r\n        SELECT TOP 1 pv.Name\r\n        FROM OrderItem oi_inner\r\n        JOIN ProductInstance pi ON oi_inner.ProductInstanceId = pi.Id\r\n        JOIN ProductVariant pv ON pv.Id = pi.ProductVariantId\r\n        WHERE oi_inner.OrderId = o.Id\r\n        ORDER BY oi_inner.Id -- Assuming there's an ID or another field indicating the order of items\r\n    ) AS VariantName,\r\n    (\r\n        SELECT TOP 1 images.Url\r\n        FROM OrderItem oi_inner\r\n        JOIN ProductInstance pi ON oi_inner.ProductInstanceId = pi.Id\r\n        JOIN ProductVariant pv ON pv.Id = pi.ProductVariantId\r\n        JOIN ProductLine pl ON pl.Id = pv.ProductLineId\r\n        JOIN ProductImage images ON images.ProductLineId = pl.Id\r\n        WHERE oi_inner.OrderId = o.Id\r\n        ORDER BY oi_inner.Id -- Assuming there's an ID or another field indicating the order of items\r\n    ) AS Image\r\nFROM Orders o\r\nJOIN Customer c ON o.CustomerId = c.Id\r\nJOIN OrderItem oi ON oi.OrderId = o.Id\r\nWHERE c.PhoneNumber = '{phoneNumber}'\r\nGROUP BY o.Id, o.CustomerId, o.Date, o.Status, o.Total, c.Name;";
+            using (DataTable data = await DBController.GetInstance().GetData(GetOrders))
+            {
+                foreach (DataRow row in data.Rows)
+                {
+                    var order = new CustomerOrders()
+                    {
+                        Id = (int)row["Id"],
+                        Name = (string)row["Name"],
+                        Date = (DateTime)row["Date"],
+                        Status = (string)row["Status"],
+                        Total = (decimal)row["Total"],
+                        ItemCount = (int)row["ItemCount"],
+                        VariantName = (string)row["VariantName"],
+                        Image = (string)row["Image"],
+                    };
+                    orders.Add(order);
+                }
+            }
+            return Ok(orders);
+        }
+
         [HttpGet("GetCurrentPrice/{PVId}")]
         public async Task<IActionResult> GetCurrentPrice(int PVId)
         {

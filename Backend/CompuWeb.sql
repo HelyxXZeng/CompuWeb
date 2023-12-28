@@ -348,4 +348,35 @@ join ProductInstance pi on oi.ProductInstanceId = pi.Id
 join ProductVariant pv on pi.ProductVariantId = pv.Id
 where pv.Id = 1
 
+SELECT
+    o.Id,
+    c.Name,
+    o.Date,
+    o.Status,
+    o.Total,
+    COUNT(oi.Id) as ItemCount,
+    (
+        SELECT TOP 1 pv.Name
+        FROM OrderItem oi_inner
+        JOIN ProductInstance pi ON oi_inner.ProductInstanceId = pi.Id
+        JOIN ProductVariant pv ON pv.Id = pi.ProductVariantId
+        WHERE oi_inner.OrderId = o.Id
+        ORDER BY oi_inner.Id -- Assuming there's an ID or another field indicating the order of items
+    ) AS VariantName,
+    (
+        SELECT TOP 1 images.Url
+        FROM OrderItem oi_inner
+        JOIN ProductInstance pi ON oi_inner.ProductInstanceId = pi.Id
+        JOIN ProductVariant pv ON pv.Id = pi.ProductVariantId
+        JOIN ProductLine pl ON pl.Id = pv.ProductLineId
+        JOIN ProductImage images ON images.ProductLineId = pl.Id
+        WHERE oi_inner.OrderId = o.Id
+        ORDER BY oi_inner.Id -- Assuming there's an ID or another field indicating the order of items
+    ) AS Image
+FROM Orders o
+JOIN Customer c ON o.CustomerId = c.Id
+JOIN OrderItem oi ON oi.OrderId = o.Id
+WHERE c.PhoneNumber = '+841234567890'
+GROUP BY o.Id, o.CustomerId, o.Date, o.Status, o.Total, c.Name;
+
 INSERT INTO Price (ProductVariantId, StartDate, EndDate, Status, Value) VALUES (1, '2023-12-15', '2026-12-31', 'CANCELED', 9999999.00)
