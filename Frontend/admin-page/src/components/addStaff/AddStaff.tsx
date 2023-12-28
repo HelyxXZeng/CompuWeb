@@ -193,7 +193,20 @@ const AddStaff = (props: Props) => {
         // axios.post('/api/${slug}s')
         if (isValid) {
             //debug
-            const formData: StaffDef = {};
+            const formData: StaffDef = {
+                id: 0,
+                avatar: '',
+                birthdate: dayjs('01/01/2000').toDate(),
+                joinDate: dayjs('01/01/2000').toDate(),
+                name:'',
+                gender:'',
+                idcardNumber:0,
+                address:'',
+                phoneNumber:'+84',
+                position:'',
+                salary:0,
+                other:'',
+            };
 
             props.columns
                 .forEach((column) => {
@@ -205,7 +218,12 @@ const AddStaff = (props: Props) => {
                     formData[column.field] = genderValue ;
                 } else if (column.field === 'phoneNumber') {
                     const inputElement = document.querySelector(`input[name="${column.field}"], select[name="${column.field}"]`) as HTMLInputElement;
-                    formData[column.field] = "+84" + (inputElement?.value || '')
+                    if(!(inputElement?.value.includes('+84'))){
+                        formData[column.field] = "+84" + (inputElement?.value || '')
+                    }
+                    else{
+                        formData[column.field] = inputElement?.value;
+                    }
                 } else {
                     const inputElement = document.querySelector(`input[name="${column.field}"], select[name="${column.field}"]`) as HTMLInputElement;
                     (formData as any)[column.field] = inputElement?.value;
@@ -229,12 +247,14 @@ const AddStaff = (props: Props) => {
             
             // Perform your form submission logic
             try {
-                const returnStaffData = await staffApi.add(formData)
+                await staffApi.add(formData)
                 props.fetchData();
                 props.setOpen(false);
             }
             catch(error){
+                alert('Error inserting data:' + error);
                 console.error('Error inserting data:', error);
+                throw(error);
             }
           }
           else {
