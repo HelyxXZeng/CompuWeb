@@ -331,12 +331,21 @@ FROM ProductVariant pv
 INNER JOIN ProductSpecification ps ON pv.Id = ps.ProductVariantId
 INNER JOIN Specification s ON ps.SpecificationId = s.Id
 WHERE 
-    (s.SpecificationTypeId = 1 AND s.Value like '%8GB%')
+    (s.SpecificationTypeId = 1 AND s.Value like '%16GB%')
     OR
     (s.SpecificationTypeId = 2 AND s.Value like '%512GB%')
 	OR
 	(s.SpecificationTypeId = 3 AND s.Value like '%i5%')
 GROUP BY pv.Id
 HAVING COUNT(DISTINCT s.SpecificationTypeId) = 3;
+
+select o.Id, r.Rating, r.Date, r.Comment, c.Name
+from Rating r
+join OrderItem oi on r.OrderItemId = oi.Id
+join Orders o on oi.OrderId = o.Id
+join Customer c on o.CustomerId = c.Id
+join ProductInstance pi on oi.ProductInstanceId = pi.Id
+join ProductVariant pv on pi.ProductVariantId = pv.Id
+where pv.Id = 1
 
 INSERT INTO Price (ProductVariantId, StartDate, EndDate, Status, Value) VALUES (1, '2023-12-15', '2026-12-31', 'CANCELED', 9999999.00)
