@@ -10,6 +10,7 @@
             this.Id = rating.Id;
             this.Status = rating.Status;
         }
+        public RatingDTO() { }
         public int Id { get; set; }
         public string Name { get; set; }
         public string Comment { get; set; }
