@@ -6,6 +6,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { MenuItem, Select, ThemeProvider, createTheme } from "@mui/material";
+import staffApi, { StaffDef } from "../../api/staffsAPI";
 
 //cảnh báo: existingPreview có thể bị lỗi
 
@@ -125,33 +126,33 @@ const UpdateStaff = (props: Props) => {
     const [selectedFile, setSelectedFile] = useState<File | undefined>();
     
     const [Jvalue, setJValue] = React.useState<Dayjs | null>(
-        props.staffData ? dayjs(props.staffData.JoinDate) : dayjs('2023-11-27')
+        props.staffData ? dayjs(props.staffData.joinDate) : dayjs('2023-11-27')
     );
     const [DoBvalue, setDoBValue] = React.useState<Dayjs | null>(
-        props.staffData ? dayjs(props.staffData.Birthdate) : dayjs('2000-01-01')
+        props.staffData ? dayjs(props.staffData.birthdate) : dayjs('2000-01-01')
     );
     const [genderValue, setGenderValue] = useState<string>(
-        props.staffData ? props.staffData.Gender : ''
+        props.staffData ? props.staffData.gender : ''
     );
     const [statusValue, setStatusValue] = useState<string>(
-        props.staffData ? props.staffData.Other : ''
+        props.staffData ? props.staffData.other : ''
     );
     const [validation, setValidation] = useState<Record<string, boolean>>({});
 
     const [name, setName] = useState<string>(
-        props.staffData ? props.staffData.Name : ''
+        props.staffData ? props.staffData.name : ''
       );
       const [idCardNumber, setIdCardNumber] = useState<string>(
-        props.staffData ? props.staffData.IdCardNumber : ''
+        props.staffData ? props.staffData.idcardNumber : ''
       );
       const [address, setAddress] = useState<string>(
-        props.staffData ? props.staffData.Address : ''
+        props.staffData ? props.staffData.address : ''
       );
       const [phone, setPhone] = useState<string>(
-        props.staffData ? props.staffData.PhoneNumber : ''
+        props.staffData ? props.staffData.phoneNumber : ''
       );
       const [position, setPosition] = useState<string>(
-        props.staffData ? props.staffData.Position : ''
+        props.staffData ? props.staffData.position : ''
       );
       useEffect(() => {
         setName(props.staffData ? props.staffData.Name : '');
@@ -172,15 +173,15 @@ const UpdateStaff = (props: Props) => {
 
         props.columns
         .forEach((column) => {
-            if (column.field === 'JoinDate' || column.field === 'Birthdate') {
+            if (column.field === 'joinDate' || column.field === 'birthdate') {
                 return;
             } 
                 
             const inputValue = document.querySelector(`input[name="${column.field}"], select[name="${column.field}"]`)?.value || '';
-            if (column.field === 'Gender') {
+            if (column.field === 'gender') {
                 newValidation[column.field] = genderValue.trim() !== '';
             } 
-            else if (column.field === 'Other') {
+            else if (column.field === 'other') {
                 newValidation[column.field] = statusValue.trim() !== '';
             } else newValidation[column.field] = inputValue.trim() !== '';
         });
@@ -231,21 +232,42 @@ const UpdateStaff = (props: Props) => {
         // axios.post('/api/${slug}s')
         if (isValid) {
             //debug
-            const formData: Record<string, any> = {};
-
+            const formData: StaffDef = {
+                id: props.staffData.id,
+                avatar: props.staffData.avatar,
+                birthdate: dayjs('01/01/2000').toDate(),
+                joinDate: dayjs('01/01/2000').toDate(),
+                name:'',
+                gender:'',
+                idcardNumber:0,
+                address:'',
+                phoneNumber:'+84',
+                position:'',
+                salary:0,
+                other:'',
+            };
             props.columns
                 .forEach((column) => {
-                if (column.field === 'JoinDate') {
+                if (column.field === 'joinDate') {
                     formData[column.field] = Jvalue?.format('YYYY-MM-DD') || null;
-                } else if (column.field === 'Birthdate') {
+                } else if (column.field === 'birthdate') {
                     formData[column.field] = DoBvalue?.format('YYYY-MM-DD') || null;
-                } else if (column.field === 'Gender') {
+                } else if (column.field === 'gender') {
                     formData[column.field] = genderValue;
-                } else if (column.field === 'Other') {
+                } else if (column.field === 'other') {
                     formData[column.field] = statusValue;
+                } else if (column.field === 'phoneNumber') {
+                    const inputElement = document.querySelector(`input[name="${column.field}"], select[name="${column.field}"]`) as HTMLInputElement;
+                    if(!(inputElement?.value.includes('+84'))){
+                        console.log(inputElement.value.includes('+84'))
+                        formData[column.field] = "+84" + (inputElement?.value || '')
+                    }
+                    else{
+                        formData[column.field] = inputElement?.value;
+                    }
                 } else {
                     const inputElement = document.querySelector(`input[name="${column.field}"], select[name="${column.field}"]`) as HTMLInputElement;
-                    formData[column.field] = inputElement?.value || null;
+                    (formData as any)[column.field] = inputElement?.value;
                 }
                 });
                 if (selectedFile) {
@@ -255,12 +277,21 @@ const UpdateStaff = (props: Props) => {
                         console.log('Base64 Image:', base64);
                         // Continue with the rest of your form submission logic here
                     });
+                    formData['avatar'] = base64;
                 }
+                formData["id"]= props.staffData.id;
             console.log('Form Data:', formData);
             //end debug
-
+                console.log(formData.id);
             // Perform your form submission logic
-            // axios.post('/api/${slug}s')
+            try {
+                await staffApi.update(formData.id, formData);
+                
+            }
+            catch(error){
+                alert('Error inserting data:' + error);
+                throw(error);
+            }
             props.setOpen(false);
           }
           else {
@@ -284,9 +315,10 @@ const UpdateStaff = (props: Props) => {
                             {props.columns
                                 .filter((item) => item.field !== "id" && item.field !== "img")
                                 .map((column) => (
-                                    <div className={`item ${validation[column.field] === false ? 'invalid' : ''}`} key={column.field}>
+                                    <div className={`item ${validation[column.field] === false ? 'invalid' : ''}
+                                    ${column.field === "address" ? "address" : ""}`} key={column.field}>
                                         <label>{column.headerName}</label>
-                                        {column.field === 'Name' && (
+                                        {column.field === 'name' && (
                                             <input
                                             type="text"
                                             placeholder={column.field}
@@ -295,7 +327,7 @@ const UpdateStaff = (props: Props) => {
                                             onChange={(e) => setName(e.target.value)}
                                             />
                                         )}
-                                        {column.field === 'IdCardNumber' && (
+                                        {column.field === 'idcardNumber' && (
                                             <input
                                             type="text"
                                             placeholder={column.field}
@@ -304,7 +336,7 @@ const UpdateStaff = (props: Props) => {
                                             onChange={(e) => setIdCardNumber(e.target.value)}
                                             />
                                         )}
-                                        {column.field === 'Address' && (
+                                        {column.field === 'address' && (
                                             <input
                                             type="text"
                                             placeholder={column.field}
@@ -313,7 +345,7 @@ const UpdateStaff = (props: Props) => {
                                             onChange={(e) => setAddress(e.target.value)}
                                             />
                                         )}
-                                        {column.field === 'PhoneNumber' && (
+                                        {column.field === 'phoneNumber' && (
                                             <input
                                             type="text"
                                             placeholder={column.field}
@@ -322,7 +354,7 @@ const UpdateStaff = (props: Props) => {
                                             onChange={(e) => setPhone(e.target.value)}
                                             />
                                         )}
-                                        {column.field === 'Position' && (
+                                        {column.field === 'position' && (
                                             <input
                                             type="text"
                                             placeholder={column.field}
@@ -332,19 +364,19 @@ const UpdateStaff = (props: Props) => {
                                             />
                                         )}
                                         {/* Use DatePicker for the "Join Date" column */}
-                                        {column.field === 'JoinDate' && (
+                                        {column.field === 'joinDate' && (
                                             <DatePicker
                                                 value={Jvalue}
                                                 onChange={(newValue) => setJValue(newValue)}
                                             />
                                         )}
-                                        {column.field === 'Birthdate' && (
+                                        {column.field === 'birthdate' && (
                                             <DatePicker
                                                 value={DoBvalue}
                                                 onChange={(newValue) => setDoBValue(newValue)}
                                             />
                                         )}
-                                        {column.field === 'Gender' && (
+                                        {column.field === 'gender' && (
                                             <Select
                                             value={genderValue}
                                             onChange={(event) => setGenderValue(event.target.value as string)}
@@ -355,7 +387,7 @@ const UpdateStaff = (props: Props) => {
                                             <MenuItem value="Nonbinary">Nonbinary</MenuItem>
                                             </Select>
                                         )}
-                                        {column.field === 'Other' && (
+                                        {column.field === 'other' && (
                                             <Select
                                             value={statusValue}
                                             onChange={(event) => setStatusValue(event.target.value as string)}

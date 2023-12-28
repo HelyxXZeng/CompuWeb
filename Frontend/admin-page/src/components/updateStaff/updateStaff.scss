@@ -51,6 +51,10 @@
           flex-direction: column;
           gap: 10px;
           margin-bottom: 20px;
+
+          &.address {
+            width: 99%;
+          }
           
           label {
             font-size: 14px;

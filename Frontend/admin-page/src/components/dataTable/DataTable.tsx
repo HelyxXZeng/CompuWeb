@@ -3,11 +3,13 @@ import "./dataTable.scss";
 import { Link } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { useState } from "react";
+import  staffApi from "../../api/staffsAPI";
 
 type Props = {
   columns: GridColDef[];
   rows: object[];
   slug: string;
+  fetchData: () => Promise<void>;
   defaultSortField?: string; // New prop for default sorting field
   defaultSortOrder?: "asc" | "desc"; // New prop for default sorting order
 };
@@ -36,10 +38,30 @@ const useDataTableSorting = (
 
 const DataTable = (props: Props) => {
 
-  const handleDelete = (id: number) => {
-    //delete the item
-    // axios.deleta('api/${sluf}/id')
-    console.log(id + " has been deleted!")
+  const handleDelete = async (id: number) => {
+    if (props.slug === "staffs") {
+      try {
+        const resdata = await staffApi.getID(id);
+        const data = resdata.data;
+  
+        if (data.other === "INACTIVE") {
+          alert("Cannot delete this staff because he/she is already set as INACTIVE");
+        } else {
+          try {
+            await staffApi.remove(id);
+            props.fetchData();
+            console.log(id + " has been deleted!");
+          } catch (deleteError) {
+            alert("An error occurred while deleting the staff: " + deleteError.message);
+            throw deleteError;
+          }
+        }
+      } catch (error) {
+        alert("An error occurred while fetching staff data: " + error.message);
+        console.error('Error:', error);
+      }
+    }
+    
   };
   const { sortModel, handleSortModelChange } = useDataTableSorting(
     props.defaultSortField,
@@ -72,7 +94,6 @@ const DataTable = (props: Props) => {
           className="dataGrid"
           rows={props.rows}
           columns={[...props.columns, actionColumn]}
-          sortingMode="server"
           sortModel={sortModel}
           onSortModelChange={handleSortModelChange}
           initialState={{

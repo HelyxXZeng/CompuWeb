@@ -1,7 +1,7 @@
 import axiosClient from "./axiosClient";
 
 export interface StaffDef {
-    id: 0,
+    id: number,
     avatar: string,
     name: string,
     birthdate: Date,
@@ -39,9 +39,16 @@ const staffApi = {
         }
     },
 
-    update: async (updatedStaff: StaffDef) => {
+    update: async (id: number, updatedStaff: StaffDef) => {
         try {
-            const response = await axiosClient.put(`/staffs/Update/${updatedStaff.id}`, updatedStaff);
+            const response = await axiosClient.put(`/staffs/Update?id=${id}`, updatedStaff);
+            if (response.data) {
+                console.log('Updated staff member:', response.data);
+                // Process the data
+              } else {
+                console.log('No data returned in the response.');
+                // Handle the case where no data is returned
+              }
             return response.data;
         } catch (error) {
             throw error;
@@ -54,7 +61,7 @@ const staffApi = {
 
     remove: async (id: number) => { //hạn chế dùng remove
         try {
-            const response = await axiosClient.delete(`/staffs/Delete?id=/${id}`);
+            const response = await axiosClient.put(`AdminDTOController/SetDeleteStaff/${id}`);
             return response.data;
         } catch (error) {
             throw error;
