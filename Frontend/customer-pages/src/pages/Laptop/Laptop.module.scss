@@ -31,6 +31,10 @@
         margin-bottom: 35px;
         background: #fff;
         border-radius: 5px;
+
+        .loading-spinner {
+            margin-top: 5px;
+        }
         .row-list {
             display: grid;
             grid-template-columns: repeat(4, 1fr);

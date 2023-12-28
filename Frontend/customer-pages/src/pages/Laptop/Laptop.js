@@ -10,6 +10,8 @@ import PaginationItem from '@mui/material/PaginationItem';
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material/styles';
 
+import LinearProgress from '@mui/material/LinearProgress';
+
 import * as productServices from '~/apiServices/productServices';
 
 const cx = classNames.bind(styles);
@@ -277,6 +279,7 @@ function Laptop() {
     // const [brandList, setBrandList] = useState([]);
     // const [cateList, setCateList] = useState([]);
     const [currentLaptopList, setCurrentLaptopList] = useState([]);
+    const [loading, setLoading] = useState(true); // Add loading state
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 24;
@@ -297,9 +300,13 @@ function Laptop() {
                 }
             } catch (error) {
                 console.error('Error fetching laptop list:', error);
+            } finally {
+                // Set loading to false after fetching data
+                setLoading(false);
             }
         };
-
+        // Set loading to true when initiating a new data fetch
+        setLoading(true);
         fetchLaptopList();
     }, [currentPage]);
 
@@ -360,31 +367,39 @@ function Laptop() {
 
                 <div className={cx('products-list-col')}>
                     <div className={cx('box')}>
-                        <div className={cx('row-list')}>
-                            {currentLaptopList.map((product, index) => (
-                                <ProducItem key={index} item={product} />
-                            ))}
+                        {loading ? (
+                            // Display loading spinner when data is still being fetched
+                            // <CircularProgress className={cx('loading-spinner')} />
+                            <LinearProgress className={cx('loading-spinner')} />
+                        ) : (
+                            <div className={cx('row-list')}>
+                                {currentLaptopList.map((product, index) => (
+                                    <ProducItem key={index} item={product} />
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                    {laptopQuantity > 0 && (
+                        <div className={cx('pagination-wrapper')}>
+                            <Pagination
+                                className={cx('pagination')}
+                                shape="rounded"
+                                count={Math.ceil(laptopQuantity / itemsPerPage)}
+                                page={currentPage}
+                                onChange={(event, page) => handlePageChange(page)}
+                                renderItem={(item) => {
+                                    if (item.type === 'next' || item.type === 'previous') {
+                                        return (
+                                            <ThemeProvider theme={theme}>
+                                                <PaginationItem {...item} />
+                                            </ThemeProvider>
+                                        );
+                                    }
+                                    return <PaginationItem {...item} className={cx('pagination-item')} />;
+                                }}
+                            />
                         </div>
-                    </div>
-                    <div className={cx('pagination-wrapper')}>
-                        <Pagination
-                            className={cx('pagination')}
-                            shape="rounded"
-                            count={Math.ceil(laptopQuantity / itemsPerPage)}
-                            page={currentPage}
-                            onChange={(event, page) => handlePageChange(page)}
-                            renderItem={(item) => {
-                                if (item.type === 'next' || item.type === 'previous') {
-                                    return (
-                                        <ThemeProvider theme={theme}>
-                                            <PaginationItem {...item} />
-                                        </ThemeProvider>
-                                    );
-                                }
-                                return <PaginationItem {...item} className={cx('pagination-item')} />;
-                            }}
-                        />
-                    </div>
+                    )}
                 </div>
             </div>
         </>

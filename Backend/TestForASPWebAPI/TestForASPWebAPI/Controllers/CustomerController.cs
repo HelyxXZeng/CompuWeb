@@ -75,7 +75,7 @@ namespace TestForASPWebAPI.Controllers
             string command = $"INSERT INTO Customer (Name, PhoneNumber, Birthdate, JoinDate) VALUES (N'{value.Name}', '{value.PhoneNumber}', '{value.Birthdate.ToString("yyyy-MM-dd")}', '{DateTime.Now.ToString("yyyy-MM-dd")}')";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
-            string GetCreatedCus = $"select MaxId from Customer where PhoneNumber = '{value.PhoneNumber}'";
+            string GetCreatedCus = $"select Max(Id) from Customer where PhoneNumber = '{value.PhoneNumber}'";
             int Id = await dbController.GetCount(GetCreatedCus);
             return Ok(Id);
         }

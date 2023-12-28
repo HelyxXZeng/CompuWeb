@@ -14,7 +14,17 @@ export const createCustomer = async (data) => {
     try {
         const res = await request.post('customers/Insert', data);
         console.log('res', res);
-        return res.data;
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const checkCustomerTel = async (telephoneNumber) => {
+    try {
+        const res = await request.get(`DTOController/AuthenticateCustomer/${telephoneNumber}`);
+
+        return res;
     } catch (error) {
         console.log(error);
     }
