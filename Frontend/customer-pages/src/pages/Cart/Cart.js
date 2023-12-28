@@ -329,37 +329,31 @@ function Cart() {
 
         localStorage.setItem('formData', JSON.stringify(formData));
 
-        const data = {
-            customerId: 1,
-            staffId: 1,
-            date: formattedDate,
-            note: formData.note,
-            status: 'PENDING',
-            address: address,
-            orderItems: orderItems,
-        };
-
-        // Now, you can use the data object to send the request or perform any other necessary actions
-        // try {
-        //     // Assuming orderServices.createOrder takes a data parameter
-        //     await orderServices.createOrder(data);
-        //     // If everything is valid, navigate to the order route
-        //     navigate(config.routes.order);
-        // } catch (error) {
-        //     console.error('Error creating order:', error);
-        // }
-
         try {
-            const data = {
-                name: 'string',
-                birthdate: '2023-12-26T16:49:01.526Z',
-                joinDate: '2023-12-26T16:49:01.526Z',
-                phoneNumber: '0971881215',
+            const checkTel = await orderServices.checkCustomerTel(formData.telephone);
+
+            const customer = {
+                name: formData.name,
+                birthdate: '2003-12-26T16:49:01.526Z',
+                joinDate: formattedDate,
+                phoneNumber: formData.telephone,
             };
-            // Assuming orderServices.createOrder takes a data parameter
-            const result = await orderServices.createCustomer(data);
-            console.log('customer', result);
-            // If everything is valid, navigate to the order route
+
+            const customerId = checkTel || (await orderServices.createCustomer(customer));
+
+            const orderData = {
+                customerId,
+                staffId: 1,
+                date: formattedDate,
+                note: formData.note,
+                status: 'PENDING',
+                address,
+                orderItems,
+            };
+
+            console.log('orderData', orderData);
+
+            await orderServices.createOrder(orderData);
             //navigate(config.routes.order);
         } catch (error) {
             console.error('Error creating order:', error);
