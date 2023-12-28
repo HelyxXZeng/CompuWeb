@@ -87,7 +87,7 @@ namespace TestForASPWebAPI.Controllers
 
                     using (SqlCommand cmd = new SqlCommand(command, sqlConnection))
                     {
-                        cmd.ExecuteNonQuery();
+                        cmd.ExecuteNonQueryAsync();
                     }
                 }
                 catch (Exception ex)
