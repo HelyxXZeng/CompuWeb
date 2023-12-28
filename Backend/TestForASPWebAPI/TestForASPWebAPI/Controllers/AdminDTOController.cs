@@ -1,6 +1,7 @@
 ﻿using CompuWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using System.Globalization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -103,14 +104,18 @@ namespace TestForASPWebAPI.Controllers
         {
             string UpdateInactive = $"update Staff set Other = 'INACTIVE' where Id = {Id}";
             DBController.GetInstance().UpdateData(UpdateInactive);
+            string GetConfirm = $"select Count(Id) from Staff";
+            await DBController.GetInstance().GetCount(GetConfirm);
             return Ok();
         }
 
         [HttpPut("SetDeletePromotion/{Id}")]
         public async Task<IActionResult> SetDeletePromotion(int Id)
         {
-            string UpdateInactive = $"update Staff set Status = 'CANCELED' where Id = {Id}";
+            string UpdateInactive = $"update Promotion set Status = 'CANCELED' where Id = {Id}";
             DBController.GetInstance().UpdateData(UpdateInactive);
+            string GetConfirm = $"select Count(Id) from Promotion";
+            await DBController.GetInstance().GetCount(GetConfirm);
             return Ok();
         }
 
