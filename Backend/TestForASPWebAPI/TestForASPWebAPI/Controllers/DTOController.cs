@@ -613,7 +613,7 @@ namespace TestForASPWebAPI.Controllers
                 .ToList();
 
             int countResults = productVariants
-                .Select(result => new Tuple<ProductVariantDTO, int>(result, Fuzz.PartialRatio(result.Name.ToLower(), keyword.ToLower())))
+                .Select(result => new Tuple<ProductVariantDTO, int>(result, keyword == "" ? 100 : Fuzz.PartialRatio(result.Name.ToLower(), keyword.ToLower())))
                 .Where(result => result.Item2 >= 40) // Adjust accuracy threshold here
                 .ToList().Count();
 
