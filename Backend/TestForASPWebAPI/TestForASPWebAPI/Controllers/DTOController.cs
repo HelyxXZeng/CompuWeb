@@ -562,7 +562,7 @@ namespace TestForASPWebAPI.Controllers
         }
 
         [HttpPost("SearchWithFilter/{keyword}/{start}-{count}")]
-        public async Task<IActionResult> SearchWithFilter([FromBody] List<Tuple<int, string>> filterOps, int start, int count, string keyword = "", int brandId = 0, int categoryId = 0)
+        public async Task<IActionResult> SearchWithFilter([FromBody] List<Tuple<int, string>> filterOps, int start, int count, string keyword = "", int brandId = 0, int categoryId = 0, int lowestPrice = 0, int highestPrice = 200000000)
         {
             List<ProductVariantDTO> productVariants = new List<ProductVariantDTO>();
 
@@ -621,14 +621,14 @@ namespace TestForASPWebAPI.Controllers
 
             List<Tuple<ProductVariantDTO, int>> SearchResults = productVariants
                 .Select(result => new Tuple<ProductVariantDTO, int>(result, keyword == "" ? 100 : Fuzz.PartialRatio(result.Name.ToLower(), keyword.ToLower())))
-                .Where(result => result.Item2 >= 40) // Adjust accuracy threshold here
+                .Where(result => result.Item2 >= 40 && result.Item1.Price >= lowestPrice && result.Item1.Price <= highestPrice) // Adjust accuracy threshold here
                 .OrderByDescending(result => result.Item2)
                 .Skip(start - 1).Take(count)
                 .ToList();
 
             int countResults = productVariants
                 .Select(result => new Tuple<ProductVariantDTO, int>(result, keyword == "" ? 100 : Fuzz.PartialRatio(result.Name.ToLower(), keyword.ToLower())))
-                .Where(result => result.Item2 >= 40) // Adjust accuracy threshold here
+                .Where(result => result.Item2 >= 40 && result.Item1.Price >= lowestPrice && result.Item1.Price <= highestPrice) // Adjust accuracy threshold here
                 .ToList().Count();
 
             Tuple<List<Tuple<ProductVariantDTO, int>>, int> result = new Tuple<List<Tuple<ProductVariantDTO, int>>, int>(SearchResults, countResults);
