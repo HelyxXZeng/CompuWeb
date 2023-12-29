@@ -598,27 +598,27 @@ export const singleUser = {
 };
 export const promotionExample = {
   id: 1,
-  Name: "Khuyến mãi laptop Asus TUF F15 SF560A nhân dịp tết đến",
-  StartDate: "11/15/2023",
-  EndDate: "1/15/2024",
-  ProductVariantPurchaseName: "Product 1",
-  ProductVariantPromotionName: "Product 2",
-  Value: "100.000",
-  Status: "ACTIVE",
-  Content: "ABCXYZ",
+  name: "Khuyến mãi laptop Asus TUF F15 SF560A nhân dịp tết đến",
+  startDate: "11/15/2023",
+  endDate: "1/15/2024",
+  productVariantPurchaseName: "Product 1",
+  productVariantPromotionName: "Product 2",
+  value: "100.000",
+  status: "ACTIVE",
+  content: "ABCXYZ",
   
 }
 
 export const promotionExamples = [{
   id: 1,
-  Name: "Khuyến mãi laptop Asus TUF F15 SF560A nhân dịp tết đến",
-  StartDate: "11/15/2023",
-  EndDate: "1/15/2024",
-  ProductVariantPurchaseName: "Product 1",
-  ProductVariantPromotionName: "Product 2",
-  Value: "100.000",
-  Status: "ACTIVE",
-  Content: "ABCXYZ",
+  name: "Khuyến mãi laptop Asus TUF F15 SF560A nhân dịp tết đến",
+  startDate: "11/15/2023",
+  endDate: "1/15/2024",
+  productVariantPurchaseName: "Product 1",
+  productVariantPromotionName: "Product 2",
+  value: "100.000",
+  status: "ACTIVE",
+  content: "ABCXYZ",
 }]
 export const singleProduct = {
   id: 1,

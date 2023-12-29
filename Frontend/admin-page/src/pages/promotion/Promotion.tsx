@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import { Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import UpdatePromotion from "../../components/updatePromotion/UpdatePromotion";
 import { TextareaAutosize } from "@mui/material";
-import theme from "../../styles/theme";
 
 interface Props {
   promotion: PromotionDef;
@@ -89,9 +88,9 @@ const Promotion = () => {
   const [open,setOpen] = useState(false);
   const [data,setData] = useState([]);
   useEffect (() => {
-    const fetchDataAndSetState = async () => {
+    const fetchData = async () => {
       try {
-        //const result = await fetchData();
+        //const result = await ;
         //setData(result);
       } catch (error) {
         // Xử lý lỗi nếu cần thiết
@@ -107,13 +106,12 @@ const Promotion = () => {
       <div className="view">
         <div className="info">
           <div className="topInfo">
-            <h1>{props.Name}</h1>
+            <h1>{props.name}</h1>
             <button onClick={() => setOpen(true)}>Update</button>
           </div>
           <div className="details">
             {Object.entries(props).map((item) => (
-              <div className={` ${(  item[0] === "Id"
-               || item[0] === "StartDate" || item[0] === "EndDate") ? "item2row" : "item"}`} key={item[0]}>
+              <div className={` ${(item[0] === "startDate" || item[0] === "endDate") ? "item2row" : "item"}`} key={item[0]}>
                 <span className="itemTitle">{item[0]}:</span>
                 {item[0] === "Content" && (
                   <TextareaAutosize  

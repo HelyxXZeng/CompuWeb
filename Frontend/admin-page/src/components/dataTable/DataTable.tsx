@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { useState } from "react";
 import  staffApi from "../../api/staffsAPI";
+import promotionAPI from "../../api/promotionAPI";
 
 type Props = {
   columns: GridColDef[];
   rows: object[];
   slug: string;
-  fetchData: () => Promise<void>;
   defaultSortField?: string; // New prop for default sorting field
   defaultSortOrder?: "asc" | "desc"; // New prop for default sorting order
 };
@@ -49,15 +49,34 @@ const DataTable = (props: Props) => {
         } else {
           try {
             await staffApi.remove(id);
-            props.fetchData();
             console.log(id + " has been deleted!");
           } catch (deleteError) {
-            alert("An error occurred while deleting the staff: " + deleteError.message);
+            alert("An error occurred while deleting the staff: " + deleteError);
             throw deleteError;
           }
         }
       } catch (error) {
-        alert("An error occurred while fetching staff data: " + error.message);
+        alert("An error occurred while fetching staff data: " + error);
+        console.error('Error:', error);
+      }
+    } else if (props.slug === "promotions") {
+      try {
+        const resdata = await promotionAPI.getID(id);
+        const data = resdata.data;
+  
+        if (data.other === "CANCELED") {
+          alert("Cannot delete this promotion because it is already set as CANCELED");
+        } else {
+          try {
+            await promotionAPI.remove(id);
+            console.log(id + " has been deleted!");
+          } catch (deleteError) {
+            alert("An error occurred while deleting promotion: " + deleteError);
+            throw deleteError;
+          }
+        }
+      } catch (error) {
+        alert("An error occurred while fetching staff data: " + error);
         console.error('Error:', error);
       }
     }
