@@ -193,7 +193,7 @@ function ProductDetail() {
                     <div className={cx('detail-top')}>
                         <p className={cx('price')}>
                             <span className={cx('price-new')}>{formattedPrice}đ </span>
-                            <span className={cx('price-old')}>19.500.000đ </span>
+                            {/* <span className={cx('price-old')}>19.500.000đ </span> */}
                         </p>
                         <div className={cx('variant-action')}>
                             <h2>Chọn cấu hình:</h2>
@@ -216,7 +216,7 @@ function ProductDetail() {
                                             </div>
                                             <div className={cx('price-variant')}>
                                                 <span className={cx('price-top')}>{formattedPrice}</span>
-                                                <span className={cx('price-bottom')}>57.000.000đ</span>
+                                                {/* <span className={cx('price-bottom')}>57.000.000đ</span> */}
                                             </div>
                                         </a>
                                     );
@@ -580,10 +580,10 @@ function ProductDetail() {
                                 <span className={cx('text-count')}>10</span>
                             </div>
                         </div>
-                        <div className={cx('rate-action')}>
+                        {/* <div className={cx('rate-action')}>
                             <p>Bạn đã dùng sản phẩm này?</p>
                             <a href="/#">GỬI ĐÁNH GIÁ</a>
-                        </div>
+                        </div> */}
                     </div>
                     <div className={cx('reviews-content')}>
                         <div className={cx('filter-star')}>

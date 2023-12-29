@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from './ProductItem.module.scss';
 
@@ -13,7 +13,41 @@ function ProducItem({ item }) {
 
     const handleLoveClick = () => {
         setLoveActive(!isLoveActive);
+
+        const itemId = item.id;
+
+        // Retrieve the existing likedItems from local storage
+        const likedItemsString = localStorage.getItem('likeProductList');
+        const likedItems = likedItemsString ? JSON.parse(likedItemsString) : [];
+
+        // Check if the item ID already exists in the liked items
+        const indexOfItem = likedItems.indexOf(itemId);
+
+        if (indexOfItem !== -1) {
+            // If the item ID exists, remove it from the array
+            likedItems.splice(indexOfItem, 1);
+        } else {
+            // If the item ID doesn't exist, add it to the array
+            likedItems.push(itemId);
+        }
+
+        // Store the updated array in local storage
+        localStorage.setItem('likeProductList', JSON.stringify(likedItems));
     };
+
+    // Example of using useEffect to initialize isLoveActive based on local storage
+    useEffect(() => {
+        const likedItemsString = localStorage.getItem('likeProductList');
+        const likedItems = likedItemsString ? JSON.parse(likedItemsString) : [];
+
+        // Check if the current item ID exists in the liked items
+        const itemId = item.id;
+        const isLiked = likedItems.includes(itemId);
+
+        console.log('isLiked', isLiked);
+
+        setLoveActive(isLiked);
+    }, []); // Empty dependency array ensures that this effect runs only once, similar to componentDidMount
 
     const formattedPrice = new Intl.NumberFormat('en-US').format(item.price).replace(/,/g, '.');
 
@@ -41,12 +75,12 @@ function ProducItem({ item }) {
                 </a>
                 <p className={cx('price')}>
                     {formattedPrice}
-                    <span className={cx('price-old')}>42.500.000</span>
+                    {/* <span className={cx('price-old')}>42.500.000</span> */}
                 </p>
                 <div className={cx('love-same')}>
                     <p className={cx('p-version')}>{item.numberInStock} sản phẩm</p>
                     <p className={cx('p-love')}>
-                        <a href="/#" onClick={handleLoveClick}>
+                        <a href="#" onClick={handleLoveClick}>
                             <svg
                                 className={cx('svg-love', { hidden: isLoveActive })}
                                 xmlns="http://www.w3.org/2000/svg"
@@ -83,10 +117,11 @@ function ProducItem({ item }) {
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                             <path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96zM252 160c0 11 9 20 20 20h44v44c0 11 9 20 20 20s20-9 20-20V180h44c11 0 20-9 20-20s-9-20-20-20H356V96c0-11-9-20-20-20s-20 9-20 20v44H272c-11 0-20 9-20 20z"></path>
                         </svg>
+                        <span>Thêm vào giỏ hàng</span>
                     </a>
-                    <a href="/#" className={cx('a-compare')} data-id="976" data-name=" laptop" data-add="0">
+                    {/* <a href="/#" className={cx('a-compare')} data-id="976" data-name=" laptop" data-add="0">
                         <span>So sánh</span>
-                    </a>
+                    </a> */}
                 </div>
             </div>
         </div>
