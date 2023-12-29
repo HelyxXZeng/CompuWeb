@@ -562,7 +562,7 @@ namespace TestForASPWebAPI.Controllers
         }
 
         [HttpPost("SearchWithFilter/{keyword}/{start}-{count}")]
-        public async Task<IActionResult> SearchWithFilter([FromBody] List<Tuple<int, string>> filterOps, int start, int count, string keyword = "")
+        public async Task<IActionResult> SearchWithFilter([FromBody] List<Tuple<int, string>> filterOps, int start, int count, string keyword = "", int brandId = 0, int categoryId = 0)
         {
             List<ProductVariantDTO> productVariants = new List<ProductVariantDTO>();
 
@@ -571,6 +571,8 @@ namespace TestForASPWebAPI.Controllers
                 FROM ProductVariant pv
                 INNER JOIN ProductSpecification ps ON pv.Id = ps.ProductVariantId
                 INNER JOIN Specification s ON ps.SpecificationId = s.Id
+                INNER JOIN ProductLine pl ON pl.Id = pv.ProductLineId
+                INNER JOIN Brand b ON b.Id = pl.BrandId
                 WHERE ";
 
             // List to store individual conditions
@@ -583,12 +585,24 @@ namespace TestForASPWebAPI.Controllers
             }
 
             // Combine conditions using OR
-            string combinedConditions = string.Join("\n\tOR\n\t", conditions);
+            string combinedConditions = "(" + string.Join("\n\tOR\n\t", conditions) + ")";
+            string brandCondition = (brandId == 0) ? "" : $"b.Id = {brandId}";
+            string categoryCondition = (categoryId == 0) ? "" : $"pl.CategoryId = {categoryId}";
+
+            List<string> Cons = new List<string>() { combinedConditions, brandCondition, categoryCondition };
+            List<string> newCons = new List<string>();
+            foreach (var condition in Cons)
+            {
+                if (condition != "" && condition != "()") newCons.Add(condition);
+            }
+
+            string finalConditions = string.Join("\n\tAND ", newCons);
 
             // Complete SQL query
-            string finalQuery = $"{baseQuery}({combinedConditions})\nGROUP BY pv.Id\nHAVING COUNT(DISTINCT s.SpecificationTypeId) = {filterOps.Count};";
+            string finalQuery = $"{baseQuery}{finalConditions}\nGROUP BY pv.Id\nHAVING COUNT(DISTINCT s.SpecificationTypeId) = {filterOps.Count};";
 
-            //if (filterOps.Count == 0) { finalQuery = @"select Id from ProductVariant"; }
+            if (filterOps.Count == 0 && brandId == 0 && categoryId == 0) { finalQuery = @"select Id from ProductVariant"; }
+            else if (filterOps.Count == 0) finalQuery = $"{baseQuery}{finalConditions}\nGROUP BY pv.Id";
 
             using (DataTable data = await DBController.GetInstance().GetData(finalQuery))
             {
@@ -613,7 +627,7 @@ namespace TestForASPWebAPI.Controllers
                 .ToList();
 
             int countResults = productVariants
-                .Select(result => new Tuple<ProductVariantDTO, int>(result, Fuzz.PartialRatio(result.Name.ToLower(), keyword.ToLower())))
+                .Select(result => new Tuple<ProductVariantDTO, int>(result, keyword == "" ? 100 : Fuzz.PartialRatio(result.Name.ToLower(), keyword.ToLower())))
                 .Where(result => result.Item2 >= 40) // Adjust accuracy threshold here
                 .ToList().Count();
 
@@ -937,6 +951,32 @@ namespace TestForASPWebAPI.Controllers
                 }
             }
             return Ok(Order);
+        }
+
+        [HttpGet("GetOrdersByPhoneNumber")]
+        public async Task<IActionResult> GetOrdersByPhoneNumber(string phoneNumber)
+        {
+            List<CustomerOrders> orders = new List<CustomerOrders>();
+            string GetOrders = $"SELECT\r\n    o.Id,\r\n    c.Name,\r\n    o.Date,\r\n    o.Status,\r\n    o.Total,\r\n    COUNT(oi.Id) as ItemCount,\r\n    (\r\n        SELECT TOP 1 pv.Name\r\n        FROM OrderItem oi_inner\r\n        JOIN ProductInstance pi ON oi_inner.ProductInstanceId = pi.Id\r\n        JOIN ProductVariant pv ON pv.Id = pi.ProductVariantId\r\n        WHERE oi_inner.OrderId = o.Id\r\n        ORDER BY oi_inner.Id -- Assuming there's an ID or another field indicating the order of items\r\n    ) AS VariantName,\r\n    (\r\n        SELECT TOP 1 images.Url\r\n        FROM OrderItem oi_inner\r\n        JOIN ProductInstance pi ON oi_inner.ProductInstanceId = pi.Id\r\n        JOIN ProductVariant pv ON pv.Id = pi.ProductVariantId\r\n        JOIN ProductLine pl ON pl.Id = pv.ProductLineId\r\n        JOIN ProductImage images ON images.ProductLineId = pl.Id\r\n        WHERE oi_inner.OrderId = o.Id\r\n        ORDER BY oi_inner.Id -- Assuming there's an ID or another field indicating the order of items\r\n    ) AS Image\r\nFROM Orders o\r\nJOIN Customer c ON o.CustomerId = c.Id\r\nJOIN OrderItem oi ON oi.OrderId = o.Id\r\nWHERE c.PhoneNumber = '{phoneNumber}'\r\nGROUP BY o.Id, o.CustomerId, o.Date, o.Status, o.Total, c.Name;";
+            using (DataTable data = await DBController.GetInstance().GetData(GetOrders))
+            {
+                foreach (DataRow row in data.Rows)
+                {
+                    var order = new CustomerOrders()
+                    {
+                        Id = (int)row["Id"],
+                        Name = (string)row["Name"],
+                        Date = (DateTime)row["Date"],
+                        Status = (string)row["Status"],
+                        Total = (decimal)row["Total"],
+                        ItemCount = (int)row["ItemCount"],
+                        VariantName = (string)row["VariantName"],
+                        Image = (string)row["Image"],
+                    };
+                    orders.Add(order);
+                }
+            }
+            return Ok(orders);
         }
 
         [HttpGet("GetCurrentPrice/{PVId}")]
