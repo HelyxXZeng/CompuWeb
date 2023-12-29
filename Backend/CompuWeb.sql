@@ -341,6 +341,7 @@ WHERE
         (s.SpecificationTypeId = 3 AND s.Value LIKE '%i5%')
     )
     AND b.Id = 1
+	AND pl.CategoryId = 1
 GROUP BY pv.Id
 HAVING COUNT(DISTINCT s.SpecificationTypeId) = 3;
 

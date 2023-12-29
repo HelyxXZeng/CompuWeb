@@ -562,7 +562,7 @@ namespace TestForASPWebAPI.Controllers
         }
 
         [HttpPost("SearchWithFilter/{keyword}/{start}-{count}")]
-        public async Task<IActionResult> SearchWithFilter([FromBody] List<Tuple<int, string>> filterOps, int start, int count, string keyword = "", int brandId = 0)
+        public async Task<IActionResult> SearchWithFilter([FromBody] List<Tuple<int, string>> filterOps, int start, int count, string keyword = "", int brandId = 0, int categoryId = 0)
         {
             List<ProductVariantDTO> productVariants = new List<ProductVariantDTO>();
 
@@ -585,17 +585,24 @@ namespace TestForASPWebAPI.Controllers
             }
 
             // Combine conditions using OR
-            string combinedConditions = string.Join("\n\tOR\n\t", conditions);
-
+            string combinedConditions = "(" + string.Join("\n\tOR\n\t", conditions) + ")";
             string brandCondition = (brandId == 0) ? "" : $"b.Id = {brandId}";
+            string categoryCondition = (categoryId == 0) ? "" : $"pl.CategoryId = {categoryId}";
 
-            string finalQuery;
+            List<string> Cons = new List<string>() { combinedConditions, brandCondition, categoryCondition };
+            List<string> newCons = new List<string>();
+            foreach (var condition in Cons)
+            {
+                if (condition != "" && condition != "()") newCons.Add(condition);
+            }
+
+            string finalConditions = string.Join("\n\tAND ", newCons);
 
             // Complete SQL query
-            if (filterOps.Count > 0 && brandId > 0) finalQuery = $"{baseQuery}({combinedConditions})\n\tAND {brandCondition}\nGROUP BY pv.Id\nHAVING COUNT(DISTINCT s.SpecificationTypeId) = {filterOps.Count};";
-            else if (filterOps.Count > 0 && brandId == 0) finalQuery = $"{baseQuery}({combinedConditions})\nGROUP BY pv.Id\nHAVING COUNT(DISTINCT s.SpecificationTypeId) = {filterOps.Count};";
-            else if (filterOps.Count == 0 && brandId == 0) { finalQuery = @"select Id from ProductVariant"; }
-            else finalQuery = $"{baseQuery}{brandCondition}\nGROUP BY pv.Id";
+            string finalQuery = $"{baseQuery}{finalConditions}\nGROUP BY pv.Id\nHAVING COUNT(DISTINCT s.SpecificationTypeId) = {filterOps.Count};";
+
+            if (filterOps.Count == 0 && brandId == 0 && categoryId == 0) { finalQuery = @"select Id from ProductVariant"; }
+            else if (filterOps.Count == 0) finalQuery = $"{baseQuery}{finalConditions}\nGROUP BY pv.Id";
 
             using (DataTable data = await DBController.GetInstance().GetData(finalQuery))
             {
