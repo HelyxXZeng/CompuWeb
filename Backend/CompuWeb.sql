@@ -330,12 +330,17 @@ SELECT pv.Id
 FROM ProductVariant pv
 INNER JOIN ProductSpecification ps ON pv.Id = ps.ProductVariantId
 INNER JOIN Specification s ON ps.SpecificationId = s.Id
+INNER JOIN ProductLine pl ON pl.Id = pv.ProductLineId
+INNER JOIN Brand b ON b.Id = pl.BrandId
 WHERE 
-    (s.SpecificationTypeId = 1 AND s.Value like '%16GB%')
-    OR
-    (s.SpecificationTypeId = 2 AND s.Value like '%512GB%')
-	OR
-	(s.SpecificationTypeId = 3 AND s.Value like '%i5%')
+    (
+        (s.SpecificationTypeId = 1 AND s.Value LIKE '%16GB%')
+        OR
+        (s.SpecificationTypeId = 2 AND s.Value LIKE '%512GB%')
+        OR
+        (s.SpecificationTypeId = 3 AND s.Value LIKE '%i5%')
+    )
+    AND b.Id = 1
 GROUP BY pv.Id
 HAVING COUNT(DISTINCT s.SpecificationTypeId) = 3;
 
