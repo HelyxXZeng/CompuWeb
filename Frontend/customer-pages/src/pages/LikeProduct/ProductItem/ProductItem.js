@@ -13,7 +13,7 @@ function ProductItem({ item }) {
     const handleLoveClick = () => {
         setLoveActive(!isLoveActive);
 
-        const itemId = item.id;
+        const itemId = item?.id;
 
         // Retrieve the existing likedItems from local storage
         const likedItemsString = localStorage.getItem('likeProductList');
@@ -48,7 +48,7 @@ function ProductItem({ item }) {
         setLoveActive(isLiked);
     }, []); // Empty dependency array ensures that this effect runs only once, similar to componentDidMount
 
-    const formattedPrice = new Intl.NumberFormat('en-US').format(item.price).replace(/,/g, '.');
+    const formattedPrice = new Intl.NumberFormat('en-US').format(item?.price).replace(/,/g, '.');
 
     return (
         <div className={cx('wrapper')}>
@@ -57,11 +57,11 @@ function ProductItem({ item }) {
                 <p className={cx('discount-p')}>
                     -21<span>%</span>
                 </p>
-                <a href={`${config.routes.productDetail}/${item.id}`} className={cx('a-img')}>
+                <a href={`${config.routes.productDetail}/${item?.id}`} className={cx('a-img')}>
                     <img
                         src={
-                            item.images[0]
-                                ? item.images[0].image
+                            item?.images[0]
+                                ? item?.images[0].image
                                 : 'https://trungtran.vn/images/products/2023/resized/lenovo_legion_5_pro_2023_y9000p_12-copy-copy.webp'
                         }
                         alt="front view of laptop"
@@ -70,14 +70,14 @@ function ProductItem({ item }) {
                 <p className={cx('status-text')}></p>
 
                 <a href="/#" className={cx('a-title')}>
-                    {item.name}
+                    {item?.name}
                 </a>
                 <p className={cx('price')}>
                     {formattedPrice}
                     {/* <span className={cx('price-old')}>42.500.000</span> */}
                 </p>
                 <div className={cx('love-same')}>
-                    <p className={cx('p-version')}>{item.numberInStock} sản phẩm</p>
+                    <p className={cx('p-version')}>{item?.numberInStock || 30} sản phẩm</p>
                     <p className={cx('p-love')}>
                         <a href="/#" onClick={handleLoveClick}>
                             <svg
@@ -101,21 +101,21 @@ function ProductItem({ item }) {
 
                 <div className={cx('specification')}>
                     <p>
-                        {/* CPU: AMD Ryzen 7 7745HX
+                        CPU: AMD Ryzen 7 7745HX
                         <br />
                         RAM: 16GB DDR5 5200MHz
                         <br />
                         Màn hình: 16.0 inch WQXGA (2560x1600) IPS, 240Hz
                         <br />
-                        Đồ họa: NVIDIA®GeForce® RTX™ 4060 8GB VRAM */}
-                        {item.specifications.slice(0, 4).map((spec, index) => {
+                        Đồ họa: NVIDIA®GeForce® RTX™ 4060 8GB VRAM
+                        {/* {item?.specifications.slice(0, 4).map((spec, index) => {
                             return (
                                 <React.Fragment key={index}>
                                     {spec.item3.name}: {spec.item2.value}
                                     <br />
                                 </React.Fragment>
                             );
-                        })}
+                        })} */}
                     </p>
                 </div>
                 <div className={cx('btn-product')}>
