@@ -81,3 +81,17 @@ export const getCartItemById = async (PVid) => {
         console.log(error);
     }
 };
+
+export const getRatingList = async (PVid) => {
+    try {
+        const res = await request.get('DTOController/GetRatingList', {
+            params: {
+                PVid,
+            },
+        });
+
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};

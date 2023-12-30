@@ -1,0 +1,113 @@
+.wrapper {
+    .inner {
+        position: relative;
+
+        .btn-click {
+            cursor: pointer;
+            position: relative;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px 10px;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            .value-selected {
+                input {
+                    cursor: pointer;
+                    font-family: medium;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    color: #444;
+                    font-size: 13px;
+                }
+            }
+
+            .icon-down {
+                position: absolute;
+                right: 3px;
+                font-size: 2rem;
+                color: #555;
+                &.rotate {
+                    transform: rotate(180deg);
+                    -webkit-transform: rotate(180deg);
+                }
+            }
+        }
+
+        .select-menu {
+            z-index: 2;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            &.active-menu {
+                display: block;
+            }
+            display: none;
+            position: absolute;
+            top: 38px;
+            left: 0;
+            right: 0;
+            border: 1px solid #d1d1d1;
+            border-radius: 0 0 4px 4px;
+            z-index: 1;
+            background: #fff;
+            // width: max-content;
+            .box-search {
+                position: relative;
+                display: block;
+                margin: 10px 0;
+
+                input {
+                    cursor: pointer;
+                    border: 1px solid #d1d1d1;
+                    padding: 10px;
+                    border-radius: 4px;
+                    width: 100%;
+                    font-size: 14px;
+                    color: #333;
+                }
+                a {
+                    position: absolute;
+                    right: 0;
+                    top: -1px;
+                    padding: 10px;
+                    .icon-search {
+                        font-size: 2rem;
+                        color: #333;
+                    }
+                }
+            }
+            .list-name {
+                position: relative;
+                // overflow-y: scroll;
+                max-height: 190px;
+                display: block;
+                aside {
+                    overflow: hidden;
+                    min-width: 140px;
+                    // width: fit-content;
+                    // float: left;
+                    span {
+                        display: block;
+                        overflow: hidden;
+                        padding: 6px;
+                        color: #288ad6;
+
+                        // max-width: 150px;
+                        font-size: 13px;
+
+                        &:hover {
+                            background: #5897fb;
+                            color: #fff;
+                        }
+
+                        &.active {
+                            background: #288ad6;
+                            color: #fff;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

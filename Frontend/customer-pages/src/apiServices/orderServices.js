@@ -29,3 +29,27 @@ export const checkCustomerTel = async (telephoneNumber) => {
         console.log(error);
     }
 };
+
+export const getOrdersByPhoneNumber = async (phoneNumber) => {
+    try {
+        const res = await request.get('DTOController/GetOrdersByPhoneNumber', {
+            params: {
+                phoneNumber,
+            },
+        });
+
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const postRating = async (data) => {
+    try {
+        const res = await request.post('ratings/Insert', data);
+        console.log('res', res);
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};

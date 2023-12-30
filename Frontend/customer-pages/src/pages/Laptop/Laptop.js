@@ -13,6 +13,9 @@ import { ThemeProvider } from '@mui/material/styles';
 import LinearProgress from '@mui/material/LinearProgress';
 
 import * as productServices from '~/apiServices/productServices';
+import * as searchServices from '~/apiServices/searchServices';
+
+import CustomeSelect from './CustomSelect';
 
 const cx = classNames.bind(styles);
 
@@ -281,6 +284,8 @@ function Laptop() {
     const [currentLaptopList, setCurrentLaptopList] = useState([]);
     const [loading, setLoading] = useState(true); // Add loading state
 
+    const [valuePriceSort, setValuePriceSort] = useState({});
+
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 24;
     const [laptopQuantity, setLaptopQuantity] = useState(0);
@@ -292,7 +297,7 @@ function Laptop() {
                 const result = await productServices.getLaptopTable(start, itemsPerPage);
 
                 if (result && result.item1) {
-                    console.log('setCurrentLaptopList', result.item1);
+                    // console.log('setCurrentLaptopList', result.item1);
                     setCurrentLaptopList(result.item1);
                     setLaptopQuantity(result.item2);
                 } else {
@@ -309,6 +314,52 @@ function Laptop() {
         setLoading(true);
         fetchLaptopList();
     }, [currentPage]);
+
+    useEffect(() => {
+        const sortLaptops = () => {
+            // Create a sorted copy of the currentLaptopList based on the valuePriceSort parameter
+            const sortedLaptops = [...currentLaptopList]?.sort((a, b) => {
+                if (valuePriceSort?.id === 1) {
+                    return a.price - b.price; // Sort from low to high price
+                } else if (valuePriceSort?.id === 2) {
+                    return b.price - a.price; // Sort from high to low price
+                } else {
+                    return 0; // No sorting
+                }
+            });
+
+            // Update the state with the sorted array
+            if (sortedLaptops) {
+                setCurrentLaptopList(sortedLaptops);
+            }
+        };
+
+        sortLaptops();
+    }, [valuePriceSort]);
+
+    const filterLaptopList = async () => {
+        try {
+            const start = (currentPage - 1) * itemsPerPage + 1;
+            const result = await searchServices.filter(undefined, start, itemsPerPage, undefined, 2);
+
+            if (result && result.item1) {
+                console.log('filter', result.item1);
+                // setCurrentLaptopList(result.item1);
+                // setLaptopQuantity(result.item2);
+            } else {
+                console.error('Invalid response format:', result);
+            }
+        } catch (error) {
+            console.error('Error fetching laptop list:', error);
+        } finally {
+            // Set loading to false after fetching data
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        filterLaptopList();
+    }, []);
 
     // useEffect(() => {
     //     const fetchData = async () => {
@@ -335,6 +386,7 @@ function Laptop() {
     const handlePageChange = (pageNumber) => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         setCurrentPage(pageNumber);
+        setValuePriceSort('');
     };
 
     return (
@@ -343,6 +395,10 @@ function Laptop() {
 
             <div className={cx('title')}>
                 <h1>Máy tính xách tay</h1>
+
+                <div className={cx('sorting')}>
+                    <CustomeSelect selectedValue={valuePriceSort} setSelectedValue={setValuePriceSort} />
+                </div>
             </div>
 
             <div className={cx('filter')}></div>
@@ -370,13 +426,12 @@ function Laptop() {
                     <div className={cx('box')}>
                         {loading ? (
                             // Display loading spinner when data is still being fetched
-                            // <CircularProgress className={cx('loading-spinner')} />
                             <LinearProgress className={cx('loading-spinner')} />
                         ) : (
                             <div className={cx('row-list')}>
-                                {currentLaptopList.map((product, index) => (
-                                    <ProducItem key={index} item={product} />
-                                ))}
+                                {currentLaptopList?.map((product, index) => {
+                                    return <ProducItem key={index} item={product} />;
+                                })}
                             </div>
                         )}
                     </div>

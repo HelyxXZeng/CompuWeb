@@ -14,6 +14,8 @@ import { useParams } from 'react-router-dom';
 import * as productServices from '~/apiServices/productServices';
 
 import { useShoppingCart } from '~/context/ShoppingCartContext';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import PersonIcon from '@mui/icons-material/Person';
 
 import config from '~/config';
 
@@ -72,6 +74,7 @@ const cx = classNames.bind(styles);
 function ProductDetail() {
     const { id } = useParams();
     const [productDetail, setProductDetail] = useState({});
+    const [ratingList, setRatingList] = useState([]);
     useEffect(() => {
         const fetchProductDetail = async () => {
             try {
@@ -82,7 +85,18 @@ function ProductDetail() {
             }
         };
 
+        const fetchRatingList = async () => {
+            try {
+                const result = await productServices.getRatingList(id);
+                console.log('ratinglist', result);
+                setRatingList(result);
+            } catch (error) {
+                console.error('Error fetching product details:', error);
+            }
+        };
+
         fetchProductDetail();
+        fetchRatingList();
     }, [id]);
 
     const formattedPrice = new Intl.NumberFormat('en-US').format(productDetail?.price).replace(/,/g, '.');
@@ -611,9 +625,54 @@ function ProductDetail() {
                             </div>
                         </div>
                         <div className={cx('content-list')}>
-                            <div className={cx('content-user')}>
+                            {ratingList?.map((ratingItem, index) => {
+                                const timestamp = ratingItem?.date;
+                                const dateObject = new Date(timestamp);
+
+                                const day = dateObject.getDate();
+                                const month = dateObject.getMonth() + 1; // Months are zero-based
+                                const year = dateObject.getFullYear();
+
+                                const formattedDateTime = `${day}/${month}/${year}`;
+
+                                const maskName = (name) => {
+                                    if (!name) return null;
+                                    const firstChar = name.charAt(0);
+                                    const maskedPart = '*'.repeat(name.length - 1);
+                                    return firstChar + maskedPart;
+                                };
+
+                                const maskedName = maskName(ratingItem?.name);
+
+                                return (
+                                    <div key={index} className={cx('content-user')}>
+                                        <div className={cx('avartar')}>
+                                            <PersonIcon className={cx('user-icon')} />
+                                        </div>
+
+                                        <div className={cx('infor-user')}>
+                                            <div className={cx('name-user')}>
+                                                <p> {maskedName}</p>
+                                            </div>
+                                            <div className={cx('rate-user')}>
+                                                <ThemeProvider theme={customTheme}>
+                                                    <Rating name="read-only" value={ratingItem?.rate} readOnly />
+                                                </ThemeProvider>
+                                            </div>
+                                            <div className={cx('comment-user')}>
+                                                <p>{ratingItem?.comment}</p>
+                                            </div>
+                                            <div className={cx('time-user')}>
+                                                <div className={cx('time-text')}>{formattedDateTime}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+
+                            {/* <div className={cx('content-user')}>
                                 <div className={cx('avartar')}>
-                                    <span>VDP</span>
+                                    <AccountCircleIcon />
                                 </div>
 
                                 <div className={cx('infor-user')}>
@@ -632,32 +691,9 @@ function ProductDetail() {
                                         <div className={cx('time-text')}>9 ngày trước</div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
 
-                            <div className={cx('content-user')}>
-                                <div className={cx('avartar')}>
-                                    <span>VDP</span>
-                                </div>
-
-                                <div className={cx('infor-user')}>
-                                    <div className={cx('name-user')}>
-                                        <p> Vũ Đại Phong</p>
-                                    </div>
-                                    <div className={cx('rate-user')}>
-                                        <ThemeProvider theme={customTheme}>
-                                            <Rating name="read-only" value={value} readOnly />
-                                        </ThemeProvider>
-                                    </div>
-                                    <div className={cx('comment-user')}>
-                                        <p>máy có dung lượng RAM lớn 16GB, SSD tốc độ cao, xử lý hình ảnh 3D khá tốt</p>
-                                    </div>
-                                    <div className={cx('time-user')}>
-                                        <div className={cx('time-text')}>9 ngày trước</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className={cx('content-user')}>
+                            {/* <div className={cx('content-user')}>
                                 <div className={cx('avartar')}>
                                     <span>VP</span>
                                 </div>
@@ -731,7 +767,7 @@ function ProductDetail() {
                                         <div className={cx('time-text')}>9 ngày trước</div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                         <div className={cx('content-pagination')}></div>
                     </div>
