@@ -562,7 +562,7 @@ namespace TestForASPWebAPI.Controllers
         }
 
         [HttpPost("SearchWithFilter/{keyword}/{start}-{count}")]
-        public async Task<IActionResult> SearchWithFilter([FromBody] List<Tuple<int, string>> filterOps, int start, int count, string keyword = "", int brandId = 0, int categoryId = 0)
+        public async Task<IActionResult> SearchWithFilter([FromBody] List<Tuple<int, string>> filterOps, int start, int count, string keyword = "", int brandId = 0, int categoryId = 0, int lowestPrice = 0, int highestPrice = 200000000)
         {
             List<ProductVariantDTO> productVariants = new List<ProductVariantDTO>();
 
@@ -621,14 +621,14 @@ namespace TestForASPWebAPI.Controllers
 
             List<Tuple<ProductVariantDTO, int>> SearchResults = productVariants
                 .Select(result => new Tuple<ProductVariantDTO, int>(result, keyword == "" ? 100 : Fuzz.PartialRatio(result.Name.ToLower(), keyword.ToLower())))
-                .Where(result => result.Item2 >= 40) // Adjust accuracy threshold here
+                .Where(result => result.Item2 >= 40 && result.Item1.Price >= lowestPrice && result.Item1.Price <= highestPrice) // Adjust accuracy threshold here
                 .OrderByDescending(result => result.Item2)
                 .Skip(start - 1).Take(count)
                 .ToList();
 
             int countResults = productVariants
                 .Select(result => new Tuple<ProductVariantDTO, int>(result, keyword == "" ? 100 : Fuzz.PartialRatio(result.Name.ToLower(), keyword.ToLower())))
-                .Where(result => result.Item2 >= 40) // Adjust accuracy threshold here
+                .Where(result => result.Item2 >= 40 && result.Item1.Price >= lowestPrice && result.Item1.Price <= highestPrice) // Adjust accuracy threshold here
                 .ToList().Count();
 
             Tuple<List<Tuple<ProductVariantDTO, int>>, int> result = new Tuple<List<Tuple<ProductVariantDTO, int>>, int>(SearchResults, countResults);
@@ -957,7 +957,7 @@ namespace TestForASPWebAPI.Controllers
         public async Task<IActionResult> GetOrdersByPhoneNumber(string phoneNumber)
         {
             List<CustomerOrders> orders = new List<CustomerOrders>();
-            string GetOrders = $"SELECT\r\n    o.Id,\r\n    c.Name,\r\n    o.Date,\r\n    o.Status,\r\n    o.Total,\r\n    COUNT(oi.Id) as ItemCount,\r\n    (\r\n        SELECT TOP 1 pv.Name\r\n        FROM OrderItem oi_inner\r\n        JOIN ProductInstance pi ON oi_inner.ProductInstanceId = pi.Id\r\n        JOIN ProductVariant pv ON pv.Id = pi.ProductVariantId\r\n        WHERE oi_inner.OrderId = o.Id\r\n        ORDER BY oi_inner.Id -- Assuming there's an ID or another field indicating the order of items\r\n    ) AS VariantName,\r\n    (\r\n        SELECT TOP 1 images.Url\r\n        FROM OrderItem oi_inner\r\n        JOIN ProductInstance pi ON oi_inner.ProductInstanceId = pi.Id\r\n        JOIN ProductVariant pv ON pv.Id = pi.ProductVariantId\r\n        JOIN ProductLine pl ON pl.Id = pv.ProductLineId\r\n        JOIN ProductImage images ON images.ProductLineId = pl.Id\r\n        WHERE oi_inner.OrderId = o.Id\r\n        ORDER BY oi_inner.Id -- Assuming there's an ID or another field indicating the order of items\r\n    ) AS Image\r\nFROM Orders o\r\nJOIN Customer c ON o.CustomerId = c.Id\r\nJOIN OrderItem oi ON oi.OrderId = o.Id\r\nWHERE c.PhoneNumber = '{phoneNumber}'\r\nGROUP BY o.Id, o.CustomerId, o.Date, o.Status, o.Total, c.Name;";
+            string GetOrders = $"SELECT\r\n    o.Id AS 'Id',\r\n    c.Name AS 'Name',\r\n    o.Date AS 'Date',\r\n    o.Status AS 'Status',\r\n    o.Total AS 'Total',\r\n    COUNT(oi.Id) as 'ItemCount',\r\n    PV.Name AS 'VariantName',\r\n    PI.Url AS 'Image'\r\nFROM Orders o\r\nJOIN Customer c ON o.CustomerId = c.Id\r\nLEFT JOIN OrderItem oi ON oi.OrderId = o.Id\r\nLEFT JOIN \r\n    (\r\n        SELECT \r\n            oi.OrderId,\r\n            MIN(pv.Name) AS Name\r\n        FROM \r\n            OrderItem oi\r\n        JOIN \r\n            ProductInstance pi ON oi.ProductInstanceId = pi.Id\r\n        JOIN \r\n            ProductVariant pv ON pi.ProductVariantId = pv.Id\r\n        GROUP BY \r\n            oi.OrderId\r\n    ) PV ON o.Id = PV.OrderId\r\nLEFT JOIN \r\n    (\r\n        SELECT \r\n            oi.OrderId,\r\n            MIN(pim.Url) AS Url\r\n        FROM \r\n            OrderItem oi\r\n        JOIN \r\n            ProductInstance pi ON oi.ProductInstanceId = pi.Id\r\n        JOIN \r\n            ProductVariant pv ON pi.ProductVariantId = pv.Id\r\n        JOIN \r\n            ProductImage pim ON pv.Id = pim.ProductLineId\r\n        GROUP BY \r\n            oi.OrderId\r\n    ) PI ON o.Id = PI.OrderId\r\nWHERE \r\n    c.PhoneNumber = '+841234567890'\r\nGROUP BY \r\n    o.Id, c.Name, o.Date, o.Status, o.Total, PV.Name, PI.Url;";
             using (DataTable data = await DBController.GetInstance().GetData(GetOrders))
             {
                 foreach (DataRow row in data.Rows)
@@ -970,8 +970,8 @@ namespace TestForASPWebAPI.Controllers
                         Status = (string)row["Status"],
                         Total = (decimal)row["Total"],
                         ItemCount = (int)row["ItemCount"],
-                        VariantName = (string)row["VariantName"],
-                        Image = (string)row["Image"],
+                        VariantName = Convert.ToString(row["VariantName"]),
+                        Image = Convert.ToString(row["Image"]),
                     };
                     orders.Add(order);
                 }

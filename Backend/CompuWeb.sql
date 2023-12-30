@@ -361,28 +361,77 @@ SELECT
     o.Status,
     o.Total,
     COUNT(oi.Id) as ItemCount,
-    (
-        SELECT TOP 1 pv.Name
-        FROM OrderItem oi_inner
-        JOIN ProductInstance pi ON oi_inner.ProductInstanceId = pi.Id
-        JOIN ProductVariant pv ON pv.Id = pi.ProductVariantId
-        WHERE oi_inner.OrderId = o.Id
-        ORDER BY oi_inner.Id -- Assuming there's an ID or another field indicating the order of items
-    ) AS VariantName,
-    (
-        SELECT TOP 1 images.Url
-        FROM OrderItem oi_inner
-        JOIN ProductInstance pi ON oi_inner.ProductInstanceId = pi.Id
-        JOIN ProductVariant pv ON pv.Id = pi.ProductVariantId
-        JOIN ProductLine pl ON pl.Id = pv.ProductLineId
-        JOIN ProductImage images ON images.ProductLineId = pl.Id
-        WHERE oi_inner.OrderId = o.Id
-        ORDER BY oi_inner.Id -- Assuming there's an ID or another field indicating the order of items
-    ) AS Image
+    VariantName.Name AS VariantName,
+    ImageUrl.Url AS Image
 FROM Orders o
 JOIN Customer c ON o.CustomerId = c.Id
 JOIN OrderItem oi ON oi.OrderId = o.Id
+OUTER APPLY (
+    SELECT TOP 1 pv.Name AS Name
+    FROM OrderItem oi_inner
+    JOIN ProductInstance pi ON oi_inner.ProductInstanceId = pi.Id
+    JOIN ProductVariant pv ON pv.Id = pi.ProductVariantId
+    WHERE oi_inner.OrderId = o.Id
+    ORDER BY oi_inner.Id -- Assuming there's an ID or another field indicating the order of items
+) AS VariantName
+OUTER APPLY (
+    SELECT TOP 1 images.Url AS Url
+    FROM OrderItem oi_inner
+    JOIN ProductInstance pi ON oi_inner.ProductInstanceId = pi.Id
+    JOIN ProductVariant pv ON pv.Id = pi.ProductVariantId
+    JOIN ProductLine pl ON pl.Id = pv.ProductLineId
+    JOIN ProductImage images ON images.ProductLineId = pl.Id
+    WHERE oi_inner.OrderId = o.Id
+    ORDER BY oi_inner.Id -- Assuming there's an ID or another field indicating the order of items
+) AS ImageUrl
 WHERE c.PhoneNumber = '+841234567890'
-GROUP BY o.Id, o.CustomerId, o.Date, o.Status, o.Total, c.Name;
+GROUP BY o.Id, o.CustomerId, o.Date, o.Status, o.Total, c.Name, VariantName.Name, ImageUrl.Url;
+
+SELECT
+    o.Id AS 'Id',
+    c.Name AS 'Name',
+    o.Date AS 'Date',
+    o.Status AS 'Status',
+    o.Total AS 'Total',
+    COUNT(oi.Id) as 'ItemCount',
+    PV.Name AS 'VariantName',
+    PI.Url AS 'Image'
+FROM Orders o
+JOIN Customer c ON o.CustomerId = c.Id
+LEFT JOIN OrderItem oi ON oi.OrderId = o.Id
+LEFT JOIN 
+    (
+        SELECT 
+            oi.OrderId,
+            MIN(pv.Name) AS Name
+        FROM 
+            OrderItem oi
+        JOIN 
+            ProductInstance pi ON oi.ProductInstanceId = pi.Id
+        JOIN 
+            ProductVariant pv ON pi.ProductVariantId = pv.Id
+        GROUP BY 
+            oi.OrderId
+    ) PV ON o.Id = PV.OrderId
+LEFT JOIN 
+    (
+        SELECT 
+            oi.OrderId,
+            MIN(pim.Url) AS Url
+        FROM 
+            OrderItem oi
+        JOIN 
+            ProductInstance pi ON oi.ProductInstanceId = pi.Id
+        JOIN 
+            ProductVariant pv ON pi.ProductVariantId = pv.Id
+        JOIN 
+            ProductImage pim ON pv.Id = pim.ProductLineId
+        GROUP BY 
+            oi.OrderId
+    ) PI ON o.Id = PI.OrderId
+WHERE 
+    c.PhoneNumber = '+841234567890'
+GROUP BY 
+    o.Id, c.Name, o.Date, o.Status, o.Total, PV.Name, PI.Url;
 
 INSERT INTO Price (ProductVariantId, StartDate, EndDate, Status, Value) VALUES (1, '2023-12-15', '2026-12-31', 'CANCELED', 9999999.00)
