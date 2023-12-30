@@ -142,8 +142,8 @@ const staffs = () => {
         <h1>Staffs</h1>
         <button onClick={() => setOpen(true)}>Add New Staff</button>
       </div>
-      <DataTable columns={dataTableColumnss} rows={staffsData} slug='staffs' defaultSortField='other' defaultSortOrder='asc' fetchData={fetchData}/>
-      {open && <AddStaff slug='staffs' columns={addStaffColumns} setOpen={setOpen} fetchData={fetchData} />}
+      <DataTable columns={dataTableColumnss} rows={staffsData} slug='staffs' defaultSortField='other' defaultSortOrder='asc'/>
+      {open && <AddStaff slug='staffs' columns={addStaffColumns} setOpen={setOpen} />}
     </div>
   )
 }

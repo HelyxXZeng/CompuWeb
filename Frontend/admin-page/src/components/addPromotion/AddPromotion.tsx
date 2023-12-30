@@ -135,7 +135,8 @@ const AddPromotion = (props: Props) => {
             try {
                 await promotionAPI.add(formData)
             } catch (error) {
-                
+                alert("False to add new promotion. Error: " + error);
+                throw(error);
             }
             props.setOpen(false);
           }

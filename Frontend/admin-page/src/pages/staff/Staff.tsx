@@ -1,4 +1,3 @@
-import { singleUser } from "../../data"
 import "./staff.scss"
 import { Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { useEffect, useState } from "react";
@@ -68,6 +67,12 @@ const columns: GridColDef[] = [
     type: "string",
   },
   {
+    field: "salary",
+    headerName: "Salary",
+    flex: 2,
+    type: "number",
+  },
+  {
     field: "other",
     headerName: "Status",
     flex: 2,
@@ -83,7 +88,7 @@ const Staff = () => {
   };
   const [open,setOpen] = useState(false)
   const { id } = useParams();
-  const [staffData, setStaffData] = useState({});
+  const [staffData, setStaffData] = useState<any>({});
   useEffect(()=>{
     const fetchData = async () => {
       try {
@@ -97,7 +102,7 @@ const Staff = () => {
       }
       catch(error)
       {
-        alert("Failed to get Staff Infomations. Error:" + error);
+        alert("Failed to get Staff Infomation. Error:" + error);
         throw(error);
       }
     };
