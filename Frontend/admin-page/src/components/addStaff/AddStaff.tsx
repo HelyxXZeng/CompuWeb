@@ -236,8 +236,6 @@ const AddStaff = (props: Props) => {
                         // Continue with the rest of your form submission logic here
                         formData['avatar'] = base64;
                     });
-                } else {
-                    formData['avatar'] = '';
                 }
                 formData['id'] = 0;
                 formData['other'] = "ACTIVE";

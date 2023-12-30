@@ -112,10 +112,9 @@ export const ImageUpload: React.FC<ImageUploadProps & { existingPreview?: string
     return (
         <div className="image-upload">
             <input type="file" accept="image/png, image/jpg, image/jpeg, image/webp" onChange={onSelectFile} />
-            {selectedFile && (
+            { (selectedFile|| existingPreview) && (
                 <div className="preview-container">
-                    <img src={preview} alt={existingPreview} />
-                    //dòng này có thể bị lỗi
+                    <img src={preview ?? existingPreview} alt={'Preview'} />
                 </div>
             )}
         </div>
@@ -160,7 +159,7 @@ const UpdateStaff = (props: Props) => {
         setAddress(props.staffData ? props.staffData.Address : '');
         setPhone(props.staffData ? props.staffData.Phone : '');
         setPosition(props.staffData ? props.staffData.Position : '');
-      }, [props.staffData]);
+      }, [props.staffData.id]);
 
     
     const handleFileSelected = (file: File) => {
@@ -299,7 +298,6 @@ const UpdateStaff = (props: Props) => {
           }
     };
     
-
     return (
         <ThemeProvider theme={theme}>
 
@@ -309,11 +307,11 @@ const UpdateStaff = (props: Props) => {
                     <div className="modal">
                         <span className="close" onClick={() => props.setOpen(false)}>
                             X
-                        </span>
-                        <h1>Add new {props.slug}</h1>
+                        </span> 
+                        <h1>Update Staff</h1>
                         <form onSubmit={handleSubmit}>
                             {props.columns
-                                .filter((item) => item.field !== "id" && item.field !== "img")
+                                .filter((item) => item.field !== "id" && item.field !== "avatar")
                                 .map((column) => (
                                     <div className={`item ${validation[column.field] === false ? 'invalid' : ''}
                                     ${column.field === "address" ? "address" : ""}`} key={column.field}>
@@ -328,6 +326,15 @@ const UpdateStaff = (props: Props) => {
                                             />
                                         )}
                                         {column.field === 'idcardNumber' && (
+                                            <input
+                                            type="text"
+                                            placeholder={column.field}
+                                            name={column.field}
+                                            value={idCardNumber}
+                                            onChange={(e) => setIdCardNumber(e.target.value)}
+                                            />
+                                        )}
+                                        {column.field === 'salary' && (
                                             <input
                                             type="text"
                                             placeholder={column.field}
@@ -404,7 +411,7 @@ const UpdateStaff = (props: Props) => {
                                 ))}
                             <div className="item image-upload">{/* image button */}
                                 <label>Upload an Image</label>
-                                <ImageUpload onFileSelected={handleFileSelected} existingPreview={props.staffData?.img} />
+                                <ImageUpload onFileSelected={handleFileSelected} existingPreview={props.staffData?.avatar} />
                             </div>
                             <button type="submit">Send</button>
                         </form>
