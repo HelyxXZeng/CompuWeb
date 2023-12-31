@@ -3,7 +3,6 @@ import AddPromotion from '../../components/addPromotion/AddPromotion';
 import DataTable from '../../components/dataTable/DataTable';
 import './promotions.scss';
 import { useEffect, useState } from 'react';
-import { promotionExamples } from '../../data';
 import promotionAPI, { PromotionDef } from '../../api/promotionAPI';
 
 
@@ -74,30 +73,31 @@ const Promotions = () => {
     const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
+  const fetchData = async () => {
+    try {
+      const response = await promotionAPI.getAll({ _page: 1, _limit: 100000 });
+      const formattedData = response.data.map((promotion:PromotionDef) => ({
+        ...promotion,
+        startDate: formatDate(promotion.startDate),
+        endDate:formatDate(promotion.endDate)
+      }));
+      if(formattedData.length!==0)setPromotionsData(formattedData);
+    } catch (error) {
+      console.error('Error fetching staffs data:', error);
+    }
+  };
   useEffect(() =>{
-    const fetchData = async () => {
-      try {
-        const response = await promotionAPI.getAll({ _page: 1, _limit: 100000 });
-        const formattedData = response.data.map((promotion:PromotionDef) => ({
-          ...promotion,
-          startDate: formatDate(promotion.startDate),
-          endDate:formatDate(promotion.endDate)
-        }));
-        if(formattedData.length!==0)setPromotionsData(formattedData);
-      } catch (error) {
-        console.error('Error fetching staffs data:', error);
-      }
-    };
+    
     fetchData();
-  },[promotionsData]);
+  },[]);
   return (
     <div className='promotions'>
       <div className="info">
         <h1>Promotions</h1>
         <button onClick={() => setOpen(true)}>Add New Promotion</button>
       </div>
-      <DataTable columns={dataTableColumns} rows={promotionsData} slug='promotions' defaultSortField='status' defaultSortOrder='asc' /> 
-      {open && <AddPromotion slug="promotions" columns={addPromotionColumns} setOpen={setOpen}/>}
+      <DataTable columns={dataTableColumns} rows={promotionsData} slug='promotions' defaultSortField='status' defaultSortOrder='asc' fetchData={fetchData}/> 
+      {open && <AddPromotion slug="promotions" columns={addPromotionColumns} setOpen={setOpen} fetchData={fetchData}/>}
     </div>
   )
 }

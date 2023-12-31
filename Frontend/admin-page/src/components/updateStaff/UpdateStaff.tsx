@@ -211,12 +211,12 @@ const UpdateStaff = (props: Props) => {
 
             // Check size, if greater than 60kB then reduce quality
             let originalBase64 = base64;
-            while (base64.length / 1.37 > 60000) {
+            while (base64.length / 0.75 > 60000) {
                 base64 = canvas.toDataURL('image/jpeg', 0.5);
             }
 
             // If the original image was less than 60kB, use the original base64 string
-            if (originalBase64.length / 1.37 < 60000) {
+            if (originalBase64.length / 0.75 < 60000) {
                 base64 = originalBase64;
             }
 

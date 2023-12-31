@@ -139,7 +139,6 @@ const staffs = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  console.log(staffsData);
   return (
     <div className='staffs'>
       <div className="info">
