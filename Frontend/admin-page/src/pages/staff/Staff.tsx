@@ -89,30 +89,26 @@ const Staff = () => {
   const [open,setOpen] = useState(false)
   const { id } = useParams();
   const [staffData, setStaffData] = useState<any>({});
-  const [isNeedFetch, setIsNeedFetch] =useState(true);
-  useEffect(()=>{
-    const fetchData = async () => {
-      try {
-        const response = await staffApi.getID(id)
-        const formattedData = {
-          ...response.data,
-          joinDate: formatDate(response.data.joinDate), // Format date as needed
-          birthdate: formatDate(response.data.birthdate), // Format date as needed
-        };
-        setStaffData(formattedData);
-      }
-      catch(error)
-      {
-        alert("Failed to get Staff Infomation. Error:" + error);
-        throw(error);
-      }
-    };
 
-    if (isNeedFetch){
-      fetchData();
-      setIsNeedFetch(false);
+  const fetchData = async () => {
+    try {
+      const response = await staffApi.getID(id)
+      const formattedData = {
+        ...response.data,
+        joinDate: formatDate(response.data.joinDate), // Format date as needed
+        birthdate: formatDate(response.data.birthdate), // Format date as needed
+      };
+      setStaffData(formattedData);
     }
-  }, [id, staffData]);
+    catch(error)
+    {
+      alert("Failed to get Staff Infomation. Error:" + error);
+      throw(error);
+    }
+  };
+  useEffect(()=>{
+    fetchData();
+  }, []);
 
   return (
     <div className="staff">
@@ -178,7 +174,7 @@ const Staff = () => {
           </ul>
         )} */}
       </div>
-      {open && <UpdateStaff slug='staffs' columns={columns} setOpen={setOpen} staffData={staffData} />}
+      {open && <UpdateStaff slug='staffs' columns={columns} setOpen={setOpen} staffData={staffData} fetchData={fetchData}/>}
     </div>
   )
 }

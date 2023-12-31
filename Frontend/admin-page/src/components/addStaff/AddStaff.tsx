@@ -232,7 +232,7 @@ const AddStaff = (props: Props) => {
 
                 if (selectedFile) {
                     // Convert the selected file to base64 or use it as needed
-                    await convertToBase64(selectedFile, (base64) => {
+                    convertToBase64(selectedFile, (base64) => {
                         // Do something with the base64 data, if needed
                         console.log('Base64 Image:', base64);
                         // Continue with the rest of your form submission logic here

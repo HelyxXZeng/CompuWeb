@@ -138,7 +138,6 @@ const staffs = () => {
   };
   useEffect(() => {
     fetchData();
-
   }, []);
   console.log(staffsData);
   return (

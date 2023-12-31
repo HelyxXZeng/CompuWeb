@@ -14,7 +14,7 @@ type Props = {
     slug: string;
     columns: GridColDef[];
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    setIsNeedFetch:React.Dispatch<React.SetStateAction<boolean>>;
+    fetchData(): Promise<void>;
     staffData: any;
 };
 
@@ -296,7 +296,7 @@ const UpdateStaff = (props: Props) => {
                 throw(error);
             }
             props.setOpen(false);
-            props.setIsNeedFetch(true);
+            props.fetchData();
           }
           else {
             console.error('Form validation failed');
