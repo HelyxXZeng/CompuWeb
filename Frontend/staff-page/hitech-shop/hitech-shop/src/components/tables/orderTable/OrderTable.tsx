@@ -172,29 +172,39 @@ const OrderTable = () => {
                 </Link>
             </div>
 
-            <div className="statusList">
-                {
-                    statusList.map((status: string, index: number) => (
-                        <button key={index} className={"statusButton " + status}
-                            onClick={() => filterRowsByStatus(status)}>{status}</button>
-                    ))
-                }
-            </div>
 
-            <DataGrid
-                className='datagrid'
-                rows={displayedRows}
-                columns={columns.concat(actionColumn(handleDelete, handleView))}
-                initialState={{
-                    pagination: {
-                        paginationModel: { page: 0, pageSize: 5 },
-                    },
-                }}
-                slots={{
-                    toolbar: GridToolbar,
-                }}
-                pageSizeOptions={[5, 10]}
-            />
+
+            {
+                rows.length > 0 ?
+
+                    <>
+                        <div className="statusList">
+                            {
+                                statusList.map((status: string, index: number) => (
+                                    <button key={index} className={"statusButton " + status}
+                                        onClick={() => filterRowsByStatus(status)}>{status}</button>
+                                ))
+                            }
+                        </div>
+                        <DataGrid
+                            className='datagrid'
+                            rows={displayedRows}
+                            columns={columns.concat(actionColumn(handleDelete, handleView))}
+                            initialState={{
+                                pagination: {
+                                    paginationModel: { page: 0, pageSize: 5 },
+                                },
+                            }}
+                            slots={{
+                                toolbar: GridToolbar,
+                            }}
+                            pageSizeOptions={[5, 10]}
+                        />
+                    </>
+
+
+                    : <h2>No Data!</h2>
+            }
 
         </div>
     )
