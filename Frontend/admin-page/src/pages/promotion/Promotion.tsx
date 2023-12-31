@@ -2,7 +2,6 @@ import { GridColDef } from "@mui/x-data-grid";
 import promotionAPI, { PromotionDef } from "../../api/promotionAPI"
 import "./promotion.scss"
 import { useEffect, useState } from "react";
-import { promotionExample } from "../../data";
 import { useParams } from "react-router-dom";
 import { Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import UpdatePromotion from "../../components/updatePromotion/UpdatePromotion";
@@ -91,25 +90,29 @@ const Promotion = () => {
     const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
+  const fetchData = async () => {
+    try {
+      const result = await  promotionAPI.getID(id);
+      const formattedData = {
+        ...result.data,
+        startDate: formatDate(result.data.startDate),
+        endDate:formatDate(result.data.endDate)
+      };
+      setData(formattedData);
+    } catch (error) {
+      alert("Failed to get Promotion Infomation. Error:" + error);
+      throw(error)
+    }
+  };
   useEffect (() => {
-    const fetchData = async () => {
-      try {
-        const result = await  promotionAPI.getID(id);
-        const formattedData = {
-          ...result.data,
-          startDate: formatDate(result.data.startDate),
-          endDate:formatDate(result.data.endDate)
-        };
-        setData(formattedData);
-      } catch (error) {
-        alert("Failed to get Promotion Infomation. Error:" + error);
-        throw(error)
-      }
-    };
     fetchData()
-  })
+  },[]);
   const props = data;
   const chart = promotionChartExample;
+  const formatFieldName = (fieldName:any) => {
+    // Sử dụng biểu thức chính quy để chia tách các từ và chuyển đổi chữ cái đầu tiên thành chữ hoa
+    return fieldName.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/_/g, ' ');
+  };
   return (
     
     <div className="promotion">
@@ -122,7 +125,7 @@ const Promotion = () => {
           <div className="details">
             {Object.entries(props).map((item) => (
               <div className={` ${(item[0] === "startDate" || item[0] === "endDate") ? "item2row" : "item"}`} key={item[0]}>
-                <span className="itemTitle">{item[0]}:</span>
+                <span className="itemTitle">{formatFieldName(item[0])}:</span>
                 { (item[0] !== "content")
                  && (
                    <span className="itemValue">{item[1]}</span>
@@ -171,7 +174,7 @@ const Promotion = () => {
           </div>
         )}
       </div>
-      {open && <UpdatePromotion slug='promotions' columns={columns} setOpen={setOpen} promotionData={props} />}
+      {open && <UpdatePromotion slug='promotions' columns={columns} setOpen={setOpen} promotionData={props} fetchData={fetchData}/>}
     </div>
   )
 }

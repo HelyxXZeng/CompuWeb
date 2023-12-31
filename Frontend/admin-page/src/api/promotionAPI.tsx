@@ -32,7 +32,7 @@ const promotionAPI = {
   },
   
   getID: (id: any) => {
-    const url = `/promotions/GetPromotionById/${id}`;
+    const url = `AdminDTOController/GetPromotionWithNameById/${id}`;
     return axiosClient.get(url);
   },
 

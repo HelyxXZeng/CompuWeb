@@ -12,6 +12,7 @@ type Props = {
     slug: string;
     columns: GridColDef[];
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    fetchData(): Promise<void>;
 };
 
 const theme = createTheme({
@@ -168,12 +169,12 @@ const AddStaff = (props: Props) => {
 
             // Check size, if greater than 60kB then reduce quality
             let originalBase64 = base64;
-            while (base64.length / 1.37 > 60000) {
+            while (base64.length / 0.75 > 60000) {
                 base64 = canvas.toDataURL('image/jpeg', 0.5);
             }
 
             // If the original image was less than 60kB, use the original base64 string
-            if (originalBase64.length / 1.37 < 60000) {
+            if (originalBase64.length / 0.75 < 60000) {
                 base64 = originalBase64;
             }
 
@@ -228,9 +229,10 @@ const AddStaff = (props: Props) => {
                     (formData as any)[column.field] = inputElement?.value;
                 }
                 });
+
                 if (selectedFile) {
                     // Convert the selected file to base64 or use it as needed
-                    await convertToBase64(selectedFile, (base64) => {
+                    convertToBase64(selectedFile, (base64) => {
                         // Do something with the base64 data, if needed
                         console.log('Base64 Image:', base64);
                         // Continue with the rest of your form submission logic here
@@ -246,6 +248,7 @@ const AddStaff = (props: Props) => {
             try {
                 await staffApi.add(formData)
                 props.setOpen(false);
+                props.fetchData();
             }
             catch(error){
                 alert('Error inserting data:' + error);

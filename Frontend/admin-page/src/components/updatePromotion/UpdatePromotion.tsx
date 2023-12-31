@@ -11,6 +11,7 @@ type Props = {
     slug: string;
     columns: GridColDef[];
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    fetchData(): Promise<void>;
     promotionData: any;
 };
 const theme = createTheme({
@@ -27,15 +28,22 @@ const theme = createTheme({
 });
 
 const UpdatePromotion = (props :Props) => {
+
   const [SValue, setSValue] = useState<Dayjs | null>(
-    props.promotionData ? dayjs(props.promotionData.startdate) : dayjs('2023-11-27'));
+    props.promotionData ? dayjs(props.promotionData.startDate) : dayjs('2023-11-27')); 
   const [validation, setValidation] = useState<Record<string, boolean>>({});
   const [EValue, setEValue] = useState<Dayjs | null>(
     props.promotionData ? dayjs(props.promotionData.endDate) : dayjs('2023-11-27'));
   const [StatusValue, setStatusValue] = useState<string>(
     props.promotionData ? props.promotionData.status : '');
-  const [productPromotionValue, setProductPromotionValue] = useState<any>(null);
-  const [purchaseValue, setPurchaseValue] = useState<any>(null);
+  const [productPromotionValue, setProductPromotionValue] = useState<{id: any,name: any}>({
+    id: props.promotionData ? props.promotionData.productVariantIdPromotion : null,
+    name: props.promotionData ? props.promotionData.productVariantNamePromotion : null,
+  });
+  const [purchaseValue, setPurchaseValue] = useState<{id: any,name: any}>({
+    id: props.promotionData ? props.promotionData.productVariantIdPurchase : null,
+    name: props.promotionData ? props.promotionData.productVariantNamePurchase : null,
+  });
   const [productVariant, setProductVariant] = useState<any>([]);
   const [textValue, setTextValue] = useState(props.promotionData ? props.promotionData.content : '');
   const [nameValue, setNameValue] = useState(
@@ -46,16 +54,15 @@ const UpdatePromotion = (props :Props) => {
     const fetchData = async () => {
         const productVariantData = await productsVariantAPI.getAll({ _page: 1, _limit: 100000 });//await fetchProductVariant();
         setProductVariant(productVariantData.data);
-        const purchaseProduct = productVariant.find((product:any) => product.name === props.promotionData.productVariantNamePurchase);
-      setPurchaseValue(purchaseProduct);
+        //const purchaseProduct = productVariant.find((product:any) => product.name === props.promotionData.productVariantNamePurchase);
+      //setPurchaseValue({props.promotionData.productVariantNamePurchase,props.promotionData.productVariantIdPurchase});
 
-        const promotionProduct = productVariant.find((product:any) => product.name === props.promotionData.productVariantNamePromotion);
-      setProductPromotionValue(promotionProduct);
+        //const promotionProduct = productVariant.find((product:any) => product.name === props.promotionData.productVariantNamePromotion);
+      //setProductPromotionValue(props.promotionData.productVariantNamePromotion);
     };
 
     fetchData();
-    }, [props.promotionData.id]);  
-
+    }, []);
   const handleTextChange = (event: any) => {
     setTextValue(event.target.value);
   };
@@ -64,7 +71,7 @@ const UpdatePromotion = (props :Props) => {
 
     props.columns
     .forEach((column) => {
-        if (column.field === 'StartDate' || column.field === 'endDate') {
+        if (column.field === 'startDate' || column.field === 'endDate') {
             return;
         } 
             
@@ -72,7 +79,7 @@ const UpdatePromotion = (props :Props) => {
         if (column.field === 'status') {
             newValidation[column.field] = StatusValue.trim() !== '';
         }
-        else if (column.field === 'Content') {
+        else if (column.field === 'content') {
             newValidation[column.field] = textValue.trim() !== '';
         } else newValidation[column.field] = inputValue.trim() !== '';
     });
@@ -134,6 +141,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
             throw(error);
         }
         props.setOpen(false);
+        props.fetchData();
       }
       else {
         console.error('Form validation failed');
@@ -222,11 +230,13 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                                             <Autocomplete
                                                 options={productVariant}
                                                 getOptionLabel={(option: any) => `Id:${option.id} - ${option.name}`}
-                                                isOptionEqualToValue={() => true}
+                                                isOptionEqualToValue={(option: any, value: any) =>
+                                                    option.id === value.id && option.name === value.name
+                                                  }
                                                 disablePortal
                                                 disabled
                                                 value={productPromotionValue}
-                                                onChange={(_, newValue) => setProductPromotionValue(newValue)}
+                                                //onChange={(_, newValue) => setProductPromotionValue(newValue)}
                                                 renderInput={(params) => (
                                                 <TextField
                                                     {...params}
@@ -241,7 +251,9 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                                             <Autocomplete
                                                 options={productVariant}
                                                 getOptionLabel={(option: any) => `Id:${option.id} - ${option.name}`}
-                                                isOptionEqualToValue={() => true}
+                                                isOptionEqualToValue={(option: any, value: any) =>
+                                                    option.id === value.id && option.name === value.name
+                                                  }
                                                 disablePortal
                                                 disabled
                                                 value={purchaseValue}

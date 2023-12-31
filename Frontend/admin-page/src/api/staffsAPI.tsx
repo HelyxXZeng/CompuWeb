@@ -42,13 +42,6 @@ const staffApi = {
     update: async (id: number, updatedStaff: StaffDef) => {
         try {
             const response = await axiosClient.put(`/staffs/Update?id=${id}`, updatedStaff);
-            if (response.data) {
-                console.log('Updated staff member:', response.data);
-                // Process the data
-              } else {
-                console.log('No data returned in the response.');
-                // Handle the case where no data is returned
-              }
             return response.data;
         } catch (error) {
             throw error;
