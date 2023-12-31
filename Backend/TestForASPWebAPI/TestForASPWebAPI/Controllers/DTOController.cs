@@ -753,7 +753,7 @@ namespace TestForASPWebAPI.Controllers
             }
 
             product.Ratings = new List<RatingDTO>();
-            string GetOrderItemsRating = $"SELECT r.*\r\nFROM Rating r\r\nJOIN OrderItem oi ON r.OrderItemId = oi.Id\r\nJOIN ProductInstance pi ON oi.ProductInstanceId = pi.Id\r\nJOIN ProductVariant pv ON pi.ProductVariantId = pv.Id\r\nWHERE pv.Id = {ProductVariantId} and Status = 'APPROVED'";
+            string GetOrderItemsRating = $"SELECT r.*\r\nFROM Rating r\r\nJOIN OrderItem oi ON r.OrderItemId = oi.Id\r\nJOIN ProductInstance pi ON oi.ProductInstanceId = pi.Id\r\nJOIN ProductVariant pv ON pi.ProductVariantId = pv.Id\r\nWHERE pv.Id = {ProductVariantId} and r.Status = 'APPROVED'";
             using (var dataTable = await DBController.GetInstance().GetData(GetOrderItemsRating))
             {
                 if (dataTable.Rows.Count == 0)
