@@ -920,33 +920,96 @@ namespace TestForASPWebAPI.Controllers
                     Order.CustomerName = (string)data.Rows[0]["Name"];
                 }
                 Order.orderItems = new List<OrderItemDTO>();
-                string GetOrderItems = $"select * from OrderItem where OrderId = {OrderId}";
+                string GetOrderItems = $"select Id, ProductInstanceId as InstanceId, PriceId, OrderId from OrderItem where OrderId = {OrderId}";
                 using (DataTable data = await DBController.GetInstance().GetData(GetOrderItems))
                 {
-                    foreach (DataRow row in dataTable.Rows)
+                    foreach (DataRow row in data.Rows)
                     {
                         var orderitem = new OrderItemDTO()
                         {
                             Id = (int)row["Id"],
                         };
                         int PVid;
-                        string GetPVName = $"select Id, Name\r\nfrom ProductVariant pv\r\njoin ProductInstance pi on pi.ProductVariantId = pv.Id\r\njoin OrderItem oi on oi.ProductInstanceId = pi.Id\r\nwhere oi.Id = {(int)row["Id"]}";
+                        string GetPVName = $"select pv.Id, pi.Id as ProductInstanceId, Name\r\nfrom ProductVariant pv\r\njoin ProductInstance pi on pi.ProductVariantId = pv.Id\r\njoin OrderItem oi on oi.ProductInstanceId = pi.Id\r\nwhere oi.Id = {(int)row["Id"]}";
                         using (DataTable d = await DBController.GetInstance().GetData(GetPVName))
                         {
                             orderitem.ProductVariantName = (string)d.Rows[0]["Name"];
                             PVid = (int)d.Rows[0]["Id"];
                         }
-                        string GetSerialNumber = $"select SerialNumber from ProductInstance where Id = {(int)row["ProductInstanceId"]}";
+                        string GetSerialNumber = $"select SerialNumber from ProductInstance where Id = {(int)row["InstanceId"]}";
                         using (DataTable d = await DBController.GetInstance().GetData(GetSerialNumber))
                         {
                             orderitem.SerialNumber = (string)d.Rows[0]["SerialNumber"];
                         }
-                        string GetPrice = $"select p.ProductVariantId, Value\r\nfrom Price p\r\njoin ProductVariant pv on pv.Id = p.ProductVariantId\r\njoin ProductInstance pi on pi.ProductVariantId = pv.Id\r\njoin OrderItem oi on oi.ProductInstanceId = pi.Id\r\nwhere oi.Id = {(int)row["Id"]}";
-                        using (DataTable d = await DBController.GetInstance().GetData(GetSerialNumber))
+                        string GetPrice = $"select p.ProductVariantId, p.Value\r\nfrom Price p\r\njoin ProductVariant pv on pv.Id = p.ProductVariantId\r\njoin ProductInstance pi on pi.ProductVariantId = pv.Id\r\njoin OrderItem oi on oi.ProductInstanceId = pi.Id\r\nwhere oi.Id = {(int)row["Id"]}";
+                        using (DataTable d = await DBController.GetInstance().GetData(GetPrice))
                         {
                             orderitem.Price = (decimal)d.Rows[0]["Value"];
                         }
                         Order.orderItems.Add(orderitem);
+                    }
+                }
+            }
+            return Ok(Order);
+        }
+
+        [HttpGet("GetCustomerOrderDetail")]
+        public async Task<IActionResult> GetCustomerOrderDetail(int OrderId)
+        {
+            OrderDetailDTO Order;
+            string GetOrderDetail = $"select * from Orders where Id = {OrderId}";
+            using (DataTable dataTable = await DBController.GetInstance().GetData(GetOrderDetail))
+            {
+                if (dataTable.Rows.Count == 0) { return BadRequest("Not Exists!"); }
+                Order = new OrderDetailDTO()
+                {
+                    Id = OrderId,
+                    Total = (decimal)dataTable.Rows[0]["Total"],
+                    Note = (string)dataTable.Rows[0]["Note"],
+                    Date = (DateTime)dataTable.Rows[0]["Date"],
+                    Address = (string)dataTable.Rows[0]["Address"],
+                    Status = (string)dataTable.Rows[0]["Status"],
+                };
+                string GetCustomerInfo = $"select Name, PhoneNumber from Customer where Id = {dataTable.Rows[0]["CustomerId"]}";
+                using (DataTable data = await DBController.GetInstance().GetData(GetCustomerInfo))
+                {
+                    Order.CustomerPhoneNumber = (string)data.Rows[0]["PhoneNumber"];
+                    Order.CustomerName = (string)data.Rows[0]["Name"];
+                }
+                Order.VariantByOrderItems = new List<OrderVariantByOrderItem>();
+                string GetVariants = $"select distinct pv.*\r\nfrom ProductVariant pv\r\njoin ProductInstance pi on pi.ProductVariantId = pv.Id\r\njoin ProductLine pl on pl.Id = pv.ProductLineId\r\njoin OrderItem oi on oi.ProductInstanceId = pi.Id\r\njoin Orders o on oi.OrderId = o.Id\r\nwhere o.Id = {OrderId}";
+                using (DataTable data = await DBController.GetInstance().GetData(GetVariants))
+                {
+                    foreach (DataRow row in data.Rows)
+                    {
+                        var variant = new OrderVariantByOrderItem()
+                        {
+                            VariantId = (int)row["Id"],
+                            Name = (string)row["Name"],
+                            OrderItemIds = new List<int>(),
+                        };
+                        string GetItemIds = $"select oi.Id from OrderItem oi\r\njoin ProductInstance pi on pi.Id = oi.ProductInstanceId\r\njoin ProductVariant pv on pv.Id = pi.ProductVariantId\r\nwhere pv.Id = {variant.VariantId}";
+                        using (DataTable d = await DBController.GetInstance().GetData(GetItemIds))
+                        {
+                            foreach (DataRow row1 in d.Rows)
+                            {
+                                variant.OrderItemIds.Add((int)row1["Id"]);
+                            }
+                        }
+                        variant.Quantity = variant.OrderItemIds.Count();
+                        string GetImage = $"select top 1 Url\r\nfrom ProductImage pi\r\njoin ProductLine pl on pi.ProductLineId = pl.Id\r\njoin ProductVariant pv on pl.Id = pv.ProductLineId\r\nwhere pv.Id = {variant.VariantId}";
+                        using (DataTable d = await DBController.GetInstance().GetData(GetImage))
+                        {
+                            if (d.Rows.Count == 0) return BadRequest();
+                            variant.Image = (string)d.Rows[0]["Url"];
+                        }
+                        string GetPrice = $"select Value\r\nfrom Price\r\nwhere ProductVariantId = {variant.VariantId}";
+                        using (DataTable d = await DBController.GetInstance().GetData(GetPrice))
+                        {
+                            if (d.Rows.Count == 0) return BadRequest();
+                            variant.Price = ((decimal)d.Rows[0]["Value"]) * variant.Quantity;
+                        }
+                        Order.VariantByOrderItems.Add(variant);
                     }
                 }
             }
