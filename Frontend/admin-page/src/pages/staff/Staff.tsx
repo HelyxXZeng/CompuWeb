@@ -89,6 +89,7 @@ const Staff = () => {
   const [open,setOpen] = useState(false)
   const { id } = useParams();
   const [staffData, setStaffData] = useState<any>({});
+  const [isNeedFetch, setIsNeedFetch] =useState(true);
   useEffect(()=>{
     const fetchData = async () => {
       try {
@@ -107,7 +108,10 @@ const Staff = () => {
       }
     };
 
-    fetchData();
+    if (isNeedFetch){
+      fetchData();
+      setIsNeedFetch(false);
+    }
   }, [id, staffData]);
 
   return (

@@ -14,6 +14,7 @@ type Props = {
     slug: string;
     columns: GridColDef[];
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsNeedFetch:React.Dispatch<React.SetStateAction<boolean>>;
     staffData: any;
 };
 
@@ -153,6 +154,9 @@ const UpdateStaff = (props: Props) => {
       const [position, setPosition] = useState<string>(
         props.staffData ? props.staffData.position : ''
       );
+      const [salary, setSalary] = useState<number>(
+        props.staffData ? props.staffData.salary : 0
+      )
       useEffect(() => {
         setName(props.staffData ? props.staffData.Name : '');
         setIdCardNumber(props.staffData ? props.staffData.IdCardNumber : '');
@@ -292,6 +296,7 @@ const UpdateStaff = (props: Props) => {
                 throw(error);
             }
             props.setOpen(false);
+            props.setIsNeedFetch(true);
           }
           else {
             console.error('Form validation failed');
@@ -318,7 +323,7 @@ const UpdateStaff = (props: Props) => {
                                         <label>{column.headerName}</label>
                                         {column.field === 'name' && (
                                             <input
-                                            type="text"
+                                            type={column.type}
                                             placeholder={column.field}
                                             name={column.field}
                                             value={name}
@@ -327,7 +332,7 @@ const UpdateStaff = (props: Props) => {
                                         )}
                                         {column.field === 'idcardNumber' && (
                                             <input
-                                            type="text"
+                                            type={column.type}
                                             placeholder={column.field}
                                             name={column.field}
                                             value={idCardNumber}
@@ -336,16 +341,16 @@ const UpdateStaff = (props: Props) => {
                                         )}
                                         {column.field === 'salary' && (
                                             <input
-                                            type="text"
+                                            type={column.type}
                                             placeholder={column.field}
                                             name={column.field}
-                                            value={idCardNumber}
-                                            onChange={(e) => setIdCardNumber(e.target.value)}
+                                            value={salary}
+                                            onChange={(e) => setSalary(Number(e.target.value))}
                                             />
                                         )}
                                         {column.field === 'address' && (
                                             <input
-                                            type="text"
+                                            type={column.type}
                                             placeholder={column.field}
                                             name={column.field}
                                             value={address}
@@ -354,7 +359,7 @@ const UpdateStaff = (props: Props) => {
                                         )}
                                         {column.field === 'phoneNumber' && (
                                             <input
-                                            type="text"
+                                            type={column.type}
                                             placeholder={column.field}
                                             name={column.field}
                                             value={phone}
@@ -363,7 +368,7 @@ const UpdateStaff = (props: Props) => {
                                         )}
                                         {column.field === 'position' && (
                                             <input
-                                            type="text"
+                                            type={column.type}
                                             placeholder={column.field}
                                             name={column.field}
                                             value={position}

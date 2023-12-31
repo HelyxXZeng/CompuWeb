@@ -121,7 +121,9 @@ const staffs = () => {
     }
     return column;
   });
+  const [isNeedFetch, setIsNeedFetch] =useState(true)
   const fetchData = async () => {
+      
     try {
       const response = await staffApi.getAll({ _page: 1, _limit: 100000 });
       const formattedData = response.data.map((staff: StaffDef) => ({
@@ -132,18 +134,21 @@ const staffs = () => {
     } catch (error) {
       console.error('Error fetching staffs data:', error);
     }
+    
   };
   useEffect(() => {
     fetchData();
-  }, [staffsData]);
+
+  }, []);
+  console.log(staffsData);
   return (
     <div className='staffs'>
       <div className="info">
         <h1>Staffs</h1>
         <button onClick={() => setOpen(true)}>Add New Staff</button>
       </div>
-      <DataTable columns={dataTableColumnss} rows={staffsData} slug='staffs' defaultSortField='other' defaultSortOrder='asc'/>
-      {open && <AddStaff slug='staffs' columns={addStaffColumns} setOpen={setOpen} />}
+      <DataTable columns={dataTableColumnss} rows={staffsData} slug='staffs' defaultSortField='other' defaultSortOrder='asc' fetchData={fetchData}/>
+      {open && <AddStaff slug='staffs' columns={addStaffColumns} setOpen={setOpen} fetchData={fetchData} />}
     </div>
   )
 }
