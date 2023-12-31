@@ -78,6 +78,39 @@ namespace TestForASPWebAPI.Controllers
             return Ok(Promotions);
         }
 
+        [HttpGet("GetPromotionWithNameById/{id}")]
+        public async Task<IActionResult> GetPromotionWithNameById(int id)
+        {
+            string GetPromotion = @$"select * from Promotion where Id = {id}";
+            using (DataTable data = await DBController.GetInstance().GetData(GetPromotion))
+            {
+                PromotionWNameDTO Promotion;
+                Promotion = new PromotionWNameDTO()
+                {
+                    Id = (int)data.Rows[0]["Id"],
+                    Name = (string)data.Rows[0]["Name"],
+                    ProductVariantIdPromotion = (int)data.Rows[0]["ProductVariantIdPromotion"],
+                    ProductVariantIdPurchase = (int)data.Rows[0]["ProductVariantIdPurchase"],
+                    StartDate = (DateTime)data.Rows[0]["StartDate"],
+                    EndDate = (DateTime)data.Rows[0]["EndDate"],
+                    Content = (string)data.Rows[0]["Content"],
+                    Value = (decimal)data.Rows[0]["Value"],
+                    Status = (string)data.Rows[0]["Status"],
+                };
+                string GetPVPromoName = $"select Name from ProductVariant where Id = {Promotion.ProductVariantIdPromotion}";
+                using (DataTable dt = await DBController.GetInstance().GetData(GetPVPromoName))
+                {
+                    Promotion.ProductVariantNamePromotion = (string)dt.Rows[0]["Name"];
+                }
+                string GetPVPurchaseName = $"select Name from ProductVariant where Id = {Promotion.ProductVariantIdPurchase}";
+                using (DataTable dt = await DBController.GetInstance().GetData(GetPVPurchaseName))
+                {
+                    Promotion.ProductVariantNamePurchase = (string)dt.Rows[0]["Name"];
+                }
+                return Ok(Promotion);
+            }
+        }
+
         [HttpGet("CustomerSpentStatitics")]
         public async Task<IActionResult> CustomerSpentStatitics()
         {
