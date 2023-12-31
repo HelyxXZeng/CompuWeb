@@ -34,7 +34,7 @@ namespace TestForASPWebAPI.Controllers
                     Id = (int)dataRow["Id"],
                     OrderItemId = (int)dataRow["OrderItemId"],
                     Date = (DateTime)dataRow["Date"],
-                    Rate = (int)dataRow["Rate"],
+                    Rate = (int)dataRow["Rating"],
                     Comment = (string)dataRow["Comment"],
                     Status = (string)dataRow["Status"]
                 };
@@ -62,7 +62,7 @@ namespace TestForASPWebAPI.Controllers
                     Id = (int)dataRow["Id"],
                     OrderItemId = (int)dataRow["OrderItemId"],
                     Date = (DateTime)dataRow["Date"],
-                    Rate = (int)dataRow["Rate"],
+                    Rate = (int)dataRow["Rating"],
                     Comment = (string)dataRow["Comment"],
                     Status = (string)dataRow["Status"]
                 };
@@ -74,7 +74,7 @@ namespace TestForASPWebAPI.Controllers
         [HttpPost("Insert")]
         public void Insert([FromBody] Rating value)
         {
-            string command = $"INSERT INTO Rating (OrderItemId, Date, Rate, Comment, Status) VALUES ({value.OrderItemId}, '{value.Date.ToString("yyyy-MM-dd")}', {value.Rate}, N'{value.Comment}', '{value.Status}')";
+            string command = $"INSERT INTO Rating (OrderItemId, Date, Rating, Comment, Status) VALUES ({value.OrderItemId}, '{value.Date.ToString("yyyy-MM-dd")}', {value.Rate}, N'{value.Comment}', '{value.Status}')";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
@@ -84,7 +84,7 @@ namespace TestForASPWebAPI.Controllers
         [HttpPut("Update")]
         public void Put(int id, [FromBody] Rating value)
         {
-            string command = $"UPDATE Rating SET OrderItemId = {value.OrderItemId}, Date = '{value.Date.ToString("yyyy-MM-dd")}', Rate = {value.Rate}, Comment = N'{value.Comment}', Status = '{value.Status}' WHERE Id = {id}";
+            string command = $"UPDATE Rating SET OrderItemId = {value.OrderItemId}, Date = '{value.Date.ToString("yyyy-MM-dd")}', Rating = {value.Rate}, Comment = N'{value.Comment}', Status = '{value.Status}' WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;

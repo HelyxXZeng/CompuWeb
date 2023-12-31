@@ -78,6 +78,39 @@ namespace TestForASPWebAPI.Controllers
             return Ok(Promotions);
         }
 
+        [HttpGet("GetPromotionWithNameById/{id}")]
+        public async Task<IActionResult> GetPromotionWithNameById(int id)
+        {
+            string GetPromotion = @$"select * from Promotion where Id = {id}";
+            using (DataTable data = await DBController.GetInstance().GetData(GetPromotion))
+            {
+                PromotionWNameDTO Promotion;
+                Promotion = new PromotionWNameDTO()
+                {
+                    Id = (int)data.Rows[0]["Id"],
+                    Name = (string)data.Rows[0]["Name"],
+                    ProductVariantIdPromotion = (int)data.Rows[0]["ProductVariantIdPromotion"],
+                    ProductVariantIdPurchase = (int)data.Rows[0]["ProductVariantIdPurchase"],
+                    StartDate = (DateTime)data.Rows[0]["StartDate"],
+                    EndDate = (DateTime)data.Rows[0]["EndDate"],
+                    Content = (string)data.Rows[0]["Content"],
+                    Value = (decimal)data.Rows[0]["Value"],
+                    Status = (string)data.Rows[0]["Status"],
+                };
+                string GetPVPromoName = $"select Name from ProductVariant where Id = {Promotion.ProductVariantIdPromotion}";
+                using (DataTable dt = await DBController.GetInstance().GetData(GetPVPromoName))
+                {
+                    Promotion.ProductVariantNamePromotion = (string)dt.Rows[0]["Name"];
+                }
+                string GetPVPurchaseName = $"select Name from ProductVariant where Id = {Promotion.ProductVariantIdPurchase}";
+                using (DataTable dt = await DBController.GetInstance().GetData(GetPVPurchaseName))
+                {
+                    Promotion.ProductVariantNamePurchase = (string)dt.Rows[0]["Name"];
+                }
+                return Ok(Promotion);
+            }
+        }
+
         [HttpGet("CustomerSpentStatitics")]
         public async Task<IActionResult> CustomerSpentStatitics()
         {
@@ -119,30 +152,35 @@ namespace TestForASPWebAPI.Controllers
             return Ok();
         }
 
-        [HttpGet("CustomerStatitics/{year}")]
-        public async Task<IActionResult> CustomerStatitics(int year)
+        [HttpGet("CustomerStatitics/{date}")]
+        public async Task<IActionResult> CustomerStatitics(string date)
         {
             List<string> months = new List<string>() { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
             List<CusByMonth> Customers = new List<CusByMonth>();
-            for (int i = 1; i <= 12; i++)
+
+            DateTime startDate = Convert.ToDateTime(date);
+            DateTime endDate = startDate.AddMonths(-6); // Get date six months ago
+
+            for (DateTime currentMonth = endDate; currentMonth < startDate; currentMonth = currentMonth.AddMonths(1))
             {
-                string GetCusNumByMonth = $"select count(Id) from Customer where Month(JoinDate) = {i} and Year(JoinDate) = {year}";
+                string GetCusNumByMonth = $"SELECT COUNT(Id) FROM Customer WHERE Month(JoinDate) = {currentMonth.Month} AND Year(JoinDate) = {currentMonth.Year}";
                 int count = await DBController.GetInstance().GetCount(GetCusNumByMonth);
+
+                string previousPercent = "?%";
+                if (Customers.Count > 0 && Customers.Last().Number != 0)
+                {
+                    previousPercent = $"{((count - Customers.Last().Number) * 100 / Customers.Last().Number).ToString("0.00")}%";
+                }
+
                 var customer = new CusByMonth()
                 {
                     Number = count,
-                    Month = months[i - 1],
-                    Percent = (i == 1) ? "0.00%" : (Customers[i - 2].Number == 0 ? "?%" : $"{((count - Customers[i - 2].Number) * 100 / Customers[i - 2].Number).ToString("0.00")}%"),
+                    Month = $"{currentMonth.Year}-{currentMonth.Month}",
+                    Percent = (Customers.Count == 0 || Customers.Last().Number == 0) ? "0.00%" : previousPercent
                 };
                 Customers.Add(customer);
             }
             return Ok(Customers);
-        }
-
-        [HttpGet("Filter")]
-        public async Task<IActionResult> Filter(List<Tuple<int, string>> filter)
-        {
-            return Ok();
         }
     }
     public class CusByMonth
