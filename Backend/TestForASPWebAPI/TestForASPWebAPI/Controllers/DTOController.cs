@@ -8,6 +8,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using System.Collections;
+using System.Security.Cryptography.X509Certificates;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace TestForASPWebAPI.Controllers
@@ -25,7 +26,7 @@ namespace TestForASPWebAPI.Controllers
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri("https://localhost:44333/");
         }
-        
+
         [HttpGet("GetProductTable")]
         public async Task<IActionResult> GetProductVariantDTO()
         {
@@ -202,7 +203,7 @@ namespace TestForASPWebAPI.Controllers
             string GetPromotionCommand = $"select * from Promotion where Id = {PromotionId} and Status = 'ACTIVE'";
             using (DataTable data = await DBController.GetInstance().GetData(GetPromotionCommand))
             {
-                if(data.Rows.Count is 0) thisOrderPromotion = new Promotion()
+                if (data.Rows.Count is 0) thisOrderPromotion = new Promotion()
                 {
                     Id = 0,
                     ProductVariantIdPromotion = 0,
@@ -345,7 +346,7 @@ namespace TestForASPWebAPI.Controllers
 
             return Ok(thisPVId);
         }
-        
+
         [HttpPost("CreateProductLine")]
         public async Task<IActionResult> CreateProductLine(ProductLine productLine)
         {
@@ -370,87 +371,146 @@ namespace TestForASPWebAPI.Controllers
         {
             if (productVariantsTable is not null) return Ok(productVariantsTable);
 
-            HttpResponseMessage response = await _httpClient.GetAsync($"api/DTOController/GetProductTable");
-            List<ProductVariantDTO> productVariants;
-            if (!response.IsSuccessStatusCode)
+            List<ProductVariantDTO> productVariants = new List<ProductVariantDTO>();
+
+            string GetProducts = $"select Id from ProductVariant";
+            using (DataTable data = await DBController.GetInstance().GetData(GetProducts))
             {
-                return BadRequest();
-            }
-
-            string jsonResponse = await response.Content.ReadAsStringAsync();
-            productVariants = JsonConvert.DeserializeObject<List<ProductVariantDTO>>(jsonResponse);
-
-            DBController dBController = DBController.GetInstance();
-
-            foreach (var productVariant in productVariants)
-            {
-                string GetProductVariant = $"select ProductLineId from ProductVariant where Id = {productVariant.Id}";
-                int thisPLid = await dBController.GetCount(GetProductVariant);
-
-                productVariant.Images = new List<ProductImage>();
-                string GetImages = $"select * from ProductImage where ProductLineId = {thisPLid}";
-                using (var dataTable = await dBController.GetData(GetImages))
+                foreach (DataRow row in data.Rows)
                 {
-                    foreach (DataRow dataRow in dataTable.Rows)
+                    HttpResponseMessage response = await _httpClient.GetAsync($"api/DTOController/GetLaptopProductById/{(int)row["Id"]}");
+                    if (!response.IsSuccessStatusCode)
                     {
-                        var image = new ProductImage()
-                        {
-                            Id = (int)dataRow["Id"],
-                            Name = (string)dataRow["Name"],
-                            ProductLineId = (int)dataRow["ProductLineId"],
-                            Image = (string)dataRow["Url"],
-                        };
-                        productVariant.Images.Add(image);
-                        break;
+                        return BadRequest();
                     }
-                }
-                productVariant.Specifications = new List<Tuple<ProductSpecification, Specification, SpecificationType>>();
-                string GetSpecifications = $"select * from ProductSpecification where ProductVariantId = {productVariant.Id}";
-                using (var dataTable = await dBController.GetData(GetSpecifications))
-                {
-                    foreach (DataRow dataRow in dataTable.Rows)
-                    {
-                        var productSpecification = new ProductSpecification()
-                        {
-                            Id = (int)dataRow["Id"],
-                            ProductVariantId = (int)dataRow["ProductVariantId"],
-                            SpecificationId = (int)dataRow["SpecificationId"],
-                        };
-                        Specification specification;
-                        string GetSpecification = $"select * from Specification where Id = {(int)dataRow["SpecificationId"]}";
-                        using (var SpecData = await dBController.GetData(GetSpecification))
-                        {
-                            if (SpecData.Rows.Count is 0)
-                            {
-                                continue;
-                            }
-                            specification = new Specification()
-                            {
-                                Id = (int)SpecData.Rows[0]["Id"],
-                                SpecificationTypeId = (int)SpecData.Rows[0]["SpecificationTypeId"],
-                                Value = (string)SpecData.Rows[0]["Value"],
-                            };
-                        }
-                        SpecificationType specificationType;
-                        string GetSpecificationType = $"select * from SpecificationType where Id = {specification.SpecificationTypeId}";
-                        using (var SpecData = await dBController.GetData(GetSpecificationType))
-                        {
-                            if (SpecData.Rows.Count is 0)
-                            {
-                                continue;
-                            }
-                            specificationType = new SpecificationType()
-                            {
-                                Id = (int)SpecData.Rows[0]["Id"],
-                                Name = (string)SpecData.Rows[0]["Name"],
-                            };
-                        }
-                        productVariant.Specifications.Add(new Tuple<ProductSpecification, Specification, SpecificationType>(productSpecification, specification, specificationType));
-                    }
+
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
+                    productVariants.Add(JsonConvert.DeserializeObject<ProductVariantDTO>(jsonResponse));
                 }
             }
             productVariantsTable = productVariants;
             return Ok(productVariants);
+        }
+
+        [HttpGet("GetLaptopProductById/{id}")]
+        public async Task<IActionResult> GetLaptopProductById(int id)
+        {
+            ProductVariant pv;
+            string command = @$"select * from ProductVariant where Id = {id}";
+            using (DataTable dataTable = await DBController.GetInstance().GetData(command))
+            {
+                if (dataTable.Rows.Count == 0) return BadRequest();
+                pv = new ProductVariant()
+                {
+                    Id = (int)dataTable.Rows[0]["Id"],
+                    Name = (string)dataTable.Rows[0]["Name"],
+                    ProductLineId = (int)dataTable.Rows[0]["ProductLineId"],
+                };
+            }
+            string Name = string.Empty;
+            string getCategoryIdCommand = $@"select CategoryId from ProductLine where Id = {pv.ProductLineId}";
+            using (DataTable data = await DBController.GetInstance().GetData(getCategoryIdCommand))
+            {
+                if (data.Rows.Count is 0)
+                {
+                    return Ok();
+                }
+
+                string getCategoryNameCommand = $"select Name from Category where Id = {data.Rows[0]["CategoryId"]}";
+                using (DataTable name = await DBController.GetInstance().GetData(getCategoryNameCommand))
+                {
+                    Name = (string)name.Rows[0]["Name"];
+                }
+            }
+
+            int InstancesCount = 0;
+            string getInstanceCount = $@"select count(*) from ProductInstance where ProductVariantId = {pv.Id} and Available = 1";
+            InstancesCount = await DBController.GetInstance().GetCount(getInstanceCount);
+
+            await PriceController.UpdatePriceStatus();
+            decimal Value = 0;
+            string GetPriceCommand = @$"select * from Price where Status = 'ACTIVE' and ProductVariantId = {pv.Id}";
+            using (DataTable data = await DBController.GetInstance().GetData(GetPriceCommand))
+            {
+                if (data.Rows.Count is not 0)
+                {
+                    Value = (decimal)data.Rows[0]["Value"];
+                }
+            }
+
+            var productVariant = new ProductVariantDTO()
+            {
+                Id = pv.Id,
+                Name = pv.Name,
+                CategoryName = Name,
+                NumberInStock = InstancesCount,
+                Price = Value,
+            };
+            string GetProductVariant = $"select ProductLineId from ProductVariant where Id = {productVariant.Id}";
+            int thisPLid = await DBController.GetInstance().GetCount(GetProductVariant);
+
+            productVariant.Images = new List<ProductImage>();
+            string GetImages = $"select * from ProductImage where ProductLineId = {thisPLid}";
+            using (var dataTable = await DBController.GetInstance().GetData(GetImages))
+            {
+                foreach (DataRow dataRow in dataTable.Rows)
+                {
+                    var image = new ProductImage()
+                    {
+                        Id = (int)dataRow["Id"],
+                        Name = (string)dataRow["Name"],
+                        ProductLineId = (int)dataRow["ProductLineId"],
+                        Image = (string)dataRow["Url"],
+                    };
+                    productVariant.Images.Add(image);
+                    break;
+                }
+            }
+            productVariant.Specifications = new List<Tuple<ProductSpecification, Specification, SpecificationType>>();
+            string GetSpecifications = $"select * from ProductSpecification where ProductVariantId = {productVariant.Id}";
+            using (var dataTable = await DBController.GetInstance().GetData(GetSpecifications))
+            {
+                foreach (DataRow dataRow in dataTable.Rows)
+                {
+                    var productSpecification = new ProductSpecification()
+                    {
+                        Id = (int)dataRow["Id"],
+                        ProductVariantId = (int)dataRow["ProductVariantId"],
+                        SpecificationId = (int)dataRow["SpecificationId"],
+                    };
+                    Specification specification;
+                    string GetSpecification = $"select * from Specification where Id = {(int)dataRow["SpecificationId"]}";
+                    using (var SpecData = await DBController.GetInstance().GetData(GetSpecification))
+                    {
+                        if (SpecData.Rows.Count is 0)
+                        {
+                            continue;
+                        }
+                        specification = new Specification()
+                        {
+                            Id = (int)SpecData.Rows[0]["Id"],
+                            SpecificationTypeId = (int)SpecData.Rows[0]["SpecificationTypeId"],
+                            Value = (string)SpecData.Rows[0]["Value"],
+                        };
+                    }
+                    SpecificationType specificationType;
+                    string GetSpecificationType = $"select * from SpecificationType where Id = {specification.SpecificationTypeId}";
+                    using (var SpecData = await DBController.GetInstance().GetData(GetSpecificationType))
+                    {
+                        if (SpecData.Rows.Count is 0)
+                        {
+                            continue;
+                        }
+                        specificationType = new SpecificationType()
+                        {
+                            Id = (int)SpecData.Rows[0]["Id"],
+                            Name = (string)SpecData.Rows[0]["Name"],
+                        };
+                    }
+                    productVariant.Specifications.Add(new Tuple<ProductSpecification, Specification, SpecificationType>(productSpecification, specification, specificationType));
+                }
+            }
+            return Ok(productVariant);
         }
 
         [HttpGet("GetLaptopProductTable/{start}-{count}")]
@@ -473,7 +533,7 @@ namespace TestForASPWebAPI.Controllers
         }
 
         [HttpGet("Search/{keyword}/{start}-{count}")]
-        public async Task<IActionResult> Search (string keyword, int start, int count)
+        public async Task<IActionResult> Search(int start, int count, string keyword = "")
         {
             HttpResponseMessage response = await _httpClient.GetAsync($"api/DTOController/GetLaptopProductPage");
             List<ProductVariantDTO> productVariants;
@@ -485,14 +545,90 @@ namespace TestForASPWebAPI.Controllers
             productVariants = JsonConvert.DeserializeObject<List<ProductVariantDTO>>(jsonResponse);
 
             List<Tuple<ProductVariantDTO, int>> SearchResults = productVariants
-                .Select(result => new Tuple<ProductVariantDTO, int>(result, Fuzz.PartialRatio(result.Name.ToLower(), keyword.ToLower())))
+                .Select(result => new Tuple<ProductVariantDTO, int>(result, keyword == "" ? 100 : Fuzz.PartialRatio(result.Name.ToLower(), keyword.ToLower())))
                 .Where(result => result.Item2 >= 40) // Adjust accuracy threshold here
                 .OrderByDescending(result => result.Item2)
                 .Skip(start - 1).Take(count)
                 .ToList();
+
             int countResults = productVariants
                 .Select(result => new Tuple<ProductVariantDTO, int>(result, Fuzz.PartialRatio(result.Name.ToLower(), keyword.ToLower())))
                 .Where(result => result.Item2 >= 40) // Adjust accuracy threshold here
+                .ToList().Count();
+
+            Tuple<List<Tuple<ProductVariantDTO, int>>, int> result = new Tuple<List<Tuple<ProductVariantDTO, int>>, int>(SearchResults, countResults);
+
+            return Ok(result);
+        }
+
+        [HttpPost("SearchWithFilter/{keyword}/{start}-{count}")]
+        public async Task<IActionResult> SearchWithFilter([FromBody] List<Tuple<int, string>> filterOps, int start, int count, string keyword = "", int brandId = 0, int categoryId = 0, int lowestPrice = 0, int highestPrice = 200000000)
+        {
+            List<ProductVariantDTO> productVariants = new List<ProductVariantDTO>();
+
+            string baseQuery = @"
+                SELECT pv.Id
+                FROM ProductVariant pv
+                INNER JOIN ProductSpecification ps ON pv.Id = ps.ProductVariantId
+                INNER JOIN Specification s ON ps.SpecificationId = s.Id
+                INNER JOIN ProductLine pl ON pl.Id = pv.ProductLineId
+                INNER JOIN Brand b ON b.Id = pl.BrandId
+                WHERE ";
+
+            // List to store individual conditions
+            List<string> conditions = new List<string>();
+
+            // Generate SQL conditions for each element in the list
+            foreach (var filter in filterOps)
+            {
+                conditions.Add($"(s.SpecificationTypeId = {filter.Item1} AND s.Value like '%{filter.Item2}%')");
+            }
+
+            // Combine conditions using OR
+            string combinedConditions = "(" + string.Join("\n\tOR\n\t", conditions) + ")";
+            string brandCondition = (brandId == 0) ? "" : $"b.Id = {brandId}";
+            string categoryCondition = (categoryId == 0) ? "" : $"pl.CategoryId = {categoryId}";
+
+            List<string> Cons = new List<string>() { combinedConditions, brandCondition, categoryCondition };
+            List<string> newCons = new List<string>();
+            foreach (var condition in Cons)
+            {
+                if (condition != "" && condition != "()") newCons.Add(condition);
+            }
+
+            string finalConditions = string.Join("\n\tAND ", newCons);
+
+            // Complete SQL query
+            string finalQuery = $"{baseQuery}{finalConditions}\nGROUP BY pv.Id\nHAVING COUNT(DISTINCT s.SpecificationTypeId) = {filterOps.Count};";
+
+            if (filterOps.Count == 0 && brandId == 0 && categoryId == 0) { finalQuery = @"select Id from ProductVariant"; }
+            else if (filterOps.Count == 0) finalQuery = $"{baseQuery}{finalConditions}\nGROUP BY pv.Id";
+
+            using (DataTable data = await DBController.GetInstance().GetData(finalQuery))
+            {
+                foreach (DataRow row in data.Rows)
+                {
+                    HttpResponseMessage response = await _httpClient.GetAsync($"api/DTOController/GetLaptopProductById/{(int)row["Id"]}");
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return BadRequest();
+                    }
+
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
+                    productVariants.Add(JsonConvert.DeserializeObject<ProductVariantDTO>(jsonResponse));
+                }
+            }
+
+            List<Tuple<ProductVariantDTO, int>> SearchResults = productVariants
+                .Select(result => new Tuple<ProductVariantDTO, int>(result, keyword == "" ? 100 : Fuzz.PartialRatio(result.Name.ToLower(), keyword.ToLower())))
+                .Where(result => result.Item2 >= 40 && result.Item1.Price >= lowestPrice && result.Item1.Price <= highestPrice) // Adjust accuracy threshold here
+                .OrderByDescending(result => result.Item2)
+                .Skip(start - 1).Take(count)
+                .ToList();
+
+            int countResults = productVariants
+                .Select(result => new Tuple<ProductVariantDTO, int>(result, keyword == "" ? 100 : Fuzz.PartialRatio(result.Name.ToLower(), keyword.ToLower())))
+                .Where(result => result.Item2 >= 40 && result.Item1.Price >= lowestPrice && result.Item1.Price <= highestPrice) // Adjust accuracy threshold here
                 .ToList().Count();
 
             Tuple<List<Tuple<ProductVariantDTO, int>>, int> result = new Tuple<List<Tuple<ProductVariantDTO, int>>, int>(SearchResults, countResults);
@@ -617,7 +753,7 @@ namespace TestForASPWebAPI.Controllers
             }
 
             product.Ratings = new List<RatingDTO>();
-            string GetOrderItemsRating = $"SELECT r.*\r\nFROM Rating r\r\nJOIN OrderItem oi ON r.OrderItemId = oi.Id\r\nJOIN ProductInstance pi ON oi.ProductInstanceId = pi.Id\r\nJOIN ProductVariant pv ON pi.ProductVariantId = pv.Id\r\nWHERE pv.Id = {ProductVariantId} and Status = 'APPROVED'";
+            string GetOrderItemsRating = $"SELECT r.*\r\nFROM Rating r\r\nJOIN OrderItem oi ON r.OrderItemId = oi.Id\r\nJOIN ProductInstance pi ON oi.ProductInstanceId = pi.Id\r\nJOIN ProductVariant pv ON pi.ProductVariantId = pv.Id\r\nWHERE pv.Id = {ProductVariantId} and r.Status = 'APPROVED'";
             using (var dataTable = await DBController.GetInstance().GetData(GetOrderItemsRating))
             {
                 if (dataTable.Rows.Count == 0)
@@ -784,29 +920,29 @@ namespace TestForASPWebAPI.Controllers
                     Order.CustomerName = (string)data.Rows[0]["Name"];
                 }
                 Order.orderItems = new List<OrderItemDTO>();
-                string GetOrderItems = $"select * from OrderItem where OrderId = {OrderId}";
+                string GetOrderItems = $"select Id, ProductInstanceId as InstanceId, PriceId, OrderId from OrderItem where OrderId = {OrderId}";
                 using (DataTable data = await DBController.GetInstance().GetData(GetOrderItems))
                 {
-                    foreach (DataRow row in dataTable.Rows)
+                    foreach (DataRow row in data.Rows)
                     {
                         var orderitem = new OrderItemDTO()
                         {
                             Id = (int)row["Id"],
                         };
                         int PVid;
-                        string GetPVName = $"select Id, Name\r\nfrom ProductVariant pv\r\njoin ProductInstance pi on pi.ProductVariantId = pv.Id\r\njoin OrderItem oi on oi.ProductInstanceId = pi.Id\r\nwhere oi.Id = {(int)row["Id"]}";
+                        string GetPVName = $"select pv.Id, pi.Id as ProductInstanceId, Name\r\nfrom ProductVariant pv\r\njoin ProductInstance pi on pi.ProductVariantId = pv.Id\r\njoin OrderItem oi on oi.ProductInstanceId = pi.Id\r\nwhere oi.Id = {(int)row["Id"]}";
                         using (DataTable d = await DBController.GetInstance().GetData(GetPVName))
                         {
                             orderitem.ProductVariantName = (string)d.Rows[0]["Name"];
                             PVid = (int)d.Rows[0]["Id"];
                         }
-                        string GetSerialNumber = $"select SerialNumber from ProductInstance where Id = {(int)row["ProductInstanceId"]}";
+                        string GetSerialNumber = $"select SerialNumber from ProductInstance where Id = {(int)row["InstanceId"]}";
                         using (DataTable d = await DBController.GetInstance().GetData(GetSerialNumber))
                         {
                             orderitem.SerialNumber = (string)d.Rows[0]["SerialNumber"];
                         }
-                        string GetPrice = $"select p.ProductVariantId, Value\r\nfrom Price p\r\njoin ProductVariant pv on pv.Id = p.ProductVariantId\r\njoin ProductInstance pi on pi.ProductVariantId = pv.Id\r\njoin OrderItem oi on oi.ProductInstanceId = pi.Id\r\nwhere oi.Id = {(int)row["Id"]}";
-                        using (DataTable d = await DBController.GetInstance().GetData(GetSerialNumber))
+                        string GetPrice = $"select p.ProductVariantId, p.Value\r\nfrom Price p\r\njoin ProductVariant pv on pv.Id = p.ProductVariantId\r\njoin ProductInstance pi on pi.ProductVariantId = pv.Id\r\njoin OrderItem oi on oi.ProductInstanceId = pi.Id\r\nwhere oi.Id = {(int)row["Id"]}";
+                        using (DataTable d = await DBController.GetInstance().GetData(GetPrice))
                         {
                             orderitem.Price = (decimal)d.Rows[0]["Value"];
                         }
@@ -815,6 +951,95 @@ namespace TestForASPWebAPI.Controllers
                 }
             }
             return Ok(Order);
+        }
+
+        [HttpGet("GetCustomerOrderDetail")]
+        public async Task<IActionResult> GetCustomerOrderDetail(int OrderId)
+        {
+            OrderDetailDTO Order;
+            string GetOrderDetail = $"select * from Orders where Id = {OrderId}";
+            using (DataTable dataTable = await DBController.GetInstance().GetData(GetOrderDetail))
+            {
+                if (dataTable.Rows.Count == 0) { return BadRequest("Not Exists!"); }
+                Order = new OrderDetailDTO()
+                {
+                    Id = OrderId,
+                    Total = (decimal)dataTable.Rows[0]["Total"],
+                    Note = (string)dataTable.Rows[0]["Note"],
+                    Date = (DateTime)dataTable.Rows[0]["Date"],
+                    Address = (string)dataTable.Rows[0]["Address"],
+                    Status = (string)dataTable.Rows[0]["Status"],
+                };
+                string GetCustomerInfo = $"select Name, PhoneNumber from Customer where Id = {dataTable.Rows[0]["CustomerId"]}";
+                using (DataTable data = await DBController.GetInstance().GetData(GetCustomerInfo))
+                {
+                    Order.CustomerPhoneNumber = (string)data.Rows[0]["PhoneNumber"];
+                    Order.CustomerName = (string)data.Rows[0]["Name"];
+                }
+                Order.VariantByOrderItems = new List<OrderVariantByOrderItem>();
+                string GetVariants = $"select distinct pv.*\r\nfrom ProductVariant pv\r\njoin ProductInstance pi on pi.ProductVariantId = pv.Id\r\njoin ProductLine pl on pl.Id = pv.ProductLineId\r\njoin OrderItem oi on oi.ProductInstanceId = pi.Id\r\njoin Orders o on oi.OrderId = o.Id\r\nwhere o.Id = {OrderId}";
+                using (DataTable data = await DBController.GetInstance().GetData(GetVariants))
+                {
+                    foreach (DataRow row in data.Rows)
+                    {
+                        var variant = new OrderVariantByOrderItem()
+                        {
+                            VariantId = (int)row["Id"],
+                            Name = (string)row["Name"],
+                            OrderItemIds = new List<int>(),
+                        };
+                        string GetItemIds = $"select oi.Id from OrderItem oi\r\njoin ProductInstance pi on pi.Id = oi.ProductInstanceId\r\njoin ProductVariant pv on pv.Id = pi.ProductVariantId\r\nwhere pv.Id = {variant.VariantId}";
+                        using (DataTable d = await DBController.GetInstance().GetData(GetItemIds))
+                        {
+                            foreach (DataRow row1 in d.Rows)
+                            {
+                                variant.OrderItemIds.Add((int)row1["Id"]);
+                            }
+                        }
+                        variant.Quantity = variant.OrderItemIds.Count();
+                        string GetImage = $"select top 1 Url\r\nfrom ProductImage pi\r\njoin ProductLine pl on pi.ProductLineId = pl.Id\r\njoin ProductVariant pv on pl.Id = pv.ProductLineId\r\nwhere pv.Id = {variant.VariantId}";
+                        using (DataTable d = await DBController.GetInstance().GetData(GetImage))
+                        {
+                            if (d.Rows.Count == 0) return BadRequest();
+                            variant.Image = (string)d.Rows[0]["Url"];
+                        }
+                        string GetPrice = $"select Value\r\nfrom Price\r\nwhere ProductVariantId = {variant.VariantId}";
+                        using (DataTable d = await DBController.GetInstance().GetData(GetPrice))
+                        {
+                            if (d.Rows.Count == 0) return BadRequest();
+                            variant.Price = ((decimal)d.Rows[0]["Value"]) * variant.Quantity;
+                        }
+                        Order.VariantByOrderItems.Add(variant);
+                    }
+                }
+            }
+            return Ok(Order);
+        }
+
+        [HttpGet("GetOrdersByPhoneNumber")]
+        public async Task<IActionResult> GetOrdersByPhoneNumber(string phoneNumber)
+        {
+            List<CustomerOrders> orders = new List<CustomerOrders>();
+            string GetOrders = $"SELECT\r\n    o.Id AS 'Id',\r\n    c.Name AS 'Name',\r\n    o.Date AS 'Date',\r\n    o.Status AS 'Status',\r\n    o.Total AS 'Total',\r\n    COUNT(oi.Id) as 'ItemCount',\r\n    PV.Name AS 'VariantName',\r\n    PI.Url AS 'Image'\r\nFROM Orders o\r\nJOIN Customer c ON o.CustomerId = c.Id\r\nLEFT JOIN OrderItem oi ON oi.OrderId = o.Id\r\nLEFT JOIN \r\n    (\r\n        SELECT \r\n            oi.OrderId,\r\n            MIN(pv.Name) AS Name\r\n        FROM \r\n            OrderItem oi\r\n        JOIN \r\n            ProductInstance pi ON oi.ProductInstanceId = pi.Id\r\n        JOIN \r\n            ProductVariant pv ON pi.ProductVariantId = pv.Id\r\n        GROUP BY \r\n            oi.OrderId\r\n    ) PV ON o.Id = PV.OrderId\r\nLEFT JOIN \r\n    (\r\n        SELECT \r\n            oi.OrderId,\r\n            MIN(pim.Url) AS Url\r\n        FROM \r\n            OrderItem oi\r\n        JOIN \r\n            ProductInstance pi ON oi.ProductInstanceId = pi.Id\r\n        JOIN \r\n            ProductVariant pv ON pi.ProductVariantId = pv.Id\r\n        JOIN \r\n            ProductImage pim ON pv.Id = pim.ProductLineId\r\n        GROUP BY \r\n            oi.OrderId\r\n    ) PI ON o.Id = PI.OrderId\r\nWHERE \r\n    c.PhoneNumber = '+841234567890'\r\nGROUP BY \r\n    o.Id, c.Name, o.Date, o.Status, o.Total, PV.Name, PI.Url;";
+            using (DataTable data = await DBController.GetInstance().GetData(GetOrders))
+            {
+                foreach (DataRow row in data.Rows)
+                {
+                    var order = new CustomerOrders()
+                    {
+                        Id = (int)row["Id"],
+                        Name = (string)row["Name"],
+                        Date = (DateTime)row["Date"],
+                        Status = (string)row["Status"],
+                        Total = (decimal)row["Total"],
+                        ItemCount = (int)row["ItemCount"],
+                        VariantName = Convert.ToString(row["VariantName"]),
+                        Image = Convert.ToString(row["Image"]),
+                    };
+                    orders.Add(order);
+                }
+            }
+            return Ok(orders);
         }
 
         [HttpGet("GetCurrentPrice/{PVId}")]
@@ -908,6 +1133,29 @@ namespace TestForASPWebAPI.Controllers
                 dbController.DeleteData(command);
             }
             return Ok();
+        }
+
+        [HttpGet("GetRatingList")]
+        public async Task<IActionResult> GetRatingList (int PVid)
+        {
+            List<RatingDTO> ratings = new List<RatingDTO>();
+            string GetRating = $"select o.Id, r.Rating, r.Date, r.Comment, c.Name\r\nfrom Rating r\r\njoin OrderItem oi on r.OrderItemId = oi.Id\r\njoin Orders o on oi.OrderId = o.Id\r\njoin Customer c on o.CustomerId = c.Id\r\njoin ProductInstance pi on oi.ProductInstanceId = pi.Id\r\njoin ProductVariant pv on pi.ProductVariantId = pv.Id\r\nwhere pv.Id = {PVid}";
+            using (DataTable data = await DBController.GetInstance().GetData(GetRating))
+            {
+                foreach (DataRow row in data.Rows)
+                {
+                    var rating = new RatingDTO()
+                    {
+                        Id = (int)row["Id"],
+                        Name = (string)row["Name"],
+                        Date = (DateTime)row["Date"],
+                        Comment = (string)row["Comment"],
+                        Rate = (int)row["Rating"],
+                    };
+                    ratings.Add(rating);
+                }
+            }
+            return Ok(ratings);
         }
     }
 }

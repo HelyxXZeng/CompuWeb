@@ -2,7 +2,7 @@ const routes = {
     home: '/',
     introduce: '/gioithieu',
     laptop: '/laptop',
-    accessory: '/phukien',
+    likeProduct: '/yeuthich',
     promotion: '/khuyenmai',
     login: '/login',
     productDetail: '/productDetail',
@@ -12,6 +12,7 @@ const routes = {
     manageOrder: '/manageOrder',
     orderDetail: '/orderDetail',
     search: '/search',
+    question: '/hoidap',
 };
 
 export default routes;
