@@ -16,14 +16,25 @@ function Dropdown({ title, itemList, nameInput, setSelectedValue }) {
     const handleRadio = (event) => {
         const { value, name } = event.target;
 
-        if (nameInput === 'NOTSPEC') setSelectedValue(value);
+        console.log('name', name);
+        console.log('value', value);
+
+        if (nameInput === 'NOTSPEC') setSelectedValue(parseInt(value, 10));
         else {
             setSelectedValue((prevSelectedValue) => {
-                const updatedValue = prevSelectedValue.map((item) =>
-                    item.item1 === name ? { ...item, item2: value } : item,
-                );
+                const updatedValue = prevSelectedValue
+                    .map((item) => {
+                        // Check if the item2 property is equal to 'Tất cả'
+                        if (item.item1 === name && value === 'Tất cả') {
+                            return null; // Skip this item by returning null
+                        }
 
-                if (!prevSelectedValue.some((item) => item.item1 === name)) {
+                        // Otherwise, update the item
+                        return item.item1 === name ? { ...item, item2: value } : item;
+                    })
+                    .filter(Boolean); // Remove null entries from the array
+
+                if (!prevSelectedValue.some((item) => item.item1 === name) && value !== 'Tất cả') {
                     // If there's no matching item1, add a new object to the array
                     updatedValue.push({ item1: name, item2: value });
                 }
@@ -96,6 +107,7 @@ function Dropdown({ title, itemList, nameInput, setSelectedValue }) {
                                 name={nameInput === 'NOTSPEC' ? title : nameInput}
                                 value={nameInput === 'NOTSPEC' ? item.id : item.value} // Assuming 'item.id' is used when nameInput is 'NOTSPEC'
                                 onChange={handleRadio}
+                                defaultChecked={index === 0} // Set defaultChecked for the first radio button
                             />
                             <span className={cx('checkmark')}>{item.value}</span>
                             {/* <span className={cx('span-count')}>(12)</span> */}

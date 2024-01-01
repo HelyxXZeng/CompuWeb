@@ -53,3 +53,17 @@ export const postRating = async (data) => {
         console.log(error);
     }
 };
+
+export const getOrderDetail = async (OrderId) => {
+    try {
+        const res = await request.get('DTOController/GetCustomerOrderDetail', {
+            params: {
+                OrderId,
+            },
+        });
+
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};

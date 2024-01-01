@@ -72,6 +72,10 @@ function Laptop() {
             name: 'Ổ cứng',
             specifications: [
                 {
+                    id: 0,
+                    value: 'Tất cả',
+                },
+                {
                     id: 1,
                     value: 'SSD',
                 },
@@ -85,6 +89,10 @@ function Laptop() {
             specTypeId: 3,
             name: 'CPU',
             specifications: [
+                {
+                    id: 0,
+                    value: 'Tất cả',
+                },
                 {
                     id: 1,
                     value: 'Intel Core i3',
@@ -128,6 +136,10 @@ function Laptop() {
             name: 'Card đồ họa',
             specifications: [
                 {
+                    id: 0,
+                    value: 'Tất cả',
+                },
+                {
                     id: 1,
                     value: 'NVIDIA',
                 },
@@ -145,6 +157,10 @@ function Laptop() {
             specTypeId: 5,
             name: 'Kích cỡ màn hình (inch)',
             specifications: [
+                {
+                    id: 0,
+                    value: 'Tất cả',
+                },
                 {
                     id: 1,
                     value: '13',
@@ -167,6 +183,10 @@ function Laptop() {
             specTypeId: 6,
             name: 'Tấm nền màn hình',
             specifications: [
+                {
+                    id: 0,
+                    value: 'Tất cả',
+                },
                 {
                     id: 1,
                     value: 'IPS',
@@ -317,34 +337,32 @@ function Laptop() {
         ],
     };
 
-    // console.log('specFilter', specFilter);
-    // console.log('brandIdFilter', brandIdFilter);
-    // console.log('categoryIdFilter', categoryIdFilter);
-    // console.log('priceRangeFilter', priceRangeFilter);
+    useEffect(() => {
+        switch (priceRangeFilter) {
+            case 0:
+                setLowestPriceFilter(0);
+                setHighestPriceFilter(200000000);
+                break;
+            case 1:
+                setLowestPriceFilter(0);
+                setHighestPriceFilter(10000000);
+                break;
+            case 2:
+                setLowestPriceFilter(10000000);
+                setHighestPriceFilter(20000000);
+                break;
+            case 3:
+                setLowestPriceFilter(20000000);
+                setHighestPriceFilter(30000000);
+                break;
+            case 4:
+                setLowestPriceFilter(30000000);
+                setHighestPriceFilter(200000000);
+                break;
+            default:
+        }
+    }, [priceRangeFilter]); // Only re-run the effect if priceRangeFilter changes
 
-    switch (priceRangeFilter) {
-        case 1:
-            setLowestPriceFilter(0);
-            setHighestPriceFilter(10000000);
-            break;
-        case 2:
-            setLowestPriceFilter(10000000);
-            setHighestPriceFilter(20000000);
-            break;
-        case 3:
-            setLowestPriceFilter(20000000);
-            setHighestPriceFilter(30000000);
-            break;
-        case 4:
-            setLowestPriceFilter(30000000);
-            setHighestPriceFilter(200000000);
-            break;
-        default:
-    }
-
-    // const [specList, setSpecList] = useState([]);
-    // const [brandList, setBrandList] = useState([]);
-    // const [cateList, setCateList] = useState([]);
     const [currentLaptopList, setCurrentLaptopList] = useState([]);
     const [loading, setLoading] = useState(true); // Add loading state
 
@@ -394,8 +412,9 @@ function Laptop() {
                     specFilter,
                 );
 
+                console.log('specFilter', specFilter);
+
                 if (result && result?.item1) {
-                    console.log('filter', result.item1);
                     setCurrentLaptopList(result.item1);
                     setLaptopQuantity(result.item2);
                 } else {
@@ -410,6 +429,7 @@ function Laptop() {
         };
 
         setLoading(true);
+        setValuePriceSort('');
         filterLaptopList();
     }, [currentPage, brandIdFilter, categoryIdFilter, lowestPriceFilter, highestPriceFilter, specFilter]);
 
@@ -435,32 +455,11 @@ function Laptop() {
         sortLaptops();
     }, [valuePriceSort]);
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             // Use Promise.all to fetch data concurrently
-    //             const [specListResult, brandListResult, cateListResult] = await Promise.all([
-    //                 productServices.getSpecList(),
-    //                 productServices.getBrands(),
-    //                 productServices.getCategories(),
-    //             ]);
-
-    //             setSpecList(specListResult);
-    //             setBrandList(brandListResult);
-    //             setCateList(cateListResult);
-    //         } catch (error) {
-    //             console.error('Error fetching data:', error);
-    //         }
-    //     };
-
-    //     fetchData();
-    // }, []);
-
     // Logic to handle page change
     const handlePageChange = (pageNumber) => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         setCurrentPage(pageNumber);
-        setValuePriceSort('');
+        // setValuePriceSort('');
     };
 
     return (
