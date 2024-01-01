@@ -33,114 +33,22 @@ const theme = createTheme({
 
 function Laptop() {
     //
-    const keyFilterData = [
-        {
-            id: 1,
-            name: 'Hãng sản xuất',
-            specifications: [
-                {
-                    id: 1,
-                    value: 'Apple',
-                },
-                {
-                    id: 2,
-                    value: 'HP',
-                },
-                {
-                    id: 3,
-                    value: 'Lenovo',
-                },
-                {
-                    id: 4,
-                    value: 'Acer',
-                },
+    const [specFilter, setSpecFilter] = useState([]);
+    const [brandIdFilter, setBrandIdFilter] = useState(0);
+    const [categoryIdFilter, setCategoryIdFilter] = useState(0);
+    const [priceRangeFilter, setPriceRangeFilter] = useState(0);
+    const [lowestPriceFilter, setLowestPriceFilter] = useState(0);
+    const [highestPriceFilter, setHighestPriceFilter] = useState(200000000);
 
-                {
-                    id: 5,
-                    value: 'Asus',
-                },
-                {
-                    id: 6,
-                    value: 'Dell',
-                },
-                {
-                    id: 7,
-                    value: 'Microsoft',
-                },
-                {
-                    id: 8,
-                    value: 'Samsung',
-                },
-                {
-                    id: 9,
-                    value: 'Sony',
-                },
-                {
-                    id: 10,
-                    value: 'Toshiba',
-                },
-            ],
-        },
+    const specKeyFilterData = [
         {
-            id: 2,
-            name: 'Mức giá',
-            specifications: [
-                {
-                    id: 1,
-                    value: 'Dưới 10 triệu',
-                },
-                {
-                    id: 2,
-                    value: 'Từ 10 - 20 triệu',
-                },
-                {
-                    id: 3,
-                    value: 'Từ 20 - 30 triệu',
-                },
-                {
-                    id: 4,
-                    value: 'Trên 30 triệu',
-                },
-            ],
-        },
-        {
-            id: 3,
-            name: 'Nhu cầu',
-            specifications: [
-                {
-                    id: 1,
-                    value: 'Gaming',
-                },
-                {
-                    id: 2,
-                    value: 'Ultrabook',
-                },
-                {
-                    id: 3,
-                    value: 'Workstation',
-                },
-                {
-                    id: 4,
-                    value: 'Business',
-                },
-                {
-                    id: 5,
-                    value: 'Student',
-                },
-                {
-                    id: 6,
-                    value: 'Thin and Light',
-                },
-                {
-                    id: 7,
-                    value: 'Khác',
-                },
-            ],
-        },
-        {
-            id: 4,
+            specTypeId: 1,
             name: 'RAM',
             specifications: [
+                {
+                    id: 0,
+                    value: 'Tất cả',
+                },
                 {
                     id: 1,
                     value: '8GB',
@@ -160,7 +68,7 @@ function Laptop() {
             ],
         },
         {
-            id: 5,
+            specTypeId: 2,
             name: 'Ổ cứng',
             specifications: [
                 {
@@ -174,7 +82,7 @@ function Laptop() {
             ],
         },
         {
-            id: 6,
+            specTypeId: 3,
             name: 'CPU',
             specifications: [
                 {
@@ -216,7 +124,7 @@ function Laptop() {
             ],
         },
         {
-            id: 7,
+            specTypeId: 4,
             name: 'Card đồ họa',
             specifications: [
                 {
@@ -234,29 +142,29 @@ function Laptop() {
             ],
         },
         {
-            id: 8,
-            name: 'Kích thước màn hình',
+            specTypeId: 5,
+            name: 'Kích cỡ màn hình (inch)',
             specifications: [
                 {
                     id: 1,
-                    value: '< 13 inch',
+                    value: '13',
                 },
                 {
                     id: 2,
-                    value: '13-14 inch',
+                    value: '14',
                 },
                 {
                     id: 3,
-                    value: '14-15 inch',
+                    value: '15',
                 },
                 {
                     id: 4,
-                    value: '> 15 inch',
+                    value: '16',
                 },
             ],
         },
         {
-            id: 9,
+            specTypeId: 6,
             name: 'Tấm nền màn hình',
             specifications: [
                 {
@@ -278,6 +186,162 @@ function Laptop() {
             ],
         },
     ];
+
+    const brandIdFilterData = {
+        name: 'Hãng sản xuất',
+        specTypeId: 'NOTSPEC',
+        specifications: [
+            {
+                id: 0,
+                value: 'Tất cả',
+            },
+            {
+                id: 1,
+                value: 'Apple',
+            },
+            {
+                id: 2,
+                value: 'HP',
+            },
+            {
+                id: 3,
+                value: 'Lenovo',
+            },
+            {
+                id: 4,
+                value: 'Acer',
+            },
+
+            {
+                id: 5,
+                value: 'Asus',
+            },
+            {
+                id: 6,
+                value: 'Dell',
+            },
+            {
+                id: 7,
+                value: 'Microsoft',
+            },
+            {
+                id: 8,
+                value: 'Samsung',
+            },
+            {
+                id: 9,
+                value: 'Sony',
+            },
+            {
+                id: 10,
+                value: 'Toshiba',
+            },
+        ],
+    };
+
+    const priceValueFilterData = {
+        name: 'Mức giá',
+        specTypeId: 'NOTSPEC',
+        specifications: [
+            {
+                id: 0,
+                value: 'Tất cả',
+            },
+            {
+                id: 1,
+                value: 'Dưới 10 triệu',
+            },
+            {
+                id: 2,
+                value: 'Từ 10 - 20 triệu',
+            },
+            {
+                id: 3,
+                value: 'Từ 20 - 30 triệu',
+            },
+            {
+                id: 4,
+                value: 'Trên 30 triệu',
+            },
+        ],
+    };
+
+    const categoryIdFilterData = {
+        name: 'Nhu cầu',
+        specTypeId: 'NOTSPEC',
+        specifications: [
+            {
+                id: 0,
+                value: 'Tất cả',
+            },
+            {
+                id: 1,
+                value: 'Gaming',
+            },
+            {
+                id: 2,
+                value: 'Ultrabook',
+            },
+            {
+                id: 3,
+                value: 'Workstation',
+            },
+            {
+                id: 4,
+                value: 'Convertible',
+            },
+            {
+                id: 5,
+                value: 'Business',
+            },
+            {
+                id: 6,
+                value: 'Student',
+            },
+            {
+                id: 7,
+                value: 'Multimedia',
+            },
+            {
+                id: 8,
+                value: 'Budget',
+            },
+            {
+                id: 9,
+                value: '2-in-1',
+            },
+            {
+                id: 10,
+                value: 'Thin and Light',
+            },
+        ],
+    };
+
+    // console.log('specFilter', specFilter);
+    // console.log('brandIdFilter', brandIdFilter);
+    // console.log('categoryIdFilter', categoryIdFilter);
+    // console.log('priceRangeFilter', priceRangeFilter);
+
+    switch (priceRangeFilter) {
+        case 1:
+            setLowestPriceFilter(0);
+            setHighestPriceFilter(10000000);
+            break;
+        case 2:
+            setLowestPriceFilter(10000000);
+            setHighestPriceFilter(20000000);
+            break;
+        case 3:
+            setLowestPriceFilter(20000000);
+            setHighestPriceFilter(30000000);
+            break;
+        case 4:
+            setLowestPriceFilter(30000000);
+            setHighestPriceFilter(200000000);
+            break;
+        default:
+    }
+
     // const [specList, setSpecList] = useState([]);
     // const [brandList, setBrandList] = useState([]);
     // const [cateList, setCateList] = useState([]);
@@ -290,14 +354,48 @@ function Laptop() {
     const itemsPerPage = 24;
     const [laptopQuantity, setLaptopQuantity] = useState(0);
 
+    // useEffect(() => {
+    //     const fetchLaptopList = async () => {
+    //         try {
+    //             const start = (currentPage - 1) * itemsPerPage + 1;
+    //             const result = await productServices.getLaptopTable(start, itemsPerPage);
+
+    //             if (result && result.item1) {
+    //                 // console.log('setCurrentLaptopList', result.item1);
+    //                 setCurrentLaptopList(result.item1);
+    //                 setLaptopQuantity(result.item2);
+    //             } else {
+    //                 console.error('Invalid response format:', result);
+    //             }
+    //         } catch (error) {
+    //             console.error('Error fetching laptop list:', error);
+    //         } finally {
+    //             // Set loading to false after fetching data
+    //             setLoading(false);
+    //         }
+    //     };
+    //     // Set loading to true when initiating a new data fetch
+    //     setLoading(true);
+    //     fetchLaptopList();
+    // }, [currentPage]);
+
     useEffect(() => {
-        const fetchLaptopList = async () => {
+        const filterLaptopList = async () => {
             try {
                 const start = (currentPage - 1) * itemsPerPage + 1;
-                const result = await productServices.getLaptopTable(start, itemsPerPage);
+                const result = await searchServices.filter(
+                    undefined,
+                    start,
+                    itemsPerPage,
+                    brandIdFilter,
+                    categoryIdFilter,
+                    lowestPriceFilter,
+                    highestPriceFilter,
+                    specFilter,
+                );
 
-                if (result && result.item1) {
-                    // console.log('setCurrentLaptopList', result.item1);
+                if (result && result?.item1) {
+                    console.log('filter', result.item1);
                     setCurrentLaptopList(result.item1);
                     setLaptopQuantity(result.item2);
                 } else {
@@ -310,19 +408,19 @@ function Laptop() {
                 setLoading(false);
             }
         };
-        // Set loading to true when initiating a new data fetch
+
         setLoading(true);
-        fetchLaptopList();
-    }, [currentPage]);
+        filterLaptopList();
+    }, [currentPage, brandIdFilter, categoryIdFilter, lowestPriceFilter, highestPriceFilter, specFilter]);
 
     useEffect(() => {
         const sortLaptops = () => {
             // Create a sorted copy of the currentLaptopList based on the valuePriceSort parameter
             const sortedLaptops = [...currentLaptopList]?.sort((a, b) => {
                 if (valuePriceSort?.id === 1) {
-                    return a.price - b.price; // Sort from low to high price
+                    return a?.item1.price - b?.item1.price; // Sort from low to high price
                 } else if (valuePriceSort?.id === 2) {
-                    return b.price - a.price; // Sort from high to low price
+                    return b?.item1.price - a?.item1.price; // Sort from high to low price
                 } else {
                     return 0; // No sorting
                 }
@@ -336,30 +434,6 @@ function Laptop() {
 
         sortLaptops();
     }, [valuePriceSort]);
-
-    const filterLaptopList = async () => {
-        try {
-            const start = (currentPage - 1) * itemsPerPage + 1;
-            const result = await searchServices.filter(undefined, start, itemsPerPage, undefined, 2);
-
-            if (result && result.item1) {
-                console.log('filter', result.item1);
-                // setCurrentLaptopList(result.item1);
-                // setLaptopQuantity(result.item2);
-            } else {
-                console.error('Invalid response format:', result);
-            }
-        } catch (error) {
-            console.error('Error fetching laptop list:', error);
-        } finally {
-            // Set loading to false after fetching data
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        filterLaptopList();
-    }, []);
 
     // useEffect(() => {
     //     const fetchData = async () => {
@@ -415,8 +489,34 @@ function Laptop() {
                                     <Dropdown key={index} title={item.name} itemList={item.specifications} />
                                 ) : null;
                             })} */}
-                            {keyFilterData.map((item, index) => (
-                                <Dropdown key={index} title={item.name} itemList={item.specifications} />
+
+                            <Dropdown
+                                title={brandIdFilterData.name}
+                                itemList={brandIdFilterData.specifications}
+                                nameInput={brandIdFilterData.specTypeId}
+                                setSelectedValue={setBrandIdFilter}
+                            />
+                            <Dropdown
+                                title={categoryIdFilterData.name}
+                                itemList={categoryIdFilterData.specifications}
+                                nameInput={categoryIdFilterData.specTypeId}
+                                setSelectedValue={setCategoryIdFilter}
+                            />
+                            <Dropdown
+                                title={priceValueFilterData.name}
+                                itemList={priceValueFilterData.specifications}
+                                nameInput={priceValueFilterData.specTypeId}
+                                setSelectedValue={setPriceRangeFilter}
+                            />
+
+                            {specKeyFilterData.map((item, index) => (
+                                <Dropdown
+                                    key={index}
+                                    title={item.name}
+                                    itemList={item.specifications}
+                                    nameInput={item.specTypeId}
+                                    setSelectedValue={setSpecFilter}
+                                />
                             ))}
                         </div>
                     </div>
@@ -430,7 +530,7 @@ function Laptop() {
                         ) : (
                             <div className={cx('row-list')}>
                                 {currentLaptopList?.map((product, index) => {
-                                    return <ProducItem key={index} item={product} />;
+                                    return product && <ProducItem key={index} item={product?.item1} />;
                                 })}
                             </div>
                         )}

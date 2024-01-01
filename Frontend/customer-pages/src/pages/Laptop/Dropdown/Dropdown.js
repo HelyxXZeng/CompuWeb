@@ -7,10 +7,30 @@ import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
-function Dropdown({ title, itemList }) {
+function Dropdown({ title, itemList, nameInput, setSelectedValue }) {
     const [isOpen, setIsOpen] = useState(false);
     const toggleDropDown = () => {
         setIsOpen(!isOpen);
+    };
+
+    const handleRadio = (event) => {
+        const { value, name } = event.target;
+
+        if (nameInput === 'NOTSPEC') setSelectedValue(value);
+        else {
+            setSelectedValue((prevSelectedValue) => {
+                const updatedValue = prevSelectedValue.map((item) =>
+                    item.item1 === name ? { ...item, item2: value } : item,
+                );
+
+                if (!prevSelectedValue.some((item) => item.item1 === name)) {
+                    // If there's no matching item1, add a new object to the array
+                    updatedValue.push({ item1: name, item2: value });
+                }
+
+                return updatedValue;
+            });
+        }
     };
 
     return (
@@ -71,8 +91,13 @@ function Dropdown({ title, itemList }) {
                 <ul className={cx('ul-list')}>
                     {itemList?.map((item, index) => (
                         <label key={index} className={cx('check-box')}>
-                            <input type="checkbox" />
-                            <span className={cx('checkmark')}>{item.value ? item.value : item.name} </span>
+                            <input
+                                type="radio"
+                                name={nameInput === 'NOTSPEC' ? title : nameInput}
+                                value={nameInput === 'NOTSPEC' ? item.id : item.value} // Assuming 'item.id' is used when nameInput is 'NOTSPEC'
+                                onChange={handleRadio}
+                            />
+                            <span className={cx('checkmark')}>{item.value}</span>
                             {/* <span className={cx('span-count')}>(12)</span> */}
                         </label>
                     ))}

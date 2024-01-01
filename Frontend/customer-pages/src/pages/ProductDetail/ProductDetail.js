@@ -314,14 +314,17 @@ function ProductDetail() {
                             </a>
                         </div>
                         <div className={cx('installment')}>
-                            <a href="/#">
+                            {/* <a href="/#">
                                 Trả góp
                                 <span>( Thủ tục nhanh chóng nhận máy ngay ) </span>
-                            </a>
+                            </a> */}
+                            <button type="button" onClick={() => increaseCartQuantity(id)} name="submit_add_products">
+                                <span>Thêm vào giỏ hàng</span>
+                            </button>
                         </div>
                     </div>
 
-                    <div className={cx('compare-addCart')}>
+                    {/* <div className={cx('compare-addCart')}>
                         <div className={cx('compare')}>
                             <a href="/#">
                                 <AddIcon className={cx('plus')} />
@@ -334,7 +337,7 @@ function ProductDetail() {
                                 Thêm vào giỏ hàng{' '}
                             </button>
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* <div className={cx('discount-prodList')}>
                         <h2>Khuyến mãi</h2>

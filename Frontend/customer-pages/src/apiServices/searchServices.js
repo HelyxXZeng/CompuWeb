@@ -10,12 +10,23 @@ export const search = async (keyword, start, count) => {
     }
 };
 
-export const filter = async (keyword = '%20', start, count, brandId = 0, categoryId = 0, data = []) => {
+export const filter = async (
+    keyword = '%20',
+    start,
+    count,
+    brandId = 0,
+    categoryId = 0,
+    lowestPrice = 0,
+    highestPrice = 200000000,
+    data = [],
+) => {
     try {
         const res = await request.post(`DTOController/SearchWithFilter/${keyword}/${start}-${count}`, data, {
             params: {
                 brandId,
                 categoryId,
+                lowestPrice,
+                highestPrice,
             },
         });
         console.log('res', res);
