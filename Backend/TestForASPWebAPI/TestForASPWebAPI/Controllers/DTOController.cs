@@ -1157,5 +1157,53 @@ namespace TestForASPWebAPI.Controllers
             }
             return Ok(ratings);
         }
+
+        [HttpGet("GetRatingTable")]
+        public async Task<IActionResult> GetRatingTable()
+        {
+            var ratings = new List<RatingDTO>();
+            string GetRating = $"select r.*, pv.Name as ProductVariantName\r\nfrom Rating r\r\njoin OrderItem oi on r.OrderItemId = oi.Id\r\njoin ProductInstance pi on oi.ProductInstanceId = pi.Id\r\njoin ProductVariant pv on pi.ProductVariantId = pv.Id";
+            using (DataTable data = await DBController.GetInstance().GetData(GetRating))
+            {
+                foreach (DataRow row in data.Rows)
+                {
+                    var rating = new RatingDTO()
+                    {
+                        Id = (int)row["Id"],
+                        Name = (string)row["ProductVariantName"],
+                        Comment = (string)row["Comment"],
+                        Rate = (int)row["Rating"],
+                        Date = (DateTime)row["Date"],
+                        Status = (string)row["Status"],
+                    };
+                    ratings.Add(rating);
+                }
+            }
+            return Ok(ratings);
+        }
+        [HttpGet("GetReturnTable")]
+        public async Task<IActionResult> GetReturnTable()
+        {
+            var items = new List<ReturnItemTable>();
+            string GetReturnItems = $"select roi.*, pv.Name as ProductVariantName, c.Name as CustomerName\r\nfrom ReturnOrderItem roi\r\njoin OrderItem oi on roi.OrderItemId = oi.Id\r\njoin ProductInstance pi on oi.ProductInstanceId = pi.Id\r\njoin ProductVariant pv on pi.ProductVariantId = pv.Id\r\njoin Orders o on oi.OrderId = o.Id\r\njoin Customer c on o.CustomerId = c.Id";
+            using (DataTable data = await DBController.GetInstance().GetData(GetReturnItems))
+            {
+                foreach (DataRow row in data.Rows)
+                {
+                    var item = new ReturnItemTable()
+                    {
+                        Id = (int)row["Id"],
+                        Name = (string)row["ProductVariantName"],
+                        CustomerName = (string)row["CustomerName"],
+                        Price = (decimal)row["Price"],
+                        Date = (DateTime)row["Date"],
+                        Issues = (string)row["Issues"],
+                        Status = (string)row["Status"],
+                    };
+                    items.Add(item);
+                }
+            }
+            return Ok(items);
+        }
     }
 }

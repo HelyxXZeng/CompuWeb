@@ -436,4 +436,39 @@ GROUP BY
 
 select * from Rating
 
+SELECT r.*
+FROM Rating r
+JOIN OrderItem oi ON r.OrderItemId = oi.Id
+JOIN ProductInstance pi ON oi.ProductInstanceId = pi.Id
+JOIN ProductVariant pv ON pi.ProductVariantId = pv.Id
+WHERE pv.Id = ProductVariantId and r.Status = 'APPROVED'
+
+select pv.Id, Name
+from ProductVariant pv
+join ProductInstance pi on pi.ProductVariantId = pv.Id
+join OrderItem oi on oi.ProductInstanceId = pi.Id
+where oi.Id = 1
+
+select distinct pv.*
+from ProductVariant pv
+join ProductInstance pi on pi.ProductVariantId = pv.Id
+join ProductLine pl on pl.Id = pv.ProductLineId
+join OrderItem oi on oi.ProductInstanceId = pi.Id
+join Orders o on oi.OrderId = o.Id
+where o.Id = 3
+
+select r.*, pv.Name as ProductVariantName
+from Rating r
+join OrderItem oi on r.OrderItemId = oi.Id
+join ProductInstance pi on oi.ProductInstanceId = pi.Id
+join ProductVariant pv on pi.ProductVariantId = pv.Id
+
+select roi.*, pv.Name as ProductVariantName, c.Name as CustomerName
+from ReturnOrderItem roi
+join OrderItem oi on roi.OrderItemId = oi.Id
+join ProductInstance pi on oi.ProductInstanceId = pi.Id
+join ProductVariant pv on pi.ProductVariantId = pv.Id
+join Orders o on oi.OrderId = o.Id
+join Customer c on o.CustomerId = c.Id
+
 INSERT INTO Price (ProductVariantId, StartDate, EndDate, Status, Value) VALUES (1, '2023-12-15', '2026-12-31', 'CANCELED', 9999999.00)
