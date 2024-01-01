@@ -121,7 +121,9 @@ const staffs = () => {
     }
     return column;
   });
+  const [isNeedFetch, setIsNeedFetch] =useState(true)
   const fetchData = async () => {
+      
     try {
       const response = await staffApi.getAll({ _page: 1, _limit: 100000 });
       const formattedData = response.data.map((staff: StaffDef) => ({
@@ -132,10 +134,11 @@ const staffs = () => {
     } catch (error) {
       console.error('Error fetching staffs data:', error);
     }
+    
   };
   useEffect(() => {
     fetchData();
-  }, [staffsData]);
+  }, []);
   return (
     <div className='staffs'>
       <div className="info">

@@ -10,6 +10,7 @@ type Props = {
   columns: GridColDef[];
   rows: object[];
   slug: string;
+  fetchData(): Promise<void>;
   defaultSortField?: string; // New prop for default sorting field
   defaultSortOrder?: "asc" | "desc"; // New prop for default sorting order
 };
@@ -54,6 +55,7 @@ const DataTable = (props: Props) => {
             alert("An error occurred while deleting the staff: " + deleteError);
             throw deleteError;
           }
+          props.fetchData();
         }
       } catch (error) {
         alert("An error occurred while fetching staff data: " + error);
@@ -74,6 +76,7 @@ const DataTable = (props: Props) => {
             alert("An error occurred while deleting promotion: " + deleteError);
             throw deleteError;
           }
+          props.fetchData();
         }
       } catch (error) {
         alert("An error occurred while fetching staff data: " + error);

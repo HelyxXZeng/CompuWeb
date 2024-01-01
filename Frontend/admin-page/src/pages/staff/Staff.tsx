@@ -1,4 +1,3 @@
-import { singleUser } from "../../data"
 import "./staff.scss"
 import { Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { useEffect, useState } from "react";
@@ -68,6 +67,12 @@ const columns: GridColDef[] = [
     type: "string",
   },
   {
+    field: "salary",
+    headerName: "Salary",
+    flex: 2,
+    type: "number",
+  },
+  {
     field: "other",
     headerName: "Status",
     flex: 2,
@@ -83,27 +88,27 @@ const Staff = () => {
   };
   const [open,setOpen] = useState(false)
   const { id } = useParams();
-  const [staffData, setStaffData] = useState({});
-  useEffect(()=>{
-    const fetchData = async () => {
-      try {
-        const response = await staffApi.getID(id)
-        const formattedData = {
-          ...response.data,
-          joinDate: formatDate(response.data.joinDate), // Format date as needed
-          birthdate: formatDate(response.data.birthdate), // Format date as needed
-        };
-        setStaffData(formattedData);
-      }
-      catch(error)
-      {
-        alert("Failed to get Staff Infomations. Error:" + error);
-        throw(error);
-      }
-    };
+  const [staffData, setStaffData] = useState<any>({});
 
+  const fetchData = async () => {
+    try {
+      const response = await staffApi.getID(id)
+      const formattedData = {
+        ...response.data,
+        joinDate: formatDate(response.data.joinDate), // Format date as needed
+        birthdate: formatDate(response.data.birthdate), // Format date as needed
+      };
+      setStaffData(formattedData);
+    }
+    catch(error)
+    {
+      alert("Failed to get Staff Infomation. Error:" + error);
+      throw(error);
+    }
+  };
+  useEffect(()=>{
     fetchData();
-  }, [id, staffData]);
+  }, []);
 
   return (
     <div className="staff">
@@ -169,7 +174,7 @@ const Staff = () => {
           </ul>
         )} */}
       </div>
-      {open && <UpdateStaff slug='staffs' columns={columns} setOpen={setOpen} staffData={staffData} />}
+      {open && <UpdateStaff slug='staffs' columns={columns} setOpen={setOpen} staffData={staffData} fetchData={fetchData}/>}
     </div>
   )
 }

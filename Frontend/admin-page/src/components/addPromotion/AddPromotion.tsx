@@ -5,14 +5,14 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useEffect, useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
-import productsVariantAPI, {ProductVariant} from "../../api/productsVariantAPI";
-import { products } from "../../data";
+import productsVariantAPI from "../../api/productsVariantAPI";
 import promotionAPI, { PromotionDef } from "../../api/promotionAPI";
 
 type Props = {
   slug: string;
   columns: GridColDef[];
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  fetchData(): Promise<void>;
 };
 
 const theme = createTheme({
@@ -38,27 +38,21 @@ const AddPromotion = (props: Props) => {
   const [purchaseValue, setPurchaseValue] = useState<any>(null);
   const [productVariant, setProductVariant] = useState<any>([]);
   const [textValue, setTextValue] = useState('');
-  const [shouldFetchData, setShouldFetchData] = useState(true);
+
   
   useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await productsVariantAPI.getAll({ _page: 1, _limit: 100000 });//await fetchProductVariant();
-                const productVariantData = response.data;
-                setProductVariant(productVariantData);
-            } catch (error) {
-                alert("Cannot get product Variant Data. Error: " + error)
-                throw(error)
-            }
-            
-        };
-
-        if (shouldFetchData) {
-            fetchData();
-            // Reset the condition to avoid fetching data on subsequent renders
-            setShouldFetchData(false);
-          }
-    }, [shouldFetchData]);  
+    const fetchData = async () => {
+        try {
+            const response = await productsVariantAPI.getAll({ _page: 1, _limit: 100000 });//await fetchProductVariant();
+            const productVariantData = response.data;
+            setProductVariant(productVariantData);
+        } catch (error) {
+            alert("Cannot get product Variant Data. Error: " + error)
+            throw(error)
+        }
+    }
+    fetchData();
+    }, []);  
 
     const handleTextChange = (event: any) => {
         setTextValue(event.target.value);
@@ -135,9 +129,11 @@ const AddPromotion = (props: Props) => {
             try {
                 await promotionAPI.add(formData)
             } catch (error) {
-                
+                alert("False to add new promotion. Error: " + error);
+                throw(error);
             }
             props.setOpen(false);
+            props.fetchData();
           }
           else {
             console.error('Form validation failed');

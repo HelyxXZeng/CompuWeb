@@ -434,4 +434,6 @@ WHERE
 GROUP BY 
     o.Id, c.Name, o.Date, o.Status, o.Total, PV.Name, PI.Url;
 
+select * from Rating
+
 INSERT INTO Price (ProductVariantId, StartDate, EndDate, Status, Value) VALUES (1, '2023-12-15', '2026-12-31', 'CANCELED', 9999999.00)

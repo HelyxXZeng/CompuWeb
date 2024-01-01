@@ -12,6 +12,7 @@
         public DateTime Date { get; set; }
         public string Note { get; set; }
         public List<OrderItemDTO> orderItems { get; set; }
+        public List<OrderVariantByOrderItem> VariantByOrderItems { get; set; }
     }
     public class CustomerOrders
     {

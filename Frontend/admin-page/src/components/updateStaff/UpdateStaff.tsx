@@ -14,6 +14,7 @@ type Props = {
     slug: string;
     columns: GridColDef[];
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    fetchData(): Promise<void>;
     staffData: any;
 };
 
@@ -112,10 +113,9 @@ export const ImageUpload: React.FC<ImageUploadProps & { existingPreview?: string
     return (
         <div className="image-upload">
             <input type="file" accept="image/png, image/jpg, image/jpeg, image/webp" onChange={onSelectFile} />
-            {selectedFile && (
+            { (selectedFile|| existingPreview) && (
                 <div className="preview-container">
-                    <img src={preview} alt={existingPreview} />
-                    //dòng này có thể bị lỗi
+                    <img src={preview ?? existingPreview} alt={'Preview'} />
                 </div>
             )}
         </div>
@@ -154,13 +154,16 @@ const UpdateStaff = (props: Props) => {
       const [position, setPosition] = useState<string>(
         props.staffData ? props.staffData.position : ''
       );
+      const [salary, setSalary] = useState<number>(
+        props.staffData ? props.staffData.salary : 0
+      )
       useEffect(() => {
         setName(props.staffData ? props.staffData.Name : '');
         setIdCardNumber(props.staffData ? props.staffData.IdCardNumber : '');
         setAddress(props.staffData ? props.staffData.Address : '');
         setPhone(props.staffData ? props.staffData.Phone : '');
         setPosition(props.staffData ? props.staffData.Position : '');
-      }, [props.staffData]);
+      }, [props.staffData.id]);
 
     
     const handleFileSelected = (file: File) => {
@@ -208,12 +211,12 @@ const UpdateStaff = (props: Props) => {
 
             // Check size, if greater than 60kB then reduce quality
             let originalBase64 = base64;
-            while (base64.length / 1.37 > 60000) {
+            while (base64.length / 0.75 > 60000) {
                 base64 = canvas.toDataURL('image/jpeg', 0.5);
             }
 
             // If the original image was less than 60kB, use the original base64 string
-            if (originalBase64.length / 1.37 < 60000) {
+            if (originalBase64.length / 0.75 < 60000) {
                 base64 = originalBase64;
             }
 
@@ -293,13 +296,13 @@ const UpdateStaff = (props: Props) => {
                 throw(error);
             }
             props.setOpen(false);
+            props.fetchData();
           }
           else {
             console.error('Form validation failed');
           }
     };
     
-
     return (
         <ThemeProvider theme={theme}>
 
@@ -309,18 +312,18 @@ const UpdateStaff = (props: Props) => {
                     <div className="modal">
                         <span className="close" onClick={() => props.setOpen(false)}>
                             X
-                        </span>
-                        <h1>Add new {props.slug}</h1>
+                        </span> 
+                        <h1>Update Staff</h1>
                         <form onSubmit={handleSubmit}>
                             {props.columns
-                                .filter((item) => item.field !== "id" && item.field !== "img")
+                                .filter((item) => item.field !== "id" && item.field !== "avatar")
                                 .map((column) => (
                                     <div className={`item ${validation[column.field] === false ? 'invalid' : ''}
                                     ${column.field === "address" ? "address" : ""}`} key={column.field}>
                                         <label>{column.headerName}</label>
                                         {column.field === 'name' && (
                                             <input
-                                            type="text"
+                                            type={column.type}
                                             placeholder={column.field}
                                             name={column.field}
                                             value={name}
@@ -329,16 +332,25 @@ const UpdateStaff = (props: Props) => {
                                         )}
                                         {column.field === 'idcardNumber' && (
                                             <input
-                                            type="text"
+                                            type={column.type}
                                             placeholder={column.field}
                                             name={column.field}
                                             value={idCardNumber}
                                             onChange={(e) => setIdCardNumber(e.target.value)}
                                             />
                                         )}
+                                        {column.field === 'salary' && (
+                                            <input
+                                            type={column.type}
+                                            placeholder={column.field}
+                                            name={column.field}
+                                            value={salary}
+                                            onChange={(e) => setSalary(Number(e.target.value))}
+                                            />
+                                        )}
                                         {column.field === 'address' && (
                                             <input
-                                            type="text"
+                                            type={column.type}
                                             placeholder={column.field}
                                             name={column.field}
                                             value={address}
@@ -347,7 +359,7 @@ const UpdateStaff = (props: Props) => {
                                         )}
                                         {column.field === 'phoneNumber' && (
                                             <input
-                                            type="text"
+                                            type={column.type}
                                             placeholder={column.field}
                                             name={column.field}
                                             value={phone}
@@ -356,7 +368,7 @@ const UpdateStaff = (props: Props) => {
                                         )}
                                         {column.field === 'position' && (
                                             <input
-                                            type="text"
+                                            type={column.type}
                                             placeholder={column.field}
                                             name={column.field}
                                             value={position}
@@ -404,7 +416,7 @@ const UpdateStaff = (props: Props) => {
                                 ))}
                             <div className="item image-upload">{/* image button */}
                                 <label>Upload an Image</label>
-                                <ImageUpload onFileSelected={handleFileSelected} existingPreview={props.staffData?.img} />
+                                <ImageUpload onFileSelected={handleFileSelected} existingPreview={props.staffData?.avatar} />
                             </div>
                             <button type="submit">Send</button>
                         </form>
