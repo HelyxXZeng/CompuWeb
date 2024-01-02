@@ -434,6 +434,29 @@ WHERE
 GROUP BY 
     o.Id, c.Name, o.Date, o.Status, o.Total, PV.Name, PI.Url;
 
+select distinct o.*, c.Name
+from Orders o
+join Customer c on o.CustomerId = c.Id
+join OrderItem oi on oi.OrderId = o.Id
+where c.PhoneNumber = '+841234567890'
+
+select count(oi.Id) as ItemCount
+from OrderItem oi
+where oi.OrderId = 3
+
+select top 1 pv.Name, pv.Id
+from ProductVariant pv
+join ProductInstance pi on pi.ProductVariantId = pv.Id
+join OrderItem oi on pi.Id = oi.ProductInstanceId
+join Orders o on oi.OrderId = o.Id
+where o.Id = 3
+
+select top 1 pi.Url as Image
+from ProductImage pi
+join ProductLine pl on pi.ProductLineId = pl.Id
+join ProductVariant pv on pv.ProductLineId = pl.Id
+where pv.Id = 1
+
 select * from Rating
 
 SELECT r.*
