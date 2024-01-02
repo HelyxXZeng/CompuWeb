@@ -25,6 +25,7 @@ import ProductVariantSingle from "../../components/singles/productVariantSingle/
 import SpecificationSingle from "../../components/singles/specificationSingle/SpecificationSingle";
 import SpecificationTypeSingle from "../../components/singles/specificationTypeSingle/SpecificationTypeSingle";
 import "./single.scss";
+import OrderSingle from "../../components/singles/orderSingle/OrderSingle";
 
 interface Props {
     type: string,
@@ -59,7 +60,7 @@ const Single = ({ type, isNew }: Props) => {
                     data = (await categoryApi.get(parseInt(id!))).data;
                     break;
                 case 'order':
-                    data = (await orderApi.get(parseInt(id!))).data;
+                    data = (await orderApi.getDetail(parseInt(id!))).data;
                     break;
                 case 'promotion':
                     data = (await promotionApi.get(parseInt(id!))).data;
@@ -81,9 +82,6 @@ const Single = ({ type, isNew }: Props) => {
                     break;
                 case 'price':
                     data = (await priceApi.get(parseInt(id!))).data;
-                    break;
-                case 'price':
-                    data = (await orderApi.get(parseInt(id!))).data;
                     break;
                 default:
                     break;
@@ -111,7 +109,7 @@ const Single = ({ type, isNew }: Props) => {
             case 'customer':
                 return <CustomerSingle customer={editRow!} />
             case 'order':
-            // return <OrderTable rows={rows} />;
+                return <OrderSingle order={editRow!} />
             case 'brand':
                 return <BrandSingle brand={editRow!} />
             case 'productLine':

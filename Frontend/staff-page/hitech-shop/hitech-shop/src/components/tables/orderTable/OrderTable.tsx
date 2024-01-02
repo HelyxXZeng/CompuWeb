@@ -78,7 +78,7 @@ const OrderTable = () => {
 
     const handleView = (rowId: number) => {
         // console.log('Viewing row with ID:', rowId);
-        navigate(`/orders/GetOrderById/${rowId}`);
+        navigate(`/orders/GetOrderById?id=${rowId}`);
     };
 
     const handleInput = (event: any) => {
@@ -167,9 +167,10 @@ const OrderTable = () => {
                     <input type='text' placeholder='Search...' value={query} onChange={(e) => handleInput(e)} />
                     <SearchIcon />
                 </div>
-                <Link to="/orders/new" className='link'>
+                <div style={{ width: 10 }}></div>
+                {/* <Link to="/orders/new" className='link'>
                     Add New
-                </Link>
+                </Link> */}
             </div>
 
 

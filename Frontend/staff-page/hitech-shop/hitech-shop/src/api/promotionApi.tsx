@@ -17,7 +17,7 @@ const promotionApi = {
         return axiosClient.get(url);
     },
     get: (id: any) => {
-        const url = '/promotions/GetPromotionById?id=' + id;
+        const url = '/promotions/GetPromotionById/' + id;
         return axiosClient.get(url);
     },
     add: async (promotion: Promotion) => {
