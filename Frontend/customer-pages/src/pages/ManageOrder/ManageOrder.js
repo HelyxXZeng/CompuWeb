@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './ManageOrder.module.scss';
 import config from '~/config';
-
+import * as orderServices from '~/apiServices/orderServices';
 import React, { useState, useEffect } from 'react';
 
 import useAuth from '~/hooks/useAuth';
@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
 function ManageOrder() {
-    const { logout } = useAuth(); // Replace with your actual authentication hook
+    const { user, logout } = useAuth(); // Replace with your actual authentication hook
     const navigate = useNavigate();
 
     const handleLogout = async () => {
@@ -26,6 +26,24 @@ function ManageOrder() {
             console.error('Logout error:', error);
         }
     };
+
+    const phoneNumber = user?.phoneNumber?.replace(/^(\+84)/, '0');
+
+    const [orders, setOrders] = useState([]);
+    useEffect(() => {
+        const fetchData = async (tel) => {
+            try {
+                const res = await orderServices.getOrdersByPhoneNumber(tel);
+                console.log('res', res);
+                setOrders(res);
+            } catch (error) {
+                console.error('Error fetching order table:', error);
+            }
+        };
+        if (phoneNumber) {
+            fetchData(phoneNumber);
+        }
+    }, [phoneNumber]);
 
     return (
         <div className={cx('wrapper')}>
@@ -42,47 +60,69 @@ function ManageOrder() {
                 </div>
 
                 <div className={cx('order-list')}>
-                    <div className={cx('order1')}>
-                        <div className={cx('order-title')}>
-                            <div className={cx('order-id')}>
-                                Đơn hàng: <span>0001</span>
-                            </div>
-                            <div className={cx('order-status')}>Đã nhận hàng</div>
-                        </div>
+                    {orders?.map((order, index) => {
+                        const formattedTotal = new Intl.NumberFormat('en-US').format(order?.total).replace(/,/g, '.');
 
-                        <div className={cx('order-infor')}>
-                            <div className={cx('order-image')}>
-                                <img
-                                    src="https://trungtran.vn/upload_images/images/products/lenovo-legion/large/legion_5_15arp8_thumbnail.jpg"
-                                    alt="product-front-view-img"
-                                    class="img-responsive"
-                                />
-                            </div>
-                            <div className={cx('order-detail')}>
-                                <div className={cx('prod-title')}>Alienware X15 R2 i9 12900H RAM 32GB SSD 1TB</div>
+                        const timestamp = order?.date;
+                        const dateObject = new Date(timestamp);
 
-                                <div className={cx('total')}>
-                                    <p>
-                                        Tổng đơn:
-                                        <span> 39.500.000đ</span>
-                                    </p>
+                        const day = dateObject.getDate();
+                        const month = dateObject.getMonth() + 1; // Months are zero-based
+                        const year = dateObject.getFullYear();
+                        const hours = dateObject.getHours();
+                        const minutes = String(dateObject.getMinutes()).padStart(2, '0'); // Ensure two-digit minutes
+
+                        const formattedDateTime = `${day}/${month}/${year} ${hours}:${minutes}`;
+                        return (
+                            <div className={cx('order1')}>
+                                <div className={cx('order-title')}>
+                                    <div className={cx('order-id')}>
+                                        Đơn hàng: <span>{order?.id}</span>
+                                    </div>
+                                    <div className={cx('order-status')}>{order?.status.toUpperCase()}</div>
                                 </div>
 
-                                <div className={cx('date')}>
-                                    <p>
-                                        {' '}
-                                        Ngày đặt: <span>24/12/2023</span>{' '}
-                                    </p>
+                                <div className={cx('order-infor')}>
+                                    <div className={cx('order-image')}>
+                                        <img
+                                            src={
+                                                order?.image ||
+                                                'https://trungtran.vn/upload_images/images/products/lenovo-legion/large/legion_5_15arp8_thumbnail.jpg'
+                                            }
+                                            alt="product-front-view-img"
+                                            class="img-responsive"
+                                        />
+                                    </div>
+                                    <div className={cx('order-detail')}>
+                                        <div className={cx('prod-title')}>{order?.variantName}</div>
+
+                                        <div className={cx('total')}>
+                                            <p>
+                                                Tổng đơn:
+                                                <span> {formattedTotal}đ</span>
+                                            </p>
+                                        </div>
+
+                                        <div className={cx('date')}>
+                                            <p>
+                                                {' '}
+                                                Ngày đặt: <span>{formattedDateTime}</span>{' '}
+                                            </p>
+                                        </div>
+
+                                        <a
+                                            className={cx('click-detail')}
+                                            href={`${config.routes.orderDetail}/${order?.id}`}
+                                        >
+                                            Xem chi tiết
+                                        </a>
+                                    </div>
                                 </div>
-
-                                <a className={cx('click-detail')} href="#">
-                                    Xem chi tiết
-                                </a>
                             </div>
-                        </div>
-                    </div>
+                        );
+                    })}
 
-                    <div className={cx('order1')}>
+                    {/* <div className={cx('order1')}>
                         <div className={cx('order-title')}>
                             <div className={cx('order-id')}>
                                 Đơn hàng: <span>0001</span>
@@ -160,7 +200,7 @@ function ManageOrder() {
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

@@ -37,7 +37,7 @@ const publicRoutes = [
 
 const privateRoutes = [
     { path: config.routes.manageOrder, component: ManageOrder },
-    { path: config.routes.orderDetail, component: OrderDetail },
+    { path: `${config.routes.orderDetail}/:id`, component: OrderDetail },
 ];
 
 export { publicRoutes, privateRoutes };

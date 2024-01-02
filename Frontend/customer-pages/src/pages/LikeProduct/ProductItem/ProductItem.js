@@ -43,10 +43,10 @@ function ProductItem({ item }) {
         const itemId = item?.id;
         const isLiked = likedItems.includes(itemId);
 
-        console.log('isLiked', isLiked);
+        // console.log('isLiked', isLiked);
 
         setLoveActive(isLiked);
-    }, []); // Empty dependency array ensures that this effect runs only once, similar to componentDidMount
+    }, [item?.id]); // Empty dependency array ensures that this effect runs only once, similar to componentDidMount
 
     const formattedPrice = new Intl.NumberFormat('en-US').format(item?.price).replace(/,/g, '.');
 
