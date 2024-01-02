@@ -988,7 +988,7 @@ namespace TestForASPWebAPI.Controllers
                             Name = (string)row["Name"],
                             OrderItemIds = new List<int>(),
                         };
-                        string GetItemIds = $"select oi.Id from OrderItem oi\r\njoin ProductInstance pi on pi.Id = oi.ProductInstanceId\r\njoin ProductVariant pv on pv.Id = pi.ProductVariantId\r\nwhere pv.Id = {variant.VariantId}";
+                        string GetItemIds = $"select oi.Id from OrderItem oi\r\njoin ProductInstance pi on pi.Id = oi.ProductInstanceId\r\njoin ProductVariant pv on pv.Id = pi.ProductVariantId\r\njoin Orders o on oi.OrderId = o.Id\r\nwhere pv.Id = {variant.VariantId} and o.Id = {OrderId}";
                         using (DataTable d = await DBController.GetInstance().GetData(GetItemIds))
                         {
                             foreach (DataRow row1 in d.Rows)
@@ -1007,7 +1007,7 @@ namespace TestForASPWebAPI.Controllers
                         using (DataTable d = await DBController.GetInstance().GetData(GetPrice))
                         {
                             if (d.Rows.Count == 0) return BadRequest();
-                            variant.Price = ((decimal)d.Rows[0]["Value"]) * variant.Quantity;
+                            variant.Price = ((decimal)d.Rows[0]["Value"]);
                         }
                         Order.VariantByOrderItems.Add(variant);
                     }
