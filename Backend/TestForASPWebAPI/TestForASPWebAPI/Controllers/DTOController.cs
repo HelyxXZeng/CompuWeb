@@ -772,7 +772,7 @@ namespace TestForASPWebAPI.Controllers
                             Id = (int)dataRow["Id"],
                             OrderItemId = (int)dataRow["OrderItemId"],
                             Date = (DateTime)dataRow["Date"],
-                            Rate = (int)dataRow["Rate"],
+                            Rate = (int)dataRow["Rating"],
                             Comment = (string)dataRow["Comment"],
                             Status = (string)dataRow["Status"]
                         };
@@ -988,7 +988,7 @@ namespace TestForASPWebAPI.Controllers
                             Name = (string)row["Name"],
                             OrderItemIds = new List<int>(),
                         };
-                        string GetItemIds = $"select oi.Id from OrderItem oi\r\njoin ProductInstance pi on pi.Id = oi.ProductInstanceId\r\njoin ProductVariant pv on pv.Id = pi.ProductVariantId\r\nwhere pv.Id = {variant.VariantId}";
+                        string GetItemIds = $"select oi.Id from OrderItem oi\r\njoin ProductInstance pi on pi.Id = oi.ProductInstanceId\r\njoin ProductVariant pv on pv.Id = pi.ProductVariantId\r\njoin Orders o on oi.OrderId = o.Id\r\nwhere pv.Id = {variant.VariantId} and o.Id = {OrderId}";
                         using (DataTable d = await DBController.GetInstance().GetData(GetItemIds))
                         {
                             foreach (DataRow row1 in d.Rows)
@@ -1007,7 +1007,7 @@ namespace TestForASPWebAPI.Controllers
                         using (DataTable d = await DBController.GetInstance().GetData(GetPrice))
                         {
                             if (d.Rows.Count == 0) return BadRequest();
-                            variant.Price = ((decimal)d.Rows[0]["Value"]) * variant.Quantity;
+                            variant.Price = ((decimal)d.Rows[0]["Value"]);
                         }
                         Order.VariantByOrderItems.Add(variant);
                     }
@@ -1020,7 +1020,7 @@ namespace TestForASPWebAPI.Controllers
         public async Task<IActionResult> GetOrdersByPhoneNumber(string phoneNumber)
         {
             List<CustomerOrders> orders = new List<CustomerOrders>();
-            string GetOrders = $"SELECT\r\n    o.Id AS 'Id',\r\n    c.Name AS 'Name',\r\n    o.Date AS 'Date',\r\n    o.Status AS 'Status',\r\n    o.Total AS 'Total',\r\n    COUNT(oi.Id) as 'ItemCount',\r\n    PV.Name AS 'VariantName',\r\n    PI.Url AS 'Image'\r\nFROM Orders o\r\nJOIN Customer c ON o.CustomerId = c.Id\r\nLEFT JOIN OrderItem oi ON oi.OrderId = o.Id\r\nLEFT JOIN \r\n    (\r\n        SELECT \r\n            oi.OrderId,\r\n            MIN(pv.Name) AS Name\r\n        FROM \r\n            OrderItem oi\r\n        JOIN \r\n            ProductInstance pi ON oi.ProductInstanceId = pi.Id\r\n        JOIN \r\n            ProductVariant pv ON pi.ProductVariantId = pv.Id\r\n        GROUP BY \r\n            oi.OrderId\r\n    ) PV ON o.Id = PV.OrderId\r\nLEFT JOIN \r\n    (\r\n        SELECT \r\n            oi.OrderId,\r\n            MIN(pim.Url) AS Url\r\n        FROM \r\n            OrderItem oi\r\n        JOIN \r\n            ProductInstance pi ON oi.ProductInstanceId = pi.Id\r\n        JOIN \r\n            ProductVariant pv ON pi.ProductVariantId = pv.Id\r\n        JOIN \r\n            ProductImage pim ON pv.Id = pim.ProductLineId\r\n        GROUP BY \r\n            oi.OrderId\r\n    ) PI ON o.Id = PI.OrderId\r\nWHERE \r\n    c.PhoneNumber = '+841234567890'\r\nGROUP BY \r\n    o.Id, c.Name, o.Date, o.Status, o.Total, PV.Name, PI.Url;";
+            string GetOrders = $"select distinct o.*, c.Name\r\nfrom Orders o\r\njoin Customer c on o.CustomerId = c.Id\r\njoin OrderItem oi on oi.OrderId = o.Id\r\nwhere c.PhoneNumber = '{phoneNumber}'";
             using (DataTable data = await DBController.GetInstance().GetData(GetOrders))
             {
                 foreach (DataRow row in data.Rows)
@@ -1032,10 +1032,20 @@ namespace TestForASPWebAPI.Controllers
                         Date = (DateTime)row["Date"],
                         Status = (string)row["Status"],
                         Total = (decimal)row["Total"],
-                        ItemCount = (int)row["ItemCount"],
-                        VariantName = Convert.ToString(row["VariantName"]),
-                        Image = Convert.ToString(row["Image"]),
                     };
+                    string GetItemCount = $"select count(oi.Id) as ItemCount\r\nfrom OrderItem oi\r\nwhere oi.OrderId = {order.Id}";
+                    order.ItemCount = await DBController.GetInstance().GetCount(GetItemCount);
+
+                    string GetPVName = $"select top 1 pv.Name, pv.Id\r\nfrom ProductVariant pv\r\njoin ProductInstance pi on pi.ProductVariantId = pv.Id\r\njoin OrderItem oi on pi.Id = oi.ProductInstanceId\r\njoin Orders o on oi.OrderId = o.Id\r\nwhere o.Id = {order.Id}\r\n";
+                    using (DataTable data1 = await DBController.GetInstance().GetData(GetPVName))
+                    {
+                        order.VariantName = Convert.ToString(data1.Rows[0]["Name"]);
+                        string GetImage = $"select top 1 pi.Url as Image\r\nfrom ProductImage pi\r\njoin ProductLine pl on pi.ProductLineId = pl.Id\r\njoin ProductVariant pv on pv.ProductLineId = pl.Id\r\nwhere pv.Id = {Convert.ToInt64(data1.Rows[0]["Id"])}";
+                        using (DataTable data2 = await DBController.GetInstance().GetData(GetImage))
+                        {
+                            order.Image = Convert.ToString(data2.Rows[0]["Image"]);
+                        }
+                    }
                     orders.Add(order);
                 }
             }
@@ -1181,6 +1191,7 @@ namespace TestForASPWebAPI.Controllers
             }
             return Ok(ratings);
         }
+
         [HttpGet("GetReturnTable")]
         public async Task<IActionResult> GetReturnTable()
         {
@@ -1199,6 +1210,74 @@ namespace TestForASPWebAPI.Controllers
                         Date = (DateTime)row["Date"],
                         Issues = (string)row["Issues"],
                         Status = (string)row["Status"],
+                    };
+                    items.Add(item);
+                }
+            }
+            return Ok(items);
+        }
+
+        [HttpGet("GetProductInstances")]
+        public async Task<IActionResult> GetProductInstances()
+        {
+            var items = new List<ProductInstanceDTO>();
+            string GetReturnItems = $"select pi.*, pv.Name as ProductVariantName\r\nfrom ProductInstance pi\r\njoin ProductVariant pv on pi.ProductVariantId = pv.Id";
+            using (DataTable data = await DBController.GetInstance().GetData(GetReturnItems))
+            {
+                foreach (DataRow row in data.Rows)
+                {
+                    var item = new ProductInstanceDTO()
+                    {
+                        Id = (int)row["Id"],
+                        ProductVariantName = (string)row["ProductVariantName"],
+                        SerialNumber = (string)row["SerialNumber"],
+                        Available = (bool)row["Available"],
+                        Status = (string)row["Status"],
+                    };
+                    items.Add(item);
+                }
+            }
+            return Ok(items);
+        }
+
+        [HttpGet("GetSpecifications")]
+        public async Task<IActionResult> GetSpecifications()
+        {
+            var items = new List<SpecificationDTO>();
+            string GetReturnItems = $"select * from Specification s\r\njoin SpecificationType st on s.SpecificationTypeId = st.Id";
+            using (DataTable data = await DBController.GetInstance().GetData(GetReturnItems))
+            {
+                foreach (DataRow row in data.Rows)
+                {
+                    var item = new SpecificationDTO()
+                    {
+                        Id = (int)row["Id"],
+                        SpecificationTypeName = (string)row["Name"],
+                        Value = (string)row["Value"],
+                    };
+                    items.Add(item);
+                }
+            }
+            return Ok(items);
+        }
+
+        [HttpGet("GetPrices")]
+        public async Task<IActionResult> GetPrices()
+        {
+            var items = new List<PriceDTO>();
+            string GetReturnItems = $"select * from Price p\r\njoin ProductVariant pv on p.ProductVariantId = pv.Id";
+            using (DataTable data = await DBController.GetInstance().GetData(GetReturnItems))
+            {
+                foreach (DataRow row in data.Rows)
+                {
+                    var item = new PriceDTO()
+                    {
+                        Id = (int)row["Id"],
+                        ProductVariantName = (string)row["Name"],
+                        StartDate = (DateTime)row["StartDate"],
+                        EndDate = (DateTime)row["EndDate"],
+                        Status = (string)row["Status"],
+                        Value = (decimal)row["Value"],
                     };
                     items.Add(item);
                 }
