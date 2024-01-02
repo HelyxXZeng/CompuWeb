@@ -471,8 +471,7 @@ join ProductVariant pv on pi.ProductVariantId = pv.Id
 join Orders o on oi.OrderId = o.Id
 join Customer c on o.CustomerId = c.Id
 
-select pi.*, pv.Name as ProductVariantName
-from ProductInstance pi
-join ProductVariant pv on pi.ProductVariantId = pv.Id
+select * from Price p
+join ProductVariant pv on p.ProductVariantId = pv.Id
 
 INSERT INTO Price (ProductVariantId, StartDate, EndDate, Status, Value) VALUES (1, '2023-12-15', '2026-12-31', 'CANCELED', 9999999.00)
