@@ -8,7 +8,7 @@ export interface Specification {
 
 const specificationApi = {
     getAll: (params: any) => {
-        const url = '/specifications/GetSpecifications';
+        const url = '/DTOController/GetSpecifications';
         return axiosClient.get(url);
     },
     get: (id: any) => {

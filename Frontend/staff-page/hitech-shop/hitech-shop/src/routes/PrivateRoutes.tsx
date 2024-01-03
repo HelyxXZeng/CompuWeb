@@ -26,7 +26,7 @@ export const PrivateRoutes = () => {
 
             <Route path='/brands/new' element={<Single type='brand' isNew='new' />} />
             <Route path='/customers/new' element={<Single type='customer' isNew='new' />} />
-            <Route path='/orders/new' element={<Single type='order' isNew='new' />} />
+            {/* <Route path='/orders/new' element={<Single type='order' isNew='new' />} /> */}
             <Route path='/products/new' element={<Single type='product' isNew='new' />} />
             <Route path='/categories/new' element={<Single type='category' isNew='new' />} />
             <Route path='/promotions/new' element={<Single type='promotion' isNew='new' />} />
