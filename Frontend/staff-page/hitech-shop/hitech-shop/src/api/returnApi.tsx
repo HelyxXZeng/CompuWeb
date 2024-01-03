@@ -4,8 +4,10 @@ export interface Return {
     id: number,
     orderItemId: number,
     date: string,
-    returnOrder: number,
-    comment: string
+    issues: string,
+    price: number,
+    comment: string,
+    status: string
 }
 
 
@@ -15,13 +17,13 @@ const returnOrderApi = {
         return axiosClient.get(url);
     },
     get: (id: any) => {
-        const url = '/returns/GetReturnById/' + id;
+        const url = '/returnorderitems/GetReturnOrderItemById/' + id;
         return axiosClient.get(url);
     },
 
     add: async (returnOrder: Return) => {
         try {
-            const response = await axiosClient.post('/returns/Insert', returnOrder);
+            const response = await axiosClient.post('/returnorderitems/Insert', returnOrder);
             return response.data;
         } catch (error) {
             throw error;
@@ -30,7 +32,7 @@ const returnOrderApi = {
 
     update: async (id: number, updatedReturn: Return) => {
         try {
-            const response = await axiosClient.put(`/returns/Update?id=${id}`, updatedReturn);
+            const response = await axiosClient.put(`/returnorderitems/Update?id=${id}`, updatedReturn);
             return response.data;
         } catch (error) {
             throw error;
@@ -39,7 +41,7 @@ const returnOrderApi = {
 
     remove: async (id: number) => {
         try {
-            const response = await axiosClient.delete(`/returns/Delete/${id}`);
+            const response = await axiosClient.delete(`/returnorderitems/Delete/${id}`);
             return response.data;
         } catch (error) {
             throw error;
