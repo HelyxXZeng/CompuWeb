@@ -27,23 +27,12 @@ export const menuData = [
         url: "/promotions",
         icon: "/promotion.svg",
       },
-      {
-        id: 3,
-        title: "Orders",
-        url: "/orders",
-        icon: "/order.svg",
-      },
-      {
-        id: 4,
-        title: "Reviews",
-        url: "/reviews",
-        icon: "/review.svg",
-      },
+      
     ],
   },
   {
     id: 3,
-    title: "general",
+    title: "Comming Soon",
     listItems: [
       {
         id: 1,
@@ -69,44 +58,58 @@ export const menuData = [
         url: "/",
         icon: "/calendar.svg",
       },
-    ],
-  },
-  {
-    id: 4,
-    title: "Maintenance",
-    listItems: [
       {
-        id: 1,
+        id: 5,
+        title: "Orders",
+        url: "/orders",
+        icon: "/order.svg",
+      },
+      {
+        id: 6,
+        title: "Reviews",
+        url: "/reviews",
+        icon: "/review.svg",
+      },
+      {
+        id: 7,
         title: "Settings",
         url: "/",
         icon: "/settings.svg",
       },
       {
-        id: 2,
+        id: 8,
         title: "Backups",
         url: "/",
         icon: "/backup.svg",
       },
-    ],
-  },
-  {
-    id: 5,
-    title: "analytics",
-    listItems: [
       {
-        id: 1,
+        id: 9,
         title: "Charts",
         url: "/",
         icon: "/chart.svg",
       },
       {
-        id: 2,
+        id: 10,
         title: "Logs",
         url: "/",
         icon: "/log.svg",
       },
     ],
   },
+  // {
+  //   id: 4,
+  //   title: "Maintenance",
+  //   listItems: [
+      
+  //   ],
+  // },
+  // {
+  //   id: 5,
+  //   title: "analytics",
+  //   listItems: [
+      
+  //   ],
+  // },
 ];
 
 export const topDealUsers = [
