@@ -124,7 +124,7 @@ const OrderSingle: React.FC<Props> = (para: Props) => {
     };
 
     return (
-        <div className="single-page">
+        <div className="order-single-page">
             <h2>Order Detail</h2>
             <table>
                 <tr>

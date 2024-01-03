@@ -1,17 +1,18 @@
 import axiosClient from "./axiosClient";
 
-export interface Rating {
+export interface Rate {
     id: number,
     orderItemId: number,
     date: string,
     rating: number,
-    comment: string
+    comment: string,
+    status: string
 }
 
 
 const ratingApi = {
     getAll: (params: any) => {
-        const url = '/ratings/GetRatings';
+        const url = '/DTOController/GetRatingTable';
         return axiosClient.get(url);
     },
     get: (id: any) => {
@@ -19,7 +20,7 @@ const ratingApi = {
         return axiosClient.get(url);
     },
 
-    add: async (rating: Rating) => {
+    add: async (rating: Rate) => {
         try {
             const response = await axiosClient.post('/ratings/Insert', rating);
             return response.data;
@@ -28,7 +29,7 @@ const ratingApi = {
         }
     },
 
-    update: async (id: number, updatedRating: Rating) => {
+    update: async (id: number, updatedRating: Rate) => {
         try {
             const response = await axiosClient.put(`/ratings/Update?id=${id}`, updatedRating);
             return response.data;

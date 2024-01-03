@@ -57,8 +57,7 @@ const PriceTable = () => {
     const [rows, setRows] = useState<Row[]>([]);
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
-    const [productVariants, setProductVariants] = useState<any[]>([]);
-    const [productVariantsFetched, setProductVariantsFetched] = useState(false);
+    // const [productVariants, setProductVariants] = useState<any[]>([]);
 
     const handleDelete = (rowId: number) => {
         const isConfirmed = window.confirm('Are you sure you want to delete this row?');
@@ -110,63 +109,27 @@ const PriceTable = () => {
                     }
                 }
             )
+
+            // console.log('this is after format', displayedRows)
         }
         formatDate();
     }, [rows])
 
-
-    // useEffect(() => {
-    //     const fetchProductVariants = async () => {
-    //         try {
-    //             const productVariantsData = (await productVariantApi.getAll({ _page: 1, _limit: 100000 })).data;
-    //             await setProductVariants(productVariantsData);
-    //             setProductVariantsFetched(true);
-    //         } catch (error) {
-    //             console.log('Failed to fetch ProductVariant data:', error);
-    //         }
-    //     };
-
-    //     const formatDate = async () => {
-    //         rows.forEach(
-    //             row => {
-    //                 try {
-    //                     // console.log('Split date', row.startDate.substring(0, 10))
-    //                     row.startDate = row.startDate.substring(0, 10)
-    //                     row.endDate = row.endDate.substring(0, 10)
-    //                 }
-    //                 catch (error) {
-
-    //                 }
-    //             }
-    //         )
-    //     }
-
-    //     // fetchProductVariants();
-    //     formatDate();
-    // }, []);
-
     useEffect(() => {
-        if (productVariantsFetched) {
-            // Update rows with product variants
-            // rows.forEach((row) => {
-            //     row.productVariant = productVariants.find((item) => item.id === row.productVariantId)?.name || 'N/A';
-            // });
-
-            // Update displayedRows with filtered rows
-            try {
-                const filteredRows = rows.filter((row) =>
-                    row.id.toString().includes(query) || // Check Id (assuming Id is a number)
-                    row.productVariantName.includes(query)
-                );
-                setDisplayedRows(filteredRows);
-            } catch (error) {
-                // Handle error if needed
-            }
+        try {
+            const filteredRows = rows.filter((row) =>
+                row.id.toString().includes(query) || // Check Id (assuming Id is a number)
+                row.productVariantName.includes(query)
+            );
+            setDisplayedRows(filteredRows);
+        } catch (error) {
+            // Handle error if needed
         }
-    }, [productVariantsFetched, productVariants, rows, query]);
+
+    }, [rows, query]);
 
     return (
-        <div className='datatable'>
+        <div className='datatable' style={{ maxWidth: 1200 }}>
             <div className="datatableTitle">
                 Price
                 <div className="search">

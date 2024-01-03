@@ -26,6 +26,8 @@ import SpecificationSingle from "../../components/singles/specificationSingle/Sp
 import SpecificationTypeSingle from "../../components/singles/specificationTypeSingle/SpecificationTypeSingle";
 import "./single.scss";
 import OrderSingle from "../../components/singles/orderSingle/OrderSingle";
+import RatingSingle from "../../components/singles/ratingSingle/RatingSingle";
+import ratingApi from "../../api/ratingApi";
 
 interface Props {
     type: string,
@@ -83,6 +85,9 @@ const Single = ({ type, isNew }: Props) => {
                 case 'price':
                     data = (await priceApi.get(parseInt(id!))).data;
                     break;
+                case 'rating':
+                    data = (await ratingApi.get(parseInt(id!))).data;
+                    break;
                 default:
                     break;
                 // Handle the default case
@@ -124,6 +129,8 @@ const Single = ({ type, isNew }: Props) => {
                 return <SpecificationSingle specification={editRow!} />
             case 'price':
                 return <PriceSingle price={editRow!} />
+            case 'rating':
+                return <RatingSingle rating={editRow!} />
             default:
                 return null;
         }

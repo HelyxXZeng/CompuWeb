@@ -78,7 +78,7 @@ const SpecificationTypeTable = () => {
 
 
     return (
-        <div className='datatable'>
+        <div className='datatable' style={{ maxWidth: 1200 }}>
             <div className="datatableTitle">
                 Specification Types
                 <div className="search">

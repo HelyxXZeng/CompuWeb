@@ -1,6 +1,6 @@
 .single-page {
     max-width: 60%;
-    margin: 0 0;
+    margin: 0 auto;
 
     h2 {
         text-align: center;
@@ -19,10 +19,6 @@
         textarea {
             margin-bottom: 15px;
             padding: 8px;
-        }
-
-        .button-icon {
-            color: red;
         }
 
         .button {

@@ -11,7 +11,7 @@ export interface Price {
 
 const PriceApi = {
     getAll: (params: any) => {
-        const url = '/Prices/GetPrices';
+        const url = '/DTOController/GetPrices';
         return axiosClient.get(url);
     },
     get: (id: any) => {

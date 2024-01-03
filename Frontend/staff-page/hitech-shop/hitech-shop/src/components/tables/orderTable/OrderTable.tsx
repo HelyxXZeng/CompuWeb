@@ -160,7 +160,7 @@ const OrderTable = () => {
 
 
     return (
-        <div className='datatable'>
+        <div className='datatable' style={{ maxWidth: 1200 }}>
             <div className="datatableTitle">
                 Orders
                 <div className="search">
@@ -168,16 +168,10 @@ const OrderTable = () => {
                     <SearchIcon />
                 </div>
                 <div style={{ width: 10 }}></div>
-                {/* <Link to="/orders/new" className='link'>
-                    Add New
-                </Link> */}
             </div>
-
-
 
             {
                 rows.length > 0 ?
-
                     <>
                         <div className="statusList">
                             {
