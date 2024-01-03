@@ -11,7 +11,7 @@ export interface Return {
 
 const returnOrderApi = {
     getAll: (params: any) => {
-        const url = '/returns/GetReturns';
+        const url = '/DTOController/GetReturnTable';
         return axiosClient.get(url);
     },
     get: (id: any) => {

@@ -118,7 +118,7 @@ const PriceSingle: React.FC<Props> = (para: Props) => {
         <div className="single-page">
             <h2>Price</h2>
             <form onSubmit={handleSubmit}>
-                <label>ProductVariant:</label>
+                <label>Product Variant:</label>
                 <Autocomplete
                     className="autocomplete"
                     disablePortal

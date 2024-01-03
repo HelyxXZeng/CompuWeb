@@ -100,7 +100,7 @@ const ProductTable = () => {
     }, [query, selectedCategory, rows]);
 
     return (
-        <div className='datatable'>
+        <div className='datatable' style={{ maxWidth: 1200 }}>
             <div className="datatableTitle">
                 Product Overview
                 <div className="search">

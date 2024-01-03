@@ -10,7 +10,7 @@ export interface ProductInstance {
 
 const productInstanceApi = {
     getAll: (params: any) => {
-        const url = '/productInstances/GetProductInstances';
+        const url = '/DTOController/GetProductInstances';
         return axiosClient.get(url);
     },
     get: (id: any) => {
