@@ -84,7 +84,7 @@ function Home() {
                 <div className={cx('banner')}>
                     <InfiSwiper />
                 </div>
-                <div className={cx('news')}>
+                {/* <div className={cx('news')}>
                     <div className={cx('bg-list-new')}>
                         <a href="/#" className={cx('item-new', 'item-new1', 'active')}>
                             <p className={cx('p-title')}>Laptop Core i3 giá bao nhiêu?</p>
@@ -105,7 +105,7 @@ function Home() {
                             </a>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
             <div className={cx('frame-div')}>
                 <p className={cx('title-hotsale')}>HOT SALE</p>

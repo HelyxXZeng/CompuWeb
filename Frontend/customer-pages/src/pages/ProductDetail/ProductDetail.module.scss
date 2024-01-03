@@ -595,6 +595,11 @@
                         &:hover {
                             border: 1px solid #0079f2;
                         }
+
+                        &.selected {
+                            background-color: #0079f2;
+                            color: #fff;
+                        }
                     }
                 }
             }
