@@ -1284,5 +1284,26 @@ namespace TestForASPWebAPI.Controllers
             }
             return Ok(items);
         }
+
+        [HttpGet("GetPromotionByVariantPurchaseId")]
+        public async Task<IActionResult> GetPromotionByVariantPurchaseId(int VariantPurchaseId)
+        {
+            var items = new List<Promotion>();
+            string GetReturnItems = $"select * from Promotion where ProductVariantIdPurchase = {VariantPurchaseId}";
+            using (DataTable data = await DBController.GetInstance().GetData(GetReturnItems))
+            {
+                foreach (DataRow row in data.Rows)
+                {
+                    var item = new Promotion()
+                    {
+                        Id = (int)row["Id"],
+                        Value = (decimal)row["Value"],
+                        Status = (string)row["Status"]
+                    };
+                    items.Add(item);
+                }
+            }
+            return Ok(items);
+        }
     }
 }
