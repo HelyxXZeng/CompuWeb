@@ -571,27 +571,27 @@ export const singleUser = {
   },
   activities: [
     {
-      text: "John Doe sold receipt B41551 with a value of $500",
+      text: "Staff sold receipt B41551 with a value of $500",
       time: "3 day ago",
     },
     {
-      text: "John Doe added 3 new items to warehouse",
+      text: "Staff added 3 new items to warehouse",
       time: "1 week ago",
     },
     {
-      text: "John Doe damaged Sony Vaio FE14 i5 1235U worth $700",
+      text: "Staff damaged Sony Vaio FE14 i5 1235U worth $700",
       time: "2 weeks ago",
     },
     {
-      text: "John Doe reviewed a product",
+      text: "Staff reviewed a product",
       time: "1 month ago",
     },
     {
-      text: "John Doe added 1 new items to warehouse",
+      text: "Staff added 1 new items to warehouse",
       time: "1 month ago",
     },
     {
-      text: "John Doe reviewed a product",
+      text: "Staff reviewed a product",
       time: "2 months ago",
     },
   ],

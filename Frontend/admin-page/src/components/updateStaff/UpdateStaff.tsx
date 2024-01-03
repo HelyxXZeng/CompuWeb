@@ -275,12 +275,13 @@ const UpdateStaff = (props: Props) => {
                 });
                 if (selectedFile) {
                     // Convert the selected file to base64 or use it as needed
-                    await convertToBase64(selectedFile, (base64) => {
+                    convertToBase64(selectedFile, (base64:any) => {
                         // Do something with the base64 data, if needed
                         console.log('Base64 Image:', base64);
                         // Continue with the rest of your form submission logic here
+                        formData['avatar'] = base64;
                     });
-                    formData['avatar'] = base64;
+                    
                 }
                 formData["id"]= props.staffData.id;
             console.log('Form Data:', formData);
@@ -414,10 +415,10 @@ const UpdateStaff = (props: Props) => {
                                         
                                     </div>
                                 ))}
-                            <div className="item image-upload">{/* image button */}
+                             {/* <div className="item image-upload">
                                 <label>Upload an Image</label>
                                 <ImageUpload onFileSelected={handleFileSelected} existingPreview={props.staffData?.avatar} />
-                            </div>
+                            </div> */}
                             <button type="submit">Send</button>
                         </form>
                     </div>
