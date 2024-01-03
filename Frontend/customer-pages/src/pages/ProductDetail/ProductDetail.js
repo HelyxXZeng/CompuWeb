@@ -106,59 +106,59 @@ function ProductDetail() {
             content: item.item2.value,
         };
     });
-    const tableData1 = [
-        {
-            title: 'CPU (Bộ vi xử lý)',
-            content:
-                'Intel® Core™ i7 9850H (6 nhân 12 luồng, xung nhịp cơ bản 2.6GHz có thể đạt tối đa Turbo Boost 4.6GHz, 12 MB Intel® Smart Cache)',
-        },
-        {
-            title: 'Ram (Bộ nhớ trong)',
-            content: '16GB DDR4 bus 2666Mhz',
-        },
-        {
-            title: 'Storage (Ổ cứng)',
-            content: '512GB PCIe® NVMe™ M.2 SSD',
-        },
-        {
-            title: 'Màn hình',
-            content:
-                '15.6″ UltraSharp FHD IGZO4, FHD (1920X1080) IPS, màn nhám, chống lóa, không cảm ứng, Premier Panel Guard, đổ phủ màu 100% sRGB',
-        },
-        {
-            title: 'Card đồ họa',
-            content: 'NVIDIA Quadro T1000',
-        },
-        {
-            title: 'Pin',
-            content: '6-cell, 97whr',
-        },
-        {
-            title: 'Cổng kết nối vật lý',
-            content:
-                '2 cổng USB 3.1 Gen 1, 1 khe đọc-ghi thẻ SD card, 1 jack cắm tai nghe, 1 khe khóa vật lý, 1 cổng Thunderbolt 3 type C, cổng HDMI, cổng sạc chân tròn kim nhỏ',
-        },
-        {
-            title: 'Kết nối không dây',
-            content: 'Intel Dual Band Wireless AX200 2×2 + Bluetooth 5.1',
-        },
-        {
-            title: 'Trọng lượng',
-            content: '1.78kg',
-        },
-        {
-            title: 'Màu sắc',
-            content: 'Aluminum – Titan Gray (Xám bạc)',
-        },
-        {
-            title: 'Tình trạng sản phẩm',
-            content: 'Outlet/Refurbished',
-        },
-        {
-            title: 'Bảo hành',
-            content: '12 tháng tại Trung Trần',
-        },
-    ];
+    // const tableData1 = [
+    //     {
+    //         title: 'CPU (Bộ vi xử lý)',
+    //         content:
+    //             'Intel® Core™ i7 9850H (6 nhân 12 luồng, xung nhịp cơ bản 2.6GHz có thể đạt tối đa Turbo Boost 4.6GHz, 12 MB Intel® Smart Cache)',
+    //     },
+    //     {
+    //         title: 'Ram (Bộ nhớ trong)',
+    //         content: '16GB DDR4 bus 2666Mhz',
+    //     },
+    //     {
+    //         title: 'Storage (Ổ cứng)',
+    //         content: '512GB PCIe® NVMe™ M.2 SSD',
+    //     },
+    //     {
+    //         title: 'Màn hình',
+    //         content:
+    //             '15.6″ UltraSharp FHD IGZO4, FHD (1920X1080) IPS, màn nhám, chống lóa, không cảm ứng, Premier Panel Guard, đổ phủ màu 100% sRGB',
+    //     },
+    //     {
+    //         title: 'Card đồ họa',
+    //         content: 'NVIDIA Quadro T1000',
+    //     },
+    //     {
+    //         title: 'Pin',
+    //         content: '6-cell, 97whr',
+    //     },
+    //     {
+    //         title: 'Cổng kết nối vật lý',
+    //         content:
+    //             '2 cổng USB 3.1 Gen 1, 1 khe đọc-ghi thẻ SD card, 1 jack cắm tai nghe, 1 khe khóa vật lý, 1 cổng Thunderbolt 3 type C, cổng HDMI, cổng sạc chân tròn kim nhỏ',
+    //     },
+    //     {
+    //         title: 'Kết nối không dây',
+    //         content: 'Intel Dual Band Wireless AX200 2×2 + Bluetooth 5.1',
+    //     },
+    //     {
+    //         title: 'Trọng lượng',
+    //         content: '1.78kg',
+    //     },
+    //     {
+    //         title: 'Màu sắc',
+    //         content: 'Aluminum – Titan Gray (Xám bạc)',
+    //     },
+    //     {
+    //         title: 'Tình trạng sản phẩm',
+    //         content: 'Outlet/Refurbished',
+    //     },
+    //     {
+    //         title: 'Bảo hành',
+    //         content: '12 tháng tại Trung Trần',
+    //     },
+    // ];
 
     const maxRowsToShow = tableData?.length - 5; // Set the number of rows to show initially
 
@@ -169,9 +169,73 @@ function ProductDetail() {
         setIsTableExpanded(!isTableExpanded);
     };
 
-    const [value, setValue] = useState(3);
-
     const { increaseCartQuantity } = useShoppingCart();
+
+    const averageRating = parseFloat(productDetail?.averageRating)?.toFixed(1) || 4;
+
+    useEffect(() => {
+        console.log('ratingList', ratingList);
+    }, [ratingList]);
+
+    const [fiveStars, setFiveStars] = useState([]);
+    const [fourStars, setFourStars] = useState([]);
+    const [threeStars, setThreeStars] = useState([]);
+    const [twoStars, setTwoStars] = useState([]);
+    const [oneStar, setOneStar] = useState([]);
+
+    useEffect(() => {
+        // Categorize ratings into five types
+        const categorizedRatings = ratingList.reduce(
+            (categories, rating) => {
+                const rate = rating.rate;
+                switch (rate) {
+                    case 5:
+                        categories.fiveStars.push(rating);
+                        break;
+                    case 4:
+                        categories.fourStars.push(rating);
+                        break;
+                    case 3:
+                        categories.threeStars.push(rating);
+                        break;
+                    case 2:
+                        categories.twoStars.push(rating);
+                        break;
+                    case 1:
+                        categories.oneStar.push(rating);
+                        break;
+                    default:
+                        break;
+                }
+                return categories;
+            },
+            {
+                fiveStars: [],
+                fourStars: [],
+                threeStars: [],
+                twoStars: [],
+                oneStar: [],
+            },
+        );
+
+        // Update state with categorized ratings
+        setFiveStars(categorizedRatings.fiveStars);
+        setFourStars(categorizedRatings.fourStars);
+        setThreeStars(categorizedRatings.threeStars);
+        setTwoStars(categorizedRatings.twoStars);
+        setOneStar(categorizedRatings.oneStar);
+
+        console.log('Categorized Ratings', categorizedRatings);
+    }, [ratingList]);
+
+    const [selectedRating, setSelectedRating] = useState(null);
+
+    const handleFilterClick = (rating) => {
+        setSelectedRating(rating);
+        // Call the filter function with the selected rating
+    };
+
+    const filteredRatings = selectedRating ? ratingList.filter((rating) => rating.rate === selectedRating) : ratingList;
 
     return (
         <>
@@ -183,17 +247,12 @@ function ProductDetail() {
                         <div className={cx('rating')}>
                             <div className={cx('stars')}>
                                 <ThemeProvider theme={customTheme}>
-                                    <Rating
-                                        name="read-only"
-                                        value={productDetail?.averageRating}
-                                        readOnly
-                                        precision={0.1}
-                                    />
+                                    <Rating name="read-only" value={averageRating} readOnly precision={0.1} />
                                 </ThemeProvider>
                             </div>
                             <div className={cx('total-rate')}>
                                 <span>
-                                    {productDetail?.averageRating} ( {productDetail?.ratingCount} đánh giá)
+                                    {averageRating} ( {productDetail?.ratingCount} đánh giá)
                                 </span>
                             </div>
                         </div>
@@ -534,18 +593,13 @@ function ProductDetail() {
                         <div className={cx('rate-stars')}>
                             <div className={cx('text-1')}>Đánh Giá Trung Bình</div>
                             {productDetail?.averageRating > 0 ? (
-                                <div className={cx('text-2')}>{productDetail?.averageRating}/5</div>
+                                <div className={cx('text-2')}>{averageRating}/5</div>
                             ) : (
                                 <div className={cx('text-2')}>NaN/5</div>
                             )}
                             <div className={cx('star-list')}>
                                 <ThemeProvider theme={customTheme}>
-                                    <Rating
-                                        name="read-only"
-                                        value={productDetail?.averageRating}
-                                        readOnly
-                                        precision={0.1}
-                                    />
+                                    <Rating name="read-only" value={averageRating} readOnly precision={0.1} />
                                 </ThemeProvider>
                             </div>
                             <div className={cx('text-3')}>{productDetail?.ratingCount} đánh giá</div>
@@ -556,45 +610,60 @@ function ProductDetail() {
                                 <StarIcon className={cx('custom-star')} />
                                 <ThemeProvider theme={customProgressTheme}>
                                     {/* Use the customized LinearProgress component */}
-                                    <LinearProgress variant="determinate" value={50} />
+                                    <LinearProgress
+                                        variant="determinate"
+                                        value={(fiveStars?.length / ratingList.length) * 100}
+                                    />
                                 </ThemeProvider>
-                                <span className={cx('text-count')}>10</span>
+                                <span className={cx('text-count')}>{fiveStars?.length}</span>
                             </div>
                             <div className={cx('five-star')}>
                                 <span className={cx('text-star')}>4</span>
                                 <StarIcon className={cx('custom-star')} />
                                 <ThemeProvider theme={customProgressTheme}>
                                     {/* Use the customized LinearProgress component */}
-                                    <LinearProgress variant="determinate" value={50} />
+                                    <LinearProgress
+                                        variant="determinate"
+                                        value={(fourStars?.length / ratingList.length) * 100}
+                                    />
                                 </ThemeProvider>
-                                <span className={cx('text-count')}>10</span>
+                                <span className={cx('text-count')}>{fourStars?.length}</span>
                             </div>
                             <div className={cx('five-star')}>
                                 <span className={cx('text-star')}>3</span>
                                 <StarIcon className={cx('custom-star')} />
                                 <ThemeProvider theme={customProgressTheme}>
                                     {/* Use the customized LinearProgress component */}
-                                    <LinearProgress variant="determinate" value={50} />
+                                    <LinearProgress
+                                        variant="determinate"
+                                        value={(threeStars?.length / ratingList.length) * 100}
+                                    />
                                 </ThemeProvider>
-                                <span className={cx('text-count')}>10</span>
+                                <span className={cx('text-count')}>{threeStars?.length}</span>
                             </div>
                             <div className={cx('five-star')}>
                                 <span className={cx('text-star')}>2</span>
                                 <StarIcon className={cx('custom-star')} />
                                 <ThemeProvider theme={customProgressTheme}>
                                     {/* Use the customized LinearProgress component */}
-                                    <LinearProgress variant="determinate" value={50} />
+                                    <LinearProgress
+                                        variant="determinate"
+                                        value={(twoStars?.length / ratingList.length) * 100}
+                                    />
                                 </ThemeProvider>
-                                <span className={cx('text-count')}>10</span>
+                                <span className={cx('text-count')}>{twoStars?.length}</span>
                             </div>
                             <div className={cx('five-star')}>
                                 <span className={cx('text-star')}>1</span>
                                 <StarIcon className={cx('custom-star')} />
                                 <ThemeProvider theme={customProgressTheme}>
                                     {/* Use the customized LinearProgress component */}
-                                    <LinearProgress variant="determinate" value={50} />
+                                    <LinearProgress
+                                        variant="determinate"
+                                        value={(oneStar?.length / ratingList.length) * 100}
+                                    />
                                 </ThemeProvider>
-                                <span className={cx('text-count')}>10</span>
+                                <span className={cx('text-count')}>{oneStar?.length}</span>
                             </div>
                         </div>
                         {/* <div className={cx('rate-action')}>
@@ -606,6 +675,17 @@ function ProductDetail() {
                         <div className={cx('filter-star')}>
                             <div className={cx('filter-title')}>Lọc xem theo:</div>
                             <div className={cx('filter-list')}>
+                                {[5, 4, 3, 2, 1].map((rating) => (
+                                    <div
+                                        key={rating}
+                                        className={cx('badge', { selected: rating === selectedRating })}
+                                        onClick={() => handleFilterClick(rating)}
+                                    >
+                                        <span>{rating} sao</span>
+                                    </div>
+                                ))}
+                            </div>
+                            {/* <div className={cx('filter-list')}>
                                 <div className={cx('badge')}>
                                     <span>5 sao</span>
                                 </div>
@@ -625,10 +705,10 @@ function ProductDetail() {
                                 <div className={cx('badge')}>
                                     <span>1 sao</span>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                         <div className={cx('content-list')}>
-                            {ratingList?.map((ratingItem, index) => {
+                            {filteredRatings?.map((ratingItem, index) => {
                                 const timestamp = ratingItem?.date;
                                 const dateObject = new Date(timestamp);
 

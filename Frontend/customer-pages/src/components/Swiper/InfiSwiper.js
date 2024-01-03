@@ -25,7 +25,7 @@ function InfiSwiper() {
                 <swiper-slide>
                     <img
                         class="img-responsive"
-                        src="https://trungtran.vn/images/slideshow/2023/12/09/slideshow_large/slide-web-dai-le-sale-mung-nam-moi-2024_1702136682.webp"
+                        src="https://lh3.googleusercontent.com/FyxKAq7fMIQmwxGeWgQRHUXO2kqw9hISuymFbh1lyUh6N7LSuHM3qeBbbPO9iSG5IJx9V2IvucrivWMRS2C3ksUbsa_37SvX=rw-w1200"
                         alt="ĐẠI TIỆC SALE MỪNG NĂM MỚI 2024"
                         naptha_cursor="region"
                     ></img>
