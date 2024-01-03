@@ -11,9 +11,9 @@ import Rating from '@mui/material/Rating';
 // import ConfirmationDialog from '../confirmationDialog/ConfirmationDialog';
 interface Row {
     id: number;
-    productVariantName: string;
+    name: string;
     date: string,
-    rating: number,
+    rate: number,
     comment: string,
     status: string
 }
@@ -23,16 +23,16 @@ const columns: GridColDef[] = [
         field: 'id', headerName: 'ID', width: 60
     },
     {
-        field: 'productVariantName', headerName: 'Variant', flex: 7
+        field: 'name', headerName: 'Variant', flex: 7
     },
     {
-        field: 'date', headerName: 'Date', flex: 3
+        field: 'date', headerName: 'Date', width: 100
     },
     {
-        field: 'rating', headerName: 'Rating', flex: 3,
+        field: 'rate', headerName: 'Rate', width: 130,
         renderCell: (params) => {
             return (
-                <Rating name="read-only" value={params.row.rating} readOnly />
+                <Rating name="read-only" value={params.row.rate} readOnly />
             );
         },
     },
@@ -106,7 +106,7 @@ const RatingTable = () => {
         try {
             const filteredRows = rows.filter((row) =>
                 row.id.toString().includes(query) || // Check Id (assuming Id is a number)
-                row.productVariantName.includes(query)
+                row.name.includes(query)
             );
             setDisplayedRows(filteredRows);
         } catch (error) {
@@ -115,7 +115,7 @@ const RatingTable = () => {
     }, [rows, query]);
 
     return (
-        <div className='datatable'>
+        <div className='datatable' style={{ maxWidth: 1200 }}>
             <div className="datatableTitle">
                 Rating
                 <div className="search">
@@ -127,21 +127,25 @@ const RatingTable = () => {
                 </Link>
             </div>
 
-            <DataGrid
-                className='datagrid'
-                rows={displayedRows}
-                columns={columns.concat(actionColumn(handleDelete, handleView))}
-                initialState={{
-                    pagination: {
-                        paginationModel: { page: 0, pageSize: 5 },
-                    },
-                }}
-                slots={{
-                    toolbar: GridToolbar,
-                }}
-                pageSizeOptions={[5, 10]}
-            />
+            {
+                rows.length > 0 ?
+                    <DataGrid
+                        className='datagrid'
+                        rows={displayedRows}
+                        columns={columns.concat(actionColumn(handleDelete, handleView))}
+                        initialState={{
+                            pagination: {
+                                paginationModel: { page: 0, pageSize: 5 },
+                            },
+                        }}
+                        slots={{
+                            toolbar: GridToolbar,
+                        }}
+                        pageSizeOptions={[5, 10]}
+                    />
 
+                    : <h2>No Data!</h2>
+            }
         </div>
     )
 }

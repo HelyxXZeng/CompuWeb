@@ -10,7 +10,7 @@ import specificationTypeApi from '../../../api/specificationTypeApi';
 // import ConfirmationDialog from '../confirmationDialog/ConfirmationDialog';
 interface Row {
     id: number;
-    specificationType: string;
+    specificationTypeName: string;
     value: string
 }
 const columns: GridColDef[] = [
@@ -18,7 +18,7 @@ const columns: GridColDef[] = [
         field: 'id', headerName: 'ID', width: 60
     },
     {
-        field: 'specificationType', headerName: 'Specification Type', flex: 2
+        field: 'specificationTypeName', headerName: 'Specification Type', flex: 2
     },
     {
         field: 'value', headerName: 'Value', flex: 5
@@ -30,7 +30,6 @@ const SpecificationTable = () => {
     const [rows, setRows] = useState<Row[]>([]);
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
-    const [specificationTypes, setSpecificationTypes] = useState<any[]>([]);
     // const previousRowsRef = useRef<any[]>([]);
     // useEffect(() => {
     //     const fetchSpecificationTypes = async () => {
@@ -82,36 +81,22 @@ const SpecificationTable = () => {
 
 
     useEffect(() => {
-        // Check if the rows have actually changed
-        // if (previousRowsRef.current !== rows && specificationTypes.length > 0) {
-        //     // Update rows directly to include specificationType name
-        //     // console.log('Product SpecificationType in Specification', specificationTypes)
 
-        // }
-
-        // rows.forEach(row => {
-        //     row.specificationType = specificationTypes.find(pl => pl.id === row.specificationTypeId)?.name || 'N/A';
-        // });
-        // Use the filter method to create a new array with rows that match the query in either Name or Id
-        // console.log('Rows in Instances:', rows)
         try {
             const filteredRows = rows.filter(row =>
                 row.value.toLowerCase().includes(query.toLowerCase())
                 || row.id.toString().includes(query)
-                || row.specificationType.toLowerCase().includes(query.toLowerCase())
+                || row.specificationTypeName.toLowerCase().includes(query.toLowerCase())
             );
             setDisplayedRows(filteredRows);
         }
         catch (error) {
             // console.log('Error in Instance Table', error)
         }
-
-        // Update the previousRowsRef with the current rows
-        // previousRowsRef.current = rows.slice(); // Copy the array to avoid reference issues
-    }, [query, rows, specificationTypes]);
+    }, [query, rows]);
 
     return (
-        <div className='datatable'>
+        <div className='datatable' style={{ maxWidth: 1200 }}>
             <div className="datatableTitle">
                 Specifications
                 <div className="search">

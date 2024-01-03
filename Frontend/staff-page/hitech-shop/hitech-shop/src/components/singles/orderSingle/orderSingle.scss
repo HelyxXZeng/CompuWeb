@@ -1,0 +1,81 @@
+.order-single-page {
+    max-width: 100%;
+    margin: 0 0;
+
+
+    h2 {
+        text-align: center;
+    }
+
+    .half {
+        width: 50%;
+        padding: 10px 10px;
+    }
+
+    .right {
+        vertical-align: top;
+        margin-top: 105px;
+        padding: 29px 10px;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        width: 100%; // Make the form width 100%
+
+        label {
+            margin-top: 0px;
+        }
+
+        input,
+        textarea {
+            margin-bottom: 15px;
+            padding: 8px;
+        }
+
+        .button-icon {
+            color: red;
+        }
+
+        .button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 15px;
+
+            &:hover {
+                background-color: #0056b3;
+            }
+        }
+
+        .add-button {
+            color: black;
+            cursor: pointer;
+            border: solid black;
+            border-radius: 5px;
+            font-size: 30px;
+            margin-bottom: 15px;
+            margin-top: 15px;
+            margin-left: 45%;
+
+            &:hover {
+                background-color: #adc5de;
+            }
+        }
+
+        .autocomplete {
+            margin-top: 5px;
+            margin-bottom: 20px;
+        }
+    }
+
+
+}

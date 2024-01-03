@@ -1,13 +1,11 @@
 import { GridColDef } from "@mui/x-data-grid";
-import { PromotionDef } from "../../api/promotionAPI"
+import promotionAPI, { PromotionDef } from "../../api/promotionAPI"
 import "./promotion.scss"
 import { useEffect, useState } from "react";
-import { promotionExample } from "../../data";
 import { useParams } from "react-router-dom";
 import { Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import UpdatePromotion from "../../components/updatePromotion/UpdatePromotion";
 import { TextareaAutosize } from "@mui/material";
-import theme from "../../styles/theme";
 
 interface Props {
   promotion: PromotionDef;
@@ -33,51 +31,50 @@ const promotionChartExample: PromotionChart = {
   ],
 };
 const columns: GridColDef[] = [
-  { field: "Id", headerName: "ID", width: 7, },
   {
-    field: "Name",
+    field: "name",
     type: "string",
     headerName: "Name",
     flex: 5,
   },
   {
-    field: "StartDate",
+    field: "startDate",
     type: "string",
     headerName: "Start Date",
     flex: 4,
   },
   {
-    field: "EndDate",
+    field: "endDate",
     type: "string",
     headerName: "End Date",
     flex: 4,
   },
   {
-    field: "ProductVariantPurchaseName",
+    field: "productVariantNamePurchase",
     type: "string",
     headerName: "Product Variant Purchase",
     flex: 5,
   },
   {
-    field: "ProductVariantPromotionName",
+    field: "productVariantNamePromotion",
     type: "string",
     headerName: "Product Variant Promotion",
     flex: 5,
   },
   {
-    field: "Value",
+    field: "value",
     headerName: "Value",
     flex: 3,
-    type: "string",
+    type: "number",
   },
   {
-    field: "Status",
+    field: "status",
     headerName: "Status",
     flex: 2,
     type: "string",
   },
   {
-    field: "Content",
+    field: "content",
     type: "string",
     headerName: "Content",
     flex: 3,
@@ -87,48 +84,62 @@ const columns: GridColDef[] = [
 
 const Promotion = () => {
   const [open,setOpen] = useState(false);
-  const [data,setData] = useState([]);
-  useEffect (() => {
-    const fetchDataAndSetState = async () => {
-      try {
-        //const result = await fetchData();
-        //setData(result);
-      } catch (error) {
-        // Xử lý lỗi nếu cần thiết
-      }
-    };
-  })
   const { id } = useParams();
-  const props = promotionExample;
+  const [data,setData] = useState<any>([]);
+  const formatDate = (dateString:any) => {
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+  const fetchData = async () => {
+    try {
+      const result = await  promotionAPI.getID(id);
+      const formattedData = {
+        ...result.data,
+        startDate: formatDate(result.data.startDate),
+        endDate:formatDate(result.data.endDate)
+      };
+      setData(formattedData);
+    } catch (error) {
+      alert("Failed to get Promotion Infomation. Error:" + error);
+      throw(error)
+    }
+  };
+  useEffect (() => {
+    fetchData()
+  },[]);
+  const props = data;
   const chart = promotionChartExample;
+  const formatFieldName = (fieldName:any) => {
+    // Sử dụng biểu thức chính quy để chia tách các từ và chuyển đổi chữ cái đầu tiên thành chữ hoa
+    return fieldName.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/_/g, ' ');
+  };
   return (
     
     <div className="promotion">
       <div className="view">
         <div className="info">
           <div className="topInfo">
-            <h1>{props.Name}</h1>
+            <h1>{props.name}</h1>
             <button onClick={() => setOpen(true)}>Update</button>
           </div>
           <div className="details">
             {Object.entries(props).map((item) => (
-              <div className={` ${(  item[0] === "Id"
-               || item[0] === "StartDate" || item[0] === "EndDate") ? "item2row" : "item"}`} key={item[0]}>
-                <span className="itemTitle">{item[0]}:</span>
-                {item[0] === "Content" && (
+              <div className={` ${(item[0] === "startDate" || item[0] === "endDate") ? "item2row" : "item"}`} key={item[0]}>
+                <span className="itemTitle">{formatFieldName(item[0])}:</span>
+                { (item[0] !== "content")
+                 && (
+                   <span className="itemValue">{item[1]}</span>
+                   )}
+                {item[0] === "content" && (
                   <TextareaAutosize  
                     className="itemValue"
-                    value={item[1]}
+                    value={item[1] as any}
                     disabled
                     minRows={2} // Adjust the number of rows as needed
                     maxRows={4}
                     // Thêm các thuộc tính khác tùy thuộc vào nhu cầu
                   />
                 )} 
-                { (item[0] !== "Content")
-                 && (
-                  <span className="itemValue">{item[1]}</span>
-                )}
               </div>
             ))}
           </div>
@@ -163,7 +174,7 @@ const Promotion = () => {
           </div>
         )}
       </div>
-      {open && <UpdatePromotion slug='promotions' columns={columns} setOpen={setOpen} promotionData={props} />}
+      {open && <UpdatePromotion slug='promotions' columns={columns} setOpen={setOpen} promotionData={props} fetchData={fetchData}/>}
     </div>
   )
 }

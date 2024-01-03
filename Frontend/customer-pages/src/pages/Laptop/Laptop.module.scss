@@ -1,13 +1,19 @@
 .title {
-    margin-bottom: 35px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     h1 {
         font-size: 36px;
         font-family: bold;
+    }
+    .sorting {
     }
 }
 
 .main {
     display: flex;
+    margin-bottom: 20px;
 }
 
 .categories-col {
@@ -31,6 +37,10 @@
         margin-bottom: 35px;
         background: #fff;
         border-radius: 5px;
+
+        .loading-spinner {
+            margin-top: 5px;
+        }
         .row-list {
             display: grid;
             grid-template-columns: repeat(4, 1fr);

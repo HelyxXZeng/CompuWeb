@@ -1,25 +1,38 @@
 import axiosClient from "./axiosClient"
 
 export interface PromotionDef{
-  Id: number;
-  Name: string,
-  ProductVariantIdPurchase: number,
-  ProductVariantIdPromotion: number,
-  StartDate: Date,
-  EndDate: Date,
-  Content: string,
-  Value: number,
-  Status: string
+  id: number,
+  name: string,
+  productVariantIdPurchase: number,
+  productVariantIdPromotion: number,
+  startDate: Date,
+  endDate: Date,
+  content: string,
+  value: number,
+  status: string
+}
+export interface PromotionHaveNameDef{
+  id: number,
+  name: string,
+  productVariantIdPurchase: number,
+  productVariantIdPromotion: number,
+  productVariantPurchaseName: number,
+  productVariantPromotionName: number,
+  startDate: Date,
+  endDate: Date,
+  content: string,
+  value: number,
+  status: string
 }
 
 const promotionAPI = {
   getAll: (params: any) => {
-    const url = `/promotions/GetPromotions`;
+    const url = `AdminDTOController/GetPromotionTableWithName`;
     return axiosClient.get(url, {params});
   },
   
   getID: (id: any) => {
-    const url = `/promotions/GetPromotionById?id=${id}`;
+    const url = `AdminDTOController/GetPromotionWithNameById/${id}`;
     return axiosClient.get(url);
   },
 
@@ -43,7 +56,7 @@ const promotionAPI = {
 
   remove: async (id: number) => {
     try {
-        const response = await axiosClient.delete(`/promotions/Delete?id=${id}`);
+        const response = await axiosClient.put(`/AdminDTOController/SetDeletePromotion/${id}`);
         return response.data;
     } catch (error) {
         throw error;

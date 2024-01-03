@@ -14,6 +14,8 @@ import { useParams } from 'react-router-dom';
 import * as productServices from '~/apiServices/productServices';
 
 import { useShoppingCart } from '~/context/ShoppingCartContext';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import PersonIcon from '@mui/icons-material/Person';
 
 import config from '~/config';
 
@@ -72,6 +74,7 @@ const cx = classNames.bind(styles);
 function ProductDetail() {
     const { id } = useParams();
     const [productDetail, setProductDetail] = useState({});
+    const [ratingList, setRatingList] = useState([]);
     useEffect(() => {
         const fetchProductDetail = async () => {
             try {
@@ -82,7 +85,18 @@ function ProductDetail() {
             }
         };
 
+        const fetchRatingList = async () => {
+            try {
+                const result = await productServices.getRatingList(id);
+                console.log('ratinglist', result);
+                setRatingList(result);
+            } catch (error) {
+                console.error('Error fetching product details:', error);
+            }
+        };
+
         fetchProductDetail();
+        fetchRatingList();
     }, [id]);
 
     const formattedPrice = new Intl.NumberFormat('en-US').format(productDetail?.price).replace(/,/g, '.');
@@ -92,59 +106,59 @@ function ProductDetail() {
             content: item.item2.value,
         };
     });
-    const tableData1 = [
-        {
-            title: 'CPU (Bộ vi xử lý)',
-            content:
-                'Intel® Core™ i7 9850H (6 nhân 12 luồng, xung nhịp cơ bản 2.6GHz có thể đạt tối đa Turbo Boost 4.6GHz, 12 MB Intel® Smart Cache)',
-        },
-        {
-            title: 'Ram (Bộ nhớ trong)',
-            content: '16GB DDR4 bus 2666Mhz',
-        },
-        {
-            title: 'Storage (Ổ cứng)',
-            content: '512GB PCIe® NVMe™ M.2 SSD',
-        },
-        {
-            title: 'Màn hình',
-            content:
-                '15.6″ UltraSharp FHD IGZO4, FHD (1920X1080) IPS, màn nhám, chống lóa, không cảm ứng, Premier Panel Guard, đổ phủ màu 100% sRGB',
-        },
-        {
-            title: 'Card đồ họa',
-            content: 'NVIDIA Quadro T1000',
-        },
-        {
-            title: 'Pin',
-            content: '6-cell, 97whr',
-        },
-        {
-            title: 'Cổng kết nối vật lý',
-            content:
-                '2 cổng USB 3.1 Gen 1, 1 khe đọc-ghi thẻ SD card, 1 jack cắm tai nghe, 1 khe khóa vật lý, 1 cổng Thunderbolt 3 type C, cổng HDMI, cổng sạc chân tròn kim nhỏ',
-        },
-        {
-            title: 'Kết nối không dây',
-            content: 'Intel Dual Band Wireless AX200 2×2 + Bluetooth 5.1',
-        },
-        {
-            title: 'Trọng lượng',
-            content: '1.78kg',
-        },
-        {
-            title: 'Màu sắc',
-            content: 'Aluminum – Titan Gray (Xám bạc)',
-        },
-        {
-            title: 'Tình trạng sản phẩm',
-            content: 'Outlet/Refurbished',
-        },
-        {
-            title: 'Bảo hành',
-            content: '12 tháng tại Trung Trần',
-        },
-    ];
+    // const tableData1 = [
+    //     {
+    //         title: 'CPU (Bộ vi xử lý)',
+    //         content:
+    //             'Intel® Core™ i7 9850H (6 nhân 12 luồng, xung nhịp cơ bản 2.6GHz có thể đạt tối đa Turbo Boost 4.6GHz, 12 MB Intel® Smart Cache)',
+    //     },
+    //     {
+    //         title: 'Ram (Bộ nhớ trong)',
+    //         content: '16GB DDR4 bus 2666Mhz',
+    //     },
+    //     {
+    //         title: 'Storage (Ổ cứng)',
+    //         content: '512GB PCIe® NVMe™ M.2 SSD',
+    //     },
+    //     {
+    //         title: 'Màn hình',
+    //         content:
+    //             '15.6″ UltraSharp FHD IGZO4, FHD (1920X1080) IPS, màn nhám, chống lóa, không cảm ứng, Premier Panel Guard, đổ phủ màu 100% sRGB',
+    //     },
+    //     {
+    //         title: 'Card đồ họa',
+    //         content: 'NVIDIA Quadro T1000',
+    //     },
+    //     {
+    //         title: 'Pin',
+    //         content: '6-cell, 97whr',
+    //     },
+    //     {
+    //         title: 'Cổng kết nối vật lý',
+    //         content:
+    //             '2 cổng USB 3.1 Gen 1, 1 khe đọc-ghi thẻ SD card, 1 jack cắm tai nghe, 1 khe khóa vật lý, 1 cổng Thunderbolt 3 type C, cổng HDMI, cổng sạc chân tròn kim nhỏ',
+    //     },
+    //     {
+    //         title: 'Kết nối không dây',
+    //         content: 'Intel Dual Band Wireless AX200 2×2 + Bluetooth 5.1',
+    //     },
+    //     {
+    //         title: 'Trọng lượng',
+    //         content: '1.78kg',
+    //     },
+    //     {
+    //         title: 'Màu sắc',
+    //         content: 'Aluminum – Titan Gray (Xám bạc)',
+    //     },
+    //     {
+    //         title: 'Tình trạng sản phẩm',
+    //         content: 'Outlet/Refurbished',
+    //     },
+    //     {
+    //         title: 'Bảo hành',
+    //         content: '12 tháng tại Trung Trần',
+    //     },
+    // ];
 
     const maxRowsToShow = tableData?.length - 5; // Set the number of rows to show initially
 
@@ -155,9 +169,73 @@ function ProductDetail() {
         setIsTableExpanded(!isTableExpanded);
     };
 
-    const [value, setValue] = useState(3);
-
     const { increaseCartQuantity } = useShoppingCart();
+
+    const averageRating = parseFloat(productDetail?.averageRating)?.toFixed(1) || 4;
+
+    useEffect(() => {
+        console.log('ratingList', ratingList);
+    }, [ratingList]);
+
+    const [fiveStars, setFiveStars] = useState([]);
+    const [fourStars, setFourStars] = useState([]);
+    const [threeStars, setThreeStars] = useState([]);
+    const [twoStars, setTwoStars] = useState([]);
+    const [oneStar, setOneStar] = useState([]);
+
+    useEffect(() => {
+        // Categorize ratings into five types
+        const categorizedRatings = ratingList.reduce(
+            (categories, rating) => {
+                const rate = rating.rate;
+                switch (rate) {
+                    case 5:
+                        categories.fiveStars.push(rating);
+                        break;
+                    case 4:
+                        categories.fourStars.push(rating);
+                        break;
+                    case 3:
+                        categories.threeStars.push(rating);
+                        break;
+                    case 2:
+                        categories.twoStars.push(rating);
+                        break;
+                    case 1:
+                        categories.oneStar.push(rating);
+                        break;
+                    default:
+                        break;
+                }
+                return categories;
+            },
+            {
+                fiveStars: [],
+                fourStars: [],
+                threeStars: [],
+                twoStars: [],
+                oneStar: [],
+            },
+        );
+
+        // Update state with categorized ratings
+        setFiveStars(categorizedRatings.fiveStars);
+        setFourStars(categorizedRatings.fourStars);
+        setThreeStars(categorizedRatings.threeStars);
+        setTwoStars(categorizedRatings.twoStars);
+        setOneStar(categorizedRatings.oneStar);
+
+        console.log('Categorized Ratings', categorizedRatings);
+    }, [ratingList]);
+
+    const [selectedRating, setSelectedRating] = useState(null);
+
+    const handleFilterClick = (rating) => {
+        setSelectedRating(rating);
+        // Call the filter function with the selected rating
+    };
+
+    const filteredRatings = selectedRating ? ratingList.filter((rating) => rating.rate === selectedRating) : ratingList;
 
     return (
         <>
@@ -169,17 +247,12 @@ function ProductDetail() {
                         <div className={cx('rating')}>
                             <div className={cx('stars')}>
                                 <ThemeProvider theme={customTheme}>
-                                    <Rating
-                                        name="read-only"
-                                        value={productDetail?.averageRating}
-                                        readOnly
-                                        precision={0.1}
-                                    />
+                                    <Rating name="read-only" value={averageRating} readOnly precision={0.1} />
                                 </ThemeProvider>
                             </div>
                             <div className={cx('total-rate')}>
                                 <span>
-                                    {productDetail?.averageRating} ( {productDetail?.ratingCount} đánh giá)
+                                    {averageRating} ( {productDetail?.ratingCount} đánh giá)
                                 </span>
                             </div>
                         </div>
@@ -193,7 +266,7 @@ function ProductDetail() {
                     <div className={cx('detail-top')}>
                         <p className={cx('price')}>
                             <span className={cx('price-new')}>{formattedPrice}đ </span>
-                            <span className={cx('price-old')}>19.500.000đ </span>
+                            {/* <span className={cx('price-old')}>19.500.000đ </span> */}
                         </p>
                         <div className={cx('variant-action')}>
                             <h2>Chọn cấu hình:</h2>
@@ -216,7 +289,7 @@ function ProductDetail() {
                                             </div>
                                             <div className={cx('price-variant')}>
                                                 <span className={cx('price-top')}>{formattedPrice}</span>
-                                                <span className={cx('price-bottom')}>57.000.000đ</span>
+                                                {/* <span className={cx('price-bottom')}>57.000.000đ</span> */}
                                             </div>
                                         </a>
                                     );
@@ -300,14 +373,17 @@ function ProductDetail() {
                             </a>
                         </div>
                         <div className={cx('installment')}>
-                            <a href="/#">
+                            {/* <a href="/#">
                                 Trả góp
                                 <span>( Thủ tục nhanh chóng nhận máy ngay ) </span>
-                            </a>
+                            </a> */}
+                            <button type="button" onClick={() => increaseCartQuantity(id)} name="submit_add_products">
+                                <span>Thêm vào giỏ hàng</span>
+                            </button>
                         </div>
                     </div>
 
-                    <div className={cx('compare-addCart')}>
+                    {/* <div className={cx('compare-addCart')}>
                         <div className={cx('compare')}>
                             <a href="/#">
                                 <AddIcon className={cx('plus')} />
@@ -320,7 +396,7 @@ function ProductDetail() {
                                 Thêm vào giỏ hàng{' '}
                             </button>
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* <div className={cx('discount-prodList')}>
                         <h2>Khuyến mãi</h2>
@@ -517,18 +593,13 @@ function ProductDetail() {
                         <div className={cx('rate-stars')}>
                             <div className={cx('text-1')}>Đánh Giá Trung Bình</div>
                             {productDetail?.averageRating > 0 ? (
-                                <div className={cx('text-2')}>{productDetail?.averageRating}/5</div>
+                                <div className={cx('text-2')}>{averageRating}/5</div>
                             ) : (
                                 <div className={cx('text-2')}>NaN/5</div>
                             )}
                             <div className={cx('star-list')}>
                                 <ThemeProvider theme={customTheme}>
-                                    <Rating
-                                        name="read-only"
-                                        value={productDetail?.averageRating}
-                                        readOnly
-                                        precision={0.1}
-                                    />
+                                    <Rating name="read-only" value={averageRating} readOnly precision={0.1} />
                                 </ThemeProvider>
                             </div>
                             <div className={cx('text-3')}>{productDetail?.ratingCount} đánh giá</div>
@@ -539,56 +610,82 @@ function ProductDetail() {
                                 <StarIcon className={cx('custom-star')} />
                                 <ThemeProvider theme={customProgressTheme}>
                                     {/* Use the customized LinearProgress component */}
-                                    <LinearProgress variant="determinate" value={50} />
+                                    <LinearProgress
+                                        variant="determinate"
+                                        value={(fiveStars?.length / ratingList.length) * 100}
+                                    />
                                 </ThemeProvider>
-                                <span className={cx('text-count')}>10</span>
+                                <span className={cx('text-count')}>{fiveStars?.length}</span>
                             </div>
                             <div className={cx('five-star')}>
                                 <span className={cx('text-star')}>4</span>
                                 <StarIcon className={cx('custom-star')} />
                                 <ThemeProvider theme={customProgressTheme}>
                                     {/* Use the customized LinearProgress component */}
-                                    <LinearProgress variant="determinate" value={50} />
+                                    <LinearProgress
+                                        variant="determinate"
+                                        value={(fourStars?.length / ratingList.length) * 100}
+                                    />
                                 </ThemeProvider>
-                                <span className={cx('text-count')}>10</span>
+                                <span className={cx('text-count')}>{fourStars?.length}</span>
                             </div>
                             <div className={cx('five-star')}>
                                 <span className={cx('text-star')}>3</span>
                                 <StarIcon className={cx('custom-star')} />
                                 <ThemeProvider theme={customProgressTheme}>
                                     {/* Use the customized LinearProgress component */}
-                                    <LinearProgress variant="determinate" value={50} />
+                                    <LinearProgress
+                                        variant="determinate"
+                                        value={(threeStars?.length / ratingList.length) * 100}
+                                    />
                                 </ThemeProvider>
-                                <span className={cx('text-count')}>10</span>
+                                <span className={cx('text-count')}>{threeStars?.length}</span>
                             </div>
                             <div className={cx('five-star')}>
                                 <span className={cx('text-star')}>2</span>
                                 <StarIcon className={cx('custom-star')} />
                                 <ThemeProvider theme={customProgressTheme}>
                                     {/* Use the customized LinearProgress component */}
-                                    <LinearProgress variant="determinate" value={50} />
+                                    <LinearProgress
+                                        variant="determinate"
+                                        value={(twoStars?.length / ratingList.length) * 100}
+                                    />
                                 </ThemeProvider>
-                                <span className={cx('text-count')}>10</span>
+                                <span className={cx('text-count')}>{twoStars?.length}</span>
                             </div>
                             <div className={cx('five-star')}>
                                 <span className={cx('text-star')}>1</span>
                                 <StarIcon className={cx('custom-star')} />
                                 <ThemeProvider theme={customProgressTheme}>
                                     {/* Use the customized LinearProgress component */}
-                                    <LinearProgress variant="determinate" value={50} />
+                                    <LinearProgress
+                                        variant="determinate"
+                                        value={(oneStar?.length / ratingList.length) * 100}
+                                    />
                                 </ThemeProvider>
-                                <span className={cx('text-count')}>10</span>
+                                <span className={cx('text-count')}>{oneStar?.length}</span>
                             </div>
                         </div>
-                        <div className={cx('rate-action')}>
+                        {/* <div className={cx('rate-action')}>
                             <p>Bạn đã dùng sản phẩm này?</p>
                             <a href="/#">GỬI ĐÁNH GIÁ</a>
-                        </div>
+                        </div> */}
                     </div>
                     <div className={cx('reviews-content')}>
                         <div className={cx('filter-star')}>
                             <div className={cx('filter-title')}>Lọc xem theo:</div>
                             <div className={cx('filter-list')}>
+                                {[5, 4, 3, 2, 1].map((rating) => (
+                                    <div
+                                        key={rating}
+                                        className={cx('badge', { selected: rating === selectedRating })}
+                                        onClick={() => handleFilterClick(rating)}
+                                    >
+                                        <span>{rating} sao</span>
+                                    </div>
+                                ))}
+                            </div>
+                            {/* <div className={cx('filter-list')}>
                                 <div className={cx('badge')}>
                                     <span>5 sao</span>
                                 </div>
@@ -608,12 +705,57 @@ function ProductDetail() {
                                 <div className={cx('badge')}>
                                     <span>1 sao</span>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                         <div className={cx('content-list')}>
-                            <div className={cx('content-user')}>
+                            {filteredRatings?.map((ratingItem, index) => {
+                                const timestamp = ratingItem?.date;
+                                const dateObject = new Date(timestamp);
+
+                                const day = dateObject.getDate();
+                                const month = dateObject.getMonth() + 1; // Months are zero-based
+                                const year = dateObject.getFullYear();
+
+                                const formattedDateTime = `${day}/${month}/${year}`;
+
+                                const maskName = (name) => {
+                                    if (!name) return null;
+                                    const firstChar = name.charAt(0);
+                                    const maskedPart = '*'.repeat(name.length - 1);
+                                    return firstChar + maskedPart;
+                                };
+
+                                const maskedName = maskName(ratingItem?.name);
+
+                                return (
+                                    <div key={index} className={cx('content-user')}>
+                                        <div className={cx('avartar')}>
+                                            <PersonIcon className={cx('user-icon')} />
+                                        </div>
+
+                                        <div className={cx('infor-user')}>
+                                            <div className={cx('name-user')}>
+                                                <p> {maskedName}</p>
+                                            </div>
+                                            <div className={cx('rate-user')}>
+                                                <ThemeProvider theme={customTheme}>
+                                                    <Rating name="read-only" value={ratingItem?.rate} readOnly />
+                                                </ThemeProvider>
+                                            </div>
+                                            <div className={cx('comment-user')}>
+                                                <p>{ratingItem?.comment}</p>
+                                            </div>
+                                            <div className={cx('time-user')}>
+                                                <div className={cx('time-text')}>{formattedDateTime}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+
+                            {/* <div className={cx('content-user')}>
                                 <div className={cx('avartar')}>
-                                    <span>VDP</span>
+                                    <AccountCircleIcon />
                                 </div>
 
                                 <div className={cx('infor-user')}>
@@ -632,32 +774,9 @@ function ProductDetail() {
                                         <div className={cx('time-text')}>9 ngày trước</div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
 
-                            <div className={cx('content-user')}>
-                                <div className={cx('avartar')}>
-                                    <span>VDP</span>
-                                </div>
-
-                                <div className={cx('infor-user')}>
-                                    <div className={cx('name-user')}>
-                                        <p> Vũ Đại Phong</p>
-                                    </div>
-                                    <div className={cx('rate-user')}>
-                                        <ThemeProvider theme={customTheme}>
-                                            <Rating name="read-only" value={value} readOnly />
-                                        </ThemeProvider>
-                                    </div>
-                                    <div className={cx('comment-user')}>
-                                        <p>máy có dung lượng RAM lớn 16GB, SSD tốc độ cao, xử lý hình ảnh 3D khá tốt</p>
-                                    </div>
-                                    <div className={cx('time-user')}>
-                                        <div className={cx('time-text')}>9 ngày trước</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className={cx('content-user')}>
+                            {/* <div className={cx('content-user')}>
                                 <div className={cx('avartar')}>
                                     <span>VP</span>
                                 </div>
@@ -731,7 +850,7 @@ function ProductDetail() {
                                         <div className={cx('time-text')}>9 ngày trước</div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                         <div className={cx('content-pagination')}></div>
                     </div>

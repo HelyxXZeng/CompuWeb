@@ -3,11 +3,14 @@ import "./dataTable.scss";
 import { Link } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { useState } from "react";
+import  staffApi from "../../api/staffsAPI";
+import promotionAPI from "../../api/promotionAPI";
 
 type Props = {
   columns: GridColDef[];
   rows: object[];
   slug: string;
+  fetchData(): Promise<void>;
   defaultSortField?: string; // New prop for default sorting field
   defaultSortOrder?: "asc" | "desc"; // New prop for default sorting order
 };
@@ -36,10 +39,51 @@ const useDataTableSorting = (
 
 const DataTable = (props: Props) => {
 
-  const handleDelete = (id: number) => {
-    //delete the item
-    // axios.deleta('api/${sluf}/id')
-    console.log(id + " has been deleted!")
+  const handleDelete = async (id: number) => {
+    if (props.slug === "staffs") {
+      try {
+        const resdata = await staffApi.getID(id);
+        const data = resdata.data;
+  
+        if (data.other === "INACTIVE") {
+          alert("Cannot delete this staff because he/she is already set as INACTIVE");
+        } else {
+          try {
+            await staffApi.remove(id);
+            console.log(id + " has been deleted!");
+          } catch (deleteError) {
+            alert("An error occurred while deleting the staff: " + deleteError);
+            throw deleteError;
+          }
+          props.fetchData();
+        }
+      } catch (error) {
+        alert("An error occurred while fetching staff data: " + error);
+        console.error('Error:', error);
+      }
+    } else if (props.slug === "promotions") {
+      try {
+        const resdata = await promotionAPI.getID(id);
+        const data = resdata.data;
+  
+        if (data.other === "CANCELED") {
+          alert("Cannot delete this promotion because it is already set as CANCELED");
+        } else {
+          try {
+            await promotionAPI.remove(id);
+            console.log(id + " has been deleted!");
+          } catch (deleteError) {
+            alert("An error occurred while deleting promotion: " + deleteError);
+            throw deleteError;
+          }
+          props.fetchData();
+        }
+      } catch (error) {
+        alert("An error occurred while fetching staff data: " + error);
+        console.error('Error:', error);
+      }
+    }
+    
   };
   const { sortModel, handleSortModelChange } = useDataTableSorting(
     props.defaultSortField,
@@ -72,7 +116,6 @@ const DataTable = (props: Props) => {
           className="dataGrid"
           rows={props.rows}
           columns={[...props.columns, actionColumn]}
-          sortingMode="server"
           sortModel={sortModel}
           onSortModelChange={handleSortModelChange}
           initialState={{

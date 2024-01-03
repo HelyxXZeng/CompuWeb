@@ -1,11 +1,11 @@
-import { singleUser } from "../../data"
 import "./staff.scss"
 import { Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UpdateStaff from "../../components/updateStaff/UpdateStaff";
 import { GridColDef } from "@mui/x-data-grid";
 import { useParams } from "react-router-dom";
-import { StaffDef } from "../../api/staffsAPI";
+import staffApi, { StaffDef } from "../../api/staffsAPI";
+import { singleUser } from "../../data";
 
 type Props = {
   id: number;
@@ -20,55 +20,61 @@ type Props = {
 };
 const columns: GridColDef[] = [
   {
-    field: "Name",
+    field: "name",
     type: "string",
     headerName: "Name",
     flex: 5,
   },
   {
-    field: "Birthdate",
+    field: "birthdate",
     type: "string",
     headerName: "Birthdate",
     flex: 4,
   },
   {
-    field: "Gender",
+    field: "gender",
     type: "string",
     headerName: "Gender",
     flex: 2,
   },
   {
-    field: "IdCardNumber",
+    field: "idcardNumber",
     type: "string",
     headerName: "IdCard",
     flex: 2,
   },
   {
-    field: "Address",
+    field: "address",
     type: "string",
     headerName: "Address",
     flex: 2,
   },
   {
-    field: "JoinDate",
+    field: "joinDate",
     type: "string",
     headerName: "Join Date",
     flex: 4,
   },
   {
-    field: "PhoneNumber",
+    field: "phoneNumber",
     type: "string",
     headerName: "Phone",
     flex: 3,
   },
   {
-    field: "Position",
+    field: "position",
     headerName: "Position",
     flex: 3,
     type: "string",
   },
   {
-    field: "Other",
+    field: "salary",
+    headerName: "Salary",
+    flex: 2,
+    type: "number",
+  },
+  {
+    field: "other",
     headerName: "Status",
     flex: 2,
     type: "string",
@@ -77,21 +83,68 @@ const columns: GridColDef[] = [
 
 //remove staff info data transfer later
 const Staff = () => {
+  const formatDate = (dateString:any) => {
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
   const [open,setOpen] = useState(false)
   const { id } = useParams();
-  var props = singleUser;
-  console.log(id);
+  const [staffData, setStaffData] = useState<any>({});
+
+  const fetchData = async () => {
+    try {
+      const response = await staffApi.getID(id)
+      const formattedData = {
+        ...response.data,
+        joinDate: formatDate(response.data.joinDate), // Format date as needed
+        birthdate: formatDate(response.data.birthdate), // Format date as needed
+      };
+      setStaffData(formattedData);
+    }
+    catch(error)
+    {
+      alert("Failed to get Staff Infomation. Error:" + error);
+      throw(error);
+    }
+  };
+  useEffect(()=>{
+    fetchData();
+  }, []);
+  const props = singleUser;
+  const activities = [
+    {
+      text: `${staffData.name} sold receipt B41551 with a value of $500`,
+      time: "3 days ago",
+    },
+    {
+      text: `${staffData.name} added 3 new items to warehouse`,
+      time: "1 week ago",
+    },
+    {
+      text: `${staffData.name} damaged Sony Vaio FE14 i5 1235U worth $700`,
+      time: "2 weeks ago",
+    },
+    {
+      text: `${staffData.name} added 1 new item to warehouse`,
+      time: "about 1 month ago",
+    },
+    {
+      text: `${staffData.name} reviewed a product`,
+      time: "2 months ago",
+    },
+  ];
   return (
     <div className="staff">
       <div className="view">
         <div className="info">
           <div className="topInfo">
-            {props.img && <img src={props.img} alt="" />}
-            <h1>{props.title}</h1>
+            {/*staffData.avatar && <img src={staffData.avatar} alt="" />*/}
+            <h1>{staffData.name}</h1>
             <button onClick={() => setOpen(true)}>Update</button>
           </div>
           <div className="details">
-            {Object.entries(props.info).map((item) => (
+            {Object.entries(staffData).filter((field)=> field[0] !== "avatar")
+            .map((item) => (
               <div className="item" key={item[0]}>
                 <span className="itemTitle">{item[0]}:</span>
                 <span className="itemValue">{item[1]}</span>
@@ -119,6 +172,7 @@ const Staff = () => {
                 <Legend />
                 {props.chart.dataKeys.map((dataKey) => (
                   <Line
+                    key={dataKey.name}
                     type="monotone"
                     dataKey={dataKey.name}
                     stroke={dataKey.color}
@@ -131,9 +185,9 @@ const Staff = () => {
       </div>
       <div className="activities">
         <h2>Latest Activities</h2>
-        {props.activities && (
+        {activities && (
           <ul>
-            {props.activities.map((activity) => (
+            {activities.map((activity) => (
               <li key={activity.text}>
                 <div>
                   <p>{activity.text}</p>
@@ -144,7 +198,7 @@ const Staff = () => {
           </ul>
         )}
       </div>
-      {open && <UpdateStaff slug='staffs' columns={columns} setOpen={setOpen} staffData={props.info} />}
+      {open && <UpdateStaff slug='staffs' columns={columns} setOpen={setOpen} staffData={staffData} fetchData={fetchData}/>}
     </div>
   )
 }

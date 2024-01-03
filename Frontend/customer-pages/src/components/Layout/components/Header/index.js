@@ -94,8 +94,8 @@ function Header() {
                     <Menu>
                         <MenuItem title="Giới thiệu" to={config.routes.introduce} />
                         <MenuItem title="Laptop" to={config.routes.laptop} />
-                        <MenuItem title="Phụ kiện" to={config.routes.accessory} />
-                        <MenuItem title="Khuyến mãi" to={config.routes.promotion} />
+                        <MenuItem title="Yêu thích" to={config.routes.likeProduct} />
+                        <MenuItem title="Hỏi đáp" to={config.routes.question} />
                     </Menu>
                 </div>
 

@@ -25,6 +25,9 @@ import ProductVariantSingle from "../../components/singles/productVariantSingle/
 import SpecificationSingle from "../../components/singles/specificationSingle/SpecificationSingle";
 import SpecificationTypeSingle from "../../components/singles/specificationTypeSingle/SpecificationTypeSingle";
 import "./single.scss";
+import OrderSingle from "../../components/singles/orderSingle/OrderSingle";
+import RatingSingle from "../../components/singles/ratingSingle/RatingSingle";
+import ratingApi from "../../api/ratingApi";
 
 interface Props {
     type: string,
@@ -59,7 +62,7 @@ const Single = ({ type, isNew }: Props) => {
                     data = (await categoryApi.get(parseInt(id!))).data;
                     break;
                 case 'order':
-                    data = (await orderApi.get(parseInt(id!))).data;
+                    data = (await orderApi.getDetail(parseInt(id!))).data;
                     break;
                 case 'promotion':
                     data = (await promotionApi.get(parseInt(id!))).data;
@@ -82,8 +85,8 @@ const Single = ({ type, isNew }: Props) => {
                 case 'price':
                     data = (await priceApi.get(parseInt(id!))).data;
                     break;
-                case 'price':
-                    data = (await orderApi.get(parseInt(id!))).data;
+                case 'rating':
+                    data = (await ratingApi.get(parseInt(id!))).data;
                     break;
                 default:
                     break;
@@ -111,7 +114,7 @@ const Single = ({ type, isNew }: Props) => {
             case 'customer':
                 return <CustomerSingle customer={editRow!} />
             case 'order':
-            // return <OrderTable rows={rows} />;
+                return <OrderSingle order={editRow!} />
             case 'brand':
                 return <BrandSingle brand={editRow!} />
             case 'productLine':
@@ -126,6 +129,8 @@ const Single = ({ type, isNew }: Props) => {
                 return <SpecificationSingle specification={editRow!} />
             case 'price':
                 return <PriceSingle price={editRow!} />
+            case 'rating':
+                return <RatingSingle rating={editRow!} />
             default:
                 return null;
         }
