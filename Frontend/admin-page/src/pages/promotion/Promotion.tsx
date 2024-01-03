@@ -65,7 +65,7 @@ const columns: GridColDef[] = [
     field: "value",
     headerName: "Value",
     flex: 3,
-    type: "string",
+    type: "number",
   },
   {
     field: "status",

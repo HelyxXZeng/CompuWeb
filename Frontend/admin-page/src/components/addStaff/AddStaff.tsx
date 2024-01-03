@@ -224,6 +224,9 @@ const AddStaff = (props: Props) => {
                     else{
                         formData[column.field] = inputElement?.value;
                     }
+                } else if(column.field === 'salary'){
+                    const inputElement = document.querySelector(`input[name="${column.field}"], select[name="${column.field}"]`) as HTMLInputElement;
+                    formData[column.field] = parseInt(inputElement.value);
                 } else {
                     const inputElement = document.querySelector(`input[name="${column.field}"], select[name="${column.field}"]`) as HTMLInputElement;
                     (formData as any)[column.field] = inputElement?.value;
@@ -247,6 +250,7 @@ const AddStaff = (props: Props) => {
             // Perform your form submission logic
             try {
                 await staffApi.add(formData)
+                console.log("formdata after send",formData)
                 props.setOpen(false);
                 props.fetchData();
             }
@@ -309,10 +313,10 @@ const AddStaff = (props: Props) => {
                                         )}
                                     </div>
                                 ))}
-                            <div className="item image-upload">{/* image button */}
+                            {/* <div className="item image-upload">
                                 <label>Upload an Image</label>
                                 {(ImageUpload as React.FC<{ onFileSelected: (file: File) => void }>)({ onFileSelected: handleFileSelected })}
-                            </div>
+                            </div> */}
                             <button type="submit">Send</button>
                         </form>
                     </div>
