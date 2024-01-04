@@ -4,12 +4,12 @@
 
  - Visual Studio Code(VS Code)
  - Microsoft SQL Server (Khuyến khích dùng bản Express)7
- - .NET SDK 7.0.0(https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
- - Node.JS(https://nodejs.org/en/download)
+ - [.NET SDK 7.0.0](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
+ - [Node.JS](https://nodejs.org/en/download)
    
 #Cách cài đặt:
 
- 1. Tải về Node.JS và .Net SDK 7.0.0 và cài đặt nếu chưa cài những runtime evironment này. (64bit, bản mới nhất)
+ 1. Tải về [Node.JS](https://nodejs.org/en/download) và [.NET SDK 7.0.0](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) và cài đặt nếu chưa cài những runtime evironment này. (64bit, bản mới nhất)
  2. Sau khi cài xong thì check lại bằng cách mở cmd ( ấn window + r gõ cmd ) và nhập 2 dòng lệnh sau theo thứ tự để kiểm tra xem đã cài đặt thành công chưa:
       - 2.1. ``npm --version`` để kiểm tra xem đã cài đặt Node.JS hay chưa
       - 2.2. ``dotnet --info`` , check dòng ``dotnet SDK installed`` và ``dotnet runtime installed`` để kiểm tra xem .Net SDK đã install thành công hay chưa.
