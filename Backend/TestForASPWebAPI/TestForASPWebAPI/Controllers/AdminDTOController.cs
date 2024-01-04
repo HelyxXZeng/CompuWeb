@@ -159,8 +159,8 @@ namespace TestForASPWebAPI.Controllers
             string GetCustomerCount = $"select count(Id) from Customer";
             Stats stats = new Stats()
             {
-                CustomerCount = await DBController.GetInstance().GetCount(GetCustomerCount),
-                Customers = new List<CusByMonth>(),
+                Count = await DBController.GetInstance().GetCount(GetCustomerCount),
+                Lists = new List<CusByMonth>(),
             };
             DateTime startDate = Convert.ToDateTime(date);
             DateTime endDate = startDate.AddMonths(-6); // Get date six months ago
@@ -171,18 +171,18 @@ namespace TestForASPWebAPI.Controllers
                 int count = await DBController.GetInstance().GetCount(GetCusNumByMonth);
 
                 string previousPercent = "?%";
-                if (stats.Customers.Count > 0 && stats.Customers.Last().Number != 0)
+                if (stats.Lists.Count > 0 && stats.Lists.Last().Number != 0)
                 {
-                    previousPercent = $"{((count - stats.Customers.Last().Number) * 100 / stats.Customers.Last().Number).ToString("0.00")}%";
+                    previousPercent = $"{((count - stats.Lists.Last().Number) * 100 / stats.Lists.Last().Number).ToString("0.00")}%";
                 }
 
-                var customer = new CusByMonth()
+                var list = new CusByMonth()
                 {
                     Number = count,
                     Month = $"{currentMonth.Year}-{currentMonth.Month}",
                 };
-                stats.Percent = (stats.Customers.Count == 0 || stats.Customers.Last().Number == 0) ? "0.00%" : previousPercent;
-                stats.Customers.Add(customer);
+                stats.Percent = (stats.Lists.Count == 0 || stats.Lists.Last().Number == 0) ? "0.00" : previousPercent;
+                stats.Lists.Add(list);
             }
             return Ok(stats);
         }
@@ -196,8 +196,8 @@ namespace TestForASPWebAPI.Controllers
     public class Stats
     {
         public Stats() { }
-        public int CustomerCount { get; set; }
+        public int Count { get; set; }
         public string Percent { get; set; }
-        public List<CusByMonth> Customers { get; set; }
+        public List<CusByMonth> Lists { get; set; }
     }
 }
