@@ -156,8 +156,12 @@ namespace TestForASPWebAPI.Controllers
         public async Task<IActionResult> CustomerStatitics(string date)
         {
             List<string> months = new List<string>() { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
-            List<CusByMonth> Customers = new List<CusByMonth>();
-
+            string GetCustomerCount = $"select count(Id) from Customer";
+            Stats stats = new Stats()
+            {
+                CustomerCount = await DBController.GetInstance().GetCount(GetCustomerCount),
+                Customers = new List<CusByMonth>(),
+            };
             DateTime startDate = Convert.ToDateTime(date);
             DateTime endDate = startDate.AddMonths(-6); // Get date six months ago
 
@@ -167,20 +171,21 @@ namespace TestForASPWebAPI.Controllers
                 int count = await DBController.GetInstance().GetCount(GetCusNumByMonth);
 
                 string previousPercent = "?%";
-                if (Customers.Count > 0 && Customers.Last().Number != 0)
+                if (stats.Customers.Count > 0 && stats.Customers.Last().Number != 0)
                 {
-                    previousPercent = $"{((count - Customers.Last().Number) * 100 / Customers.Last().Number).ToString("0.00")}%";
+                    previousPercent = $"{((count - stats.Customers.Last().Number) * 100 / stats.Customers.Last().Number).ToString("0.00")}%";
                 }
 
                 var customer = new CusByMonth()
                 {
                     Number = count,
                     Month = $"{currentMonth.Year}-{currentMonth.Month}",
-                    Percent = (Customers.Count == 0 || Customers.Last().Number == 0) ? "0.00%" : previousPercent
+                    Percent = (stats.Customers.Count == 0 || stats.Customers.Last().Number == 0) ? "0.00%" : previousPercent
                 };
-                Customers.Add(customer);
+                stats.Percent = (stats.Customers.Count == 0 || stats.Customers.Last().Number == 0) ? "0.00%" : previousPercent;
+                stats.Customers.Add(customer);
             }
-            return Ok(Customers);
+            return Ok(stats);
         }
     }
     public class CusByMonth
@@ -189,5 +194,12 @@ namespace TestForASPWebAPI.Controllers
         public int Number { get; set; }
         public string Month { get; set; }
         public string Percent { get; set; }
+    }
+    public class Stats
+    {
+        public Stats() { }
+        public int CustomerCount { get; set; }
+        public string Percent { get; set; }
+        public List<CusByMonth> Customers { get; set; }
     }
 }
