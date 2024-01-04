@@ -11,6 +11,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useState, useEffect } from 'react';
 
 import * as productServices from '~/apiServices/productServices';
+import * as searchServices from '~/apiServices/searchServices';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const cx = classNames.bind(styles);
 
@@ -38,19 +40,27 @@ function Home() {
     // }, []);
 
     const [currentLaptopList, setCurrentLaptopList] = useState([]);
+    // const [appleLaptopList, setAppleLaptopList] = useState([]);
+    // const [gamingLaptopList, setGamingLaptopList] = useState([]);
+    // const [businessLaptopList, setBusinessLaptopList] = useState([]);
+    const [loading, setLoading] = useState(true); // Add loading state
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 // Use Promise.all to make multiple requests concurrently
                 const [laptopListResult, otherDataResult] = await Promise.all([
-                    productServices.getLaptopTable(1, 5),
+                    productServices.getLaptopTable(50, 80),
+                    // searchServices.filter(undefined, 1, 30),
                     // Add other API calls as needed
                 ]);
 
                 if (laptopListResult && laptopListResult.item1) {
                     console.log('setCurrentLaptopList', laptopListResult.item1);
                     setCurrentLaptopList(laptopListResult.item1);
+                    // setAppleLaptopList(laptopListResult.slice(0, 5));
+                    // setGamingLaptopList(laptopListResult.slice(10, 20));
+                    // setBusinessLaptopList(laptopListResult.slice(20, 28));
                 } else {
                     console.error('Invalid response format for laptopList:', laptopListResult);
                 }
@@ -58,11 +68,85 @@ function Home() {
                 // Process other data as needed
             } catch (error) {
                 console.error('Error fetching data:', error);
+            } finally {
+                // Set loading to false after fetching data
+                setLoading(false);
             }
         };
 
+        setLoading(true);
         fetchData();
     }, []);
+
+    // useEffect(() => {
+    //     const getLaptopListByCategoryId = async (categoryId) => {
+    //         try {
+    //             const result = await searchServices.filter(undefined, 1, 10, 0, categoryId);
+
+    //             if (result && result?.item1) {
+    //                 console.log('result', result);
+    //                 switch (categoryId) {
+    //                     case 1:
+    //                         setGamingLaptopList(result.item1);
+    //                         break;
+    //                     case 5:
+    //                         setBusinessLaptopList(result.item1);
+    //                         break;
+    //                     default:
+    //                         break;
+    //                 }
+    //             } else {
+    //                 console.error('Invalid response format:', result);
+    //             }
+    //         } catch (error) {
+    //             console.error('Error fetching laptop list:', error);
+    //         }
+    //     };
+
+    //     const getLaptopListByBrandId = async (brandId) => {
+    //         try {
+    //             const result = await searchServices.filter(undefined, 1, 5, brandId);
+
+    //             if (result && result?.item1) {
+    //                 console.log('result', result);
+    //                 switch (brandId) {
+    //                     case 1:
+    //                         setAppleLaptopList(result.item1);
+    //                         console.log('result.item1', result.item1);
+    //                         break;
+    //                     case 2:
+    //                         setHPLaptopList(result.item1);
+    //                         break;
+    //                     default:
+    //                         break;
+    //                 }
+    //             } else {
+    //                 console.error('Invalid response format:', result);
+    //             }
+    //         } catch (error) {
+    //             console.error('Error fetching laptop list:', error);
+    //         }
+    //     };
+
+    //     getLaptopListByBrandId(1);
+    //     getLaptopListByCategoryId(5);
+    //     getLaptopListByCategoryId(1);
+    // }, []);
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const businessResult = await searchServices.filter(undefined, 1, 30); // Business, categoryId: 4
+    //             if (businessResult && businessResult.item1) {
+    //                 setBusinessLaptopList(businessResult.item1);
+    //             }
+    //         } catch (error) {
+    //             console.error('Error fetching data:', error);
+    //         }
+    //     };
+
+    //     fetchData();
+    // }, []);
 
     //
     const [isShowCompareBox, setIsShowCompareBox] = useState(false);
@@ -107,32 +191,41 @@ function Home() {
                     </div>
                 </div> */}
             </div>
-            <div className={cx('frame-div')}>
-                <p className={cx('title-hotsale')}>HOT SALE</p>
-                <Frame>
-                    {currentLaptopList.map((product, index) => (
-                        <ProductItem key={index} item={product} />
-                    ))}
-                </Frame>
-            </div>
 
-            <div className={cx('frame-div')}>
-                <p className={cx('title-hotsale')}>Apple</p>
-                <Frame>
-                    {currentLaptopList.map((product, index) => (
-                        <ProductItem key={index} item={product} />
-                    ))}
-                </Frame>
-            </div>
+            {loading ? (
+                <div className={cx('circle-loading')}>
+                    <CircularProgress />
+                </div>
+            ) : (
+                <div>
+                    <div className={cx('frame-div')}>
+                        <p className={cx('title-hotsale')}>Business </p>
+                        <Frame>
+                            {currentLaptopList?.slice(10, 20).map((product, index) => (
+                                <ProductItem key={index} item={product} />
+                            ))}
+                        </Frame>
+                    </div>
 
-            <div className={cx('frame-div')}>
-                <p className={cx('title-hotsale')}>Gaming</p>
-                <Frame>
-                    {currentLaptopList.map((product, index) => (
-                        <ProductItem key={index} item={product} />
-                    ))}
-                </Frame>
-            </div>
+                    <div className={cx('frame-div')}>
+                        <p className={cx('title-hotsale')}>Ultrabook</p>
+                        <Frame>
+                            {currentLaptopList?.slice(0, 5).map((product, index) => (
+                                <ProductItem key={index} item={product} />
+                            ))}
+                        </Frame>
+                    </div>
+
+                    <div className={cx('frame-div')}>
+                        <p className={cx('title-hotsale')}>Gaming</p>
+                        <Frame>
+                            {currentLaptopList?.slice(20, 30).map((product, index) => (
+                                <ProductItem key={index} item={product} />
+                            ))}
+                        </Frame>
+                    </div>
+                </div>
+            )}
 
             <div className={cx('about-hitech')}>
                 <h2>Bạn Xứng Đáng Điều Tốt Nhất !</h2>
@@ -197,7 +290,7 @@ function Home() {
                 </div>
             </div>
 
-            <div className={cx('btn-compare', { 'btn-active': isShowCompareBtn })}>
+            {/* <div className={cx('btn-compare', { 'btn-active': isShowCompareBtn })}>
                 <a href="/#" title="So sánh" onClick={ShowCompare} class="btn-compare-a">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -343,7 +436,7 @@ function Home() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }

@@ -56,7 +56,7 @@ function LikeProduct() {
                     <LinearProgress className={cx('loading-spinner')} />
                 ) : (
                     <Frame>
-                        {productList.map((product, index) => product && <ProductItem key={index} item={product} />)}
+                        {productList?.map((product, index) => product && <ProductItem key={index} item={product} />)}
                     </Frame>
                 )}
             </div>
