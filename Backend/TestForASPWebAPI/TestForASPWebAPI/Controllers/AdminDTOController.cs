@@ -180,7 +180,6 @@ namespace TestForASPWebAPI.Controllers
                 {
                     Number = count,
                     Month = $"{currentMonth.Year}-{currentMonth.Month}",
-                    Percent = (stats.Customers.Count == 0 || stats.Customers.Last().Number == 0) ? "0.00%" : previousPercent
                 };
                 stats.Percent = (stats.Customers.Count == 0 || stats.Customers.Last().Number == 0) ? "0.00%" : previousPercent;
                 stats.Customers.Add(customer);
@@ -193,7 +192,6 @@ namespace TestForASPWebAPI.Controllers
         public CusByMonth() { }
         public int Number { get; set; }
         public string Month { get; set; }
-        public string Percent { get; set; }
     }
     public class Stats
     {
