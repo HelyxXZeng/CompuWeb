@@ -79,7 +79,7 @@ function CartItem({ cartItem }) {
 
                     <div className={cx('price')}>
                         <p className={cx('price-new')}> {formattedPrice}đ </p>
-                        <p className={cx('price-old')}>39.500.000đ</p>
+                        {/* <p className={cx('price-old')}>39.500.000đ</p> */}
                     </div>
                 </div>
             </div>

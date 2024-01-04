@@ -78,7 +78,7 @@ const OrderTable = () => {
 
     const handleView = (rowId: number) => {
         // console.log('Viewing row with ID:', rowId);
-        navigate(`/orders/GetOrderById/${rowId}`);
+        navigate(`/orders/GetOrderById?id=${rowId}`);
     };
 
     const handleInput = (event: any) => {
@@ -160,41 +160,46 @@ const OrderTable = () => {
 
 
     return (
-        <div className='datatable'>
+        <div className='datatable' style={{ maxWidth: 1200 }}>
             <div className="datatableTitle">
                 Orders
                 <div className="search">
                     <input type='text' placeholder='Search...' value={query} onChange={(e) => handleInput(e)} />
                     <SearchIcon />
                 </div>
-                <Link to="/orders/new" className='link'>
-                    Add New
-                </Link>
+                <div style={{ width: 10 }}></div>
             </div>
 
-            <div className="statusList">
-                {
-                    statusList.map((status: string, index: number) => (
-                        <button key={index} className={"statusButton " + status}
-                            onClick={() => filterRowsByStatus(status)}>{status}</button>
-                    ))
-                }
-            </div>
+            {
+                rows.length > 0 ?
+                    <>
+                        <div className="statusList">
+                            {
+                                statusList.map((status: string, index: number) => (
+                                    <button key={index} className={"statusButton " + status}
+                                        onClick={() => filterRowsByStatus(status)}>{status}</button>
+                                ))
+                            }
+                        </div>
+                        <DataGrid
+                            className='datagrid'
+                            rows={displayedRows}
+                            columns={columns.concat(actionColumn(handleDelete, handleView))}
+                            initialState={{
+                                pagination: {
+                                    paginationModel: { page: 0, pageSize: 5 },
+                                },
+                            }}
+                            slots={{
+                                toolbar: GridToolbar,
+                            }}
+                            pageSizeOptions={[5, 10]}
+                        />
+                    </>
 
-            <DataGrid
-                className='datagrid'
-                rows={displayedRows}
-                columns={columns.concat(actionColumn(handleDelete, handleView))}
-                initialState={{
-                    pagination: {
-                        paginationModel: { page: 0, pageSize: 5 },
-                    },
-                }}
-                slots={{
-                    toolbar: GridToolbar,
-                }}
-                pageSizeOptions={[5, 10]}
-            />
+
+                    : <h2>No Data!</h2>
+            }
 
         </div>
     )

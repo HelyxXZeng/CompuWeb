@@ -1,25 +1,23 @@
 import { useEffect, useState } from 'react';
 import DataTable from '../../components/dataTable/DataTable'
-import { userRows } from '../../data';
 import './staffs.scss'
 import {GridColDef} from "@mui/x-data-grid"
 import AddStaff from '../../components/addStaff/AddStaff';
-import axios from 'axios';
-import staffApi from '../../api/staffsAPI';
+import staffApi, { StaffDef } from '../../api/staffsAPI';
 
 type GridColDefWithDisplay = GridColDef & { displayInForm: boolean };
 
 const columns: GridColDefWithDisplay[] = [
   { field: "id", headerName: "ID", flex: 1, displayInForm: false, },
-  {
-    field: "avatar",
-    headerName: "Avatar",
-    flex: 2,
-    renderCell: (params) => {
-      return <img src={params.row.img || "/noavatar.png"} alt="" />;
-    },
-    displayInForm: false, 
-  },
+  // {
+  //   field: "avatar",
+  //   headerName: "Avatar",
+  //   flex: 2,
+  //   renderCell: (params) => {
+  //     return <img src={params.row.img || "/noavatar.png"} alt="" />;
+  //   },
+  //   displayInForm: false, 
+  // },
   {
     field: "name",
     type: "string",
@@ -97,7 +95,7 @@ const staffs = () => {
 
   const dataTableColumns = columns.filter(
     (column) => ( column.field !== "birthdate" && column.field !== "idcardNumber" &&
-                    column.field != "address" && column.field !== "salary"));
+                    column.field != "address" && column.field !== "salary" && column.field !== "img"));
 
   const addStaffColumns = columns.filter(
     (column) => column.displayInForm 
@@ -123,10 +121,12 @@ const staffs = () => {
     }
     return column;
   });
+  const [isNeedFetch, setIsNeedFetch] =useState(true)
   const fetchData = async () => {
+      
     try {
       const response = await staffApi.getAll({ _page: 1, _limit: 100000 });
-      const formattedData = response.data.map((staff) => ({
+      const formattedData = response.data.map((staff: StaffDef) => ({
         ...staff,
         joinDate: formatDate(staff.joinDate),
       }));
@@ -134,18 +134,18 @@ const staffs = () => {
     } catch (error) {
       console.error('Error fetching staffs data:', error);
     }
+    
   };
   useEffect(() => {
     fetchData();
   }, []);
-
   return (
     <div className='staffs'>
       <div className="info">
         <h1>Staffs</h1>
         <button onClick={() => setOpen(true)}>Add New Staff</button>
       </div>
-      <DataTable columns={dataTableColumnss} rows={staffsData} slug='staffs' defaultSortField='other' defaultSortOrder='asc'/>
+      <DataTable columns={dataTableColumnss} rows={staffsData} slug='staffs' defaultSortField='other' defaultSortOrder='asc' fetchData={fetchData}/>
       {open && <AddStaff slug='staffs' columns={addStaffColumns} setOpen={setOpen} fetchData={fetchData} />}
     </div>
   )

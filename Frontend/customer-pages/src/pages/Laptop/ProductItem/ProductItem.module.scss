@@ -133,13 +133,14 @@
         color: #7c7c7c;
         font-size: 12px;
         margin-bottom: 0;
-        a {
+        button {
             position: relative;
             padding-left: 23px;
             color: #444;
+            background-color: #fff;
             .svg-love {
                 position: absolute;
-                top: -2px;
+                top: 1px;
                 left: 0;
                 margin-right: 8px;
                 width: 15px;
@@ -153,7 +154,7 @@
 
             .svg-love-active {
                 position: absolute;
-                top: -2px;
+                top: 1px;
                 left: 0;
                 margin-right: 8px;
                 width: 15px;
@@ -197,12 +198,16 @@
     // display: flex;
     display: none;
     border-radius: 5px;
-    background: #ff5e22;
+    // background: #ff5e22;
     .a-add-cart {
-        width: 30%;
+        width: 100%;
+        // width: 30%;
         height: 35px;
         background-image: linear-gradient(to right, #ffce00, #ff9700);
-        display: grid;
+        // display: grid;
+        // align-items: center;
+        // justify-content: center;
+        display: flex;
         align-items: center;
         justify-content: center;
         line-height: 100%;
@@ -210,6 +215,12 @@
         font-family: bold;
         font-size: 10px;
         border-radius: 5px;
+
+        span {
+            margin-left: 10px;
+            font-size: 13px;
+            font-family: medium;
+        }
 
         svg {
             width: 18px;

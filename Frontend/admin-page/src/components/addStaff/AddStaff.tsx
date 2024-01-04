@@ -12,7 +12,7 @@ type Props = {
     slug: string;
     columns: GridColDef[];
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    fetchData: () => Promise<void>;
+    fetchData(): Promise<void>;
 };
 
 const theme = createTheme({
@@ -169,12 +169,12 @@ const AddStaff = (props: Props) => {
 
             // Check size, if greater than 60kB then reduce quality
             let originalBase64 = base64;
-            while (base64.length / 1.37 > 60000) {
+            while (base64.length / 0.75 > 60000) {
                 base64 = canvas.toDataURL('image/jpeg', 0.5);
             }
 
             // If the original image was less than 60kB, use the original base64 string
-            if (originalBase64.length / 1.37 < 60000) {
+            if (originalBase64.length / 0.75 < 60000) {
                 base64 = originalBase64;
             }
 
@@ -193,7 +193,20 @@ const AddStaff = (props: Props) => {
         // axios.post('/api/${slug}s')
         if (isValid) {
             //debug
-            const formData: StaffDef = {};
+            const formData: StaffDef = {
+                id: 0,
+                avatar: '',
+                birthdate: dayjs('01/01/2000').toDate(),
+                joinDate: dayjs('01/01/2000').toDate(),
+                name:'',
+                gender:'',
+                idcardNumber:0,
+                address:'',
+                phoneNumber:'+84',
+                position:'',
+                salary:0,
+                other:'',
+            };
 
             props.columns
                 .forEach((column) => {
@@ -205,22 +218,29 @@ const AddStaff = (props: Props) => {
                     formData[column.field] = genderValue ;
                 } else if (column.field === 'phoneNumber') {
                     const inputElement = document.querySelector(`input[name="${column.field}"], select[name="${column.field}"]`) as HTMLInputElement;
-                    formData[column.field] = "+84" + (inputElement?.value || '')
+                    if(!(inputElement?.value.includes('+84'))){
+                        formData[column.field] = "+84" + (inputElement?.value || '')
+                    }
+                    else{
+                        formData[column.field] = inputElement?.value;
+                    }
+                } else if(column.field === 'salary'){
+                    const inputElement = document.querySelector(`input[name="${column.field}"], select[name="${column.field}"]`) as HTMLInputElement;
+                    formData[column.field] = parseInt(inputElement.value);
                 } else {
                     const inputElement = document.querySelector(`input[name="${column.field}"], select[name="${column.field}"]`) as HTMLInputElement;
                     (formData as any)[column.field] = inputElement?.value;
                 }
                 });
+
                 if (selectedFile) {
                     // Convert the selected file to base64 or use it as needed
-                    await convertToBase64(selectedFile, (base64) => {
+                    convertToBase64(selectedFile, (base64) => {
                         // Do something with the base64 data, if needed
                         console.log('Base64 Image:', base64);
                         // Continue with the rest of your form submission logic here
                         formData['avatar'] = base64;
                     });
-                } else {
-                    formData['avatar'] = '';
                 }
                 formData['id'] = 0;
                 formData['other'] = "ACTIVE";
@@ -229,12 +249,15 @@ const AddStaff = (props: Props) => {
             
             // Perform your form submission logic
             try {
-                const returnStaffData = await staffApi.add(formData)
-                props.fetchData();
+                await staffApi.add(formData)
+                console.log("formdata after send",formData)
                 props.setOpen(false);
+                props.fetchData();
             }
             catch(error){
+                alert('Error inserting data:' + error);
                 console.error('Error inserting data:', error);
+                throw(error);
             }
           }
           else {
@@ -290,10 +313,10 @@ const AddStaff = (props: Props) => {
                                         )}
                                     </div>
                                 ))}
-                            <div className="item image-upload">{/* image button */}
+                            {/* <div className="item image-upload">
                                 <label>Upload an Image</label>
                                 {(ImageUpload as React.FC<{ onFileSelected: (file: File) => void }>)({ onFileSelected: handleFileSelected })}
-                            </div>
+                            </div> */}
                             <button type="submit">Send</button>
                         </form>
                     </div>

@@ -114,7 +114,7 @@ const ReturnTable = () => {
     }, [rows, query]);
 
     return (
-        <div className='datatable'>
+        <div className='datatable' style={{ maxWidth: 1200 }}>
             <div className="datatableTitle">
                 Return
                 <div className="search">
@@ -126,20 +126,25 @@ const ReturnTable = () => {
                 </Link>
             </div>
 
-            <DataGrid
-                className='datagrid'
-                rows={displayedRows}
-                columns={columns.concat(actionColumn(handleDelete, handleView))}
-                initialState={{
-                    pagination: {
-                        paginationModel: { page: 0, pageSize: 5 },
-                    },
-                }}
-                slots={{
-                    toolbar: GridToolbar,
-                }}
-                pageSizeOptions={[5, 10]}
-            />
+            {
+                rows.length > 0 ?
+                    <DataGrid
+                        className='datagrid'
+                        rows={displayedRows}
+                        columns={columns.concat(actionColumn(handleDelete, handleView))}
+                        initialState={{
+                            pagination: {
+                                paginationModel: { page: 0, pageSize: 5 },
+                            },
+                        }}
+                        slots={{
+                            toolbar: GridToolbar,
+                        }}
+                        pageSizeOptions={[5, 10]}
+                    />
+
+                    : <h2>No Data!</h2>
+            }
 
         </div>
     )

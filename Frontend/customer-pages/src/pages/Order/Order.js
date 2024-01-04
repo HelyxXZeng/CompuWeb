@@ -100,28 +100,32 @@ function Order() {
                                 .format(orderItem?.price)
                                 .replace(/,/g, '.');
                             return (
-                                <div key={index} className={cx('order-item')}>
-                                    <div className={cx('image-prod')}>
-                                        <img alt="" src={orderItem?.image} />
-                                    </div>
-                                    <div className={cx('infor-prod')}>
-                                        <div className={cx('title-prod')}>
-                                            <p>{orderItem?.name}</p>
+                                orderItem && (
+                                    <div key={index} className={cx('order-item')}>
+                                        <div className={cx('image-prod')}>
+                                            <img alt="" src={orderItem?.image} />
                                         </div>
-                                        <div className={cx('number-prod')}>
-                                            <div className={cx('quantity-prod')}>
-                                                <span>
-                                                    Số lượng:{' '}
-                                                    <span className={cx('quantity-span')}>{orderItem?.quantity}</span>
-                                                </span>
+                                        <div className={cx('infor-prod')}>
+                                            <div className={cx('title-prod')}>
+                                                <p>{orderItem?.name}</p>
                                             </div>
-                                            <div className={cx('price-prod')}>
-                                                <div className={cx('price-new')}>{formattedPrice}đ</div>
-                                                <div className={cx('price-old')}>9.990.000đ</div>
+                                            <div className={cx('number-prod')}>
+                                                <div className={cx('quantity-prod')}>
+                                                    <span>
+                                                        Số lượng:{' '}
+                                                        <span className={cx('quantity-span')}>
+                                                            {orderItem?.quantity}
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                                <div className={cx('price-prod')}>
+                                                    <div className={cx('price-new')}>{formattedPrice}đ</div>
+                                                    <div className={cx('price-old')}>9.990.000đ</div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                )
                             );
                         })}
 

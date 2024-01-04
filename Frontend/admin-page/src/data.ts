@@ -27,23 +27,12 @@ export const menuData = [
         url: "/promotions",
         icon: "/promotion.svg",
       },
-      {
-        id: 3,
-        title: "Orders",
-        url: "/orders",
-        icon: "/order.svg",
-      },
-      {
-        id: 4,
-        title: "Reviews",
-        url: "/reviews",
-        icon: "/review.svg",
-      },
+      
     ],
   },
   {
     id: 3,
-    title: "general",
+    title: "Comming Soon",
     listItems: [
       {
         id: 1,
@@ -69,44 +58,58 @@ export const menuData = [
         url: "/",
         icon: "/calendar.svg",
       },
-    ],
-  },
-  {
-    id: 4,
-    title: "Maintenance",
-    listItems: [
       {
-        id: 1,
+        id: 5,
+        title: "Orders",
+        url: "/orders",
+        icon: "/order.svg",
+      },
+      {
+        id: 6,
+        title: "Reviews",
+        url: "/reviews",
+        icon: "/review.svg",
+      },
+      {
+        id: 7,
         title: "Settings",
         url: "/",
         icon: "/settings.svg",
       },
       {
-        id: 2,
+        id: 8,
         title: "Backups",
         url: "/",
         icon: "/backup.svg",
       },
-    ],
-  },
-  {
-    id: 5,
-    title: "analytics",
-    listItems: [
       {
-        id: 1,
+        id: 9,
         title: "Charts",
         url: "/",
         icon: "/chart.svg",
       },
       {
-        id: 2,
+        id: 10,
         title: "Logs",
         url: "/",
         icon: "/log.svg",
       },
     ],
   },
+  // {
+  //   id: 4,
+  //   title: "Maintenance",
+  //   listItems: [
+      
+  //   ],
+  // },
+  // {
+  //   id: 5,
+  //   title: "analytics",
+  //   listItems: [
+      
+  //   ],
+  // },
 ];
 
 export const topDealUsers = [
@@ -571,54 +574,54 @@ export const singleUser = {
   },
   activities: [
     {
-      text: "John Doe sold receipt B41551 with a value of $500",
+      text: "Staff sold receipt B41551 with a value of $500",
       time: "3 day ago",
     },
     {
-      text: "John Doe added 3 new items to warehouse",
+      text: "Staff added 3 new items to warehouse",
       time: "1 week ago",
     },
     {
-      text: "John Doe damaged Sony Vaio FE14 i5 1235U worth $700",
+      text: "Staff damaged Sony Vaio FE14 i5 1235U worth $700",
       time: "2 weeks ago",
     },
     {
-      text: "John Doe reviewed a product",
+      text: "Staff reviewed a product",
       time: "1 month ago",
     },
     {
-      text: "John Doe added 1 new items to warehouse",
+      text: "Staff added 1 new items to warehouse",
       time: "1 month ago",
     },
     {
-      text: "John Doe reviewed a product",
+      text: "Staff reviewed a product",
       time: "2 months ago",
     },
   ],
 };
 export const promotionExample = {
   id: 1,
-  Name: "Khuyến mãi laptop Asus TUF F15 SF560A nhân dịp tết đến",
-  StartDate: "11/15/2023",
-  EndDate: "1/15/2024",
-  ProductVariantPurchaseName: "Product 1",
-  ProductVariantPromotionName: "Product 2",
-  Value: "100.000",
-  Status: "ACTIVE",
-  Content: "ABCXYZ",
+  name: "Khuyến mãi laptop Asus TUF F15 SF560A nhân dịp tết đến",
+  startDate: "11/15/2023",
+  endDate: "1/15/2024",
+  productVariantPurchaseName: "Product 1",
+  productVariantPromotionName: "Product 2",
+  value: "100.000",
+  status: "ACTIVE",
+  content: "ABCXYZ",
   
 }
 
 export const promotionExamples = [{
   id: 1,
-  Name: "Khuyến mãi laptop Asus TUF F15 SF560A nhân dịp tết đến",
-  StartDate: "11/15/2023",
-  EndDate: "1/15/2024",
-  ProductVariantPurchaseName: "Product 1",
-  ProductVariantPromotionName: "Product 2",
-  Value: "100.000",
-  Status: "ACTIVE",
-  Content: "ABCXYZ",
+  name: "Khuyến mãi laptop Asus TUF F15 SF560A nhân dịp tết đến",
+  startDate: "11/15/2023",
+  endDate: "1/15/2024",
+  productVariantPurchaseName: "Product 1",
+  productVariantPromotionName: "Product 2",
+  value: "100.000",
+  status: "ACTIVE",
+  content: "ABCXYZ",
 }]
 export const singleProduct = {
   id: 1,

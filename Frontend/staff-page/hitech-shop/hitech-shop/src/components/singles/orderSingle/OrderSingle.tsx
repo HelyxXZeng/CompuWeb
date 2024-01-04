@@ -1,209 +1,238 @@
-
-// import React, { useEffect, useState } from 'react';
-// import orderApi, { Order } from '../../../api/orderApi';
+import React, { useEffect, useState } from 'react';
+import orderApi, { Order, OrderDetail } from '../../../api/orderApi';
 // import './orderSingle.scss'
+import './orderSingle.scss'
+import { Autocomplete, TextField } from '@mui/material';
+import productApi from '../../../api/productApi';
+import promotionApi from '../../../api/promotionApi';
+import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 
-// // interface Order {
-// //     Id: number;
-// //     Name: string;
-// //     Description: string;
-// //     LogoBase64: string;
-// // }
+interface Props {
+    order: OrderDetail;
+}
 
-// interface Props {
-//     order: Order
-// }
+const columns: GridColDef[] = [
+    {
+        field: 'id', headerName: 'ID', width: 60
+    },
+    {
+        field: 'image', headerName: 'Image', width: 80,
+        renderCell: (params) => {
+            return (
+                <div>
+                    <img src={params.row.image} style={{ width: 50 }} />
+                </div>
+            );
+        },
+    },
+    {
+        field: 'name', headerName: 'Variant', flex: 5
+    },
+    {
+        field: 'quantity', headerName: 'Quantity', flex: 1
+    },
+    {
+        field: 'price', headerName: 'Price', flex: 5
+    }
+]
 
-// const OrderPage: React.FC<Props> = (para: Props) => {
+const statusList = ['PENDING', 'SHIPPING', 'RECEIVED', 'COMPLETED', 'CANCELED', 'DECLINED']
 
-//     // console.log('This is para: ', para)
-//     const [order, setOrder] = useState({
-//         Id: 0,
-//         Name: '',
-//         Description: '',
-//         LogoBase64: '',
-//     });
 
-//     const [imageFile, setImageFile] = useState<File | null>(null);
+const OrderSingle: React.FC<Props> = (para: Props) => {
+    const [displayedRows, setDisplayedRows] = useState<any>(null)
+    const [promotion, setPromotion] = useState<any>(null)
+    const [orderUpload, setOrderUpload] = useState<any>(null)
 
-//     useEffect(() => {
-//         if (para.order.Id !== 0) {
-//             setOrder(para.order);
+    const [order, setOrder] = useState<OrderDetail>({
+        id: 0,
+        customerName: '',
+        customerPhoneNumber: '+840',
+        address: '',
+        total: 0,
+        status: '',
+        date: '2023-31-12',
+        note: '',
+        variantByOrderItems: []
+    });
 
-//             // Convert base64 string to a Blob
-//             if (para.order.LogoBase64) {
-//                 const byteCharacters = atob(para.order.LogoBase64.split(',')[1]);
-//                 const byteNumbers = new Array(byteCharacters.length);
-//                 for (let i = 0; i < byteCharacters.length; i++) {
-//                     byteNumbers[i] = byteCharacters.charCodeAt(i);
-//                 }
-//                 const byteArray = new Uint8Array(byteNumbers);
-//                 const file = new File([byteArray], 'filename.jpg', { type: 'image/jpeg' });
-//                 setImageFile(file);
-//             }
-//         }
-//     }, [para]);
-//     // useEffect(() => {
-//     //     console.log('This is order', order)
-//     //     console.log('This is image file', imageFile)
-//     // }, [order, imageFile])
+    const fetchOrder = async () => {
+        const data = (await orderApi.get(para.order.id)).data;
+        setOrderUpload(data)
+    }
+    const fetchPromotion = async (para: any) => {
+        const data = (await promotionApi.get(para.id)).data;
+        setPromotion(data)
+    }
 
-//     const handleInputChange = (
-//         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-//     ) => {
-//         const { name, value } = e.target;
-//         // console.log('This is input name', name)
-//         // console.log('This is input value', value)
-//         setOrder((prevOrder) => ({ ...prevOrder, [name]: value }));
-//     };
+    useEffect(() => {
+        if (para.order !== null) {
 
-//     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-//         const file = e.target.files?.[0];
-//         setImageFile(file ?? null);
-//     };
+            fetchOrder();
 
-//     const handleSubmit = async (e: React.FormEvent) => {
-//         e.preventDefault();
-//         if (para === null) {
-//             try {
-//                 let LogoBase64 = order.LogoBase64; // Use the current logoBase64 as a fallback
+            if (orderUpload && orderUpload.promotionId) {
+                fetchPromotion(orderUpload.id)
+            }
 
-//                 if (imageFile) {
-//                     // Upload the image as base64 and get the string
-//                     const reader = new FileReader();
+            const updatedOrder: OrderDetail = {
+                ...para.order,
+                date: para.order.date.substring(0, 10),
+            };
+            setOrder(updatedOrder);
 
-//                     // Use a Promise to read the file as base64
-//                     const readAsDataURL = (): Promise<string> => {
-//                         return new Promise((resolve, reject) => {
-//                             reader.onloadend = () => {
-//                                 resolve(reader.result as string);
-//                             };
-//                             reader.onerror = reject;
-//                             reader.readAsDataURL(imageFile);
-//                         });
-//                     };
+            // console.log('Order upload', orderUpload)
 
-//                     LogoBase64 = await readAsDataURL();
-//                     // Check if imageFile is not null before calling uploadImage
-//                     // Add the order data (including logoBase64) to the JSON server
-//                     await orderApi.uploadImage({
-//                         Id: 0,
-//                         Name: order.Name,
-//                         Description: order.Description,
-//                         LogoBase64,
-//                     }, imageFile);
-//                     alert("Successfully Uploaded!")
-//                 }
+            const setOrderItems = () => {
+                const orderItemList = para.order.variantByOrderItems.map((item: any, index: number) => ({
+                    id: index + 1,
+                    name: item.name,
+                    image: item.image,
+                    quantity: item.quantity,
+                    price: item.price
 
-//                 // Reset the form
-//                 setOrder({
-//                     Id: 0,
-//                     Name: '',
-//                     Description: '',
-//                     LogoBase64: '',
-//                 });
-//                 setImageFile(null); // Reset the imageFile state
+                }))
 
-//             } catch (error) {
-//                 console.error('Error adding order:', error);
-//                 alert("Error!" + error)
-//             }
-//         } else {
-//             try {
-//                 let LogoBase64 = order.LogoBase64; // Use the current logoBase64 as a fallback
+                setDisplayedRows(orderItemList)
+            }
 
-//                 if (imageFile) {
-//                     // Upload the image as base64 and get the string
-//                     const reader = new FileReader();
+            setOrderItems();
+        }
+    }, [para.order]);
 
-//                     // Use a Promise to read the file as base64
-//                     const readAsDataURL = (): Promise<string> => {
-//                         return new Promise((resolve, reject) => {
-//                             reader.onloadend = () => {
-//                                 resolve(reader.result as string);
-//                             };
-//                             reader.onerror = reject;
-//                             reader.readAsDataURL(imageFile);
-//                         });
-//                     };
+    const handleStatusChange = (
+        _event: React.ChangeEvent<unknown>,
+        newValue: string | null
+    ) => {
+        if (newValue !== null) {
+            setOrderUpload((pre: any) => ({ ...pre, status: newValue }));
+        }
+    };
 
-//                     LogoBase64 = await readAsDataURL();
-//                     // Check if imageFile is not null before calling uploadImage
-//                     // Add the order data (including logoBase64) to the JSON server
-//                     await orderApi.update(order.Id, {
-//                         Id: order.Id,
-//                         Name: order.Name,
-//                         Description: order.Description,
-//                         LogoBase64,
-//                     });
-//                     alert("Successfully Uploaded!")
-//                 }
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
 
-//                 // Reset the form
-//                 setOrder({
-//                     Id: 0,
-//                     Name: '',
-//                     Description: '',
-//                     LogoBase64: '',
-//                 });
-//                 setImageFile(null); // Reset the imageFile state
+        try {
+            await orderApi.update(order.id, orderUpload);
 
-//             } catch (error) {
-//                 console.error('Error updating order:', error);
-//                 alert("Error!" + error)
-//             }
-//         }
+            alert('Successfully Uploaded!');
 
-//     };
 
-//     return (
-//         <div className="order-page">
-//             <h2>Orders</h2>
-//             <form onSubmit={handleSubmit}>
-//                 <label htmlFor="name">Name:</label>
-//                 <input
-//                     type="text"
-//                     id="Name"
-//                     name="Name"
-//                     value={order.Name}
-//                     onChange={handleInputChange}
-//                     required
-//                 />
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error! ' + error);
+        }
+    };
 
-//                 <label htmlFor="description">Description:</label>
-//                 <textarea
-//                     id="Description"
-//                     name="Description"
-//                     value={order.Description}
-//                     onChange={handleInputChange}
-//                     required
-//                     className='textArea'
-//                 ></textarea>
+    return (
+        <div className="order-single-page">
+            <h2>Order Detail</h2>
+            <table>
+                <tr>
+                    <td className='half'>
+                        <form onSubmit={handleSubmit}>
+                            <label htmlFor="customerName">Customer:</label>
+                            <input
+                                type="text"
+                                id="customerName"
+                                name="customerName"
+                                value={order.customerName}
+                                readOnly
+                            />
 
-//                 <label htmlFor="image" className='custom-file-input'>Image:
-//                     <input
-//                         type="file"
-//                         id="image"
-//                         name="image"
-//                         accept="image/*"
-//                         onChange={handleImageUpload}
-//                         className='custom-file-input'
-//                         required
-//                     />
-//                 </label>
-//                 {/* Display the placeholder image */}
-//                 {imageFile && (
-//                     <img
-//                         src={URL.createObjectURL(imageFile)}
-//                         alt="Order Placeholder"
-//                         style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-//                     />
-//                 )}
+                            <label htmlFor="date">Date:</label>
+                            <input
+                                type="date"
+                                id="date"
+                                name="date"
+                                value={order.date}
+                                readOnly
+                            />
 
-//                 <button type="submit" className='button'>Submit</button>
-//             </form>
-//         </div>
-//     );
-// };
+                            <label htmlFor="phoneNumber">Phone Number:</label>
+                            <input
+                                type="tel"
+                                id="customerPhoneNumber"
+                                name="customerPhoneNumber"
+                                value={order.customerPhoneNumber}
+                                readOnly
+                            />
 
-// export default OrderPage;
+                            <label htmlFor="address">Address:</label>
+                            <input
+                                type="text"
+                                id="address"
+                                name="address"
+                                value={order.address}
+                                readOnly
+                            />
+
+                            <label htmlFor="promotion">Promotion:</label>
+                            <input
+                                type="text"
+                                id="promotion"
+                                name="promotion"
+                                value={promotion && promotion.content || ''}
+                                readOnly
+                            />
+
+                            <label htmlFor="total">Total:</label>
+                            <input
+                                type="number"
+                                id="total"
+                                name="total"
+                                value={order?.total || ''}
+                                readOnly
+                            />
+
+                            <label htmlFor="status">Status:</label>
+                            <Autocomplete
+                                className='autocomplete'
+                                disablePortal
+                                id="Status"
+                                options={statusList}
+                                value={orderUpload?.status || ''}
+                                onChange={handleStatusChange}
+                                renderInput={(params) => <TextField {...params} label="" />}
+                            />
+
+                            <label htmlFor="date">Note:</label>
+                            <input
+                                type="text"
+                                id="note"
+                                name="note"
+                                value={order.note}
+                                readOnly
+                            />
+                            <button type="submit" className="button">
+                                Submit
+                            </button>
+                        </form>
+                    </td>
+                    <td className='right'>
+                        <DataGrid
+                            className='datagrid'
+                            rows={displayedRows || []}
+                            columns={columns}
+                            initialState={{
+                                pagination: {
+                                    paginationModel: { page: 0, pageSize: 5 },
+                                },
+                                columns: {
+                                    columnVisibilityModel: {
+                                        id: false,
+                                    },
+                                },
+                            }}
+                            slots={{
+                                toolbar: GridToolbar,
+                            }}
+                            pageSizeOptions={[5, 10]}
+                        />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    );
+};
+
+export default OrderSingle;
