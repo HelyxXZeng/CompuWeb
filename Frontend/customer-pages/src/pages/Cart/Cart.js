@@ -723,17 +723,23 @@ function Cart() {
                         <p>Khuyến mãi:</p>
                         <ul className={cx('ul-list')}>
                             {voucherList.map((voucherItem, index) => {
-                                return (
-                                    <label key={index} className={cx('check-box')}>
-                                        <input
-                                            type="radio"
-                                            name="voucher"
-                                            value={`${voucherItem?.id}-${voucherItem?.value}`}
-                                            onChange={(e) => handleVoucherChange(e)}
-                                        />
-                                        <span className={cx('checkmark')}> Giảm giá {voucherItem?.value} %</span>
-                                    </label>
-                                );
+                                // Check if voucher status is 'ACTIVE'
+                                if (voucherItem?.status === 'ACTIVE') {
+                                    return (
+                                        <label key={index} className={cx('check-box')}>
+                                            <input
+                                                type="radio"
+                                                name="voucher"
+                                                value={`${voucherItem.id}-${voucherItem.value}`}
+                                                onChange={(e) => handleVoucherChange(e)}
+                                            />
+                                            <span className={cx('checkmark')}> Giảm giá {voucherItem.value} %</span>
+                                        </label>
+                                    );
+                                } else {
+                                    // Voucher is not 'ACTIVE', you can choose to render something else or nothing
+                                    return null;
+                                }
                             })}
 
                             {/* <label className={cx('check-box')}>
