@@ -95,3 +95,16 @@ export const getRatingList = async (PVid) => {
         console.log(error);
     }
 };
+
+export const getPromotionValue = async (VariantPurchaseId) => {
+    try {
+        const res = await request.get('DTOController/GetPromotionByVariantPurchaseId', {
+            params: {
+                VariantPurchaseId,
+            },
+        });
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};

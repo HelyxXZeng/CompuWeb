@@ -24,16 +24,19 @@ const columns: GridColDef[] = [
         field: 'id', headerName: 'ID', width: 60
     },
     {
-        field: 'productVariantName', headerName: 'Variant', flex: 7
+        field: 'name', headerName: 'Variant', flex: 7
     },
     {
-        field: 'customerName', headerName: 'Customer', flex: 7
+        field: 'customerName', headerName: 'Customer', flex: 5
     },
     {
         field: 'price', headerName: 'Money', flex: 3
     },
     {
         field: 'date', headerName: 'Date', flex: 3
+    },
+    {
+        field: 'issues', headerName: 'Issue', flex: 5
     },
     {
         field: 'status', headerName: 'Status', flex: 3

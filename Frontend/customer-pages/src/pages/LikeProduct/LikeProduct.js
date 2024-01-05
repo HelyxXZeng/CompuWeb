@@ -24,20 +24,64 @@ function LikeProduct() {
     useEffect(() => {
         const likedItemsList = JSON.parse(localStorage.getItem('likeProductList')) || [];
 
+        // const fetchData = async () => {
+        //     try {
+        //         const dataPromises = likedItemsList.map(async (id) => {
+        //             const fetchProductItem = await productServices.getCartItemById(id);
+        //             return fetchProductItem;
+        //         });
+
+        //         const resolvedData = await Promise.all(dataPromises);
+        //         console.log('resolvedData', resolvedData);
+        //         setProductList(resolvedData);
+        //     } catch (error) {
+        //         console.error('Error fetching liked items:', error);
+        //     } finally {
+        //         // Set loading to false once fetching is done
+        //         setLoading(false);
+        //     }
+        // };
+
+        // const fetchData = async () => {
+        //     try {
+        //         const dataPromises = likedItemsList.map((id) =>
+        //             productServices.getCartItemById(id).catch((error) => {
+        //                 console.error(`Error fetching item with id ${id}:`, error);
+        //                 return null; // Return null if there was an error
+        //             }),
+        //         );
+
+        //         const resolvedData = await Promise.all(dataPromises);
+        //         console.log('resolvedData', resolvedData);
+        //         setProductList(resolvedData.filter((item) => item !== null)); // Filter out any null values
+        //     } catch (error) {
+        //         console.error('Error fetching liked items:', error);
+        //     } finally {
+        //         setLoading(false);
+        //     }
+        // };
+
         const fetchData = async () => {
             try {
                 const dataPromises = likedItemsList.map(async (id) => {
-                    const fetchProductItem = await productServices.getCartItemById(id);
-                    return fetchProductItem;
+                    let retries = 3; // số lần thử lại
+                    while (retries > 0) {
+                        try {
+                            const fetchProductItem = await productServices.getCartItemById(id);
+                            return fetchProductItem;
+                        } catch (error) {
+                            console.error(`Error fetching product item (retrying):`, error);
+                            retries -= 1;
+                        }
+                    }
+                    return null;
                 });
 
                 const resolvedData = await Promise.all(dataPromises);
-                console.log('resolvedData', resolvedData);
-                setProductList(resolvedData);
+                setProductList(resolvedData.filter((item) => item !== null));
             } catch (error) {
                 console.error('Error fetching liked items:', error);
             } finally {
-                // Set loading to false once fetching is done
                 setLoading(false);
             }
         };
@@ -56,7 +100,7 @@ function LikeProduct() {
                     <LinearProgress className={cx('loading-spinner')} />
                 ) : (
                     <Frame>
-                        {productList.map((product, index) => product && <ProductItem key={index} item={product} />)}
+                        {productList?.map((product, index) => product && <ProductItem key={index} item={product} />)}
                     </Frame>
                 )}
             </div>

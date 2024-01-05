@@ -80,23 +80,24 @@ function ProductDetail() {
             try {
                 const result = await productServices.getProductVariantDetail(id);
                 setProductDetail(result);
+                setRatingList(result?.ratings);
             } catch (error) {
                 console.error('Error fetching product details:', error);
             }
         };
 
-        const fetchRatingList = async () => {
-            try {
-                const result = await productServices.getRatingList(id);
-                console.log('ratinglist', result);
-                setRatingList(result);
-            } catch (error) {
-                console.error('Error fetching product details:', error);
-            }
-        };
+        // const fetchRatingList = async () => {
+        //     try {
+        //         const result = await productServices.getRatingList(id);
+        //         console.log('ratinglist', result);
+        //         setRatingList(result);
+        //     } catch (error) {
+        //         console.error('Error fetching product details:', error);
+        //     }
+        // };
 
         fetchProductDetail();
-        fetchRatingList();
+        // fetchRatingList();
     }, [id]);
 
     const formattedPrice = new Intl.NumberFormat('en-US').format(productDetail?.price).replace(/,/g, '.');

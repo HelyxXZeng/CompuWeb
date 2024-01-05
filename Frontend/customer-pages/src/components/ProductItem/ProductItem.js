@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import config from '~/config';
 
+import * as productServices from '~/apiServices/productServices';
+
 import { useShoppingCart } from '~/context/ShoppingCartContext';
 
 const cx = classNames.bind(styles);
@@ -13,6 +15,31 @@ function ProductItem({ item }) {
     const { increaseCartQuantity } = useShoppingCart();
 
     const [isLoveActive, setLoveActive] = useState(false);
+
+    // const [promotionValue, setPromotionValue] = useState();
+
+    // useEffect(() => {
+    //     const fetchPromotionValue = async () => {
+    //         try {
+    //             // Use Promise.all to make multiple requests concurrently
+    //             const result = await productServices.getPromotionValue(item?.id);
+    //             // Add other API calls as needed
+
+    //             if (result.length) {
+    //                 console.log('promotionValue', result);
+    //                 setPromotionValue(result);
+    //             } else {
+    //                 console.error('Invalid response format for promotionValue:', result);
+    //             }
+
+    //             // Process other data as needed
+    //         } catch (error) {
+    //             console.error('Error fetching data:', error);
+    //         }
+    //     };
+
+    //     fetchPromotionValue();
+    // }, [item?.id]);
 
     const handleLoveClick = () => {
         setLoveActive(!isLoveActive);
@@ -57,10 +84,11 @@ function ProductItem({ item }) {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
-                <p className={cx('trending-p')}>Sản phẩm hot</p>
-                <p className={cx('discount-p')}>
-                    -21<span>%</span>
-                </p>
+                <p className={cx('trending-p')}>Sản phẩm hot - Giá ưu đãi</p>
+                {/* <p className={cx('discount-p')}>
+                    {promotionValue?.value}
+                    <span>%</span>
+                </p> */}
                 <a href={`${config.routes.productDetail}/${item.id}`} className={cx('a-img')}>
                     <img
                         src={

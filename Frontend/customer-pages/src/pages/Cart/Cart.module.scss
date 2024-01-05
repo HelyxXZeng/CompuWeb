@@ -362,7 +362,7 @@
 
             .calculate-price {
                 padding: 20px 0;
-                border-bottom: 1px solid #ccc;
+                border-bottom: 1px solid #eee;
                 p {
                     display: flex;
                     color: #7f7f7f;
@@ -377,7 +377,57 @@
                 }
             }
 
+            .voucher {
+                padding: 10px 0 20px;
+                border-bottom: 1px solid #ccc;
+                display: flex;
+                p {
+                    font-family: bold;
+                    margin-top: 5px;
+                }
+                .ul-list {
+                    .check-box {
+                        position: relative;
+                        display: flex;
+                        // align-items: center;
+                        cursor: pointer;
+                        margin-bottom: 8px;
+                        font-family: medium;
+                        font-weight: 500;
+                        padding: 8px 4px 8px 0;
+
+                        input {
+                            display: flex;
+                            margin: 0;
+                            margin-right: 10px;
+                            height: 19px;
+                            width: 19px;
+                            cursor: pointer;
+                        }
+
+                        .checkmark {
+                            font-family: medium;
+                            font-size: 14px;
+                            color: #606060;
+                            width: 100%;
+                            display: flex;
+                            overflow: hidden;
+                        }
+                    }
+                }
+            }
+
             .payment {
+                .p-discount {
+                    margin: 0;
+                    display: flex;
+                    justify-content: space-between;
+                    color: #3a3a3a;
+                    font-family: medium;
+                    padding: 20px 0 5px;
+                    font-size: 16px;
+                    text-transform: uppercase;
+                }
                 .p-total-final {
                     display: flex;
                     justify-content: space-between;

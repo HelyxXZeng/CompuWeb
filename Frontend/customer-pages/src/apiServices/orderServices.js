@@ -1,8 +1,10 @@
 import * as request from '~/utils/request';
 
-export const createOrder = async (data) => {
+export const createOrder = async (data, PromotionId) => {
     try {
-        const res = await request.post('DTOController/CreateOrder', data);
+        const params = PromotionId ? { PromotionId } : {}; // Include the parameter only if PromotionId has a value
+
+        const res = await request.post('DTOController/CreateOrder', data, { params });
         console.log('res', res);
         return res.data;
     } catch (error) {
