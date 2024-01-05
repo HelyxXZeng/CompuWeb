@@ -510,12 +510,21 @@ where pv.Id = 1 and o.Id = 3
 
 select * from Promotion
 
-select * from Orders
-
 select * from ReturnOrderItem
 
+select * from Rating
+
+select * from OrderItem
+
+SELECT COUNT(DISTINCT o.Id) AS OrdersWithPromotion
+FROM Orders o
+INNER JOIN OrderItem oi ON o.Id = oi.OrderId
+INNER JOIN Promotion p ON oi.PromotionId = p.Id
+WHERE oi.PromotionId = 1
+AND o.Date BETWEEN p.StartDate AND p.EndDate;
+
 INSERT INTO Price (ProductVariantId, StartDate, EndDate, Status, Value) VALUES (1, '2023-12-15', '2026-12-31', 'CANCELED', 9999999.00)
-=======
+
 --select * from Specification
 
 --SELECT r.*
