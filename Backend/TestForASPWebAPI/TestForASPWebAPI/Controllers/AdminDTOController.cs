@@ -172,9 +172,9 @@ namespace TestForASPWebAPI.Controllers
                 int count = await DBController.GetInstance().GetCount(GetCusNumByMonth);
 
                 string previousPercent = "?%";
-                if (stats.Customers.Count > 0 && stats.Customers.Last().Number != 0)
+                if (stats.Lists.Count > 0 && stats.Lists.Last().Number != 0)
                 {
-                    previousPercent = $"{((count - stats.Customers.Last().Number) * 100 / stats.Customers.Last().Number).ToString("0.00")}%";
+                    previousPercent = $"{((count - stats.Lists.Last().Number) * 100 / stats.Lists.Last().Number).ToString("0.00")}%";
                 }
 
                 var customer = new StatByMonth()
@@ -322,8 +322,8 @@ namespace TestForASPWebAPI.Controllers
                     Number = count,
                     Month = $"{currentMonth.Year}-{currentMonth.Month}",
                 };
-                stats.Percent = (stats.Customers.Count == 0 || stats.Customers.Last().Number == 0) ? "0.00%" : previousPercent;
-                stats.Customers.Add(customer);
+                stats.Percent = (stats.Lists.Count == 0 || stats.Lists.Last().Number == 0) ? "0.00" : previousPercent;
+                stats.Lists.Add(list);
             }
             return Ok(stats);
         }

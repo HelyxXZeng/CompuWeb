@@ -67,7 +67,7 @@ function Modal({ selectedOrderItem, setOpenModal }) {
         setErrorText(false);
 
         if (ratingValue > 0) {
-            //await orderServices.postRating(ratingData);
+            await orderServices.postRating(ratingData);
             console.log('ratingData', ratingData);
 
             // Retrieve the existing array from local storage

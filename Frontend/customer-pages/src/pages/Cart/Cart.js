@@ -118,7 +118,61 @@ function Cart() {
     };
 
     const [sumOrder, setSumOrder] = useState(0);
+    const [tempSum, setTempSum] = useState(0);
     const [priceList, setPriceList] = useState([]);
+    const [voucherList, setVoucherList] = useState([]);
+    const [seletedVoucherId, setSelectedVoucherId] = useState();
+    const [seletedVoucherValue, setSeletedVoucherValue] = useState();
+    const [promoDiscount, setPromoDiscount] = useState(0);
+
+    const handleVoucherChange = (e) => {
+        const [voucherItemId, voucherItemValue] = e.target.value.split('-');
+
+        setSelectedVoucherId(parseInt(voucherItemId, 10));
+
+        const parsedValue = parseInt(voucherItemValue, 10);
+        setSeletedVoucherValue(parsedValue);
+
+        const normalizedSum = parseInt(tempSum.replace(/[.,]/g, ''), 10);
+
+        const discount = (normalizedSum * parsedValue) / 100;
+
+        const formatDiscount = new Intl.NumberFormat('en-US').format(discount).replace(/,/g, '.');
+
+        setPromoDiscount(formatDiscount);
+    };
+
+    useEffect(() => {
+        const fetchPromotionValue = async (productVariantPurchaseId) => {
+            try {
+                const result = await productServices.getPromotionValue(productVariantPurchaseId);
+
+                if (result[0]) {
+                    console.log('promotionValue', result);
+                    return result[0]; // Return the result for collection
+                } else {
+                    console.error('Invalid response format for promotionValue:', result);
+                    return null; // Or handle the error in your specific way
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                return null; // Or handle the error in your specific way
+            }
+        };
+
+        const fetchData = async () => {
+            const results = await Promise.all(cartItems.map((cartItem) => fetchPromotionValue(cartItem.id)));
+
+            // Filter out null values (failed requests) and update your state
+            const validResults = results.filter((result) => result !== null);
+
+            // Update your state with validResults
+            setVoucherList(validResults);
+            console.log('voucher', voucherList);
+        };
+
+        fetchData();
+    }, [cartItems]);
 
     useEffect(() => {
         setPriceList([]);
@@ -155,17 +209,22 @@ function Cart() {
                 const result = await productServices.getCartItemById(itemId);
                 sum += result?.price * item?.quantity;
             }
-            const formattedSum = new Intl.NumberFormat('en-US').format(sum).replace(/,/g, '.');
+            const formattedSum = new Intl.NumberFormat('en-US')
+                .format(seletedVoucherValue > 0 ? (sum * (100 - seletedVoucherValue)) / 100 : sum)
+                .replace(/,/g, '.');
+            const formattedTempSum = new Intl.NumberFormat('en-US').format(sum).replace(/,/g, '.');
+            setTempSum(formattedTempSum);
             setSumOrder(formattedSum);
         };
         fetchCartItems();
-    }, [cartItems]);
+    }, [cartItems, seletedVoucherValue]);
 
-    const firstSum = cartItems.reduce((total, cartItem) => {
-        const item = priceList.find((i) => i.itemId === cartItem.id);
-        return total + (item?.price || 0) * cartItem.quantity;
-    }, 0);
-    const formattedFirstSum = new Intl.NumberFormat('en-US').format(firstSum).replace(/,/g, '.');
+    // const firstSum = cartItems.reduce((total, cartItem) => {
+    //     const item = priceList.find((i) => i.itemId === cartItem.id);
+    //     return total + (item?.price || 0) * cartItem.quantity;
+    // }, 0);
+    // const formattedFirstSum = new Intl.NumberFormat('en-US').format(firstSum).replace(/,/g, '.');
+    // console.log('formattedFirstSum', formattedFirstSum);
 
     const [formData, setFormData] = useState({
         gender: '1',
@@ -181,7 +240,7 @@ function Cart() {
         customer_address: '',
     });
 
-    formData.total = formattedFirstSum;
+    formData.total = sumOrder;
     const [selectedShopAddress, setSelectedShopAddress] = useState('');
     const [showTabReceive, setShowTabReceive] = useState(false);
 
@@ -353,8 +412,12 @@ function Cart() {
 
             console.log('orderData', orderData);
 
-            await orderServices.createOrder(orderData);
-            //navigate(config.routes.order);
+            if (seletedVoucherId > 0) {
+                await orderServices.createOrder(orderData, seletedVoucherId);
+            } else {
+                await orderServices.createOrder(orderData);
+            }
+            navigate(config.routes.order);
         } catch (error) {
             console.error('Error creating order:', error);
         }
@@ -648,14 +711,63 @@ function Cart() {
                     <div className={cx('calculate-price')}>
                         <p>
                             Tạm tính ({cartQuantity}) sản phẩm:
-                            <span className={cx('total-raw')}>{formattedFirstSum}đ</span>
+                            <span className={cx('total-raw')}>{tempSum}đ</span>
                         </p>
                         <p>
                             Phí vận chuyển:
                             <span>Liên hệ</span>
                         </p>
                     </div>
+
+                    <div className={cx('voucher')}>
+                        <p>Khuyến mãi:</p>
+                        <ul className={cx('ul-list')}>
+                            {voucherList.map((voucherItem, index) => {
+                                // Check if voucher status is 'ACTIVE'
+                                if (voucherItem?.status === 'ACTIVE') {
+                                    return (
+                                        <label key={index} className={cx('check-box')}>
+                                            <input
+                                                type="radio"
+                                                name="voucher"
+                                                value={`${voucherItem.id}-${voucherItem.value}`}
+                                                onChange={(e) => handleVoucherChange(e)}
+                                            />
+                                            <span className={cx('checkmark')}> Giảm giá {voucherItem.value} %</span>
+                                        </label>
+                                    );
+                                } else {
+                                    // Voucher is not 'ACTIVE', you can choose to render something else or nothing
+                                    return null;
+                                }
+                            })}
+
+                            {/* <label className={cx('check-box')}>
+                                <input
+                                    type="radio"
+                                    // name=
+                                    // value=
+                                    // onChange=
+                                />
+                                <span className={cx('checkmark')}> Giảm giá 10 %</span>
+                            </label>
+                            <label className={cx('check-box')}>
+                                <input
+                                    type="radio"
+                                    // name=
+                                    // value=
+                                    // onChange=
+                                />
+                                <span className={cx('checkmark')}> Giảm giá 10 %</span>
+                            </label> */}
+                        </ul>
+                    </div>
+
                     <div className={cx('payment')}>
+                        <p className={cx('p-discount')}>
+                            Giảm giá khuyến mãi:
+                            {promoDiscount && <span className={cx('discount')}>-{promoDiscount || 0}đ</span>}
+                        </p>
                         <p className={cx('p-total-final')}>
                             Tổng tiền:
                             <span className={cx('total-final')}>{sumOrder}đ</span>

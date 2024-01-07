@@ -8,6 +8,10 @@ const DTOAPI = {
   getTDU: () => {
     const url = `/AdminDTOController/CustomerSpentStatitics`
     return axiosClient.get(url);
+  },
+  getCS: (date:string) => {
+    const url = `/AdminDTOController/CustomerStatitics/${date}`
+    return axiosClient.get(url);
   }
 }
 

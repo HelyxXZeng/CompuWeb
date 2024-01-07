@@ -54,7 +54,7 @@ const RatingTable = () => {
         if (isConfirmed) {
             // Perform the deletion action here
             ratingApi.remove(rowId);
-            console.log('Deleting row with ID:', rowId);
+            // console.log('Deleting row with ID:', rowId);
 
             // Update displayedRows after the item has been deleted
             const updatedRows = displayedRows.filter(row => row.id !== rowId); // It should be row.Id later

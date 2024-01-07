@@ -20,21 +20,26 @@ const topBox = () => {
         fetchData();
       }, []);
       //vì không có dữ liệu nên không biết khách hàng nào mua
+      console.log(Data);
   return (
     <div className="topBox">
         <h1>Top Deals</h1>
         <div className="list">
-            {Data.map(user=>(
-                <div className="listItem" key={user.id}>
-                    <div className="user">
-                        <div className="userTexts">
-                            <span className="usrename">{user?.username}</span>
-                            <span className="phone">{user?.phone}</span>
-                        </div>
-                    </div>
-                    <span className="amount">${user?.amount}</span>
+          {Data ? (
+          Data.map((user) => (
+            <div className="listItem" key={user.id}>
+              <div className="user">
+                <div className="userTexts">
+                  <span className="usrename">{user?.name}</span>
+                  <span className="phone">{user?.phoneNumber}</span>
                 </div>
-            ))}
+              </div>
+              <span className="amount">${user?.total}</span>
+            </div>
+          ))
+        ) : (
+          <p>Loading...</p>
+        )}
         </div>
     
     </div>
