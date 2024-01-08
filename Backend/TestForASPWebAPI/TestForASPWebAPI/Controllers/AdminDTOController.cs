@@ -171,7 +171,7 @@ namespace TestForASPWebAPI.Controllers
                 string GetCusNumByMonth = $"SELECT COUNT(Id) FROM Customer WHERE Month(JoinDate) = {currentMonth.Month} AND Year(JoinDate) = {currentMonth.Year}";
                 int count = await DBController.GetInstance().GetCount(GetCusNumByMonth);
 
-                int previousPercent = 0;
+                decimal previousPercent = 0;
                 if (stats.Lists.Count > 0 && stats.Lists.Last().Number != 0)
                 {
                     previousPercent = (count - stats.Lists.Last().Number) * 100 / stats.Lists.Last().Number;
@@ -205,7 +205,7 @@ namespace TestForASPWebAPI.Controllers
                 string GetCusNumByMonth = $"SELECT COUNT(Id) FROM Rating WHERE Month(Date) = {currentMonth.Month} AND Year(Date) = {currentMonth.Year}";
                 int count = await DBController.GetInstance().GetCount(GetCusNumByMonth);
 
-                int previousPercent = 0;
+                decimal previousPercent = 0;
                 if (stats.Lists.Count > 0 && stats.Lists.Last().Number != 0)
                 {
                     previousPercent = (count - stats.Lists.Last().Number) * 100 / stats.Lists.Last().Number;
@@ -239,7 +239,7 @@ namespace TestForASPWebAPI.Controllers
                 string GetCusNumByMonth = $"SELECT COUNT(Id) FROM Orders WHERE Month(Date) = {currentMonth.Month} AND Year(Date) = {currentMonth.Year} AND Status = 'COMPLETED'";
                 int count = await DBController.GetInstance().GetCount(GetCusNumByMonth);
 
-                int previousPercent = 0;
+                decimal previousPercent = 0;
                 if (stats.Lists.Count > 0 && stats.Lists.Last().Number != 0)
                 {
                     previousPercent = (count - stats.Lists.Last().Number) * 100 / stats.Lists.Last().Number;
@@ -275,7 +275,7 @@ namespace TestForASPWebAPI.Controllers
                 string GetRevenueByDay = $"SELECT SUM(Total) FROM Orders WHERE Date = '{currentDate.ToString("yyyy-MM-dd")}' AND Status = 'COMPLETED'";
                 int revenue = await DBController.GetInstance().GetCount(GetRevenueByDay);
 
-                int previousPercent = 0;
+                decimal previousPercent = 0;
                 if (stats.Lists.Count > 0 && stats.Lists.Last().Number != 0)
                 {
                     previousPercent = (revenue - stats.Lists.Last().Number) * 100 / stats.Lists.Last().Number;
@@ -311,7 +311,7 @@ namespace TestForASPWebAPI.Controllers
                 string GetCusNumByMonth = $"SELECT COUNT(Id) FROM Orders WHERE Month(Date) = {currentMonth.Month} AND Year(Date) = {currentMonth.Year} AND (Status = 'CANCELED' or Status = 'DECLINED')";
                 int count = await DBController.GetInstance().GetCount(GetCusNumByMonth);
 
-                int previousPercent = 0;
+                decimal previousPercent = 0;
                 if (stats.Lists.Count > 0 && stats.Lists.Last().Number != 0)
                 {
                     previousPercent = (count - stats.Lists.Last().Number) * 100 / stats.Lists.Last().Number;
@@ -345,7 +345,7 @@ namespace TestForASPWebAPI.Controllers
                 string GetCusNumByMonth = $"SELECT COUNT(Id) FROM ReturnOrderItem WHERE Month(Date) = {currentMonth.Month} AND Year(Date) = {currentMonth.Year} AND Status = 'COMPLETED'";
                 int count = await DBController.GetInstance().GetCount(GetCusNumByMonth);
 
-                int previousPercent = 0;
+                decimal previousPercent = 0;
                 if (stats.Lists.Count > 0 && stats.Lists.Last().Number != 0)
                 {
                     previousPercent = (count - stats.Lists.Last().Number) * 100 / stats.Lists.Last().Number;
@@ -472,7 +472,7 @@ namespace TestForASPWebAPI.Controllers
     {
         public Stats() { }
         public int Count { get; set; }
-        public int Percent { get; set; }
+        public decimal Percent { get; set; }
         public List<StatByMonth> Lists { get; set; }
     }
 }
