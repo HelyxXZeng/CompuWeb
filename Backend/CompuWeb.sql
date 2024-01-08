@@ -516,12 +516,29 @@ select * from Rating
 
 select * from OrderItem
 
+select sum(o.Total)
+from Orders o
+where o.CustomerId = 1 
+and CONVERT(DATE, o.Date) = '2023-12-23'
+
+select * from Orders
+
+DECLARE @id INT = 1;
+DECLARE @inputDate DATE = '2024-01-01'; -- Replace with your actual input date
+DECLARE @endDateToCompare DATE;
+SELECT @endDateToCompare = 
+CASE
+WHEN @inputDate <= p.EndDate THEN @inputDate
+ELSE p.EndDate
+END
+FROM Promotion p
+WHERE p.Id = @id;
 SELECT COUNT(DISTINCT o.Id) AS OrdersWithPromotion
 FROM Orders o
 INNER JOIN OrderItem oi ON o.Id = oi.OrderId
 INNER JOIN Promotion p ON oi.PromotionId = p.Id
-WHERE oi.PromotionId = 1
-AND o.Date BETWEEN p.StartDate AND p.EndDate;
+WHERE oi.PromotionId = @id
+AND o.Date BETWEEN p.StartDate AND @endDateToCompare;
 
 INSERT INTO Price (ProductVariantId, StartDate, EndDate, Status, Value) VALUES (1, '2023-12-15', '2026-12-31', 'CANCELED', 9999999.00)
 
