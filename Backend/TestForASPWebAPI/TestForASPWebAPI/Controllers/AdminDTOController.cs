@@ -116,7 +116,7 @@ namespace TestForASPWebAPI.Controllers
         public async Task<IActionResult> CustomerSpentStatitics()
         {
             List<CustomerStats> customers = new List<CustomerStats>();
-            string GetCustomerStats = $"select top 10 c.Id, c.Name, c.PhoneNumber, Sum(o.Total) as Total\r\nfrom Customer c\r\njoin Orders o on o.CustomerId = c.Id\r\nwhere c.Id = 1\r\ngroup by c.Id, c.Name, c.PhoneNumber\r\norder by Total desc";
+            string GetCustomerStats = $"select top 10 c.Id, c.Name, c.PhoneNumber, Sum(o.Total) as Total\r\nfrom Customer c\r\njoin Orders o on o.CustomerId = c.Id\r\ngroup by c.Id, c.Name, c.PhoneNumber\r\norder by Total desc";
             using (DataTable data = await DBController.GetInstance().GetData(GetCustomerStats))
             {
                 foreach (DataRow row in data.Rows)
@@ -268,11 +268,11 @@ namespace TestForASPWebAPI.Controllers
 
             DateTime selectedDate = Convert.ToDateTime(date);
             DateTime startDate = selectedDate.AddDays(-(int)selectedDate.DayOfWeek); // Start of the week
-            DateTime endDate = startDate.AddDays(6); // End of the week
+            DateTime endDate = selectedDate.AddMonths(-5); // End of the week
 
-            for (DateTime currentDate = startDate; currentDate <= endDate; currentDate = currentDate.AddDays(1))
+            for (DateTime currentDate = endDate; currentDate <= selectedDate; currentDate = currentDate.AddMonths(1))
             {
-                string GetRevenueByDay = $"SELECT SUM(Total) FROM Orders WHERE Date = '{currentDate.ToString("yyyy-MM-dd")}' AND Status = 'COMPLETED'";
+                string GetRevenueByDay = $"SELECT SUM(Total) FROM Orders WHERE month(Date) = {currentDate.Month} AND Status = 'COMPLETED'";
                 int revenue = await DBController.GetInstance().GetCount(GetRevenueByDay);
 
                 decimal previousPercent = 0;
@@ -284,7 +284,7 @@ namespace TestForASPWebAPI.Controllers
                 var customer = new StatByMonth()
                 {
                     Number = revenue,
-                    Month = $"{currentDate.Year}-{currentDate.Month}-{currentDate.Day}",
+                    Month = $"{currentDate.Year}-{currentDate.Month}",
                 };
 
                 stats.Percent = (stats.Lists.Count == 0 || stats.Lists.Last().Number == 0) ? 0 : previousPercent;
