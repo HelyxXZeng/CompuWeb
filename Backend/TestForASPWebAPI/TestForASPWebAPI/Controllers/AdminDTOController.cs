@@ -441,14 +441,14 @@ namespace TestForASPWebAPI.Controllers
             {
                 string query = $"SELECT COUNT(DISTINCT o.Id) AS OrdersWithPromotion " +
                                $"FROM Orders o " +
-                               $"WHERE o.CustomerId = {staffid} " +
+                               $"WHERE o.StaffId = {staffid} " +
                                $"AND CONVERT(DATE, o.Date) = '{currentDate:yyyy-MM-dd}'";
 
                 int count = await DBController.GetInstance().GetCount(query);
 
                 query = $"SELECT SUM(o.Total) AS Total " +
                                $"FROM Orders o " +
-                               $"WHERE o.CustomerId = {staffid} " +
+                               $"WHERE o.StaffId = {staffid} " +
                                $"AND CONVERT(DATE, o.Date) = '{currentDate:yyyy-MM-dd}'";
                 decimal ItemCount;
                 using (DataTable data = await DBController.GetInstance().GetData(query))
