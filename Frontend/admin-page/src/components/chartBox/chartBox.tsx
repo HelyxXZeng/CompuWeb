@@ -9,7 +9,7 @@ type Props = {
     dataKey: string;
     data: {
         count: number;
-        percent: string;
+        percent: number;
         lists: {
           number: number;
           month: string;
@@ -18,7 +18,6 @@ type Props = {
 };
 
 const chartBox = (props:Props) => {
-    console.log("ga",parseFloat(props.data.percent))
     return (
         <div className="chartBox">
             <div className="boxInfo">
@@ -49,7 +48,7 @@ const chartBox = (props:Props) => {
                     </ResponsiveContainer>
                 </div>
                 <div className="texts">
-                    <span className="percentage" style={{ color: parseFloat(props.data.percent) < 0 ? "tomato" : "lightgreen" }}>{props.data.percent}%</span>
+                    <span className="percentage" style={{ color: props.data.percent < 0 ? "tomato" : "lightgreen" }}>{props.data.percent}%</span>
                     <span className="duration">this month</span>
                 </div>
             </div>
