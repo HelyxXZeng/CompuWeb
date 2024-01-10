@@ -18,20 +18,20 @@ function App() {
   const Layout = () => { 
     return (
       <div className="main">
-        <NavBar />
+         <NavBar />
         <div className="container">
           <div className="menuContainer">
             <Menu />
           </div>
-          <div className="contentContainer">
-            <Outlet />
+          <div className="contentContainer"> 
+            <Outlet /> 
           </div>
         </div>
         <Footer />
       </div>
     );
   };
-
+ 
   const router= createBrowserRouter([
     {
       path:"/",
@@ -45,7 +45,7 @@ function App() {
           path:"/staffs",
           element:<Staffs />,
         },
-        {//truyền tham số vô đây sau
+        {
           path:"/staffs/:id",
           element:<Staff />,
         },

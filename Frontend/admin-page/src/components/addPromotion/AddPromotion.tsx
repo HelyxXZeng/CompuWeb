@@ -150,7 +150,7 @@ const AddPromotion = (props: Props) => {
                         <span className="close" onClick={() => props.setOpen(false)}>
                             X
                         </span>
-                        <h1>Add New promotion</h1>
+                        <h1>Add New Promotion</h1>
                         <form onSubmit={handleSubmit}>
                             {props.columns
                                 .filter((item) => item.field !== "id")
