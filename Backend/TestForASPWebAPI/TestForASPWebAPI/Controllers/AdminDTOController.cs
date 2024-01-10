@@ -259,20 +259,24 @@ namespace TestForASPWebAPI.Controllers
         [HttpGet("RevenueStatiticsByMonth/{date}")]
         public async Task<IActionResult> RevenueStatiticsByMonth(string date)
         {
-            string GetTotalRevenue = $"SELECT SUM(Total) FROM Orders WHERE Status = 'COMPLETED'";
-            Stats stats = new Stats()
+            Stats stats;
+            string GetTotalRevenue = $"SELECT SUM(Total) AS Total FROM Orders WHERE Status = 'COMPLETED'";
+            using (DataTable mydata = await DBController.GetInstance().GetData(GetTotalRevenue))
             {
-                Count = await DBController.GetInstance().GetCount(GetTotalRevenue),
-                Lists = new List<StatByMonth>(),
-            };
+                stats = new Stats()
+                {
+                    Count = Convert.ToInt32(mydata.Rows[0]["Total"]),
+                    Lists = new List<StatByMonth>(),
+                };
+            }
+            
 
-            DateTime selectedDate = Convert.ToDateTime(date);
-            DateTime startDate = selectedDate.AddDays(-(int)selectedDate.DayOfWeek); // Start of the week
-            DateTime endDate = selectedDate.AddMonths(-5); // End of the week
+            DateTime startDate = Convert.ToDateTime(date);
+            DateTime endDate = startDate.AddMonths(-5); // End of the week
 
-            for (DateTime currentDate = endDate; currentDate <= selectedDate; currentDate = currentDate.AddMonths(1))
+            for (DateTime currentDate = endDate; currentDate <= startDate; currentDate = currentDate.AddMonths(1))
             {
-                string GetRevenueByDay = $"SELECT SUM(Total) FROM Orders WHERE month(Date) = {currentDate.Month} AND Status = 'COMPLETED'";
+                string GetRevenueByDay = $"SELECT SUM(Total) FROM Orders WHERE MONTH(Date) = {currentDate.Month} AND YEAR(Date) = {currentDate.Year} AND Status = 'COMPLETED'";
                 int revenue = await DBController.GetInstance().GetCount(GetRevenueByDay);
 
                 decimal previousPercent = 0;
