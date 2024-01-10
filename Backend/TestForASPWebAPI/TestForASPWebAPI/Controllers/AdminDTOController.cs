@@ -270,11 +270,10 @@ namespace TestForASPWebAPI.Controllers
                  };
             }
 
-            DateTime selectedDate = Convert.ToDateTime(date);
-            DateTime startDate = selectedDate.AddDays(-(int)selectedDate.DayOfWeek); // Start of the week
-            DateTime endDate = selectedDate.AddMonths(-5); // End of the week
+            DateTime startDate = Convert.ToDateTime(date);
+            DateTime endDate = startDate.AddMonths(-5); // End of the week
 
-            for (DateTime currentDate = endDate; currentDate <= selectedDate; currentDate = currentDate.AddMonths(1))
+            for (DateTime currentDate = endDate; currentDate <= startDate; currentDate = currentDate.AddMonths(1))
             {
                 string GetRevenueByDay = $"SELECT SUM(Total) as Total FROM Orders WHERE month(Date) = {currentDate.Month} AND Status = 'COMPLETED'";
                 int revenue = 0;
@@ -450,14 +449,14 @@ namespace TestForASPWebAPI.Controllers
             {
                 string query = $"SELECT COUNT(DISTINCT o.Id) AS OrdersWithPromotion " +
                                $"FROM Orders o " +
-                               $"WHERE o.CustomerId = {staffid} " +
+                               $"WHERE o.StaffId = {staffid} " +
                                $"AND CONVERT(DATE, o.Date) = '{currentDate:yyyy-MM-dd}'";
 
                 int count = await DBController.GetInstance().GetCount(query);
 
                 query = $"SELECT SUM(o.Total) AS Total " +
                                $"FROM Orders o " +
-                               $"WHERE o.CustomerId = {staffid} " +
+                               $"WHERE o.StaffId = {staffid} " +
                                $"AND CONVERT(DATE, o.Date) = '{currentDate:yyyy-MM-dd}'";
                 decimal ItemCount;
                 using (DataTable data = await DBController.GetInstance().GetData(query))
