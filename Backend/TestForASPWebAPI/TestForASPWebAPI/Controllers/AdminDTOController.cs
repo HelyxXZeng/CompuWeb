@@ -259,25 +259,28 @@ namespace TestForASPWebAPI.Controllers
         [HttpGet("RevenueStatiticsByMonth/{date}")]
         public async Task<IActionResult> RevenueStatiticsByMonth(string date)
         {
+            string GetTotalRevenue = $"SELECT SUM(Total) as Total FROM Orders WHERE Status = 'COMPLETED'";
             Stats stats;
-            string GetTotalRevenue = $"SELECT SUM(Total) AS Total FROM Orders WHERE Status = 'COMPLETED'";
-            using (DataTable mydata = await DBController.GetInstance().GetData(GetTotalRevenue))
+            using (DataTable data = await DBController.GetInstance().GetData(GetTotalRevenue))
             {
-                stats = new Stats()
-                {
-                    Count = Convert.ToInt32(mydata.Rows[0]["Total"]),
-                    Lists = new List<StatByMonth>(),
-                };
+                 stats = new Stats()
+                 {
+                     Count = data.Rows[0]["Total"] is DBNull ? 0 : Convert.ToInt32(data.Rows[0]["Total"]),
+                     Lists = new List<StatByMonth>(),
+                 };
             }
-            
 
             DateTime startDate = Convert.ToDateTime(date);
             DateTime endDate = startDate.AddMonths(-5); // End of the week
 
             for (DateTime currentDate = endDate; currentDate <= startDate; currentDate = currentDate.AddMonths(1))
             {
-                string GetRevenueByDay = $"SELECT SUM(Total) FROM Orders WHERE MONTH(Date) = {currentDate.Month} AND YEAR(Date) = {currentDate.Year} AND Status = 'COMPLETED'";
-                int revenue = await DBController.GetInstance().GetCount(GetRevenueByDay);
+                string GetRevenueByDay = $"SELECT SUM(Total) as Total FROM Orders WHERE month(Date) = {currentDate.Month} AND Status = 'COMPLETED'";
+                int revenue = 0;
+                using (DataTable data = await DBController.GetInstance().GetData(GetRevenueByDay))
+                {
+                    revenue = data.Rows[0]["Total"] is DBNull ? 0 : Convert.ToInt32(data.Rows[0]["Total"]);
+                }
 
                 decimal previousPercent = 0;
                 if (stats.Lists.Count > 0 && stats.Lists.Last().Number != 0)
