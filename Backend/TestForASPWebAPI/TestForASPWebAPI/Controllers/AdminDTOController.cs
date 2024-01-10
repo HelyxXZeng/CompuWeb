@@ -286,8 +286,9 @@ namespace TestForASPWebAPI.Controllers
                 decimal previousPercent = 0;
                 if (stats.Lists.Count > 0 && stats.Lists.Last().Number != 0)
                 {
-                    previousPercent = (revenue - stats.Lists.Last().Number) * 100 / stats.Lists.Last().Number;
+                    previousPercent = ((revenue / stats.Lists.Last().Number) - 1) * 100;
                 }
+                else previousPercent = revenue * 100;
 
                 var customer = new StatByMonth()
                 {
@@ -295,7 +296,7 @@ namespace TestForASPWebAPI.Controllers
                     Month = $"{currentDate.Year}-{currentDate.Month}",
                 };
 
-                stats.Percent = (stats.Lists.Count == 0 || stats.Lists.Last().Number == 0) ? 0 : previousPercent;
+                stats.Percent = previousPercent;
                 stats.Lists.Add(customer);
             }
 
