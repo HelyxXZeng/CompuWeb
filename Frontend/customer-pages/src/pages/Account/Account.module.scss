@@ -63,6 +63,11 @@
         .box {
             margin-bottom: 15px;
             position: relative;
+            .circular {
+                margin: 5px 0;
+                display: flex;
+                justify-content: center;
+            }
             .phone-icon {
                 position: absolute;
                 top: 50%;

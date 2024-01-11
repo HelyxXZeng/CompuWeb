@@ -7,7 +7,8 @@ import React, { useState, useEffect } from 'react';
 import Frame from '~/components/Frame';
 
 import * as productServices from '~/apiServices/productServices';
-import ProductItem from './ProductItem';
+// import ProductItem from './ProductItem';
+import ProductItem from '~/components/ProductItem';
 
 import LinearProgress from '@mui/material/LinearProgress';
 
@@ -23,7 +24,7 @@ function LikeProduct() {
     // Inside your useEffect
     useEffect(() => {
         const likedItemsList = JSON.parse(localStorage.getItem('likeProductList')) || [];
-
+        setProductList(likedItemsList);
         // const fetchData = async () => {
         //     try {
         //         const dataPromises = likedItemsList.map(async (id) => {
@@ -61,40 +62,40 @@ function LikeProduct() {
         //     }
         // };
 
-        const fetchData = async () => {
-            try {
-                const dataPromises = likedItemsList.map(async (id) => {
-                    let retries = 3; // số lần thử lại
-                    while (retries > 0) {
-                        try {
-                            const fetchProductItem = await productServices.getCartItemById(id);
-                            return fetchProductItem;
-                        } catch (error) {
-                            console.error(`Error fetching product item (retrying):`, error);
-                            retries -= 1;
-                        }
-                    }
-                    return null;
-                });
+        // const fetchData = async () => {
+        //     try {
+        //         const dataPromises = likedItemsList.map(async (id) => {
+        //             let retries = 3; // số lần thử lại
+        //             while (retries > 0) {
+        //                 try {
+        //                     const fetchProductItem = await productServices.getCartItemById(parseInt(id, 10));
+        //                     return fetchProductItem;
+        //                 } catch (error) {
+        //                     console.error(`Error fetching product item (retrying):`, error);
+        //                     retries -= 1;
+        //                 }
+        //             }
+        //             return null;
+        //         });
 
-                const resolvedData = await Promise.all(dataPromises);
-                setProductList(resolvedData.filter((item) => item !== null));
-            } catch (error) {
-                console.error('Error fetching liked items:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
+        //         const resolvedData = await Promise.all(dataPromises);
+        //         setProductList(resolvedData.filter((item) => item !== null));
+        //     } catch (error) {
+        //         console.error('Error fetching liked items:', error);
+        //     } finally {
+        //         setLoading(false);
+        //     }
+        // };
 
-        setLoading(true);
-        fetchData();
+        // setLoading(true);
+        // fetchData();
     }, []);
 
     console.log('productList', productList);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('frame-div')}>
-                {loading ? (
+                {/* {loading ? (
                     // Display loading spinner when data is still being fetched
                     // <CircularProgress className={cx('loading-spinner')} />
                     <LinearProgress className={cx('loading-spinner')} />
@@ -102,7 +103,11 @@ function LikeProduct() {
                     <Frame>
                         {productList?.map((product, index) => product && <ProductItem key={index} item={product} />)}
                     </Frame>
-                )}
+                )} */}
+
+                <Frame>
+                    {productList?.map((product, index) => product && <ProductItem key={index} item={product} />)}
+                </Frame>
             </div>
         </div>
     );
