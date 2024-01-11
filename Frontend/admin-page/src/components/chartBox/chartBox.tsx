@@ -7,9 +7,14 @@ type Props = {
     icon: string;
     title: string;
     dataKey: string;
-    number: number | string;
-    percentage: number;
-    chartData: object[];
+    data: {
+        count: number;
+        percent: number;
+        lists: {
+          number: number;
+          month: string;
+        }[];
+      };
 };
 
 const chartBox = (props:Props) => {
@@ -20,13 +25,13 @@ const chartBox = (props:Props) => {
                     <img src={props.icon} alt="" />
                     <span>{props.title}</span>
                 </div>
-                <h1>{props.number}</h1>
+                <h1>{props.data.count}</h1>
                 <Link to="/" style={{ color: props.color }}>View all</Link>
             </div>
             <div className="chartInfo">
                 <div className="chart">
                     <ResponsiveContainer width="99%" height="100%">
-                        <LineChart data={props.chartData}>
+                        <LineChart data={props.data.lists}>
                             <Tooltip
                                 contentStyle={{ background: "transparent", border: "none" }}
                                 labelStyle={{ display: "none" }}
@@ -43,7 +48,7 @@ const chartBox = (props:Props) => {
                     </ResponsiveContainer>
                 </div>
                 <div className="texts">
-                    <span className="percentage" style={{ color: props.percentage < 0 ? "tomato" : "lightgreen" }}>{props.percentage}%</span>
+                    <span className="percentage" style={{ color: props.data.percent < 0 ? "tomato" : "lightgreen" }}>{props.data.percent}%</span>
                     <span className="duration">this month</span>
                 </div>
             </div>

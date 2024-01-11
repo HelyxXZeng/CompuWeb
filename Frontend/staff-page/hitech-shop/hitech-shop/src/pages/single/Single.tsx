@@ -28,6 +28,8 @@ import "./single.scss";
 import OrderSingle from "../../components/singles/orderSingle/OrderSingle";
 import RatingSingle from "../../components/singles/ratingSingle/RatingSingle";
 import ratingApi from "../../api/ratingApi";
+import returnOrderApi from "../../api/returnApi";
+import ReturnSingle from "../../components/singles/returnSingle/ReturnSingle";
 
 interface Props {
     type: string,
@@ -88,6 +90,9 @@ const Single = ({ type, isNew }: Props) => {
                 case 'rating':
                     data = (await ratingApi.get(parseInt(id!))).data;
                     break;
+                case 'return':
+                    data = (await returnOrderApi.get(parseInt(id!))).data;
+                    break;
                 default:
                     break;
                 // Handle the default case
@@ -95,7 +100,7 @@ const Single = ({ type, isNew }: Props) => {
 
 
             setEditRow(data)
-            console.log("This is data: ", data)
+            // console.log("This is data: ", data)
             setIsDoneFetch(true)
         }
         if (isNew === 'update') {
@@ -109,8 +114,6 @@ const Single = ({ type, isNew }: Props) => {
         switch (type) {
             case 'category':
                 return <CategorySingle category={editRow!} />;
-            // case 'product':
-            //     return <ProductTable rows={editRow!} />;
             case 'customer':
                 return <CustomerSingle customer={editRow!} />
             case 'order':
@@ -131,6 +134,8 @@ const Single = ({ type, isNew }: Props) => {
                 return <PriceSingle price={editRow!} />
             case 'rating':
                 return <RatingSingle rating={editRow!} />
+            case 'return':
+                return <ReturnSingle returnOrder={editRow!} />
             default:
                 return null;
         }

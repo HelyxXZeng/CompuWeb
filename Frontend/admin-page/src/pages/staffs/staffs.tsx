@@ -9,15 +9,15 @@ type GridColDefWithDisplay = GridColDef & { displayInForm: boolean };
 
 const columns: GridColDefWithDisplay[] = [
   { field: "id", headerName: "ID", flex: 1, displayInForm: false, },
-  {
-    field: "avatar",
-    headerName: "Avatar",
-    flex: 2,
-    renderCell: (params) => {
-      return <img src={params.row.img || "/noavatar.png"} alt="" />;
-    },
-    displayInForm: false, 
-  },
+  // {
+  //   field: "avatar",
+  //   headerName: "Avatar",
+  //   flex: 2,
+  //   renderCell: (params) => {
+  //     return <img src={params.row.img || "/noavatar.png"} alt="" />;
+  //   },
+  //   displayInForm: false, 
+  // },
   {
     field: "name",
     type: "string",
@@ -95,7 +95,7 @@ const staffs = () => {
 
   const dataTableColumns = columns.filter(
     (column) => ( column.field !== "birthdate" && column.field !== "idcardNumber" &&
-                    column.field != "address" && column.field !== "salary"));
+                    column.field != "address" && column.field !== "salary" && column.field !== "img"));
 
   const addStaffColumns = columns.filter(
     (column) => column.displayInForm 

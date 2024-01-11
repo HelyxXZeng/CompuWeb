@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Globalization;
+using System.Runtime.InteropServices;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -61,7 +62,7 @@ namespace TestForASPWebAPI.Controllers
                         Content = (string)dataRow["Content"],
                         Value = (decimal)dataRow["Value"],
                         Status = (string)dataRow["Status"],
-                    }; 
+                    };
                     string GetPVPromoName = $"select Name from ProductVariant where Id = {Promotion.ProductVariantIdPromotion}";
                     using (DataTable dt = await DBController.GetInstance().GetData(GetPVPromoName))
                     {
@@ -115,7 +116,7 @@ namespace TestForASPWebAPI.Controllers
         public async Task<IActionResult> CustomerSpentStatitics()
         {
             List<CustomerStats> customers = new List<CustomerStats>();
-            string GetCustomerStats = $"select top 10 c.Id, c.Name, c.PhoneNumber, Sum(o.Total) as Total\r\nfrom Customer c\r\njoin Orders o on o.CustomerId = c.Id\r\nwhere c.Id = 1\r\ngroup by c.Id, c.Name, c.PhoneNumber\r\norder by Total desc";
+            string GetCustomerStats = $"select top 10 c.Id, c.Name, c.PhoneNumber, Sum(o.Total) as Total\r\nfrom Customer c\r\njoin Orders o on o.CustomerId = c.Id\r\ngroup by c.Id, c.Name, c.PhoneNumber\r\norder by Total desc";
             using (DataTable data = await DBController.GetInstance().GetData(GetCustomerStats))
             {
                 foreach (DataRow row in data.Rows)
@@ -156,8 +157,12 @@ namespace TestForASPWebAPI.Controllers
         public async Task<IActionResult> CustomerStatitics(string date)
         {
             List<string> months = new List<string>() { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
-            List<CusByMonth> Customers = new List<CusByMonth>();
-
+            string GetCustomerCount = $"select count(Id) from Customer";
+            Stats stats = new Stats()
+            {
+                Count = await DBController.GetInstance().GetCount(GetCustomerCount),
+                Lists = new List<StatByMonth>(),
+            };
             DateTime startDate = Convert.ToDateTime(date);
             DateTime endDate = startDate.AddMonths(-6); // Get date six months ago
 
@@ -166,28 +171,315 @@ namespace TestForASPWebAPI.Controllers
                 string GetCusNumByMonth = $"SELECT COUNT(Id) FROM Customer WHERE Month(JoinDate) = {currentMonth.Month} AND Year(JoinDate) = {currentMonth.Year}";
                 int count = await DBController.GetInstance().GetCount(GetCusNumByMonth);
 
-                string previousPercent = "?%";
-                if (Customers.Count > 0 && Customers.Last().Number != 0)
+                decimal previousPercent = 0;
+                if (stats.Lists.Count > 0 && stats.Lists.Last().Number != 0)
                 {
-                    previousPercent = $"{((count - Customers.Last().Number) * 100 / Customers.Last().Number).ToString("0.00")}%";
+                    previousPercent = (count - stats.Lists.Last().Number) * 100 / stats.Lists.Last().Number;
                 }
 
-                var customer = new CusByMonth()
+                var customer = new StatByMonth()
                 {
                     Number = count,
                     Month = $"{currentMonth.Year}-{currentMonth.Month}",
-                    Percent = (Customers.Count == 0 || Customers.Last().Number == 0) ? "0.00%" : previousPercent
                 };
-                Customers.Add(customer);
+                stats.Percent = (stats.Lists.Count == 0 || stats.Lists.Last().Number == 0) ? 0 : previousPercent;
+                stats.Lists.Add(customer);
             }
-            return Ok(Customers);
+            return Ok(stats);
+        }
+
+        [HttpGet("RatingStatitics/{date}")]
+        public async Task<IActionResult> RatingStatitics(string date)
+        {
+            string GetCustomerCount = $"select count(Id) from Rating";
+            Stats stats = new Stats()
+            {
+                Count = await DBController.GetInstance().GetCount(GetCustomerCount),
+                Lists = new List<StatByMonth>(),
+            };
+            DateTime startDate = Convert.ToDateTime(date);
+            DateTime endDate = startDate.AddMonths(-6); // Get date six months ago
+
+            for (DateTime currentMonth = endDate; currentMonth < startDate; currentMonth = currentMonth.AddMonths(1))
+            {
+                string GetCusNumByMonth = $"SELECT COUNT(Id) FROM Rating WHERE Month(Date) = {currentMonth.Month} AND Year(Date) = {currentMonth.Year}";
+                int count = await DBController.GetInstance().GetCount(GetCusNumByMonth);
+
+                decimal previousPercent = 0;
+                if (stats.Lists.Count > 0 && stats.Lists.Last().Number != 0)
+                {
+                    previousPercent = (count - stats.Lists.Last().Number) * 100 / stats.Lists.Last().Number;
+                }
+
+                var customer = new StatByMonth()
+                {
+                    Number = count,
+                    Month = $"{currentMonth.Year}-{currentMonth.Month}",
+                };
+                stats.Percent = (stats.Lists.Count == 0 || stats.Lists.Last().Number == 0) ? 0 : previousPercent;
+                stats.Lists.Add(customer);
+            }
+            return Ok(stats);
+        }
+
+        [HttpGet("OrderStatitics/{date}")]
+        public async Task<IActionResult> OrderStatitics(string date)
+        {
+            string GetCustomerCount = $"select count(Id) from Orders where Status = 'COMPLETED'";
+            Stats stats = new Stats()
+            {
+                Count = await DBController.GetInstance().GetCount(GetCustomerCount),
+                Lists = new List<StatByMonth>(),
+            };
+            DateTime startDate = Convert.ToDateTime(date);
+            DateTime endDate = startDate.AddMonths(-6); // Get date six months ago
+
+            for (DateTime currentMonth = endDate; currentMonth < startDate; currentMonth = currentMonth.AddMonths(1))
+            {
+                string GetCusNumByMonth = $"SELECT COUNT(Id) FROM Orders WHERE Month(Date) = {currentMonth.Month} AND Year(Date) = {currentMonth.Year} AND Status = 'COMPLETED'";
+                int count = await DBController.GetInstance().GetCount(GetCusNumByMonth);
+
+                decimal previousPercent = 0;
+                if (stats.Lists.Count > 0 && stats.Lists.Last().Number != 0)
+                {
+                    previousPercent = (count - stats.Lists.Last().Number) * 100 / stats.Lists.Last().Number;
+                }
+
+                var customer = new StatByMonth()
+                {
+                    Number = count,
+                    Month = $"{currentMonth.Year}-{currentMonth.Month}",
+                };
+                stats.Percent = (stats.Lists.Count == 0 || stats.Lists.Last().Number == 0) ? 0 : previousPercent;
+                stats.Lists.Add(customer);
+            }
+            return Ok(stats);
+        }
+
+        [HttpGet("RevenueStatiticsByMonth/{date}")]
+        public async Task<IActionResult> RevenueStatiticsByMonth(string date)
+        {
+            string GetTotalRevenue = $"SELECT SUM(Total) as Total FROM Orders WHERE Status = 'COMPLETED'";
+            Stats stats;
+            using (DataTable data = await DBController.GetInstance().GetData(GetTotalRevenue))
+            {
+                 stats = new Stats()
+                 {
+                     Count = data.Rows[0]["Total"] is DBNull ? 0 : Convert.ToInt32(data.Rows[0]["Total"]),
+                     Lists = new List<StatByMonth>(),
+                 };
+            }
+
+            DateTime startDate = Convert.ToDateTime(date);
+            DateTime endDate = startDate.AddMonths(-5); // End of the week
+
+            for (DateTime currentDate = endDate; currentDate <= startDate; currentDate = currentDate.AddMonths(1))
+            {
+                string GetRevenueByDay = $"SELECT SUM(Total) as Total FROM Orders WHERE month(Date) = {currentDate.Month} AND Status = 'COMPLETED'";
+                int revenue = 0;
+                using (DataTable data = await DBController.GetInstance().GetData(GetRevenueByDay))
+                {
+                    revenue = data.Rows[0]["Total"] is DBNull ? 0 : Convert.ToInt32(data.Rows[0]["Total"]);
+                }
+
+                decimal previousPercent = 0;
+                if (stats.Lists.Count > 0 && stats.Lists.Last().Number != 0)
+                {
+                    previousPercent = (revenue - stats.Lists.Last().Number) * 100 / stats.Lists.Last().Number;
+                }
+
+                var customer = new StatByMonth()
+                {
+                    Number = revenue,
+                    Month = $"{currentDate.Year}-{currentDate.Month}",
+                };
+
+                stats.Percent = (stats.Lists.Count == 0 || stats.Lists.Last().Number == 0) ? 0 : previousPercent;
+                stats.Lists.Add(customer);
+            }
+
+            return Ok(stats);
+        }
+
+        [HttpGet("FailedOrderStatitics/{date}")]
+        public async Task<IActionResult> FailedOrderStatitics(string date)
+        {
+            string GetCustomerCount = $"select count(Id) from Orders where Status = 'CANCELED' or Status = 'DECLINED'";
+            Stats stats = new Stats()
+            {
+                Count = await DBController.GetInstance().GetCount(GetCustomerCount),
+                Lists = new List<StatByMonth>(),
+            };
+            DateTime startDate = Convert.ToDateTime(date);
+            DateTime endDate = startDate.AddMonths(-6); // Get date six months ago
+
+            for (DateTime currentMonth = endDate; currentMonth < startDate; currentMonth = currentMonth.AddMonths(1))
+            {
+                string GetCusNumByMonth = $"SELECT COUNT(Id) FROM Orders WHERE Month(Date) = {currentMonth.Month} AND Year(Date) = {currentMonth.Year} AND (Status = 'CANCELED' or Status = 'DECLINED')";
+                int count = await DBController.GetInstance().GetCount(GetCusNumByMonth);
+
+                decimal previousPercent = 0;
+                if (stats.Lists.Count > 0 && stats.Lists.Last().Number != 0)
+                {
+                    previousPercent = (count - stats.Lists.Last().Number) * 100 / stats.Lists.Last().Number;
+                }
+
+                var customer = new StatByMonth()
+                {
+                    Number = count,
+                    Month = $"{currentMonth.Year}-{currentMonth.Month}",
+                };
+                stats.Percent = (stats.Lists.Count == 0 || stats.Lists.Last().Number == 0) ? 0 : previousPercent;
+                stats.Lists.Add(customer);
+            }
+            return Ok(stats);
+        }
+
+        [HttpGet("ReturnOrderStatitics/{date}")]
+        public async Task<IActionResult> ReturnOrderStatitics(string date)
+        {
+            string GetCustomerCount = $"select count(Id) from ReturnOrderItem where Status = 'COMPLETED'";
+            Stats stats = new Stats()
+            {
+                Count = await DBController.GetInstance().GetCount(GetCustomerCount),
+                Lists = new List<StatByMonth>(),
+            };
+            DateTime startDate = Convert.ToDateTime(date);
+            DateTime endDate = startDate.AddMonths(-6); // Get date six months ago
+
+            for (DateTime currentMonth = endDate; currentMonth < startDate; currentMonth = currentMonth.AddMonths(1))
+            {
+                string GetCusNumByMonth = $"SELECT COUNT(Id) FROM ReturnOrderItem WHERE Month(Date) = {currentMonth.Month} AND Year(Date) = {currentMonth.Year} AND Status = 'COMPLETED'";
+                int count = await DBController.GetInstance().GetCount(GetCusNumByMonth);
+
+                decimal previousPercent = 0;
+                if (stats.Lists.Count > 0 && stats.Lists.Last().Number != 0)
+                {
+                    previousPercent = (count - stats.Lists.Last().Number) * 100 / stats.Lists.Last().Number;
+                }
+
+                var customer = new StatByMonth()
+                {
+                    Number = count,
+                    Month = $"{currentMonth.Year}-{currentMonth.Month}",
+                };
+                stats.Percent = (stats.Lists.Count == 0 || stats.Lists.Last().Number == 0) ? 0 : previousPercent;
+                stats.Lists.Add(customer);
+            }
+            return Ok(stats.Lists);
+        }
+
+        [HttpGet("PromotionStatitics/{date}")]
+        public async Task<IActionResult> PromotionStatitics(int id, string date)
+        {
+            if (!DateTime.TryParse(date, out DateTime inputDate))
+            {
+                return BadRequest("Invalid date format. Please use yyyy-MM-dd format.");
+            }
+
+            List<(string Date, int OrderCount, int ItemCount)> orderCounts = new List<(string, int, int)>();
+
+            string command = @$"select * from Promotion where Id = {id}";
+            var dataTable = await DBController.GetInstance().GetData(command);
+
+            var promotion = new Promotion();
+
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                promotion = new Promotion()
+                {
+                    Id = (int)dataRow["Id"],
+                    Name = (string)dataRow["Name"],
+                    ProductVariantIdPromotion = (int)dataRow["ProductVariantIdPromotion"],
+                    ProductVariantIdPurchase = (int)dataRow["ProductVariantIdPurchase"],
+                    StartDate = (DateTime)dataRow["StartDate"],
+                    EndDate = (DateTime)dataRow["EndDate"],
+                    Content = (string)dataRow["Content"],
+                    Value = (decimal)dataRow["Value"],
+                    Status = (string)dataRow["Status"],
+                };
+            }
+
+            if (promotion == null)
+            {
+                return NotFound("Promotion not found.");
+            }
+
+            // Determine the end date to compare
+            DateTime endDateToCompare = inputDate <= promotion.EndDate ? inputDate : promotion.EndDate;
+
+            // Loop through each day and fetch order counts for that day
+            for (DateTime currentDate = promotion.StartDate; currentDate <= endDateToCompare; currentDate = currentDate.AddDays(1))
+            {
+                string query = $"SELECT COUNT(DISTINCT o.Id) AS OrdersWithPromotion " +
+                               $"FROM Orders o " +
+                               $"INNER JOIN OrderItem oi ON o.Id = oi.OrderId " +
+                               $"INNER JOIN Promotion p ON oi.PromotionId = p.Id " +
+                               $"WHERE oi.PromotionId = {id} " +
+                               $"AND o.Date = '{currentDate:yyyy-MM-dd}'";
+
+                int count = await DBController.GetInstance().GetCount(query);
+
+                query = $"SELECT COUNT(DISTINCT oi1.Id) " +
+                               $"FROM OrderItem oi1 " +
+                               $"INNER JOIN Orders o ON o.Id = oi1.OrderId " +
+                               $"INNER JOIN OrderItem oi ON o.Id = oi.OrderId " +
+                               $"INNER JOIN Promotion p ON oi.PromotionId = p.Id " +
+                               $"WHERE oi.PromotionId = {id} " +
+                               $"AND o.Date = '{currentDate:yyyy-MM-dd}'";
+                int ItemCount = await DBController.GetInstance().GetCount(query);
+                
+                orderCounts.Add((Date: currentDate.ToString("yyyy-MM-dd"), OrderCount: count, ItemCount: ItemCount));
+            }
+            var serializedCounts = orderCounts.Select(x => new { x.Date, x.OrderCount, x.ItemCount }).ToList();
+            return Ok(serializedCounts);
+        }
+
+        [HttpGet("StaffStatitics/{staffid}")]
+        public async Task<IActionResult> StaffStatitics(int staffid)
+        {
+            List<(string Date, int OrderCount, decimal ItemCount)> orderCounts = new List<(string, int, decimal)>();
+
+            // Determine the end date to compare
+            DateTime endDateToCompare = DateTime.Today.AddMonths(-1);
+
+            // Loop through each day and fetch order counts for that day
+            for (DateTime currentDate = DateTime.Today; currentDate >= endDateToCompare; currentDate = currentDate.AddDays(-1))
+            {
+                string query = $"SELECT COUNT(DISTINCT o.Id) AS OrdersWithPromotion " +
+                               $"FROM Orders o " +
+                               $"WHERE o.StaffId = {staffid} " +
+                               $"AND CONVERT(DATE, o.Date) = '{currentDate:yyyy-MM-dd}'";
+
+                int count = await DBController.GetInstance().GetCount(query);
+
+                query = $"SELECT SUM(o.Total) AS Total " +
+                               $"FROM Orders o " +
+                               $"WHERE o.StaffId = {staffid} " +
+                               $"AND CONVERT(DATE, o.Date) = '{currentDate:yyyy-MM-dd}'";
+                decimal ItemCount;
+                using (DataTable data = await DBController.GetInstance().GetData(query))
+                {
+                    ItemCount = data.Rows[0]["Total"] == DBNull.Value ? 0 : (decimal)data.Rows[0]["Total"];
+                }
+
+                orderCounts.Add((Date: currentDate.ToString("yyyy-MM-dd"), OrderCount: count, ItemCount: ItemCount));
+            }
+            var serializedCounts = orderCounts.Select(x => new { x.Date, x.OrderCount, x.ItemCount }).ToList();
+            return Ok(serializedCounts);
         }
     }
-    public class CusByMonth
+    public class StatByMonth
     {
-        public CusByMonth() { }
+        public StatByMonth() { }
         public int Number { get; set; }
         public string Month { get; set; }
-        public string Percent { get; set; }
+    }
+    public class Stats
+    {
+        public Stats() { }
+        public int Count { get; set; }
+        public decimal Percent { get; set; }
+        public List<StatByMonth> Lists { get; set; }
     }
 }

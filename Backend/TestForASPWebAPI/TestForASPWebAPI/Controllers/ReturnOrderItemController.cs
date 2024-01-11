@@ -84,7 +84,7 @@ namespace TestForASPWebAPI.Controllers
         [HttpPut("Update")]
         public void Put(int id, [FromBody] ReturnOrderItem value)
         {
-            string command = $"UPDATE ReturnOrderItem SET OrderItemId = {value.OrderItemId}, DateDate = '{value.Date.ToString("yyyy-MM-dd")}', Issues = N'{value.Issues}', Status = '{value.Status}', Price = {value.Price.ToString("0.00")} WHERE Id = {id}";
+            string command = $"UPDATE ReturnOrderItem SET OrderItemId = {value.OrderItemId}, Date = '{value.Date.ToString("yyyy-MM-dd")}', Issues = N'{value.Issues}', Status = '{value.Status}', Price = {value.Price.ToString("0.00")} WHERE Id = {id}";
             DBController dbController = DBController.GetInstance();
             dbController.UpdateData(command);
             return;
