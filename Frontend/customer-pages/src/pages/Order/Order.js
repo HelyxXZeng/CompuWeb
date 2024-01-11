@@ -120,7 +120,7 @@ function Order() {
                                                 </div>
                                                 <div className={cx('price-prod')}>
                                                     <div className={cx('price-new')}>{formattedPrice}đ</div>
-                                                    <div className={cx('price-old')}>9.990.000đ</div>
+                                                    {/* <div className={cx('price-old')}>9.990.000đ</div> */}
                                                 </div>
                                             </div>
                                         </div>

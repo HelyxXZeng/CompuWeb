@@ -10,6 +10,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 import { auth } from '~/firebase.config';
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const cx = classNames.bind(styles);
 
@@ -26,6 +27,7 @@ function Account() {
     // const [loading, setLoading] = useState(false);
     const [showOTP, setShowOTP] = useState(false);
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const otpExpirationTime = 60;
 
@@ -125,6 +127,7 @@ function Account() {
     }
 
     function onSignup() {
+        if (ph) setLoading(true);
         // Reset errors for all fields
         setErrors({
             telephone: '',
@@ -315,14 +318,14 @@ function Account() {
                                     Nếu không nhận được mã, thử lại sau {timer} giây
                                 </span>
                             ) : (
-                                <a className={cx('resend-sms')} href="/#">
+                                <a className={cx('resend-sms')} href="/account">
                                     Gửi lại mã xác nhận
                                 </a>
                             )}
                         </div>
 
                         <div className={cx('box', 'box-center')}>
-                            <a href="/#" className={cx('btnChangeNum')} onClick={() => setOtp('')}>
+                            <a href="/account" className={cx('btnChangeNum')} onClick={() => setOtp('')}>
                                 Thay đổi số điện thoại
                             </a>
                         </div>
@@ -361,6 +364,11 @@ function Account() {
                             <button onClick={onSignup} className={cx('submitLogin', 'submit-btn')}>
                                 Tiếp tục
                             </button>
+                            {loading && (
+                                <div className={cx('circular')}>
+                                    <CircularProgress size={25} />
+                                </div>
+                            )}
                         </div>
                         {/* </form> */}
 
