@@ -368,7 +368,10 @@ function ProductDetail() {
 
                     <div className={cx('buynow-installment')}>
                         <div className={cx('buynow')}>
-                            <a href={config.routes.cart} onClick={() => increaseCartQuantity(id)}>
+                            <a
+                                href={config.routes.cart}
+                                onClick={() => increaseCartQuantity(parseInt(id, 10), productDetail)}
+                            >
                                 Mua ngay
                                 <span>( Giao tận nơi hoặc nhận tại cửa hàng )</span>
                             </a>
@@ -378,7 +381,11 @@ function ProductDetail() {
                                 Trả góp
                                 <span>( Thủ tục nhanh chóng nhận máy ngay ) </span>
                             </a> */}
-                            <button type="button" onClick={() => increaseCartQuantity(id)} name="submit_add_products">
+                            <button
+                                type="button"
+                                onClick={() => increaseCartQuantity(parseInt(id, 10), productDetail)}
+                                name="submit_add_products"
+                            >
                                 <span>Thêm vào giỏ hàng</span>
                             </button>
                         </div>

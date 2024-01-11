@@ -16,10 +16,10 @@ function ShoppingCartProvider({ children }) {
         return cartItems.find((item) => item.id === id)?.quantity || 0;
     }
 
-    function increaseCartQuantity(id) {
+    function increaseCartQuantity(id, data) {
         setCartItems((currItems) => {
             if (currItems.find((item) => item.id === id) == null) {
-                return [...currItems, { id, quantity: 1 }];
+                return [...currItems, { id, data, quantity: 1 }];
             } else {
                 return currItems.map((item) => {
                     if (item.id === id) {
