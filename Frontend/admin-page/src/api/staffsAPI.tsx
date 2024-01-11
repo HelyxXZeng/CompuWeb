@@ -29,7 +29,14 @@ const staffApi = {
         const url = `/staffs/GetStaffByName/${Name}`;
         return axiosClient.get(url);
     },
-
+    getChart: (id:any) =>{
+        try {
+            const url = `AdminDTOController/StaffStatitics/${id}`;
+            return axiosClient.get(url);
+        } catch (error) {
+            throw(error)
+        }
+    },
     add: async (staff: StaffDef) => {
         try {
             const response = await axiosClient.post('/staffs/Insert', staff);

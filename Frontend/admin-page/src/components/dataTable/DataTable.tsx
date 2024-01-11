@@ -40,49 +40,58 @@ const useDataTableSorting = (
 const DataTable = (props: Props) => {
 
   const handleDelete = async (id: number) => {
-    if (props.slug === "staffs") {
-      try {
-        const resdata = await staffApi.getID(id);
-        const data = resdata.data;
-  
-        if (data.other === "INACTIVE") {
-          alert("Cannot delete this staff because he/she is already set as INACTIVE");
-        } else {
-          try {
-            await staffApi.remove(id);
-            console.log(id + " has been deleted!");
-          } catch (deleteError) {
-            alert("An error occurred while deleting the staff: " + deleteError);
-            throw deleteError;
+    const confirmed = window.confirm('Are you sure you want to delete ' + props.slug + 'Id: '+ id +' ?');
+    if(confirmed){
+      if (props.slug === "staffs") {
+        try {
+          const resdata = await staffApi.getID(id);
+          const data = resdata.data;
+    
+          if (data.other === "INACTIVE") {
+            alert("Cannot delete this staff because he/she is already set as INACTIVE");
+          } else {
+            try {
+              await staffApi.remove(id);
+              console.log(id + " has been deleted!");
+            } catch (deleteError) {
+              alert("An error occurred while deleting the staff: " + deleteError);
+              throw deleteError;
+            }
+            props.fetchData();
           }
-          props.fetchData();
+        } catch (error) {
+          alert("An error occurred while fetching staff data: " + error);
+          console.error('Error:', error);
         }
-      } catch (error) {
-        alert("An error occurred while fetching staff data: " + error);
-        console.error('Error:', error);
-      }
-    } else if (props.slug === "promotions") {
-      try {
-        const resdata = await promotionAPI.getID(id);
-        const data = resdata.data;
-  
-        if (data.other === "CANCELED") {
-          alert("Cannot delete this promotion because it is already set as CANCELED");
-        } else {
-          try {
-            await promotionAPI.remove(id);
-            console.log(id + " has been deleted!");
-          } catch (deleteError) {
-            alert("An error occurred while deleting promotion: " + deleteError);
-            throw deleteError;
+      } else if (props.slug === "promotions") {
+        try {
+          const resdata = await promotionAPI.getID(id);
+          const data = resdata.data;
+    
+          if (data.other === "CANCELED") {
+            alert("Cannot delete this promotion because it is already set as CANCELED");
+          } else {
+            try {
+              await promotionAPI.remove(id);
+              console.log(id + " has been deleted!");
+            } catch (deleteError) {
+              alert("An error occurred while deleting promotion: " + deleteError);
+              throw deleteError;
+            }
+            props.fetchData();
           }
-          props.fetchData();
+        } catch (error) {
+          alert("An error occurred while fetching staff data: " + error);
+          console.error('Error:', error);
         }
-      } catch (error) {
-        alert("An error occurred while fetching staff data: " + error);
-        console.error('Error:', error);
       }
     }
+    else {
+      // If user clicks 'Cancel' (No), do something else here
+      console.log('User clicked Cancel');
+      // Handle cancellation or perform another action
+    }
+    
     
   };
   const { sortModel, handleSortModelChange } = useDataTableSorting(

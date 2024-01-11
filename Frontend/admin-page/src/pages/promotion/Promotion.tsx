@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import UpdatePromotion from "../../components/updatePromotion/UpdatePromotion";
 import { TextareaAutosize } from "@mui/material";
+import dayjs from "dayjs";
 
 interface Props {
   promotion: PromotionDef;
@@ -86,6 +87,7 @@ const Promotion = () => {
   const [open,setOpen] = useState(false);
   const { id } = useParams();
   const [data,setData] = useState<any>([]);
+  const [chartData,setChartData] = useState<any>([]);
   const formatDate = (dateString:any) => {
     const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
@@ -99,6 +101,8 @@ const Promotion = () => {
         endDate:formatDate(result.data.endDate)
       };
       setData(formattedData);
+      const chartresponse = await promotionAPI.getChart(id,dayjs().format('YYYY-MM-DD'));
+      setChartData(chartresponse.data);
     } catch (error) {
       alert("Failed to get Promotion Infomation. Error:" + error);
       throw(error)
@@ -144,13 +148,13 @@ const Promotion = () => {
             ))}
           </div>
         </div>
-        {chart && (
+        {chartData && (
           <div className="chart">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
-                width={500}
+                width={800}
                 height={300}
-                data={chart.data}
+                data={chartData}
                 margin={{
                   top: 5,
                   right: 30,
@@ -158,17 +162,28 @@ const Promotion = () => {
                   bottom: 5,
                 }}
               >
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                {chart.dataKeys.map((dataKey) => (
-                  <Line
-                    type="monotone"
-                    dataKey={dataKey.name}
-                    stroke={dataKey.color}
-                  />
-                ))}
+              <XAxis dataKey="date"
+                tickFormatter={(date) => {
+                  const options = { month: 'numeric', day: 'numeric' };
+                  return new Date(date).toLocaleDateString(undefined, options);
+                }} />
+              <YAxis yAxisId="left" />
+              <YAxis yAxisId="right" orientation="right" />
+              <Tooltip />
+              <Legend />
+              
+                <Line
+                type="monotone"
+                dataKey="orderCount"
+                yAxisId="left"
+                stroke="blue"  // Set the desired color for orderCount
+              />
+              <Line
+                type="monotone"
+                dataKey="itemCount"
+                yAxisId="right"
+                stroke="green"  // Set the desired color for itemCount
+              />
               </LineChart>
             </ResponsiveContainer>
           </div>

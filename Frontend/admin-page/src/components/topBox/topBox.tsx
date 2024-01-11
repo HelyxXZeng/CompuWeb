@@ -20,7 +20,6 @@ const topBox = () => {
         fetchData();
       }, []);
       //vì không có dữ liệu nên không biết khách hàng nào mua
-      console.log(Data);
   return (
     <div className="topBox">
         <h1>Top Deals</h1>
