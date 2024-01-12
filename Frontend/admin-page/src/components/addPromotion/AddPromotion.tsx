@@ -184,9 +184,6 @@ const AddPromotion = (props: Props) => {
                                             sx={{ width: '100%', height: '40px' }}
                                             >
                                             <MenuItem value="ACTIVE">ACTIVE</MenuItem>
-                                            <MenuItem value="CANCELED">CANCELED</MenuItem>
-                                            <MenuItem value="OUTOFSTOCK">OUTOFSTOCK</MenuItem>
-                                            <MenuItem value="OUTDATED">OUTDATED</MenuItem>
                                             <MenuItem value="NOTREADY">NOTREADY</MenuItem>
                                             </Select>
                                         )}

@@ -116,7 +116,7 @@ namespace TestForASPWebAPI.Controllers
         public async Task<IActionResult> CustomerSpentStatitics()
         {
             List<CustomerStats> customers = new List<CustomerStats>();
-            string GetCustomerStats = $"select top 10 c.Id, c.Name, c.PhoneNumber, Sum(o.Total) as Total\r\nfrom Customer c\r\njoin Orders o on o.CustomerId = c.Id\r\ngroup by c.Id, c.Name, c.PhoneNumber\r\norder by Total desc";
+            string GetCustomerStats = $"select top 10 c.Id, c.Name, c.PhoneNumber, Sum(o.Total) as Total\r\nfrom Customer c\r\njoin Orders o on o.CustomerId = c.Id\r\nwhere o.Status = 'COMPLETED'\r\ngroup by c.Id, c.Name, c.PhoneNumber\r\norder by Total desc";
             using (DataTable data = await DBController.GetInstance().GetData(GetCustomerStats))
             {
                 foreach (DataRow row in data.Rows)

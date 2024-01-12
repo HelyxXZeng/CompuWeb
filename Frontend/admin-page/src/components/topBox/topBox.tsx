@@ -33,7 +33,7 @@ const topBox = () => {
                   <span className="phone">{user?.phoneNumber}</span>
                 </div>
               </div>
-              <span className="amount">${user?.total}</span>
+              <span className="amount">{user?.total}&#x20AB;</span>
             </div>
           ))
         ) : (
