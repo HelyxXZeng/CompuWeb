@@ -24,3 +24,6 @@
 ---
 # Lỗi:
 - nếu chương trình xảy ra lỗi, vui lòng ấn f12 và vào tab console, copy và gửi issue về cho Repo này
+- Lưu ý về phiên bản SQL server, nếu dùng SQL EXPRESS thì phải vào file DBControllers.cs trong thư mục Controller ở Folder Backend và đổi đoạn code sau:
+ - ``private readonly string _dbConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=CompuWeb;Integrated Security=True";`` đối với SQL EXPRESS.
+ - ``private readonly string _dbConnectionString = @"Data Source=.;Initial Catalog=CompuWeb;Integrated Security=True";`` dôi với SQL thường.
