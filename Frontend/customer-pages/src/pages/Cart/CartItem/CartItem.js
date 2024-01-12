@@ -14,18 +14,18 @@ import config from '~/config';
 
 const cx = classNames.bind(styles);
 
-function CartItem({ cartItem }) {
-    const [fetchedData, setFetchedData] = useState({});
+function CartItem({ cartItem, data }) {
+    // const [fetchedData, setFetchedData] = useState({});
 
-    useEffect(() => {
-        const fetchCartItem = async (id) => {
-            const result = await productServices.getCartItemById(id);
-            setFetchedData(result);
-            console.log('result', result);
-        };
+    // useEffect(() => {
+    //     const fetchCartItem = async (id) => {
+    //         const result = await productServices.getCartItemById(id);
+    //         setFetchedData(result);
+    //         console.log('result', result);
+    //     };
 
-        fetchCartItem(cartItem.id);
-    }, []);
+    //     fetchCartItem(cartItem.id);
+    // }, []);
 
     const { increaseCartQuantity, decreaseCartQuantity, removeFromCart } = useShoppingCart();
     // const productData = {
@@ -36,7 +36,7 @@ function CartItem({ cartItem }) {
 
     console.log('cartItem', cartItem);
 
-    const formattedPrice = new Intl.NumberFormat('en-US').format(fetchedData?.price).replace(/,/g, '.');
+    const formattedPrice = new Intl.NumberFormat('en-US').format(data?.price).replace(/,/g, '.');
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -45,9 +45,9 @@ function CartItem({ cartItem }) {
                 </button>
 
                 <div className={cx('prod-image')}>
-                    <a href={`${config.routes.productDetail}/${cartItem.id}`} title={cartItem?.result?.name}>
+                    <a href={`${config.routes.productDetail}/${cartItem.id}`}>
                         <img
-                            src={fetchedData?.images ? fetchedData?.images[0].image : ''}
+                            src={data?.images ? data?.images[0].image : ''}
                             alt="product-front-view-img"
                             class="img-responsive"
                         />
@@ -55,7 +55,7 @@ function CartItem({ cartItem }) {
 
                     <div className={cx('quantity')}>
                         <span className={cx('number-span')}>
-                            <button className={cx('minus-btn')} onClick={() => increaseCartQuantity(cartItem.id)}>
+                            <button className={cx('minus-btn')} onClick={() => increaseCartQuantity(cartItem.id, data)}>
                                 <AddIcon className={cx('icon-btn')} />
                             </button>
                             <input
@@ -74,7 +74,7 @@ function CartItem({ cartItem }) {
                 </div>
                 <div className={cx('prod-detail')}>
                     <a className={cx('title')} href={`${config.routes.productDetail}/${cartItem.id}`}>
-                        {fetchedData?.name}
+                        {data?.name}
                     </a>
 
                     <div className={cx('price')}>

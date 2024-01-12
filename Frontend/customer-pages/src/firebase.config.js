@@ -16,14 +16,25 @@ import { getAuth } from 'firebase/auth';
 //     measurementId: 'G-S5L1724N3D',
 // };
 
+// const firebaseConfig = {
+//     apiKey: 'AIzaSyAjw2rVJVf3n8-pgihzTcRKPM50MiuMYAE',
+//     authDomain: 'hitech-new.firebaseapp.com',
+//     projectId: 'hitech-new',
+//     storageBucket: 'hitech-new.appspot.com',
+//     messagingSenderId: '17354860440',
+//     appId: '1:17354860440:web:e1886003f2641da8b5aded',
+//     measurementId: 'G-CER0K502ZK',
+// };
+
+//new
 const firebaseConfig = {
-    apiKey: 'AIzaSyAjw2rVJVf3n8-pgihzTcRKPM50MiuMYAE',
-    authDomain: 'hitech-new.firebaseapp.com',
-    projectId: 'hitech-new',
-    storageBucket: 'hitech-new.appspot.com',
-    messagingSenderId: '17354860440',
-    appId: '1:17354860440:web:e1886003f2641da8b5aded',
-    measurementId: 'G-CER0K502ZK',
+    apiKey: 'AIzaSyA1rjVoFxm1UGMsP63PnNy1_HLwIZIss5A',
+    authDomain: 'hitechfinal-1ba81.firebaseapp.com',
+    projectId: 'hitechfinal-1ba81',
+    storageBucket: 'hitechfinal-1ba81.appspot.com',
+    messagingSenderId: '943103373241',
+    appId: '1:943103373241:web:2a958a32da9e5d5f39d068',
+    measurementId: 'G-WYLCYGS4S4',
 };
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

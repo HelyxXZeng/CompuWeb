@@ -1,6 +1,6 @@
 import './orderTable.scss'
 // import '../datatable/datatable.scss'
-import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridSortModel, GridToolbar } from '@mui/x-data-grid';
 import { Link, useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
@@ -53,6 +53,13 @@ const columns: GridColDef[] = [
         },
     }
 ]
+
+const defaultSortModel: GridSortModel = [
+    {
+        field: 'date',
+        sort: 'desc', // Set the default sorting order to ascending
+    },
+];
 
 const OrderTable = () => {
     const [rows, setRows] = useState<Row[]>([]);
@@ -185,6 +192,7 @@ const OrderTable = () => {
                             className='datagrid'
                             rows={displayedRows}
                             columns={columns.concat(actionColumn(handleDelete, handleView))}
+                            sortModel={defaultSortModel}
                             initialState={{
                                 pagination: {
                                     paginationModel: { page: 0, pageSize: 5 },

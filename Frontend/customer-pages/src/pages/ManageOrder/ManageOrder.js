@@ -34,8 +34,14 @@ function ManageOrder() {
         const fetchData = async (tel) => {
             try {
                 const res = await orderServices.getOrdersByPhoneNumber(tel);
-                console.log('res', res);
-                setOrders(res);
+                // console.log('res', res);
+
+                // Sort the array by date in ascending order
+                const sortedRes = res.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                console.log('sorted res', sortedRes);
+
+                setOrders(sortedRes);
             } catch (error) {
                 console.error('Error fetching order table:', error);
             }
