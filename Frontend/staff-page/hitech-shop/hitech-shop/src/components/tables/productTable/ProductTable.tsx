@@ -31,9 +31,7 @@ const columns: GridColDef[] = [
         field: 'price', headerName: 'Price', flex: 3,
         renderCell: (params) => {
             return (
-                <div className="priceCell">
-                    {params.row.price}
-                </div>
+                <span>{new Intl.NumberFormat('en-US').format(params.row.price).replace(/,/g, '.')}</span>
             );
         },
     }

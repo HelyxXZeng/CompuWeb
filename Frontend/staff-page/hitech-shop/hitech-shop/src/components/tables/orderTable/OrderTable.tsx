@@ -24,7 +24,7 @@ const columns: GridColDef[] = [
         field: 'id', headerName: 'ID', width: 70
     },
     {
-        field: 'customerName', headerName: 'Name', flex: 5
+        field: 'customerName', headerName: 'Name', flex: 4
     },
     {
         field: 'customerPhoneNumber', headerName: 'Phone', width: 150
@@ -36,9 +36,7 @@ const columns: GridColDef[] = [
         field: 'total', headerName: 'Total', width: 100,
         renderCell: (params) => {
             return (
-                <div className={"priceCell" + " " + params.row.total}>
-                    {params.row.total}
-                </div>
+                <span>{new Intl.NumberFormat('en-US').format(params.row.total).replace(/,/g, '.')}</span>
             );
         },
     },

@@ -36,7 +36,12 @@ const columns: GridColDef[] = [
         field: 'quantity', headerName: 'Quantity', flex: 2
     },
     {
-        field: 'price', headerName: 'Price', flex: 5
+        field: 'price', headerName: 'Price', flex: 5,
+        renderCell: (params) => {
+            return (
+                <span>{new Intl.NumberFormat('en-US').format(params.row.price).replace(/,/g, '.')}</span>
+            );
+        },
     }
 ]
 
@@ -215,7 +220,7 @@ const OrderSingle: React.FC<Props> = (para: Props) => {
                         <br />
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
 
-                            <h3>Total: {order.total} VNĐ</h3>
+                            <h3>Total: {new Intl.NumberFormat('en-US').format(order.total).replace(/,/g, '.')} VNĐ</h3>
                             <Button variant="contained" onClick={handleExportPDF}>
                                 <IosShareIcon></IosShareIcon>&nbsp;&nbsp;Export Order</Button>
                         </div>

@@ -25,7 +25,12 @@ const columns: GridColDef[] = [
         field: 'productVariantName', headerName: 'Variant', flex: 5
     },
     {
-        field: 'value', headerName: 'Value', width: 100
+        field: 'value', headerName: 'Value', width: 100,
+        renderCell: (params) => {
+            return (
+                <span>{new Intl.NumberFormat('en-US').format(params.row.value).replace(/,/g, '.')}</span>
+            );
+        },
     },
     {
         field: 'startDate', headerName: 'Start Date', width: 100,
