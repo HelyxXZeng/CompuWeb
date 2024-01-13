@@ -217,6 +217,16 @@ CREATE TABLE Manager (
    Department NVARCHAR(50) COLLATE Vietnamese_CI_AS,
    Other NVARCHAR(255) COLLATE Vietnamese_CI_AS,
 );
+
+CREATE TABLE Payment (
+   Id INT IDENTITY(1,1) PRIMARY KEY,
+   OrderId INT,
+   PaymentMethod NVARCHAR(50) COLLATE Vietnamese_CI_AS,
+   PaymentStatus NVARCHAR(50) COLLATE Vietnamese_CI_AS,
+   FOREIGN KEY (OrderId) REFERENCES Orders(Id) ON DELETE NO ACTION,
+);
+
+drop table Payment
 ALTER DATABASE CompuWeb COLLATE SQL_Latin1_General_CP1_CI_AS;
 
 alter table Brand
@@ -515,6 +525,8 @@ select * from ReturnOrderItem
 select * from Rating
 
 select * from OrderItem
+
+select * from Payment
 
 select sum(o.Total)
 from Orders o
