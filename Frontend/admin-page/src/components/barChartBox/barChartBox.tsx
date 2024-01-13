@@ -12,7 +12,6 @@ type Props = {
 }
 
 const barChartBox = (props:Props) => {
-    console.log("data",props.lists)
   return (
     <div className="barChartBox">
         <h1>{props.title}</h1>

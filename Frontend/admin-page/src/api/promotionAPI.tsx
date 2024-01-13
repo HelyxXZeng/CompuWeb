@@ -35,7 +35,14 @@ const promotionAPI = {
     const url = `AdminDTOController/GetPromotionWithNameById/${id}`;
     return axiosClient.get(url);
   },
-
+  getChart: (id:any,date:string) =>{
+    try {
+        const url = `AdminDTOController/PromotionStatitics/${date}?id=${id}`;
+        return axiosClient.get(url);
+    } catch (error) {
+        throw(error)
+    }
+},
   add: async (promotion: PromotionDef) => {
     try {
         const response = await axiosClient.post('/promotions/Insert', promotion);

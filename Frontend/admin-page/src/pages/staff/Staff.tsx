@@ -1,5 +1,5 @@
 import "./staff.scss"
-import { Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis, ZAxis } from "recharts";
 import { useEffect, useState } from "react";
 import UpdateStaff from "../../components/updateStaff/UpdateStaff";
 import { GridColDef } from "@mui/x-data-grid";
@@ -90,6 +90,7 @@ const Staff = () => {
   const [open,setOpen] = useState(false)
   const { id } = useParams();
   const [staffData, setStaffData] = useState<any>({});
+  const [chartData,setChartData] = useState<any>([]);
 
   const fetchData = async () => {
     try {
@@ -100,6 +101,8 @@ const Staff = () => {
         birthdate: formatDate(response.data.birthdate), // Format date as needed
       };
       setStaffData(formattedData);
+      const chartresponse = await staffApi.getChart(id);
+      setChartData(chartresponse.data);
     }
     catch(error)
     {
@@ -152,37 +155,8 @@ const Staff = () => {
             ))}
           </div>
         </div>
-        {props.chart && (
-          <div className="chart">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart
-                width={500}
-                height={300}
-                data={props.chart.data}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
-              >
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                {props.chart.dataKeys.map((dataKey) => (
-                  <Line
-                    key={dataKey.name}
-                    type="monotone"
-                    dataKey={dataKey.name}
-                    stroke={dataKey.color}
-                  />
-                ))}
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        )}
-      </div>
+        
+      
       <div className="activities">
         <h2>Latest Activities</h2>
         {activities && (
@@ -200,6 +174,49 @@ const Staff = () => {
       </div>
       {open && <UpdateStaff slug='staffs' columns={columns} setOpen={setOpen} staffData={staffData} fetchData={fetchData}/>}
     </div>
+    
+    {chartData && (
+          <div className="chart">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart
+                width={800}
+                height={300}
+                data={chartData}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+              <XAxis dataKey="date"
+                tickFormatter={(date) => {
+                  const options = { month: 'numeric', day: 'numeric' };
+                  return new Date(date).toLocaleDateString(undefined, options);
+                }} />
+              <YAxis yAxisId="left" />
+              <YAxis yAxisId="right" orientation="right" />
+              <Tooltip />
+              <Legend />
+              
+                <Line
+                type="monotone"
+                dataKey="orderCount"
+                yAxisId="left"
+                stroke="blue"  // Set the desired color for orderCount
+              />
+              <Line
+                type="monotone"
+                dataKey="itemCount"
+                yAxisId="right"
+                stroke="green"  // Set the desired color for itemCount
+              />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        )}
+      </div>
+      
   )
 }
 

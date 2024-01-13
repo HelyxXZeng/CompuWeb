@@ -39,7 +39,6 @@ const home = () => {
     }
     fetchData();
   },[])
-  console.log("HOme",failedOData.lists)
   return (
     <div className='home'>
       <div className="box box1">

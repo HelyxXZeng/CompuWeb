@@ -3,7 +3,7 @@
 
 .staff{
     display: flex;
-
+    flex-direction: column;
     @include xl {
         flex-direction: column;
         gap: 50px;
@@ -11,7 +11,8 @@
 
     .view {
         flex: 1;
-
+        display: flex;
+        gap: 20px;
         .info {
             .topInfo {
                 display: flex;
@@ -74,19 +75,7 @@
                 display: none;
             }
         }
-
-        .chart {
-            margin-top: 50px;
-            width: 80%;
-            height: 400px;
-
-            @include md {
-                display: none;
-            }
-        }
-    }
-
-    .activities {
+        .activities {
         flex: 1;
 
         h2 {
@@ -133,4 +122,18 @@
             }
         }
     }
+        
+    }
+    .chart {
+        margin-top: 50px;
+        width: 80%;
+        height: 400px;
+        .recharts-cartesian-axis-tick-value {
+            font-size: 12px; // Adjust the font size as needed
+          }
+        @include md {
+            display: none;
+        }
+    }
+    
 }

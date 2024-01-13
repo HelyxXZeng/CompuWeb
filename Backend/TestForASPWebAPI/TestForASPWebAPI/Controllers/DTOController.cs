@@ -872,7 +872,7 @@ namespace TestForASPWebAPI.Controllers
         public async Task<IActionResult> GetOrderTable()
         {
             List<OrderDetailDTO> Orders = new List<OrderDetailDTO>();
-            string GetOrder = $"select Id, CustomerId, Total, Status, Address from Orders";
+            string GetOrder = $"select Id, CustomerId, Total, Date, Status, Address from Orders";
             using (DataTable dataTable = await DBController.GetInstance().GetData(GetOrder))
             {
                 foreach (DataRow dataRow in dataTable.Rows)
@@ -888,6 +888,7 @@ namespace TestForASPWebAPI.Controllers
                             Address = (string)dataRow["Address"],
                             CustomerName = (string)data.Rows[0]["Name"],
                             CustomerPhoneNumber = (string)data.Rows[0]["PhoneNumber"],
+                            Date = (DateTime) dataRow["Date"],
                         };
                         Orders.Add(order);
                     }

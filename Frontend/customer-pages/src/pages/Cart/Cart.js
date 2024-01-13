@@ -99,6 +99,14 @@ function Cart() {
         setFilteredWards([]);
     };
 
+    const handleInputTel = (event) => {
+        // Remove any non-numeric characters
+        const inputValue = event.target.value.replace(/\D/g, '');
+
+        // Update the input value
+        telephoneInputRef.current.value = inputValue;
+    };
+
     // const [cart, setCart] = useState(cartFromLocalStorage);
 
     // useEffect(() => {
@@ -119,7 +127,7 @@ function Cart() {
 
     const [sumOrder, setSumOrder] = useState(0);
     const [tempSum, setTempSum] = useState(0);
-    const [priceList, setPriceList] = useState([]);
+    // const [priceList, setPriceList] = useState([]);
     const [voucherList, setVoucherList] = useState([]);
     const [seletedVoucherId, setSelectedVoucherId] = useState();
     const [seletedVoucherValue, setSeletedVoucherValue] = useState();
@@ -174,40 +182,40 @@ function Cart() {
         fetchData();
     }, [cartItems]);
 
-    useEffect(() => {
-        setPriceList([]);
-        const fetchPriceList = async () => {
-            try {
-                const prices = await Promise.all(
-                    cartItems.map(async (item) => {
-                        const itemId = item.id;
-                        const result = await productServices.getCartItemById(itemId);
-                        const price = result?.price || 0;
+    // useEffect(() => {
+    //     setPriceList([]);
+    //     const fetchPriceList = async () => {
+    //         try {
+    //             const prices = await Promise.all(
+    //                 cartItems.map(async (item) => {
+    //                     const itemId = item.id;
+    //                     const result = await productServices.getCartItemById(itemId);
+    //                     const price = result?.price || 0;
 
-                        return { itemId, price };
-                    }),
-                );
-                setPriceList(prices);
-                console.log('priceList', priceList);
-                // Do something with the priceList (e.g., set it to state or log it)
-                console.log('Price List:', priceList);
-            } catch (error) {
-                // Handle errors
-                console.error('Error fetching prices:', error);
-            }
-        };
+    //                     return { itemId, price };
+    //                 }),
+    //             );
+    //             setPriceList(prices);
+    //             console.log('priceList', priceList);
+    //             // Do something with the priceList (e.g., set it to state or log it)
+    //             console.log('Price List:', priceList);
+    //         } catch (error) {
+    //             // Handle errors
+    //             console.error('Error fetching prices:', error);
+    //         }
+    //     };
 
-        // Call the function wherever needed
-        fetchPriceList();
-    }, []);
+    //     // Call the function wherever needed
+    //     fetchPriceList();
+    // }, []);
 
     useEffect(() => {
         let sum = 0; // Use let instead of const to allow updates
         const fetchCartItems = async () => {
             for (const item of cartItems) {
                 const itemId = item.id;
-                const result = await productServices.getCartItemById(itemId);
-                sum += result?.price * item?.quantity;
+                // const result = await productServices.getCartItemById(itemId);
+                sum += item?.data.price * item?.quantity;
             }
             const formattedSum = new Intl.NumberFormat('en-US')
                 .format(seletedVoucherValue > 0 ? (sum * (100 - seletedVoucherValue)) / 100 : sum)
@@ -561,6 +569,7 @@ function Cart() {
                                         id="telephone"
                                         placeholder="Số điện thoại *"
                                         onChange={handleInputChange}
+                                        onInput={handleInputTel}
                                         ref={telephoneInputRef} // Set the ref to the input element
                                     />
                                     {errors.telephone && <div className={cx('error-message')}>{errors.telephone}</div>}
@@ -705,7 +714,7 @@ function Cart() {
                     <h3>SẢN PHẨM ĐÃ CHỌN</h3>
                     <div className={cx('cartItem-list')}>
                         {cartItems.map((cartItem, index) => (
-                            <CartItem key={index} cartItem={cartItem} />
+                            <CartItem key={index} cartItem={cartItem} data={cartItem.data} />
                         ))}
                     </div>
                     <div className={cx('calculate-price')}>
