@@ -30,19 +30,6 @@ const SpecificationTable = () => {
     const [rows, setRows] = useState<Row[]>([]);
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
-    // const previousRowsRef = useRef<any[]>([]);
-    // useEffect(() => {
-    //     const fetchSpecificationTypes = async () => {
-    //         try {
-    //             const specificationTypesData = (await specificationTypeApi.getAll({ _page: 1, _limit: 100000 })).data;
-    //             setSpecificationTypes(specificationTypesData);
-    //         } catch (error) {
-    //             console.log('Failed to fetch SpecificationType data:', error);
-    //         }
-    //     };
-
-    //     fetchSpecificationTypes();
-    // }, []);
 
     const handleDelete = (rowId: number) => {
         const isConfirmed = window.confirm('Are you sure you want to delete this row?');

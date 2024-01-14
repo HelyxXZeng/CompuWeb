@@ -30,7 +30,12 @@ const columns: GridColDef[] = [
         field: 'customerName', headerName: 'Customer', flex: 5
     },
     {
-        field: 'price', headerName: 'Money', flex: 3
+        field: 'price', headerName: 'Money', flex: 3,
+        renderCell: (params) => {
+            return (
+                <span>{new Intl.NumberFormat('en-US').format(params.row.price).replace(/,/g, '.')}</span>
+            );
+        },
     },
     {
         field: 'date', headerName: 'Date', flex: 3

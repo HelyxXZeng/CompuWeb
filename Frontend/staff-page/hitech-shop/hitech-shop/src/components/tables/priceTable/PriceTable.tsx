@@ -22,13 +22,18 @@ const columns: GridColDef[] = [
         field: 'id', headerName: 'ID', width: 60
     },
     {
-        field: 'productVariantName', headerName: 'Variant', width: 400
+        field: 'productVariantName', headerName: 'Variant', flex: 5
     },
     {
-        field: 'value', headerName: 'Value', width: 200
+        field: 'value', headerName: 'Value', width: 100,
+        renderCell: (params) => {
+            return (
+                <span>{new Intl.NumberFormat('en-US').format(params.row.value).replace(/,/g, '.')}</span>
+            );
+        },
     },
     {
-        field: 'startDate', headerName: 'Start Date', width: 150,
+        field: 'startDate', headerName: 'Start Date', width: 100,
         renderCell: (params) => {
             return (
                 <div className={"date" + " " + params.row.startDate}>

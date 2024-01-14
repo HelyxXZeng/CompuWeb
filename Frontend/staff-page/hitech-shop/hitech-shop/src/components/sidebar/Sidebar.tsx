@@ -57,7 +57,6 @@ const Sidebar = () => {
                             <div>
                                 <div className="center">
                                     <ul>
-                                        {/* <p className="title">Products</p> */}
                                         <Link to='/categories' style={{ textDecoration: 'none' }}>
                                             <li>
                                                 <CategoryIcon className='icon' />
@@ -137,11 +136,6 @@ const Sidebar = () => {
                                                 <span>Return</span>
                                             </li>
                                         </Link>
-                                        {/* <p className="title">Functions</p>
-                                        <li onClick={handleLogout}>
-                                            <LogoutIcon className='icon' />
-                                            <span>Log out</span>
-                                        </li> */}
                                     </ul>
                                 </div>
                                 <div className="bottom">
@@ -150,8 +144,6 @@ const Sidebar = () => {
                                 </div>
                             </div>
                         </div>
-
-
                     </>
                 )}
 

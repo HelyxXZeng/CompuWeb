@@ -35,20 +35,6 @@ const ProductInstanceTable = () => {
     const [rows, setRows] = useState<Row[]>([]);
     const [query, setQuery] = useState("");
     const [displayedRows, setDisplayedRows] = useState(rows);
-    // const [productVariants, setProductVariants] = useState<any[]>([]);
-    const previousRowsRef = useRef<any[]>([]);
-    // useEffect(() => {
-    //     const fetchProductVariants = async () => {
-    //         try {
-    //             const productVariantsData = (await productVariantApi.getAll({ _page: 1, _limit: 100000 })).data;
-    //             setProductVariants(productVariantsData);
-    //         } catch (error) {
-    //             console.log('Failed to fetch ProductVariant data:', error);
-    //         }
-    //     };
-
-    //     fetchProductVariants();
-    // }, []);
 
     const handleDelete = (rowId: number) => {
         const isConfirmed = window.confirm('Are you sure you want to delete this row?');
@@ -86,18 +72,6 @@ const ProductInstanceTable = () => {
     }, [])
 
     useEffect(() => {
-        // Check if the rows have actually changed
-        // if (previousRowsRef.current !== rows && productVariants.length > 0) {
-        //     // Update rows directly to include productVariant name
-        //     // console.log('Product Variants in Instance', productVariants)
-        //     rows.forEach(row => {
-        //         row.productVariant = productVariants.find(pl => pl.id === row.productVariant)?.name || 'N/A';
-        //     });
-
-        // }
-
-        // Use the filter method to create a new array with rows that match the query in either Name or Id
-        // console.log('Rows in Instances:', rows)
         try {
             const filteredRows = rows.filter(row =>
                 (row.serialNumber && row.serialNumber.toLowerCase().includes(query.toLowerCase()))
@@ -110,8 +84,6 @@ const ProductInstanceTable = () => {
             // console.log('Error in Instance Table', error)
         }
 
-        // Update the previousRowsRef with the current rows
-        previousRowsRef.current = rows.slice(); // Copy the array to avoid reference issues
     }, [query, rows]);
 
     return (
