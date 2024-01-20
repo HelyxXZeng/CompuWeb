@@ -263,3 +263,14 @@ p {
         font-size: 14px;
     }
 }
+
+@media only screen and (max-width: 1000px) {
+    .wrapper {
+        width: 50%;
+
+        .specification,
+        .btn-product {
+            display: block;
+        }
+    }
+}

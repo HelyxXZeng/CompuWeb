@@ -11,12 +11,12 @@ namespace TestForASPWebAPI.Controllers
         {
             sqlConnection = new SqlConnection(_dbConnectionString);
         }
-        private readonly string _dbConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=CompuWeb;Integrated Security=True";
+        private readonly string _dbConnectionString = @"Data Source=.;Initial Catalog=CompuWeb;Integrated Security=True";
         private SqlConnection sqlConnection;
 
         private static DBController instance;
 
-        // Private constructor to prevent external instantiation
+        // Private constructor to prevent external instantiationk
 
         public static DBController GetInstance()
         {
