@@ -11,6 +11,8 @@ import Search from '../Search';
 import { Link } from 'react-router-dom';
 import HitechLogo from '~/assets/images/hitechLogo.png';
 import Slogan from '~/assets/images/slogan.png';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 
 // import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 // import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
@@ -50,6 +52,12 @@ function Header() {
     const { openCart, cartQuantity } = useShoppingCart();
 
     const [cartItemCount, setCartItemCount] = useState(0);
+
+    const [isMenuOpen, setMenuOpen] = useState(false);
+
+    const handleMenuClick = () => {
+        setMenuOpen(!isMenuOpen);
+    };
 
     // const handleStorageChange = (event) => {
     //     if (event.key === 'cart') {
@@ -126,6 +134,109 @@ function Header() {
                         <span>Giỏ hàng</span>
                     </a>
                 </div>
+
+                <div className={cx('page2')}>
+                    <div className={cx('navbar-button')} onClick={handleMenuClick}>
+                        <MenuIcon className={cx('navbar-icon')} />
+                    </div>
+                </div>
+
+                {/* Render your menu based on the state */}
+                {isMenuOpen && (
+                    <div className={cx('menu')}>
+                        <div className={cx('menu-top')}>
+                            <div className={cx('menu-title')}>
+                                <p>HITECH</p>
+                            </div>
+                            <div className={cx('close-button')} onClick={handleMenuClick}>
+                                <CloseIcon className={cx('close-icon')} />
+                                <p>Đóng</p>
+                            </div>
+                        </div>
+
+                        <ul className={cx('mm-listview')}>
+                            <li className={cx('mm-listitem')}>
+                                <a href={config.routes.introduce}>Giới thiệu</a>
+                            </li>
+                            <li className={cx('mm-listitem')}>
+                                <a href={config.routes.laptop}>Máy tính xách tay</a>
+                            </li>
+                            <li className={cx('mm-listitem')}>
+                                <a href={config.routes.likeProduct}>Yêu thích</a>
+                            </li>
+
+                            <li className={cx('mm-listitem')}>
+                                <a href={config.routes.question} class="mm-listitem__text">
+                                    Hỏi đáp
+                                </a>
+                            </li>
+
+                            <li className={cx('mm-listitem')}>
+                                <a href={config.routes.account} class="mm-listitem__text">
+                                    Tài khoản
+                                </a>
+                            </li>
+
+                            <li className={cx('mm-listitem', 'li-hotline')}>
+                                <p className={cx('text_menu_mobile_hotline')}>Hotline</p>
+                                <div className={cx('p-hotline_menu')}>
+                                    <p>
+                                        <span style={{ fontSize: '14px' }}>
+                                            <span style={{ color: '#0079f2' }}>0909.889.889</span>
+                                        </span>
+                                    </p>
+
+                                    <p>
+                                        <span style={{ fontSize: '14px' }}>
+                                            <span style={{ color: '#0079f2' }}>19001217</span>
+                                        </span>
+                                    </p>
+                                </div>
+                            </li>
+
+                            <li className={cx('li-icon-social')}>
+                                <a className={cx('icon-social')} href="https://www.youtube.com/@TrungtranVn">
+                                    <img
+                                        src="https://trungtran.vn/images/yt_menu.png"
+                                        width="26"
+                                        height="26"
+                                        alt="fcebook"
+                                        class="img-responsive"
+                                    />
+                                </a>
+                                <a className={cx('icon-social')} href="https://www.facebook.com/Trungtranvn">
+                                    <img
+                                        src="https://trungtran.vn/images/face_menu.png"
+                                        width="26"
+                                        height="26"
+                                        alt="fcebook"
+                                        class="img-responsive"
+                                    />
+                                </a>
+                                <a className={cx('icon-social')} href="https://www.tiktok.com/@trungtrantoptop">
+                                    <img
+                                        src="https://trungtran.vn/images/titok_menu.png"
+                                        width="26"
+                                        height="26"
+                                        alt="fcebook"
+                                        class="img-responsive"
+                                    />
+                                </a>
+                                <a className={cx('icon-social')} href="https://www.facebook.com/Trungtranvn">
+                                    <img
+                                        src="https://trungtran.vn/images/is_menu.png"
+                                        width="26"
+                                        height="26"
+                                        alt="fcebook"
+                                        class="img-responsive"
+                                    />
+                                </a>
+                                <a className={cx('icon-social')} href="https://www.facebook.com/Trungtranvn"></a>
+                                <a className={cx('icon-social')} href="https://www.facebook.com/Trungtranvn"></a>
+                            </li>
+                        </ul>
+                    </div>
+                )}
             </div>
         </header>
     );

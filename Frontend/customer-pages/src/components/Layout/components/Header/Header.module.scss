@@ -57,6 +57,10 @@
     justify-content: end;
 }
 
+.page2 {
+    display: none;
+}
+
 // .account-btn {
 //     position: relative;
 //     color: #444;
@@ -149,3 +153,155 @@
 //     //     right: 5px;
 //     // }
 // }
+
+// Mobile: width < 740px
+@media only screen and (max-width: 1000px) {
+    // .wrapper {
+    //     background: #12419b;
+    // }
+
+    .navbar {
+        display: none;
+    }
+
+    // .search {
+    //     flex: 20%;
+    // }
+
+    //logo
+    .logo-link {
+        flex: 10%;
+        display: flex;
+        align-items: center;
+
+        .img2 {
+            display: none;
+        }
+    }
+
+    .page2 {
+        flex: 5%;
+        justify-content: center;
+        margin-left: 40px;
+        display: block;
+        cursor: pointer;
+
+        .navbar-button {
+            .navbar-icon {
+                font-size: 5rem;
+                color: var(--primary);
+            }
+        }
+    }
+
+    .menu {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 80%;
+        min-width: 240px;
+        max-width: 440px;
+        background: #fff;
+        .menu-top {
+            background: #02519a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+
+            .menu-title {
+                font-size: 3rem;
+                color: #fff;
+                font-family: bold;
+                p {
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+
+            .close-button {
+                display: flex;
+                cursor: pointer;
+                align-items: center;
+                p {
+                    text-align: right;
+                    margin: 0;
+                    padding: 0;
+                    font-size: 1.5rem;
+                    color: #fff;
+                }
+                .close-icon {
+                    text-align: right;
+                    font-size: 2.5rem;
+                    color: #fff;
+                }
+            }
+        }
+
+        .mm-listview {
+            margin: 0;
+            padding: 0;
+            .mm-listitem {
+                &.li-hotline {
+                    border-bottom: none;
+                }
+                padding: 15px 15px 15px 20px;
+                border-bottom: 1px solid #606060;
+                list-style: none;
+
+                color: #000000bf;
+                border-color: #0000001a;
+                cursor: pointer;
+
+                a {
+                    color: #606060;
+                    padding: 0;
+                    font-size: 15px;
+                    font-family: bold;
+                }
+
+                .text_menu_mobile_hotline {
+                    color: #bcbcbc;
+                    font-size: 14px;
+                    font-weight: 700;
+                    font-family: bold;
+                    margin-bottom: 5px;
+                }
+                .p-hotline_menu {
+                    display: -ms-grid;
+                    display: grid;
+                    -ms-grid-columns: 1fr 1fr 1fr;
+                    grid-template-columns: 1fr 1fr 1fr;
+                    p {
+                        span {
+                            display: block;
+                            font-size: 14px;
+                            color: #606060 !important;
+                            font-family: medium;
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+            }
+            .li-icon-social {
+                display: flex;
+                border-bottom: 0;
+                padding: 15px 10px 15px 20px;
+                .icon-social {
+                    flex-grow: 1;
+                }
+            }
+        }
+    }
+
+    // .actions {
+    //     .account-btn {
+    //         display: none;
+    //     }
+    // }
+}
+
+// Mobile: width >= 740px and width < 1240px
+@media only screen and (min-width: 740px) and (max-width: 1023px) {
+}

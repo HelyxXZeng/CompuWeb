@@ -16,7 +16,7 @@ namespace TestForASPWebAPI.Controllers
 
         private static DBController instance;
 
-        // Private constructor to prevent external instantiation
+        // Private constructor to prevent external instantiationk
 
         public static DBController GetInstance()
         {

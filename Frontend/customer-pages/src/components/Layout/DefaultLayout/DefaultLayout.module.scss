@@ -24,3 +24,14 @@
     margin-top: 30px;
     // background: red;
 }
+
+// Mobile: width < 740px
+@media only screen and (max-width: 739px) {
+    .wrapper {
+        min-width: 900px;
+    }
+}
+
+// Mobile: width >= 740px and width < 1240px
+@media only screen and (min-width: 740px) and (max-width: 1023px) {
+}
