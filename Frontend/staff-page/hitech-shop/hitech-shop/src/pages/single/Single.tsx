@@ -100,7 +100,7 @@ const Single = ({ type, isNew }: Props) => {
 
 
             setEditRow(data)
-            // console.log("This is data: ", data)
+            console.log("This is data: ", data)
             setIsDoneFetch(true)
         }
         if (isNew === 'update') {

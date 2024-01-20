@@ -226,7 +226,7 @@ CREATE TABLE Payment (
    FOREIGN KEY (OrderId) REFERENCES Orders(Id) ON DELETE NO ACTION,
 );
 
-drop table Payment
+--drop table Payment
 ALTER DATABASE CompuWeb COLLATE SQL_Latin1_General_CP1_CI_AS;
 
 alter table Brand
